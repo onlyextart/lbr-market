@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
-    'name' => 'shop Lbr',
+    'name' => 'lbr-market',
     'sourceLanguage' => 'ru',
     'timeZone' => 'Europe/Minsk',
     'language' => 'ru',
@@ -169,7 +169,7 @@ return array(
     'params' => array(
         // this is used in contact page
         //'host'=>'lbr.test',
-        'host'=>'lbr.ru',
+        'host'=>'lbr-market.ru',
         'admin_email'=>'shop@lbr.ru',
         'region'=>'',
         'currentType' => '',
