@@ -1,0 +1,55 @@
+<?php
+return array(
+    'id'=>'pageUpdateForm',
+    'showErrorSummary'=>true,
+    'elements'=>array(
+        'content'=>array(
+            'type'=>'form',
+            'title'=>'Основное',
+            'elements'=>array(
+                'title'=>array(
+                    'type'=>'text',
+                ),
+                'header'=>array(
+                    'type'=>'text',
+                ),
+                'url'=>array(
+                    'type'=>'text',
+                ),
+                'short_description'=>array(
+                    'type'=>'SRichTextarea',
+                ),
+                'full_description'=>array(
+                    'type'=>'SRichTextarea',
+                ),
+            ),
+        ),
+        'seo'=>array(
+            'type'=>'form',
+            'title'=>'Мета данные',
+            'elements'=>array(
+                'meta_title'=>array(
+                    'type'=>'text',
+                ),
+            ),
+        ),
+        'additional'=>array(
+            'type'=>'form',
+            'title'=>'Дополнительное',
+            'elements'=>array(
+                'published'=>array(
+                    //'type'=>'($model[url] != sale)?dropdownlist:hidden',
+                    'type'=>'dropdownlist',
+                    'items'=>array(
+                        1=>'Да',
+                        0=>'Нет'
+                    ),
+                ),
+                'date_edit'=>array(
+                    'type'=>'text',
+                ),
+            ),
+        ),
+    ),
+);
+
