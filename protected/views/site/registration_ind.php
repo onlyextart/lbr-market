@@ -55,6 +55,7 @@ $form=$this->beginWidget('CActiveForm', array(
     <div class="row email">
             <?php echo $form->labelEx($model_form,'email'); ?>
             <?php echo $form->textField($model_form,'email'); ?>
+            <div class="note">нужен для активации учетной записи</div>
     </div>
 <!--    <div class="row">
             <?php //echo $form->labelEx($model_form,'filial'); ?>

@@ -125,7 +125,7 @@ class CartController extends Controller
                                         ;
                                         //устанавливаем свойства
                                         $mail->setFrom($model->email, $model->name);
-                                        $mail->setSubject("Создан заказ на сайте shop.lbr.ru: Пользователем - ".$order->user_name);
+                                        $mail->setSubject("Создан заказ на сайте ".Yii::app()->params['host'].": Пользователем - ".$order->user_name);
                                         $mail->setTo('shop@lbr.ru');
                                         $mail->send();
                                         $transaction->commit();
