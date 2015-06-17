@@ -474,7 +474,7 @@ header ul.dropdown ul ul {
     font-weight: bold;
 }
 .breadcrumbs a:hover, .elements table td a:hover, .cart-wrapper .order_products a:hover, #best-sales .one_banner a:hover, 
-#sale-block .one_banner a:hover, #sale-block-wrapper h3 a:hover{
+#sale-block .one_banner a:hover, #sale-block-wrapper span a:hover{
     text-decoration: none;
 }
 /*----- End Breadcrumbs -----------------*/
@@ -852,7 +852,7 @@ input#full-search
     margin-left:150px;
 }
 
-.reg-data div.wide.form .phone .note, .cabinet-data div.wide.form .phone .note{
+.reg-data div.wide.form .phone .note, .reg-data div.wide.form .email .note, .cabinet-data div.wide.form .phone .note{
     font-size: 11px;
     margin-left:130px;
 }
@@ -1361,15 +1361,17 @@ input#full-search
     /*height: 56px;*/
 }
 
-#sale-block-wrapper > h3{
+#sale-block-wrapper > span {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 15px;
     color: #333333;
     font-size: 23px;
+    font-weight: bold;
+    display: block;
 }
 
-#sale-block-wrapper > h3 > a{
+#sale-block-wrapper > span > a{
     color: #444444;
     font-size: 23px;
 }
@@ -1565,11 +1567,17 @@ input#full-search
     margin-top: 10px;
 }
 
-.modelline-wrapper h2, .modellines-wrapper h2, .subcategory-wrapper h2, .bestoffer-wrapper .empty {
+.modelline-wrapper .hit-label, .modellines-wrapper .hit-label,
+.subcategory-wrapper .hit-label, .bestoffer-wrapper .empty
+{
     margin-left: 10px;
     margin-top: 20px;
 }
-
+.hit-label-main{
+    margin-left: 5px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
 /*----- end Block_info ----------------*/
 /*----- start Static pages ------------*/
 .article {
@@ -1986,15 +1994,35 @@ input.small-cart-button{
     max-width: 270px;
     vertical-align: middle;
 }
-.product-wrapper h1{
+.product-wrapper h1, .modellines-wrapper h1, .subcategory-wrapper h1{
     color: #5f5e5e;
     font-size: 18px;
     margin-bottom: 10px;
     padding: 0;
 }
-.product-wrapper h1:first-letter, .product-info h2:first-letter, .subcategory-wrapper h2:first-letter, .model-wrapper h1:first-letter, .modelline-wrapper h1:first-letter, .modellines-wrapper h2:first-letter
+.modellines-wrapper h1, .subcategory-wrapper h1{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+/*.product-wrapper h1, */.product-info h2:first-letter, 
+.subcategory-wrapper .hit-label:first-letter, .subcategory-wrapper h1:first-letter,
+.modelline-wrapper .hit-label:first-letter, 
+.modellines-wrapper .hit-label:first-letter, .modellines-wrapper h1:first-letter
 {
     color: #EF801B;
+}
+.subcategory-wrapper .hit-label, 
+.modellines-wrapper .hit-label,
+.modelline-wrapper .hit-label,
+.hit-label-main {
+    font-size: 22px;
+    display: block;
+    font-weight: bold;
+}
+
+.model-wrapper h1
+{
+    color: #F39314;
 }
 .product-info h2{
     margin-top: 10px;

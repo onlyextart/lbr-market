@@ -20,7 +20,7 @@
     <?php
         /*echo CHtml::link(
             'Назад',
-            empty(Yii::app()->request->urlReferrer)?'http://shop.lbr.ru':Yii::app()->request->urlReferrer
+            empty(Yii::app()->request->urlReferrer)?'http://lbr-market.ru':Yii::app()->request->urlReferrer
         );*/
     ?>
    </div-->

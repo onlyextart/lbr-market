@@ -19,7 +19,7 @@
     <h1><?php echo $title?></h1>
     <?php if(!empty($hitProducts)): ?>
     <!--div class="spec-offer"><a href="#">Спецпредложение для "<?php echo $title?>"</a></div-->
-    <h2>Хиты продаж для "<?php echo $title?>"</h2>
+    <span class="hit-label-main">Хиты продаж для "<?php echo $title?>"</span>
     <div id="special-offer">
         <?php foreach ($hitProducts as $product): ?>
         <div class="one-banner-special">

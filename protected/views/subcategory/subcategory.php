@@ -16,7 +16,7 @@
     ?>
 </div>
 <div class="subcategory-wrapper">
-    <!--h1>Подкатегории</h1-->
+    <h1><?php echo $title ?></h1>
     <div class="elements">
         <?php if(!empty($response)): ?>
         <?php echo $response; ?>
@@ -25,7 +25,7 @@
         <?php endif; ?>
     </div>
     <?php if(!empty($hitProducts)): ?>
-    <h2>Хиты продаж</h2>
+    <span class="hit-label">Хиты продаж</span>
     <div id="special-offer">
         <?php foreach ($hitProducts as $product): ?>
         <div class="one-banner-special">

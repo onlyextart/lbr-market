@@ -201,17 +201,10 @@ class SiteController extends Controller
                 $email->to_name = $model_user[0]->name;
                 $email->subject = 'Подтверждение регистрации';
                 $email->type = 'text/html';
-                $email->body = '<p>Здравствуйте! Спасибо за регистрацию в Интернет-магазине компании ЛБР-АгроМаркет shop.lbr.ru.</p><br>'
-                .'<p>Ваш логин: '.$model_user[0]->login.'</p><p>Чтобы завершить регистрацию, нужно активировать созданную учетную запись. Для этого перейдите по <a href="http://shop.lbr.ru/site/activation?login='.$model_user[0]->login.'&act='.$activation.'">ссылке.</a></p><br><br><p>С уважением, Администрация сайта shop.lbr.ru</p>';
+                $email->body = '<p>Здравствуйте! Спасибо за регистрацию в Интернет-магазине компании ЛБР-АгроМаркет '.Yii::app()->params['host'].'.</p><br>'
+                .'<p>Ваш логин: '.$model_user[0]->login.'</p><p>Чтобы завершить регистрацию, нужно активировать созданную учетную запись. Для этого перейдите по <a href="http://'.Yii::app()->params['host'].'/site/activation?login='.$model_user[0]->login.'&act='.$activation.'">ссылке.</a></p><br><br><p>С уважением, Администрация сайта '.Yii::app()->params['host'].'</p>';
                 
                 $email->sendMail();
-//                $subject = "Интернет-магазин ЛБР-АгроМаркет: подтверждение регистрации";
-//                $message = "Здравствуйте! Спасибо за регистрацию в Интернет-магазине компании ЛБР-АгроМаркет shop.lbr.ru.<br><br>"
-//                ."Ваш логин: ".$model_user[0]->login."<br>Чтобы завершить регистрацию, нужно активировать созданную учетную запись.<br>Для этого перейдите по <a href='http://shop.lbr.ru/site/activation?login=".$model_user[0]->login."&act=".$activation."'>ссылке:</a><br><br>С уважением, Администрация сайта shop.lbr.ru";
-//                $headers  = 'MIME-Version: 1.0' . "\r\n";
-//                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-//                $headers .= 'From: webadmin@lbr.ru ' . "\r\n";
-//                mail("'".$model_user[0]->email."'", $subject, $message, $headers);
                 Yii::app()->user->setFlash('message','На Ваш E-mail выслана cсылка для активации созданной учетной записи');
                 $this->redirect('/');
              } else {
@@ -290,7 +283,7 @@ class SiteController extends Controller
                     $criteria->params = array(':email'=>$form_email->email);
                     $model_user= User::model()->findAll($criteria);
                     $restore_key = md5($model_user[0]->id);
-                    $restore_email="http://shop.lbr.ru/site/restore?login=".$model_user[0]->login."&key=".$restore_key;
+                    $restore_email="http://".Yii::app()->params['host']."/site/restore?login=".$model_user[0]->login."&key=".$restore_key;
                     
                     $email = new TEmail;
                     $email->from_email = Yii::app()->params['admin_email'];
@@ -299,15 +292,9 @@ class SiteController extends Controller
                     $email->to_name = $model_user[0]->name;
                     $email->subject = 'Восстановление доступа';
                     $email->type = 'text/html';
-                    $email->body = '<p>Для восстановления доступа к сайту перейдите по <a href="'.$restore_email.'">ссылке</a>.</p><br><br><p>С уважением, Администрация сайта shop.lbr.ru</p>';
+                    $email->body = '<p>Для восстановления доступа к сайту перейдите по <a href="'.$restore_email.'">ссылке</a>.</p><br><br><p>С уважением, Администрация сайта '.Yii::app()->params['host'].'</p>';
                    
                     $email->sendMail();
-//                    $subject = "Интернет-магазин ЛБР-АгроМаркет: восстановление доступа";
-//                    $message = "Для восстановления доступа к сайту перейдите по <a href='".$restore_email."'>ссылке</a>.<br><br>С уважением, Администрация сайта shop.lbr.ru";
-//                    $headers  = 'MIME-Version: 1.0' . "\r\n";
-//                    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-//                    $headers .= 'From: webadmin@lbr.ru ' . "\r\n";
-//                    mail("'".$model_user[0]->email."'", $subject, $message, $headers);
                     Yii::app()->user->setFlash('message','На Ваш E-mail выслана cсылка для восстановления учетной записи');
                     $this->redirect('/');
                 }
@@ -405,7 +392,7 @@ class SiteController extends Controller
                     'body' => $model->body));
         //устанавливаем свойства
         $mail->setFrom($model->email, $model->name);
-        $mail->setSubject("Письмо с сайта shop.lbr.ru. Создана заявка от ".$model->name);
+        $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
         $mail->setTo('vasiliyan@lbr.ru');
 
         //Сохраняем загруженные файлы на сервер нашей функцией uploadMultifile

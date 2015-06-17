@@ -31,13 +31,13 @@
                             <table width="600" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF" align="center" style="border: 0; border-collapse: collapse; background: white;">
                                 <tr>
                                     <td style="padding-left: 20px; width: 400px;">
-                                        <a href="http://shop.lbr.ru/" title="Сайт ЛБР-агромаркет" style=" text-decoration: none; border: 0;">
+                                        <a href="http://lbr-market.ru/" title="Сайт ЛБР-агромаркет" style=" text-decoration: none; border: 0;">
                                             <img src="http://www.lbr.ru/images/kp/default/mail-lbr-logo-orange.jpg" width="150" height="75" style="border: 0; float: left;" alt="Логотип ЛБР-Агромаркет">
                                         </a>
                                     </td>
                                     <td style="padding-right: 20px; width: 200px;">
                                         <p style="margin: 0; padding: 0; color: #6e7071; background: none !important; font-size: 16px; font-weight: normal; font-family: 'Myriad Pro', Arial Narrow, Arial, Helvetica,sans-serif; font-style: italic; outline: none; float: right;">
-                                            www.shop.lbr.ru
+                                            www.lbr-market.lbr.ru
                                         </p>
                                     </td>
                                     
@@ -89,7 +89,7 @@
             <table rules="none" style="width:600px">
                 <tbody>
                     <tr>
-                        <td><a href="http://shop.lbr.ru/" target="_blank" style="margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: black; "><strong>www.shop.lbr.ru</strong></a> – широкий ассортимент запчастей для</div><div>сельскохозяйственной техники.</div><div>тел. для всех регионов России: +8 800 000 00 00 </td>
+                        <td><a href="http://lbr-market.ru/" target="_blank" style="margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: black; "><strong>www.lbr-market.ru</strong></a> – широкий ассортимент запчастей для</div><div>сельскохозяйственной техники.</div><div>тел. для всех регионов России: +8 800 000 00 00 </td>
                         <td style="float:right">&nbsp;<img src="http://shop.lbr.test/images/mail/tractor.png" /></td>
                     </tr>
                     <tr>
