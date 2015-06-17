@@ -1567,7 +1567,9 @@ input#full-search
     margin-top: 10px;
 }
 
-.modelline-wrapper h2, .modellines-wrapper h2, .subcategory-wrapper .hit-label, .bestoffer-wrapper .empty {
+.modelline-wrapper .hit-label, .modellines-wrapper .hit-label,
+.subcategory-wrapper .hit-label, .bestoffer-wrapper .empty
+{
     margin-left: 10px;
     margin-top: 20px;
 }
@@ -2004,12 +2006,15 @@ input.small-cart-button{
 }
 .product-wrapper h1:first-letter, .product-info h2:first-letter, 
 .subcategory-wrapper .hit-label:first-letter, .subcategory-wrapper h1:first-letter,
-.modelline-wrapper h1:first-letter, 
+.modelline-wrapper .hit-label:first-letter, 
 .modellines-wrapper h2:first-letter, .modellines-wrapper h1:first-letter
 {
     color: #EF801B;
 }
-.subcategory-wrapper .hit-label, .hit-label-main{
+.subcategory-wrapper .hit-label, 
+.modellines-wrapper .hit-label,
+.modelline-wrapper .hit-label,
+.hit-label-main {
     font-size: 22px;
     display: block;
     font-weight: bold;
