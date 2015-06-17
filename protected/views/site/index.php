@@ -105,7 +105,7 @@
 
 </div>
 <?php if(!empty($hitProducts)): ?>
-<h1>Хиты продаж</h1>
+<span class="hit-label-main">Хиты продаж</span>
 <div id="best-sales">
     <?php foreach($hitProducts as $product): ?>
     <div class="one_banner">

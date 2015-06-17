@@ -103,7 +103,7 @@ if(!Yii::app()->user->isGuest) {
 <?php if(!empty($sale)): ?>
 <div>
     <div id="sale-block-wrapper">
-        <h3><a href="/sale/">Распродажа</a></h3>
+        <span><a href="/sale/">Распродажа</a></span>
         <div id="sale-block">
             <ul>
                 <?php
