@@ -25,10 +25,10 @@ class ContactController extends Controller
               
               if($model->save()){
                   $subject = "Интернет-магазин ЛБР-АгроМаркет: регистрация";
-                  $message = "Здравствуйте! Спасибо за регистрацию в Интернет-магазине компании ЛБР-АгроМаркет shop.lbr.ru.<br><br>"
+                  $message = "Здравствуйте! Спасибо за регистрацию в Интернет-магазине компании ЛБР-АгроМаркет ".Yii::app()->params['host'].".<br><br>"
                   ."Ваш логин: ".$model->login
                   ."<br>Ваш временный пароль:".$pass
-                  ."<br>При первом входе рекомендуем сменить пароль.<br><br>С уважением, Администрация сайта shop.lbr.ru";
+                  ."<br>При первом входе рекомендуем сменить пароль.<br><br>С уважением, Администрация сайта ".Yii::app()->params['host'];
                   $add_param="Content-type:text/html; Charset=windows-1251;";
                   mail("'".$model->email."'", $subject, $message, $add_param);
                   Yii::app()->user->setFlash('message','Контактное лицо добавлено');

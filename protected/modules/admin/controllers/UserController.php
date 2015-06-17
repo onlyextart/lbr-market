@@ -111,7 +111,7 @@ class UserController extends Controller
                             break;
                     }
                     
-                    $text_email.="<br><br><p>С уважением, Администрация сайта <a href='http://shop.lbr.ru'>shop.lbr.ru</a></p>";
+                    $text_email.="<br><br><p>С уважением, Администрация сайта <a href='http://".Yii::app()->params['host']."'>".Yii::app()->params['host']."</a></p>";
                    
                 }
                 $model->attributes = $_POST[$model_name];
