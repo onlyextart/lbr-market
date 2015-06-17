@@ -22,13 +22,14 @@ class ModellinesController extends Controller
                $breadcrumbs['Поиск'] = Yii::app()->request->urlReferrer;
             else $breadcrumbs['Поиск'] = $url; //Yii::app()->request->urlReferrer;
         }
-        Yii::app()->params['meta_title'] = 'Модельные ряды';
+        
         $categoryParent = $categoryRoot->parent()->find();
         preg_match('/\d{2,}\./i', $categoryParent->name, $result);
         $title = trim(substr($categoryParent->name, strlen($result[0])));
         $currentBrand = '';
         $breadcrumbs[$title] = '/catalog'.$categoryParent->path.$currentBrand.'/';
         $breadcrumbs[] = $categoryRoot->name;
+        Yii::app()->params['meta_title'] = $categoryRoot->name;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
         
