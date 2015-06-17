@@ -1986,13 +1986,19 @@ input.small-cart-button{
     max-width: 270px;
     vertical-align: middle;
 }
-.product-wrapper h1{
+.product-wrapper h1, .modellines-wrapper h1, .subcategory-wrapper h1{
     color: #5f5e5e;
     font-size: 18px;
     margin-bottom: 10px;
     padding: 0;
 }
-.product-wrapper h1:first-letter, .product-info h2:first-letter, .subcategory-wrapper h2:first-letter, .model-wrapper h1:first-letter, .modelline-wrapper h1:first-letter, .modellines-wrapper h2:first-letter
+.modellines-wrapper h1, .subcategory-wrapper h1{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.product-wrapper h1:first-letter, .product-info h2:first-letter, .subcategory-wrapper h2:first-letter, 
+.model-wrapper h1:first-letter, .modelline-wrapper h1:first-letter, .modellines-wrapper h2:first-letter,
+.modellines-wrapper h1:first-letter, .subcategory-wrapper h1:first-letter
 {
     color: #EF801B;
 }

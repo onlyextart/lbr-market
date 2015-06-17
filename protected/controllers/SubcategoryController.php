@@ -6,7 +6,7 @@ class SubcategoryController extends Controller
         $ids = array();
         $category = $type;
         $maker = $maker;
-        
+        $title = '';
         $response = '';
         $modelline = array();
         
@@ -80,6 +80,7 @@ class SubcategoryController extends Controller
             preg_match('/\d{2,}\./i', $categoryRoot->name, $result);
             $title = trim(substr($categoryRoot->name, strlen($result[0])));
             $breadcrumbs[] = $title;
+            Yii::app()->params['meta_title'] = $title;
         } else if(!empty($maker)) {
             /*$result = $this->setMakerFilter($maker);
             if(!empty($result[0])) {
@@ -125,7 +126,7 @@ class SubcategoryController extends Controller
             
             if(!empty($modelline)) {
                 foreach($modelline as $categoryName=>$models) {
-                    $response .= '<h2>'.$categoryName.'</h2>
+                    $response .= '<h1>'.$categoryName.'</h1>
                        <table cellspacing="0" cellpadding="0" border="0"><tbody>'
                     ;
                     $count = 0;
@@ -164,7 +165,9 @@ class SubcategoryController extends Controller
                 }
             }
             // bradcrumbs
-            $breadcrumbs[] = 'Подкатегории';
+            $name = EquipmentMaker::model()->findByPk($maker)->name;
+            $breadcrumbs[] = $name;
+            Yii::app()->params['meta_title'] = $name;
         }
         
         // random products for hit products
@@ -172,10 +175,10 @@ class SubcategoryController extends Controller
         $hitProducts = $this->setHitProducts($ids);
         
         // bradcrumbs
-        Yii::app()->params['meta_title'] = 'Подкатегории';
+        
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         
-        $this->render('subcategory', array('response' => $response, 'hitProducts'=>$hitProducts));
+        $this->render('subcategory', array('response' => $response, 'hitProducts'=>$hitProducts, 'title'=>$title));
     }
     
     private function setHitProducts($ids)
