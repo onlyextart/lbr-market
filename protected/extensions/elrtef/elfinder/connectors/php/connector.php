@@ -31,7 +31,7 @@ class elFinderLogger implements elFinderILogger {
 
 $opts = array(
 	'root'            => '../../../../../images',                       // path to root directory
-	'URL'             => 'http://lbr-market/images/', // root directory URL
+	'URL'             => 'http://lbr-market.ru/images/', // root directory URL
 	'rootAlias'       => 'Media',       // display this instead of root directory name
 	//'uploadAllow'   => array('images/*'),
 	//'uploadDeny'    => array('all'),
