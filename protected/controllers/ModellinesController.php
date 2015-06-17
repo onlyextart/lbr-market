@@ -69,7 +69,7 @@ class ModellinesController extends Controller
         exit;*/
         if(!empty($modelline) && empty(Yii::app()->params['currentMaker'])) {
             foreach($modelline as $categoryName=>$models) {
-                $response .= '<h2>'.$categoryName.'</h2>';
+                $response .= '<h1>'.$categoryName.'</h1>';
                 //$response .= '<h2>бренд</h2>';
                 $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
                 $count = 0;
@@ -113,7 +113,7 @@ class ModellinesController extends Controller
             }
         } else if(!empty($modelline)){
             foreach($modelline as $categoryName=>$models) {
-                $response .= '<h2>'.$categoryName.'</h2>
+                $response .= '<h1>'.$categoryName.'</h1>
                    <table cellspacing="0" cellpadding="0" border="0"><tbody>'
                 ;
                 $count = 0;
