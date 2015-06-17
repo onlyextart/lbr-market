@@ -2004,10 +2004,10 @@ input.small-cart-button{
     margin-bottom: 5px;
     margin-top: 5px;
 }
-.product-wrapper h1:first-letter, .product-info h2:first-letter, 
+/*.product-wrapper h1, */.product-info h2:first-letter, 
 .subcategory-wrapper .hit-label:first-letter, .subcategory-wrapper h1:first-letter,
 .modelline-wrapper .hit-label:first-letter, 
-.modellines-wrapper h2:first-letter, .modellines-wrapper h1:first-letter
+.modellines-wrapper .hit-label:first-letter, .modellines-wrapper h1:first-letter
 {
     color: #EF801B;
 }
