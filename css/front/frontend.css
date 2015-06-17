@@ -852,7 +852,7 @@ input#full-search
     margin-left:150px;
 }
 
-.reg-data div.wide.form .phone .note, .cabinet-data div.wide.form .phone .note{
+.reg-data div.wide.form .phone .note, .reg-data div.wide.form .email .note, .cabinet-data div.wide.form .phone .note{
     font-size: 11px;
     margin-left:130px;
 }
