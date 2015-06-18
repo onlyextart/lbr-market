@@ -182,7 +182,7 @@ return array(
         'footerLabel' => '2015 &copy; ООО "ЛБР-АгроMаркет"',
         'breadcrumbs' => array(),
         'meta_title' => 'Запчасти ЛБР-Агромаркет',
-        'meta_description' => 'магазин запчастей, запчасти ЛБР',
+        'meta_description' => 'Магазин запчастей, запчасти ЛБР',
         'menu_admin' => array(
             'Каталог'=>array(
                 'Валюта'=>'/admin/currency/',
