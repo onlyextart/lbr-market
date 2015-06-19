@@ -1,28 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "currency".
+ * This is the model class for table "user_country".
  *
- * The followings are the available columns in table 'currency':
+ * The followings are the available columns in table 'user_country':
  * @property integer $id
- * @property string $external_id
  * @property string $name
- * @property string $iso
- * @property string $symbol
- * @property string $exchange_rate
- * @property string $update_time
- *
- * The followings are the available model relations:
- * @property Price[] $prices
+ * @property string $label
  */
-class Currency extends CActiveRecord
+class UserCountry extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'currency';
+		return 'user_country';
 	}
 
 	/**
@@ -33,10 +26,10 @@ class Currency extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('external_id, name, iso, symbol, exchange_rate, update_time', 'safe'),
+			array('name, label', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, iso, symbol, exchange_rate, update_time', 'safe', 'on'=>'search'),
+			array('id, name, label', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +41,6 @@ class Currency extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'prices' => array(self::HAS_MANY, 'Price', 'currency_id'),
 		);
 	}
 
@@ -59,12 +51,8 @@ class Currency extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'external_id' => 'External',
-			'name' => 'Название',
-			'iso' => 'ISO',
-			'symbol' => 'Символ',
-			'exchange_rate' => 'Курс валюты',
-			'update_time' => 'Дата обновления',
+			'name' => 'Name',
+			'label' => 'Label',
 		);
 	}
 
@@ -87,12 +75,8 @@ class Currency extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('external_id',$this->external_id,true);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('iso',$this->iso,true);
-		$criteria->compare('symbol',$this->symbol,true);
-		$criteria->compare('exchange_rate',$this->exchange_rate,true);
-		$criteria->compare('update_time',$this->update_time,true);
+		$criteria->compare('label',$this->label,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -103,7 +87,7 @@ class Currency extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Currency the static model class
+	 * @return UserCountry the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
