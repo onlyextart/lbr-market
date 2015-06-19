@@ -357,6 +357,12 @@ class SiteController extends Controller
         }
 
     }
+    
+    public function actionError()
+    {
+        $this->render('pageNotFound'); 
+    }
+    
         // Форма отправки заявки
         public function actionQuickform()
         {
@@ -541,6 +547,8 @@ class SiteController extends Controller
         $root2 = new EquipmentMaker;
         $root2->name = 'Expom';
         $root2->save();*/
+        
+        Filial::model()->deleteAll();
     }
     public function actionTranslitePath()
     {
@@ -597,10 +605,5 @@ class SiteController extends Controller
             $product->path = '/sparepart/'.$product->id.'-'.Translite::rusencode($product->name, '-').'/';
             $product->save();
         }*/
-    }
-    
-    public function actionError()
-    {
-        $this->render('pageNotFound'); 
     }
 }
