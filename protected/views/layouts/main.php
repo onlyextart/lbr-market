@@ -45,7 +45,6 @@
                 <a href="http://www.lbr.ru/">
                     <img src="/images/logo.png" title="ЛБР-Агромаркет" alt="Логотип ЛБР-Агромаркет"/>
                 </a>
-                <div class="logo-label">Магазин</div>
             </div>
             <div class="header-main">
                 <ul class="main-top">
