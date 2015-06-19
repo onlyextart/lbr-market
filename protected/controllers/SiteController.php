@@ -548,7 +548,7 @@ class SiteController extends Controller
         $root2->name = 'Expom';
         $root2->save();*/
         
-        Filial::model()->deleteAll();
+        //Filial::model()->deleteAll();
     }
     public function actionTranslitePath()
     {
