@@ -547,23 +547,6 @@ class SiteController extends Controller
         $root2 = new EquipmentMaker;
         $root2->name = 'Expom';
         $root2->save();*/
-        
-        //Filial::model()->deleteAll();
-        
-        $root1 = new UserCountry;
-        $root1->name = 'Беларусь';
-        $root1->label = 'УНН';
-        $root1->save();  
-        
-        $root2 = new UserCountry;
-        $root2->name = 'Казахстан';
-        $root2->label = 'БИН';
-        $root2->save();  
-        
-        $root3 = new UserCountry;
-        $root3->name = 'Россия';
-        $root3->label = 'ИНН';
-        $root3->save();  
     }
     public function actionTranslitePath()
     {
