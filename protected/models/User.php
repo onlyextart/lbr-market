@@ -19,6 +19,16 @@
  * @property string $block_date
  * @property string $date_created
  * @property string $date_last_login
+ * @property string $inn
+ * @property string $organization_address
+ * @property integer $organization_type
+ * @property integer $filial
+ * @property integer $country_id
+ *
+ * The followings are the available model relations:
+ * @property Order[] $orders
+ * @property UserCountry $country
+ * @property Wishlist[] $wishlists
  */
 class User extends CActiveRecord
 {
@@ -62,15 +72,16 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('login, email', 'required'),
+                        array('login, email', 'required'),
                         array('login','match','pattern'=>'/^[A-Za-z_0-9\-]+$/','message'=>'Логин может содержать символы "_", "-", цифры и латинские буквы'),
-			array('id, parent, type_contact, status', 'numerical', 'integerOnly'=>true),
-			//array('company, name, login, password, email, address, phone, block_reason, block_date, date_created, date_last_login,inn,organization_address,organization_type,filial', 'safe'),
-			array('company, name, login, password, email, address, phone, block_reason, block_date, date_created, date_last_login,inn,organization_address,organization_type,filial', 'safe'),
-                        // The following rule is used by search().
+			//array('id, parent, type_contact, status', 'numerical', 'integerOnly'=>true),
+                    
+			array('parent, type_contact, status, organization_type, filial, country_id', 'numerical', 'integerOnly'=>true),
+			array('company, name, login, password, email, address, phone, block_reason, block_date, date_created, date_last_login, inn, organization_address', 'safe'),
+			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, company, name, login, password, email, address, phone, parent, type_contact, status, block_reason, block_date, date_created, date_last_login', 'safe', 'on'=>'search'),
-                );
+			array('id, company, name, login, password, email, address, phone, parent, type_contact, status, block_reason, block_date, date_created, date_last_login, inn, organization_address, organization_type, filial, country_id', 'safe', 'on'=>'search'),
+		);
 	}
 
 	/**
@@ -81,6 +92,9 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'orders' => array(self::HAS_MANY, 'Order', 'user_id'),
+			'country' => array(self::BELONGS_TO, 'UserCountry', 'country_id'),
+			'wishlists' => array(self::HAS_MANY, 'Wishlist', 'user_id'),
 		);
 	}
 
@@ -89,24 +103,27 @@ class User extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-            return array(
-                'id' => 'ID',
-                'company' => 'Название компании',
-                'name' => 'Имя',
-                'login' => 'Логин',
-                'password' => 'Пароль',
-                'email' => 'Email',
-                'address' => 'Адрес',
-                'phone' => 'Телефон',
-                'parent' => 'Parent',
-                'type_contact' => 'Type Contact',
-                'status' => 'Статус',
-                'block_reason' => 'Причина блокировки, предупреждения',
-                'block_date' => 'Блокировать до даты',
-                'date_created' => 'Дата регистрации',
-                'date_last_login' => 'Последний вход',
-                'organization_type'=>'Тип учетной записи',
-            );
+		return array(
+                        'id' => 'ID',
+                        'company' => 'Название компании',
+                        'name' => 'Имя',
+                        'login' => 'Логин',
+                        'password' => 'Пароль',
+                        'email' => 'Email',
+                        'address' => 'Адрес',
+                        'phone' => 'Телефон',
+                        'parent' => 'Parent',
+                        'type_contact' => 'Type Contact',
+                        'status' => 'Статус',
+                        'block_reason' => 'Причина блокировки, предупреждения',
+                        'block_date' => 'Блокировать до даты',
+                        'date_created' => 'Дата регистрации',
+                        'date_last_login' => 'Последний вход',
+                        'inn' => 'Идентификационный номер',
+                        'organization_address' => 'Адрес организации',
+                        'organization_type'=>'Тип учетной записи',
+			'country_id' => 'Страна',
+		);
 	}
 
 	/**
@@ -142,6 +159,11 @@ class User extends CActiveRecord
 		$criteria->compare('block_date',$this->block_date,true);
 		$criteria->compare('date_created',$this->date_created,true);
 		$criteria->compare('date_last_login',$this->date_last_login,true);
+		$criteria->compare('inn',$this->inn,true);
+		$criteria->compare('organization_address',$this->organization_address,true);
+		$criteria->compare('organization_type',$this->organization_type);
+		$criteria->compare('filial',$this->filial);
+		$criteria->compare('country_id',$this->country_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
