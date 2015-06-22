@@ -387,6 +387,8 @@ class SiteController extends Controller
         {                    
         
         //используем представление 'quickform' из директории views/mail
+            $address = 'webmaster@lbr.ru';
+            $name = 'Интернет-магазин ЛБР АгроМаркет';
         $mail = new YiiMailer ('quickform', 
                 array(
                     
@@ -396,11 +398,11 @@ class SiteController extends Controller
                     'region' => $model->region,                   
                     'organization' => $model->organization,
                     'body' => $model->body));
-        //устанавливаем свойства
-        $mail->setFrom ('webmaster@lbr.ru');
-        $mail->from_name = 'Интернет-магазин ЛБР АгроМаркет';
+        //устанавливаем свойства        
+        $mail->setFrom($address, $name);
         $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
         $mail->setTo('vasiliyan@lbr.ru');
+        $mail->setAttachment($model->attachments);
 
         //Сохраняем загруженные файлы на сервер нашей функцией uploadMultifile
          if($filez=$this->uploadMultifile($model,'attachments','/images/quickform/'))
