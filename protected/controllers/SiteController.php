@@ -397,8 +397,9 @@ class SiteController extends Controller
                     'organization' => $model->organization,
                     'body' => $model->body));
         //устанавливаем свойства
-        $mail->setFrom = Yii::app()->params['admin_email'];
-        $mail->setSubject("Письмо с сайта lbr-market.ru. Создана заявка от ".$model->name);
+        $mail->setFrom ('webmaster@lbr.ru');
+        $mail->from_name = 'Интернет-магазин ЛБР АгроМаркет';
+        $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
         $mail->setTo('vasiliyan@lbr.ru');
 
         //Сохраняем загруженные файлы на сервер нашей функцией uploadMultifile
