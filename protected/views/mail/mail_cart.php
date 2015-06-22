@@ -37,7 +37,7 @@
                                     </td>
                                     <td style="padding-right: 20px; width: 200px;">
                                         <p style="margin: 0; padding: 0; color: #6e7071; background: none !important; font-size: 16px; font-weight: normal; font-family: 'Myriad Pro', Arial Narrow, Arial, Helvetica,sans-serif; font-style: italic; outline: none; float: right;">
-                                            www.lbr-market.lbr.ru
+                                            www.lbr-market.ru
                                         </p>
                                     </td>
                                     
