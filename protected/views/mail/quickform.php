@@ -37,7 +37,7 @@
                                     </td>
                                     <td style="padding-right: 20px; width: 200px; text-align: right;">
                                         <p style=" text-align: right; margin: 0; padding: 0; color: #6e7071; background: none !important; font-size: 16px; font-weight: normal; font-family: 'Myriad Pro', Arial Narrow, Arial, Helvetica,sans-serif; font-style: italic; outline: none; float: right;">
-                                            www.shop.lbr.ru
+                                            www.lbr-market.ru
                                         </p>
                                     </td>
                                     
@@ -91,8 +91,8 @@
             <table rules="none" style="width:600px">
                 <tbody>
                     <tr>
-                        <td><div><a href="http://shop.lbr.ru/" target="_blank" style="color:#f58220"><strong>www.shop.lbr.ru</strong></a> – широкий ассортимент запчастей для</div><div>сельскохозяйственной техники.</div><div>тел. для всех регионов России: +8 800 000 00 00</div>  </td>
-                        <td style="float:right">&nbsp;<img src="http://shop.lbr.ru/images/mail/tractor.png" /></td>
+                        <td><div><a href="http://lbr-market.ru/" target="_blank" style="color:#f58220"><strong>www.lbr-market.ru</strong></a> – широкий ассортимент запчастей для</div><div>сельскохозяйственной техники.</div><div>тел. для всех регионов России: +8 800 000 00 00</div>  </td>
+                        <td style="float:right">&nbsp;<img src="http://lbr-market.ru/images/mail/tractor.png" /></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align:right">&nbsp;2015 © ООО "ЛБР-АгроMаркет"  <span style="text-align:right"></span></td>
