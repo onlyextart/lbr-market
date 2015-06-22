@@ -2772,7 +2772,7 @@ ul.yiiPager .selected a {
 /*----- end My order grid style ------------------*/
 /*-------------alertify-------------------------*/
 .alertify-log-success,.alertify-log-error {
-    bottom:50px;
+    bottom:100px;
     right:0px;
 }
 /*---------------end alertify-----------------*/
