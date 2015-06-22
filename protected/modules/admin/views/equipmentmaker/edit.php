@@ -69,96 +69,27 @@ $errorMsg = Yii::app()->user->getFlash('error');
                             }
                         }'
                     ),
-                ));?>
+                ));
             
-                <div class="row">      
-                <?php  
-                    echo $form_view->labelEx($model, 'name');
-                    echo $form_view->textField($model, 'name');
-                ?>
-                </div>
-            
-                <div class="row">      
-                <?php  
-                    echo $form_view->error($model, 'published'); 
-                    echo $form_view->labelEx($model, 'published');
-                    echo $form_view->dropDownList($model, 'published',array('0'=>'Нет','1'=>'Да'));
-                    echo CHtml::link('Предварительный просмотр', '/equipmentmaker/index/id/'.$model->id, array('class' => 'link_view','target'=>'_blank')); 
-                ?>
-                </div>
-            
-                <div class="row">
-                    <?php 
-                    echo $form_view->labelEx($model, 'description');
-                    $this->widget('application.components.SRichTextarea',array(
-                        'model'=>$model,
-                        'attribute'=>'description'));
-                    ?>
-                </div>
-                 
-                <div class="row">
-                <?php
-                    echo $form_view->labelEx($model, 'logo');
-                    echo $form_view->fileField($model, 'logo');
-                    echo $form_view->error($model, 'logo'); 
-                ?>
-                </div>
-           
-             <?php
-//            // Upload button
-//            echo CHtml::openTag('div', array('class'=>'row'));
-//            echo CHtml::label('Выберите изображение', 'files');
-//            $this->widget('system.web.widgets.CMultiFileUpload', array(
-//                'model'=>$model,
-//                'name'=>'Images',
-//                'attribute'=>'files',
-//                'accept'=>'jpg|jpeg|JPG|JPEG|gif|png',
-//                'denied'=>'Разрешено загружать файлы с расширением jpg, jpeg, gif или png.',
-//                'max'=>'1',
-//            ));
-//            echo CHtml::closeTag('div');
-             // Image
-            if(!empty($model->logo)) { 
-            $this->widget('zii.widgets.CDetailView', array(
-                'data'=>$model,
-                'htmlOptions'=>array(
-                    'class'=>'detail-view imagesList',
-                ),
-                'attributes'=>array(
-                    array(
-                        'label'=>'Изображение',
-                        'type'=>'raw',
-                        'value'=>CHtml::link(
-                            CHtml::image(
-                                $model->logo,
-                                CHtml::encode('test'),
-                                array('max-height'=>'150px',)
-                            ),
-                            $model->logo,
-                            array('target'=>'_blank', 'class'=>'pretty')
-                        ),
-                    ),
-                ),
-            ));
-            }
-            
-            // Fancybox ext
-            $this->widget('application.extensions.fancybox.EFancyBox', array(
-                'target'=>'a.pretty',
-                'config'=>array(),
-            ));
-              $this->endWidget();
-            
-             ?>
-            
-            
-            <!--?php echo $form->asTabs(); ?-->
+                $tabs=array(
+                    'Общая информация'=>$this->renderPartial('_general', array('model'=>$model,'form_view'=>$form_view), true),
+                    'Meta Info' => $this->renderPartial('_meta', array('model'=>$model,'form_view'=>$form_view), true),
+                );
+                
+                $errorSummary = $form_view->errorSummary($model)."\n";
+                foreach ($tabs as &$tab)
+                    $tab = $errorSummary.$tab;
+
+		$this->beginWidget('ext.yiiext.sidebartabs.SAdminSidebarTabs', array('tabs'=>$tabs));
+                $this->endWidget();
+                $this->endWidget();
+            ?>
         </div>
     </div>
     
-<!--    <div class="right">
+    <div class="right">
         <?php echo $this->sidebarContent; ?>
-    </div>-->
+    </div>
 </div>
 <script>
 $(function(){

@@ -71,8 +71,8 @@ class EquipmentMaker extends CActiveRecord
                         'logo' => 'Логотип',
                         'published' => 'Опубликовать',
 			'path' => 'Path',
-			'meta_title' => 'Meta Title',
-			'meta_description' => 'Meta Description',
+			'meta_title' => 'meta-title',
+			'meta_description' => 'meta-description',
 		);
 	}
 
