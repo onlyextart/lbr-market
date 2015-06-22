@@ -22,10 +22,10 @@ return array(
                     'type'=>'text',
                 ),
                 'meta_title'=>array(
-                    'type'=>'text',
+                    'type'=>'SRichTextarea',
                 ),
                 'meta_description'=>array(
-                    'type'=>'text',
+                    'type'=>'SRichTextarea',
                 ),
                 /*'alias'=>array(
                     'type'=>'text',
