@@ -13,7 +13,10 @@
  * @property boolean $published
  * @property integer $level
  * @property string $path
- * @property text $alias
+ * @property string $update_time
+ * @property string $alias
+ * @property string $meta_title
+ * @property string $meta_description
  *
  * The followings are the available model relations:
  * @property ModelLine[] $modelLines
@@ -37,12 +40,12 @@ class Category extends CActiveRecord
 		// will receive user inputs.
 		return array(
                         array('name', 'required'),
-			array('lft, rgt, parent, level', 'numerical', 'integerOnly'=>true),
                         array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
-			array('external_id, name, published, path', 'safe'),
+			array('lft, rgt, parent, level', 'numerical', 'integerOnly'=>true),
+			array('external_id, name, published, path, update_time, alias, meta_title, meta_description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, lft, rgt, parent, published, level, path', 'safe', 'on'=>'search'),
+			array('id, external_id, name, lft, rgt, parent, published, level, path, update_time, alias, meta_title, meta_description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,7 +76,10 @@ class Category extends CActiveRecord
 			'published' => 'Опубликовать',
 			'level' => 'Level',
 			'path' => 'Path',
-                        'alias' => 'Алиас',
+			'update_time' => 'Update Time',
+			'alias' => 'Алиас',
+			'meta_title' => 'Meta Title',
+			'meta_description' => 'Meta Description',
 		);
 	}
 
@@ -104,7 +110,10 @@ class Category extends CActiveRecord
 		$criteria->compare('published',$this->published);
 		$criteria->compare('level',$this->level);
 		$criteria->compare('path',$this->path,true);
-                $criteria->compare('alias',$this->alias,true);
+		$criteria->compare('update_time',$this->update_time,true);
+		$criteria->compare('alias',$this->alias,true);
+		$criteria->compare('meta_title',$this->meta_title,true);
+		$criteria->compare('meta_description',$this->meta_description,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -121,7 +130,7 @@ class Category extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-               
+        
         public function behaviors()
         {
             return array(
