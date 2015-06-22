@@ -383,6 +383,11 @@ class SiteController extends Controller
         if(isset($_POST['QuickForm']))
         {
         $model->attributes=$_POST['QuickForm'];
+        //Сохраняем загруженные файлы на сервер нашей функцией uploadMultifile
+         if($filez=$this->uploadMultifile($model,'attachments','/images/quickform/'))
+           {
+        $model->attachments=implode(",", $filez);
+           }
         if($model->validate())
         {                    
         
@@ -401,14 +406,10 @@ class SiteController extends Controller
         //устанавливаем свойства        
         $mail->setFrom($address, $name);
         $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
-        $mail->setTo('vasiliyan@lbr.ru');
+        $mail->setTo('shop@lbr.ru');
         $mail->setAttachment($model->attachments);
 
-        //Сохраняем загруженные файлы на сервер нашей функцией uploadMultifile
-         if($filez=$this->uploadMultifile($model,'attachments','/images/quickform/'))
-           {
-        $model->attachments=implode(",", $filez);
-           }
+        
 
         //Прикрепляем к сообщению загруженные файлы с помощью setAttachment() 
         $attachments = explode(',', $model->attachments);
