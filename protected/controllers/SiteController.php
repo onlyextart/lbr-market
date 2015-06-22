@@ -241,7 +241,7 @@ class SiteController extends Controller
                         $email->from_email = Yii::app()->params['admin_email'];
                         $email->from_name = 'Интернет-магазин ЛБР АгроМаркет';
                         $email->to_email = 'isakov@lbr.ru,boyko@lbr.ru,teterukova@lbr.ru';
-                        $email->to_name = 'Исаков Федор Федорович';
+                        $email->to_name = 'Исаков Федор Федорович, Бойко Григорий Борисович, Тетерукова Наталья Александровна';
                         $email->subject = 'Подтверждение регистрации';
                         $email->type = 'text/html';
                         $email->body = '<p>Здравствуйте! Зарегистрировался новый пользователь: login '.$model_user[0]->login.', email '.$model_user[0]->email.'</p>';
