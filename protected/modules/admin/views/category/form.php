@@ -21,9 +21,15 @@ return array(
                 'path'=>array(
                     'type'=>'text',
                 ),
-                'alias'=>array(
+                'meta_title'=>array(
                     'type'=>'text',
                 ),
+                'meta_description'=>array(
+                    'type'=>'text',
+                ),
+                /*'alias'=>array(
+                    'type'=>'text',
+                ),*/
             ),
         ),
     ),

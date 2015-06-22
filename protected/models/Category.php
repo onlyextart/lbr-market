@@ -78,8 +78,8 @@ class Category extends CActiveRecord
 			'path' => 'Path',
 			'update_time' => 'Update Time',
 			'alias' => 'Алиас',
-			'meta_title' => 'Meta Title',
-			'meta_description' => 'Meta Description',
+			'meta_title' => 'meta-title',
+			'meta_description' => 'meta-description',
 		);
 	}
 

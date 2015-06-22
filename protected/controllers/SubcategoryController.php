@@ -80,7 +80,11 @@ class SubcategoryController extends Controller
             preg_match('/\d{2,}\./i', $categoryRoot->name, $result);
             $title = trim(substr($categoryRoot->name, strlen($result[0])));
             $breadcrumbs[] = $title;
-            Yii::app()->params['meta_title'] = $title;
+            
+            if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
+            else Yii::app()->params['meta_title'] = $title;
+            
+            if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
         } else if(!empty($maker)) {
             /*$result = $this->setMakerFilter($maker);
             if(!empty($result[0])) {
