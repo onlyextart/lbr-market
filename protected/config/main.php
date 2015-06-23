@@ -187,12 +187,13 @@ return array(
             'Каталог'=>array(
                 'Валюта'=>'/admin/currency/',
                 'Группы товаров'=>'/admin/group/',
-                'Доставка'=>'#',
+                //'Доставка'=>'#',
                 'Запчасти'=>'/admin/product/',
                 'Категории'=>'/admin/category/',
                 'Модельные ряды'=>'/admin/modelline/',
                 'Производители запчастей'=>'/admin/productmaker/',
                 'Производители техники'=>'/admin/equipmentmaker/',
+                'Филиалы и зоны'=>'/admin/filial/',
             ),
             'Скидки'=>'/admin/discount/',
             'Заказы'=>array(
@@ -205,11 +206,10 @@ return array(
                 'Спецпредложения'=>'/admin/bestoffer/',
                 'Страницы'=>'/admin/page/',
                 'Структура'=>'/admin/structure/',
-                'Филиалы и зоны'=>'/admin/filial/',
                 //'Хиты продаж'=>'/admin/bestseller/',
             ),
-            'Уведомления'=>'#',
-            'Статистика'=>'#',
+            //'Уведомления'=>'#',
+            //'Статистика'=>'#',
             'Пользователи'=>array(
                 'Все пользователи'=>'/admin/user/',
                 'Статусы пользователей'=>'/admin/userstatus/',

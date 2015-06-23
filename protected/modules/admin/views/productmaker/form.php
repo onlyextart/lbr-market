@@ -11,6 +11,9 @@ return array(
                 'name'=>array(
                     'type'=>'text',
                 ),
+                'country'=>array(
+                    'type'=>'text',
+                ),
                 'published'=>array(
                     'type'=>'dropdownlist',
                     'items'=>array(
@@ -20,9 +23,6 @@ return array(
                 ),
                 'description'=>array(
                     'type'=>'SRichTextarea',
-                ),
-                'country'=>array(
-                    'type'=>'text',
                 ),
             ),
         ),
