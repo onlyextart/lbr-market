@@ -108,6 +108,9 @@ class SiteController extends Controller
         //$model_form_LP=new RegFormLegalPerson;
         $model=new User;
         $model->status = User::USER_NOT_ACTIVATED;
+        if(!isset($model_form['LEGAL_PERSON']->country_id)){
+              $model_form['LEGAL_PERSON']->country_id=UserCountry::RUSSIA;  
+        }
 //        if(isset($_POST['ajax']) && $_POST['ajax']==='registration-form')
 //        {
 //            $model->login=$_POST['User']['login'];
