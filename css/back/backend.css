@@ -714,7 +714,7 @@ div.form .errorSummary ul {
     padding: 0 0 0 20px;
 }
 
-/*----- end Form-errors ---------------------*/
+/*----- end Form-errors -----------------------------------*/
 /*----- start Rich text area - editor ---------------------*/
 .field_meta_description div.workzone iframe, .field_meta_description div.workzone, 
 .field_meta_title div.workzone iframe, .field_meta_title div.workzone
@@ -722,7 +722,7 @@ div.form .errorSummary ul {
     height: 200px !important;
 }
 /*----- end Rich text area - editor ---------------------*/
-/*----- start Footer ------------------------*/
+/*----- start Footer ------------------------------------*/
 footer
 {
     display: block;
