@@ -13,7 +13,7 @@ class UserController extends Controller
                 $model->attributes = $_GET['User'];
 
             $dataProvider = $model->search();
-            $dataProvider->pagination->pageSize = 10;
+            $dataProvider->pagination->pageSize = 14;
 
             $this->render('user', array(
                     'model'=>$model,

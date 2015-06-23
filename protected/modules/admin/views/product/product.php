@@ -70,17 +70,16 @@ $errorMsg = Yii::app()->user->getFlash('error');
                         
             array(
                 'class'=>'CButtonColumn',
-                'template'=>'{update}{delete}',
+                'template'=>'{update}', // '{update}{delete}',
                 'buttons'=>array (
                     'update' => array (
                         'url'=>'Yii::app()->createUrl("admin/product/edit", array("id"=>$data->id))',
                     ),
-                    'delete' => array (
+                    /*'delete' => array (
                         'url'=>'Yii::app()->createUrl("admin/product/delete", array("id"=>$data->id))',
-                        'click'=>'function(){
-                            
-                        }', 
-                    ),
+                        'click'=>'function(){    
+                       }', 
+                    ),*/
                 ),
             ),
         ),

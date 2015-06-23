@@ -24,7 +24,11 @@ $errorMsg = Yii::app()->user->getFlash('error');
         'dataProvider'=>$data,
         'template'=>'{items}{pager}{summary}',
         'summaryText'=>'Элементы {start}—{end} из {count}.',
-        'columns' => array('id', 
+        'columns' => array(
+            //'id', 
+            array(
+                'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
+            ),
             array( 
                 'name'=>'login',
                 'type'=>'raw',
