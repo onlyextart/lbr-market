@@ -8,7 +8,7 @@
     </div>
     <p>Разделы:</p>
     <div class="faq-sections">
-        <h4><a name="meta">Добавление/редактирование meta-title, meta-description</a></h4>
+        <h4><a name="meta">1. Добавление/редактирование meta-title, meta-description</a></h4>
         <div class="info">
             <p>Meta-title и meta-description указываются разделах:</p>
             <ul class="list-of-items">
