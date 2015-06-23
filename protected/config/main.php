@@ -214,6 +214,7 @@ return array(
                 'Все пользователи'=>'/admin/user/',
                 'Статусы пользователей'=>'/admin/userstatus/',
             ),
+            'FAQ'=>'/admin/faq/',
         ),
         'maxInCart' => 5, // count of product types
     ),

@@ -745,6 +745,50 @@ body .alertify-log-error{
     background: none repeat scroll 0 0 rgba(254, 26, 0, 0.5);
 }
 /*----- end Alertify ------------------------*/
+/*----- start FAQ ---------------------------*/
+.faq-wrapper a {
+    color: #333333;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding: 5px 5px 5px 0;
+    text-shadow: 1px 1px 2px silver;
+}
+.faq-wrapper .faq-menu a:hover {
+    color: #cc790c;
+}
+.faq-wrapper > p{
+    font-weight: bold;
+    color: #cc790c;
+}
+.faq-wrapper .faq-sections a {
+    cursor: default;
+}
+.faq-wrapper .faq-menu li
+{
+    list-style-type: decimal;
+    padding-left: 10px;
+}
+.faq-wrapper .faq-menu ol
+{
+    padding-left: 40px;
+}
+
+.faq-wrapper .faq-sections .list-of-items {
+    padding-left: 30px;
+}
+
+.faq-wrapper .faq-sections .list-of-items li{
+    list-style-type: disc;
+}
+.faq-wrapper .faq-sections .list-of-items a, .faq-wrapper .faq-sections .info a{
+    cursor: pointer;
+    font-weight: normal;
+    display: inline-block;
+    padding: 0;
+}
+
+/*----- end FAQ -----------------------------*/
 /*----- start Tabs --------------------------*/
 .left .ui-tabs .ui-tabs-panel, .ui-tabs .ui-state-active, .ui-tabs .ui-widget-content .ui-state-active, .ui-tabs .ui-widget-header .ui-state-active {
     background: none repeat scroll 0 0 #eeeeee;
