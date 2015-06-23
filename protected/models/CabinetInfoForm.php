@@ -12,7 +12,7 @@ class CabinetInfoForm extends CFormModel
 //    public $locality_type;
 //    public $locality_name;
     public $phone;
-  //  public $filial;
+    public $filial;
     //public $parent;
     //public $type_contact;
      
@@ -20,10 +20,10 @@ class CabinetInfoForm extends CFormModel
     public function rules()
     {
         return array(
-            //array('email, phone,filial', 'safe'),
-            array('email, phone', 'safe'),
-            //array('email,filial', 'required'),
-            array('email, phone', 'required'),
+            array('email, phone, filial', 'safe'),
+            //array('email, phone', 'safe'),
+            array('email, phone, filial', 'required'),
+            //array('email, phone', 'required'),
             array('phone','match','pattern' => '/^\+\d{1,3}\(\d{2,4}\)\d{5,7}$/','message' => 'Некорректный формат телефона'),
             array('email','checkUniqueEmail'),
             array('email', 'email', 'message'=>'Неправильно заполнено поле «Email»'),
@@ -58,7 +58,7 @@ class CabinetInfoForm extends CFormModel
             'email' => 'Email',
             'phone' => 'Телефон',
            // 'address'=>'Адрес доставки',
-           // 'filial'=>'Регион отгрузки',
+            'filial'=>'Регион отгрузки',
         );
     }
 }

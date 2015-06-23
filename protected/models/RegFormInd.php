@@ -15,7 +15,7 @@ class RegFormInd extends CFormModel
     public $locality_type;
     public $locality_name;
     public $phone;
-    //public $filial;
+    public $filial;
     public $verifyCode;
     //public $parent;
     //public $type_contact;
@@ -24,13 +24,13 @@ class RegFormInd extends CFormModel
     public function rules()
     {
         return array(
-            //array('company, name, login, email, country, region, locality_type, locality_name, phone,filial', 'safe'),
-            array('company, name, login, email, country, region, locality_type, locality_name, phone', 'safe'),
+            array('company, name, login, email, country, region, locality_type, locality_name, phone,filial', 'safe'),
+            //array('company, name, login, email, country, region, locality_type, locality_name, phone', 'safe'),
             array('login','checkUniqueLogin'),
             array('login','match','pattern'=>'/^[A-Za-z_0-9\-]{6,}$/','message'=>'Логин должен содержать не менее 6 символов ("_", "-", цифры и латинские буквы)'),
             array('password','match','pattern'=>'/^[A-Za-z_0-9\-]{6,}$/','message'=>'Пароль должен содержать не менее 6 символов ("_", "-", цифры и латинские буквы)'),
-            //array('name, login, password,  password_confirm, email, verifyCode,filial,country,region,locality_type,locality_name,phone', 'required'),
-            array('name, login, password,  password_confirm, email, verifyCode,country,region,locality_type,locality_name,phone', 'required'),
+            array('name, login, password,  password_confirm, email, verifyCode,filial,country,region,locality_type,locality_name,phone', 'required'),
+            //array('name, login, password,  password_confirm, email, verifyCode,country,region,locality_type,locality_name,phone', 'required'),
             array('password_confirm','compare','compareAttribute'=>'password', 'message'=>'Пароли должны совпадать'),
             array('email','checkUniqueEmail'),
             //array('phone','match','pattern' => '/^[\+\(]?[\d]{1,}[\s]?[\(]?[\d]*[\)]?[\d\s\-]{1,}$/','message' => 'Некорректный формат телефона'),
@@ -75,7 +75,7 @@ class RegFormInd extends CFormModel
             'locality_type'=>'Населенный пункт',
             'locality_name'=>'Населенный пункт',
             'verifyCode' => 'Код проверки',
-            //'filial'=>'Регион отгрузки',
+            'filial'=>'Регион отгрузки',
             //'address' => 'Адрес',   
         );
     }
