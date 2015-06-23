@@ -15,9 +15,11 @@
  * @property integer $level
  * @property string $path
  * @property integer $maker_id
+ * @property string $update_time
+ * @property string $meta_title
+ * @property string $meta_description
  *
  * The followings are the available model relations:
- * @property EquipmentMakerInModel[] $equipmentMakerInModels
  * @property EquipmentMaker $maker
  * @property Category $category
  * @property ProductInModelLine[] $productInModelLines
@@ -27,9 +29,9 @@ class ModelLine extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
-	public $maker_name;
+        public $maker_name;
     
-        public function tableName()
+	public function tableName()
 	{
 		return 'model_line';
 	}
@@ -44,10 +46,10 @@ class ModelLine extends CActiveRecord
 		return array(
                         array('name', 'required'),
 			array('category_id, lft, rgt, parent, level, maker_id', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, published, path', 'safe'),
+			array('external_id, name, published, path, update_time, meta_title, meta_description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, category_id, lft, rgt, parent, published, level, path, maker_id, maker_name', 'safe', 'on'=>'search'),
+			array('id, external_id, name, category_id, lft, rgt, parent, published, level, path, maker_id, update_time, meta_title, meta_description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,7 +61,6 @@ class ModelLine extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		/*return array(
-			'equipmentMakerInModels' => array(self::HAS_MANY, 'EquipmentMakerInModel', 'model_id'),
 			'maker' => array(self::BELONGS_TO, 'EquipmentMaker', 'maker_id'),
 			'category' => array(self::BELONGS_TO, 'Category', 'category_id'),
 			'productInModelLines' => array(self::HAS_MANY, 'ProductInModelLine', 'model_line_id'),
@@ -88,7 +89,10 @@ class ModelLine extends CActiveRecord
 			'level' => 'Level',
 			'path' => 'Path',
 			'maker_id' => 'Maker',
-                        'maker_name'=>'Производитель'
+                        'maker_name'=>'Производитель',
+			'update_time' => 'Update Time',
+			'meta_title' => 'meta-title',
+			'meta_description' => 'meta-description',
 		);
 	}
 
@@ -107,6 +111,27 @@ class ModelLine extends CActiveRecord
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		/*$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('external_id',$this->external_id,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('category_id',$this->category_id);
+		$criteria->compare('lft',$this->lft);
+		$criteria->compare('rgt',$this->rgt);
+		$criteria->compare('parent',$this->parent);
+		$criteria->compare('published',$this->published);
+		$criteria->compare('level',$this->level);
+		$criteria->compare('path',$this->path,true);
+		$criteria->compare('maker_id',$this->maker_id);
+		$criteria->compare('update_time',$this->update_time,true);
+		$criteria->compare('meta_title',$this->meta_title,true);
+		$criteria->compare('meta_description',$this->meta_description,true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));*/
                 $criteria=new CDbCriteria;
                 $criteria->with=array('maker');
                 $criteria->together = true;
@@ -134,9 +159,7 @@ class ModelLine extends CActiveRecord
                          'id','name'
                     )),
 		));
-                
-        }
-	
+	}
 
 	/**
 	 * Returns the static model of the specified AR class.

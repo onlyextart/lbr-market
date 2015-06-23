@@ -21,10 +21,10 @@ $errorMsg = Yii::app()->user->getFlash('error');
         <?php echo CHtml::link('Удалить', '/admin/modelline/delete/id/'.$model->id, array('class' => 'btn-admin')); ?>
     </div>
     <?php endif; */?>
-    <!--div class="admin-btn-one">
+    <div class="admin-btn-one">
         <span class="admin-btn-save"></span>
         <?php echo CHtml::button($submit_text, array('id' => 'save-btn', 'class'=>'btn-admin')); ?>
-    </div-->
+    </div>
     <?php if(!empty($model->id)): ?>
     <div class="admin-btn-one">
         <span class="admin-btn-close"></span>

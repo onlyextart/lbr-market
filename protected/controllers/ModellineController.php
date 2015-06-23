@@ -11,6 +11,11 @@ class ModellineController extends Controller
         if(!$modelline)
             throw new CHttpException(404, 'Модельный ряд не найден');
         
+        $headTitle = 'Модельный ряд "'.$modelline->name.'"';
+        Yii::app()->params['meta_title'] = $headTitle;
+        if(!empty($modelline->meta_title))Yii::app()->params['meta_title'] = $modelline->meta_title;
+        if(!empty($modelline->meta_description))Yii::app()->params['meta_description'] = $modelline->meta_description;
+        
         $models = $modelline->children()->findAll(array('order'=>'name'));
         $response = '';
         
@@ -22,7 +27,6 @@ class ModellineController extends Controller
             else $breadcrumbs['Поиск'] = $url; //Yii::app()->request->urlReferrer;
         }
         
-        Yii::app()->params['meta_title'] = 'Модельный ряд "'.$modelline->name.'"';
         $category = Category::model()->findByPk($modelline->category_id);
         $categoryParent = $category->parent()->find();
         preg_match('/\d{2,}\./i', $categoryParent->name, $result);
@@ -64,7 +68,7 @@ class ModellineController extends Controller
         // random products for hit products
         $hitProducts = $this->setHitProducts($ids);
         
-        $this->render('modelline', array('response' => $response, 'hitProducts'=>$hitProducts));
+        $this->render('modelline', array('response' => $response, 'hitProducts'=>$hitProducts, 'title'=>$headTitle));
     }
     
     private function setHitProducts($ids)

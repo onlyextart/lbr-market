@@ -18,6 +18,12 @@ return array(
                         0=>'Нет'
                     ),
                 ),
+                'meta_title'=>array(
+                    'type'=>'SRichTextarea',
+                ),
+                'meta_description'=>array(
+                    'type'=>'SRichTextarea',
+                ),
             ),
         ),
     ),
