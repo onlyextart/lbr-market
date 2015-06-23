@@ -15,7 +15,7 @@ class EquipmentmakerController extends Controller
                 $model->attributes = $_GET['EquipmentMaker'];
 
             $dataProvider = $model->search();
-            $dataProvider->pagination->pageSize = 15;
+            $dataProvider->pagination->pageSize = 9;
 
             $this->render('index', array(
                 'model'=>$model,
