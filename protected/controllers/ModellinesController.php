@@ -29,9 +29,12 @@ class ModellinesController extends Controller
         $currentBrand = '';
         $breadcrumbs[$title] = '/catalog'.$categoryParent->path.$currentBrand.'/';
         $breadcrumbs[] = $categoryRoot->name;
-        Yii::app()->params['meta_title'] = $categoryRoot->name;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
+        
+        Yii::app()->params['meta_title'] = $categoryRoot->name;
+        if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
+        if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
         
         // сортировать по типу техники
         /*if(empty(Yii::app()->params['currentMaker'])){
