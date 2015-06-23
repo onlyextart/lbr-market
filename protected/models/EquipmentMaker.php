@@ -10,19 +10,19 @@
  * @property string $description
  * @property string $logo
  * @property boolean $published
+ * @property string $path
+ * @property string $meta_title
+ * @property string $meta_description
  *
  * The followings are the available model relations:
- * @property Category[] $categories
+ * @property ModelLine[] $modelLines
  */
 class EquipmentMaker extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
-	
-        //public $image;
-        
-        public function tableName()
+	public function tableName()
 	{
 		return 'equipment_maker';
 	}
@@ -35,13 +35,13 @@ class EquipmentMaker extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
+                        array('name', 'required'),
                         array('logo', 'file', 'types'=>'jpg, jpeg, JPG, JPEG, gif, png', 'allowEmpty'=>true),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, description, logo, published', 'safe'),
+			array('external_id, name, description, logo, published, path, meta_title, meta_description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, description, logo, published', 'safe', 'on'=>'search'),
+			array('id, external_id, name, description, logo, published, path, meta_title, meta_description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,7 +53,8 @@ class EquipmentMaker extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'categories' => array(self::HAS_MANY, 'Category', 'maker_id'),
+	            'modelLines' => array(self::HAS_MANY, 'ModelLine', 'maker_id'),
+                    'categories' => array(self::HAS_MANY, 'Category', 'maker_id'),
 		);
 	}
 
@@ -62,14 +63,17 @@ class EquipmentMaker extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-            return array(
-                'id' => 'ID',
-                'external_id' => 'External',
-                'name' => 'Название',
-                'description' => 'Описание',
-                'logo' => 'Логотип',
-                'published' => 'Опубликовать',
-            );
+		return array(
+			'id' => 'ID',
+			'external_id' => 'External',
+			'name' => 'Название',
+                        'description' => 'Описание',
+                        'logo' => 'Логотип',
+                        'published' => 'Опубликовать',
+			'path' => 'Path',
+			'meta_title' => 'meta-title',
+			'meta_description' => 'meta-description',
+		);
 	}
 
 	/**
@@ -92,10 +96,14 @@ class EquipmentMaker extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('external_id',$this->external_id,true);
-                $criteria->compare('description',$this->description,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('description',$this->description,true);
 		$criteria->compare('logo',$this->logo,true);
 		$criteria->compare('published',$this->published);
-                
+		$criteria->compare('path',$this->path,true);
+		$criteria->compare('meta_title',$this->meta_title,true);
+		$criteria->compare('meta_description',$this->meta_description,true);
+
                 if(Yii::app()->search->prepareSqlite()){
                     $condition_name='lower(name) like lower("%'.$this->name.'%")';    
                     $criteria->addCondition($condition_name);
@@ -103,7 +111,7 @@ class EquipmentMaker extends CActiveRecord
                 else{
                     $criteria->compare('name',$this->name,true);  
                 }
-		
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

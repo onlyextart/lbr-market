@@ -77,10 +77,15 @@ class SubcategoryController extends Controller
             }
 
             // bradcrumbs
-            preg_match('/\d{2,}\./i', $categoryRoot->name, $result);
-            $title = trim(substr($categoryRoot->name, strlen($result[0])));
+            //preg_match('/\d{2,}\./i', $categoryRoot->name, $result);
+            //$title = trim(substr($categoryRoot->name, strlen($result[0])));
+            $title = $categoryRoot->name;
             $breadcrumbs[] = $title;
+            
             Yii::app()->params['meta_title'] = $title;
+            if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;            
+            if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
+            
         } else if(!empty($maker)) {
             /*$result = $this->setMakerFilter($maker);
             if(!empty($result[0])) {
@@ -165,9 +170,13 @@ class SubcategoryController extends Controller
                 }
             }
             // bradcrumbs
-            $name = EquipmentMaker::model()->findByPk($maker)->name;
+            $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
+            $name = $equipmentMaker->name;
             $breadcrumbs[] = $name;
+            
             Yii::app()->params['meta_title'] = $name;
+            if(!empty($equipmentMaker->meta_title)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_title;
+            if(!empty($equipmentMaker->meta_description)) Yii::app()->params['meta_description'] = $equipmentMaker->meta_description;
         }
         
         // random products for hit products

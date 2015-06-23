@@ -21,9 +21,15 @@ return array(
                 'path'=>array(
                     'type'=>'text',
                 ),
-                'alias'=>array(
-                    'type'=>'text',
+                'meta_title'=>array(
+                    'type'=>'SRichTextarea',
                 ),
+                'meta_description'=>array(
+                    'type'=>'SRichTextarea',
+                ),
+                /*'alias'=>array(
+                    'type'=>'text',
+                ),*/
             ),
         ),
     ),
