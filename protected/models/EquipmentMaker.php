@@ -38,10 +38,10 @@ class EquipmentMaker extends CActiveRecord
                         array('name', 'required'),
                         array('logo', 'file', 'types'=>'jpg, jpeg, JPG, JPEG, gif, png', 'allowEmpty'=>true),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, description, logo, published, path, meta_title, meta_description', 'safe'),
+			array('external_id, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, description, logo, published, path, meta_title, meta_description', 'safe', 'on'=>'search'),
+			array('id, external_id, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +73,8 @@ class EquipmentMaker extends CActiveRecord
 			'path' => 'Path',
 			'meta_title' => 'meta-title',
 			'meta_description' => 'meta-description',
+                        'top_text' => 'Верхний блок',
+                        'bottom_text' => 'Нижний блок'
 		);
 	}
 
@@ -103,6 +105,8 @@ class EquipmentMaker extends CActiveRecord
 		$criteria->compare('path',$this->path,true);
 		$criteria->compare('meta_title',$this->meta_title,true);
 		$criteria->compare('meta_description',$this->meta_description,true);
+                $criteria->compare('top_text',$this->top_text,true);
+		$criteria->compare('bottom_text',$this->bottom_text,true);
 
                 if(Yii::app()->search->prepareSqlite()){
                     $condition_name='lower(name) like lower("%'.$this->name.'%")';    
