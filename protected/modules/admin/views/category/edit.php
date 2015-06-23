@@ -15,13 +15,13 @@ $alertMsg = Yii::app()->user->getFlash('message');
 $errorMsg = Yii::app()->user->getFlash('error');
 ?>
 <span class="admin-btn-wrapper">
-    <?php if(!empty($model->id)): ?>
+    <?php /*if(!empty($model->id)): ?>
     <div class="admin-btn-one">
         <span class="admin-btn-del"></span>
         <?php echo CHtml::link('Удалить', '/admin/category/delete/id/'.$model->id, array('class' => 'btn-admin')); ?>
     </div>
-    <?php endif; ?>
-    <?php if($model->level != 1): ?>
+    <?php endif; */?>
+    <?php if($model->level != 1 && !empty($model->id)): ?>
     <div class="admin-btn-one">
         <span class="admin-btn-save"></span>
         <?php echo CHtml::button($submit_text, array('id' => 'save-btn', 'class'=>'btn-admin')); ?>
