@@ -471,7 +471,7 @@ table.detail-view.imagesList th{
 }
 .grid-wrapper .grid-view table.items td:first-child{
     padding-left: 5px;
-    width: 20px;
+    /*width: 20px;*/
 }
 .grid-empty{
     font-style: italic;
