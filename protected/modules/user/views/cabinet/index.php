@@ -41,19 +41,20 @@
                     <?php echo $form->textField($model_info,'phone'); ?>
                     <div class="note">пример: +7(4722)402104</div>
                 </div>
-<!--               <div class="row filial">
-                    <?php //echo $form->labelEx($model_info,'filial'); ?>
+               <div class="row filial">
+                    <?php echo $form->labelEx($model_info,'filial'); ?>
                     <?php 
-//                    if(User::model()->checkCart(Yii::app()->user->_id,$model_info->filial)){
-//                            echo $form->dropDownList($model_info,'filial',User::model()->getAllFilials()); 
-//                        }
-//                        else{
-//                            echo $form->dropDownList($model_info,'filial',User::model()->getAllFilials(),array('disabled'=>true));
-//                            echo CHtml::label('Изменение региона возможно только при пустой корзине', 'filial', array('class'=>'note'));
-//                        }
-//                    
+                    if(User::model()->checkCart(Yii::app()->user->_id,$model_info->filial)){
+                            echo $form->dropDownList($model_info,'filial',User::model()->getAllFilials());
+                            echo "<div class='note'>для отображения цен на условиях самовывоза</div>";
+                        }
+                        else{
+                            echo $form->dropDownList($model_info,'filial',User::model()->getAllFilials(),array('disabled'=>true));
+                            echo "<div class='note'>изменение региона возможно только при пустой корзине</div>";
+                        }
+                    
                     ?>
-                </div>-->
+                </div>
 
                 <?php echo CHtml::submitButton('Сохранить', array('class'=>'btn')); ?>
                 <div class="clearfix"></div>

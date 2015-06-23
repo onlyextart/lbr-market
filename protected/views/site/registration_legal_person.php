@@ -82,10 +82,10 @@ $form=$this->beginWidget('CActiveForm', array(
             <?php echo $form->textField($model_form,'email'); ?>
             <div class="note">нужен для активации учетной записи</div>
     </div>
-<!--    <div class="row">
-            <?php //echo $form->labelEx($model_form,'filial'); ?>
-            <?php //echo $form->dropDownList($model_form,'filial',User::model()->getAllFilials(),array('class'=>'reg-filial')); ?>
-    </div>-->
+    <div class="row">
+            <?php echo $form->labelEx($model_form,'filial'); ?>
+            <?php echo $form->dropDownList($model_form,'filial',User::model()->getAllFilials(),array('class'=>'reg-filial')); ?>
+    </div>
     <div class="row phone">
             <?php echo $form->labelEx($model_form,'phone'); ?>
             <?php echo $form->textField($model_form,'phone'); ?>

@@ -458,7 +458,8 @@ class SiteController extends Controller
 //    public function actionTestFilial()
 //    {
 //        $command = Yii::app()->db->createCommand();
-//        $x=$command->update('user', array('filial'=>48), 'filial IS NULL');
+//        //$x=$command->update('user', array('filial'=>75), 'filial IS NULL');
+//        $x=$command->update('user', array('filial'=>75));
 //        if ($x)
 //        {
 //            echo 'true';
