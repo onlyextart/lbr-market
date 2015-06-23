@@ -21,13 +21,14 @@ class UserFormLegalPerson extends CFormModel
     public $inn;
     public $organization_address;
     public $filial;
+    public $country_id;
     
 
     public function rules()
     {
         return array(
             array('id, company, name, login, password, email, address, phone, parent, type_contact, status, block_reason, block_date, date_created, date_last_login,organization_type', 'safe', 'on'=>'search'),
-            array('id, company, name, login, password, email, address, phone, parent, type_contact, status, block_reason, block_date, date_created, date_last_login,organization_type,inn,organization_address,filial', 'safe'),
+            array('id, company, name, login, password, email, address, phone, parent, type_contact, status, block_reason, block_date, date_created, date_last_login,organization_type,inn,organization_address,filial,country_id', 'safe'),
             array('id, parent, type_contact, status', 'numerical', 'integerOnly' => true),
             array('email, login, name,company,inn,organization_address,password,filial', 'required'),
             array('email', 'email', 'message'=>'Неправильно заполнено поле «Email»'),
@@ -108,6 +109,7 @@ class UserFormLegalPerson extends CFormModel
             'inn'=>'ИНН',
             'organization_address'=>'Юридический адрес',
             'filial'=>'Регион отгрузки',
+            'country_id'=>'Страна',
         );
     }
 }

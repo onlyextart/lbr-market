@@ -142,6 +142,14 @@
             </div>
             <div class="row">
             <?php if($model_form->organization_type==User::LEGAL_PERSON){ 
+                echo $form->error($model_form, 'country_id'); 
+                echo $form->labelEx($model_form,'country_id'); 
+                echo $form->dropDownList($model_form,'country_id',UserCountry::model()->getAllCountries(),array('id'=>'country_user'));
+                }
+            ?>
+            </div>
+            <div class="row">
+            <?php if($model_form->organization_type==User::LEGAL_PERSON){ 
                 echo $form->error($model_form, 'organization_address'); 
                 echo $form->labelEx($model_form, 'organization_address');
                 echo $form->textArea($model_form, 'organization_address');
@@ -151,8 +159,14 @@
             <div class="row">
             <?php if($model_form->organization_type==User::LEGAL_PERSON){ 
                 echo $form->error($model_form, 'inn'); 
-                echo $form->labelEx($model_form, 'inn');
-                echo $form->textArea($model_form, 'inn');
+                //echo $form->labelEx($model_form, 'inn');?>
+                <label class="required" for="UserFormLegalPerson_inn">
+                    <span id="label_inn">
+                        <?php echo empty($model_form->country_id)? UserCountry::model()->getCountryLabel(UserCountry::RUSSIA):UserCountry::model()->getCountryLabel($model_form->country_id) ;?>  
+                    </span>
+                    <span class="required">*</span>
+                </label>
+                <?php echo $form->textArea($model_form, 'inn');
                 }
             ?>
             </div>
@@ -265,6 +279,10 @@ $(function(){
         document.location.href = "<?php echo Yii::app()->getBaseUrl(true) ?>/admin/user/";
     });
     
-   
+    var labels=<?php echo json_encode(UserCountry::model()->getAllLabels());?>;
+     $("#country_user").change(function(){
+        country_id=$('#country_user').val();
+        $("#label_inn").text(labels[country_id]+" ");
+    });
 });
 </script>

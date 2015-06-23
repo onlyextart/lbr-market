@@ -82,6 +82,9 @@ class UserController extends Controller
         if($model->organization_type==User::LEGAL_PERSON){
             $form = new UserFormLegalPerson;
             $model_name='UserFormLegalPerson';
+            if(!isset($model->country_id)){
+              $model->country_id=UserCountry::RUSSIA;  
+            }
         }
         else{
             $form = new UserForm;
