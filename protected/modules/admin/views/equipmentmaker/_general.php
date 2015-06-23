@@ -23,6 +23,46 @@
     ?>
 </div>
 
+<div class="row">      
+    <?php  
+        echo $form_view->labelEx($model, 'meta_title');
+        //echo $form_view->textField($model, 'meta_title');
+        $this->widget('application.components.SRichTextarea',array(
+            'model'=>$model,
+            'attribute'=>'meta_title'));
+    ?>
+</div>
+
+<div class="row">      
+    <?php  
+        echo $form_view->labelEx($model, 'meta_description');
+        //echo $form_view->textField($model, 'meta_description');
+        
+        $this->widget('application.components.SRichTextarea',array(
+            'model'=>$model,
+            'attribute'=>'meta_description'));
+        
+    ?>
+</div>
+
+<div class="row">
+    <?php 
+        echo $form_view->labelEx($model, 'top_text');
+        $this->widget('application.components.SRichTextarea',array(
+            'model'=>$model,
+            'attribute'=>'top_text'));
+    ?>
+</div>
+
+<div class="row">
+    <?php 
+        echo $form_view->labelEx($model, 'bottom_text');
+        $this->widget('application.components.SRichTextarea',array(
+            'model'=>$model,
+            'attribute'=>'bottom_text'));
+    ?>
+</div>
+
 <?php
 /*if(!empty($model->logo)) { 
     $this->widget('zii.widgets.CDetailView', array(

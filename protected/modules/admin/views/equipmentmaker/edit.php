@@ -74,7 +74,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
                 $tabs=array(
                     'Общая информация'=>$this->renderPartial('_general', array('model'=>$model,'form_view'=>$form_view), true),
                     'Логотип' => $this->renderPartial('_image', array('model'=>$model,'form_view'=>$form_view), true),
-                    'meta-информация' => $this->renderPartial('_meta', array('model'=>$model,'form_view'=>$form_view), true),
+                    //'meta-информация' => $this->renderPartial('_meta', array('model'=>$model,'form_view'=>$form_view), true),
                 );
                 
                 $errorSummary = $form_view->errorSummary($model)."\n";

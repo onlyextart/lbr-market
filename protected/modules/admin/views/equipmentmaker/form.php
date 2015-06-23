@@ -21,6 +21,12 @@ return array(
                 'description'=>array(
                     'type'=>'SRichTextarea',
                 ),
+                'top_text'=>array(
+                    'type'=>'SRichTextarea',
+                ),
+                'bottom_text'=>array(
+                    'type'=>'SRichTextarea',
+                ),
             ),
         ),
     ),

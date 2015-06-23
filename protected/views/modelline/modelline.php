@@ -16,6 +16,9 @@
     ?>
 </div>
 <div class="modelline-wrapper">   
+    <?php if(!empty($topText)): ?>
+    <div class="text"><?php echo $topText?></div>
+    <?php endif; ?>
     <h1><?php echo $title ?></h1>
     <div class="elements">
         <?php if(!empty($response)): ?>
@@ -38,6 +41,9 @@
         </div>
         <?php endforeach; ?>
     </div>
+    <?php if(!empty($bottomText)): ?>
+    <div class="text"><?php echo $bottomText?></div>
+    <?php endif; ?>
     <?php endif; ?>
 </div>
 

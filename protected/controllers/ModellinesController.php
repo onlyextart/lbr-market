@@ -8,7 +8,7 @@ class ModellinesController extends Controller
         $maker = Yii::app()->params['currentMaker'];
         $hitProducts = $modelIds = array();
         $count = 0;
-        $response = '';
+        $response = $topText = $bottomText = '';
         $modelline = array();
         
         $categoryRoot = Category::model()->findByPk($id);
@@ -35,6 +35,8 @@ class ModellinesController extends Controller
         Yii::app()->params['meta_title'] = $categoryRoot->name;
         if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
         if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
+        if(!empty($categoryRoot->top_text)) $topText = $categoryRoot->top_text;
+        if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
         
         // сортировать по типу техники
         /*if(empty(Yii::app()->params['currentMaker'])){
@@ -62,7 +64,7 @@ class ModellinesController extends Controller
         // random products for hit products
         $hitProducts = $this->setHitProducts($id);
         
-        $this->render('modellines', array('response' => $response, 'hitProducts'=>$hitProducts));
+        $this->render('modellines', array('response' => $response, 'hitProducts'=>$hitProducts, 'topText'=>$topText, 'bottomText'=>$bottomText));
     }
     
     private function setModelline($modelline, $dependency, $categoryRoot)

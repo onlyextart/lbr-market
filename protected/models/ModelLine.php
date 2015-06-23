@@ -46,10 +46,10 @@ class ModelLine extends CActiveRecord
 		return array(
                         array('name', 'required'),
 			array('category_id, lft, rgt, parent, level, maker_id', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, published, path, update_time, meta_title, meta_description', 'safe'),
+			array('external_id, name, published, path, update_time, meta_title, meta_description, top_text, bottom_text', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, category_id, lft, rgt, parent, published, level, path, maker_id, update_time, meta_title, meta_description', 'safe', 'on'=>'search'),
+			array('id, external_id, name, category_id, lft, rgt, parent, published, level, path, maker_id, update_time, meta_title, meta_description, top_text, bottom_text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,6 +93,8 @@ class ModelLine extends CActiveRecord
 			'update_time' => 'Update Time',
 			'meta_title' => 'meta-title',
 			'meta_description' => 'meta-description',
+                        'top_text' => 'Верхний блок',
+                        'bottom_text' => 'Нижний блок'
 		);
 	}
 

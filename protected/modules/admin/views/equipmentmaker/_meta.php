@@ -17,3 +17,12 @@
     ?>
 </div>
 
+<div class="row">
+    <?php 
+        echo $form_view->labelEx($model, 'top_text');
+        $this->widget('application.components.SRichTextarea',array(
+            'model'=>$model,
+            'attribute'=>'top_text'));
+    ?>
+</div>
+
