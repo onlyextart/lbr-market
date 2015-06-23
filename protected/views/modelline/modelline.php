@@ -16,7 +16,7 @@
     ?>
 </div>
 <div class="modelline-wrapper">   
-    <h1><?php echo Yii::app()->params['meta_title'] ?></h1>
+    <h1><?php echo $title ?></h1>
     <div class="elements">
         <?php if(!empty($response)): ?>
         <?php echo $response; ?>
