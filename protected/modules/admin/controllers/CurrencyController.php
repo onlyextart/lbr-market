@@ -14,8 +14,8 @@ class CurrencyController extends Controller
                 $model->attributes = $_GET['Currency'];
                     
             $dataProvider = $model->search();
-            
-            $dataProvider->pagination->pageSize = 10;
+            $dataProvider->sort->defaultOrder = 'exchange_rate desc';
+            $dataProvider->pagination->pageSize = 100;
 
             $this->render('currency', array(
                     'model'=>$model,
