@@ -148,7 +148,7 @@
         <!--OnlineSeller.ru {/literal} -->
                                         
 
-        <div>
+        <!--div>
             <?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                 'id' => 'setRegion',
                 'options' => array(
@@ -170,7 +170,7 @@
             <?php
                 $this->endWidget('zii.widgets.jui.CJuiDialog');
             ?>
-        </div>
+        </div-->
     </body>
 </html>
 <script>

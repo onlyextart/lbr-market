@@ -2351,7 +2351,7 @@ div.form .errorSummary {
     border: 1px solid #fbb;
     font-size: 0.9em;
     margin: 0 0 20px;
-    padding: 7px 7px 12px;
+    padding: 7px;/* 7px 12px;*/
     color: #595959;
     font: 11px Arial,Helvetica,sans-serif;
     line-height: 18px;
