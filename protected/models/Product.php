@@ -73,7 +73,7 @@ class Product extends CActiveRecord
                         
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name', 'safe', 'on'=>'search'),
+			array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name', 'safe', 'on'=>'search'),
                         array('image','EImageValidator','types' => 'gif, jpg, png','allowEmpty'=>'true'),
                 );
 	}
@@ -140,7 +140,7 @@ class Product extends CActiveRecord
                         //'price_value'=>'Цена',
                         //'currency_iso'=>'Валюта',
 			'published' => 'Опубликовать',
-                        'update_time' => 'Update Time',
+                        'update_time' => 'Дата обновления',
                         'weight' => 'Вес',
 		);
 	}
@@ -175,6 +175,7 @@ class Product extends CActiveRecord
                 $criteria->compare('min_quantity',$this->min_quantity);
 		$criteria->compare('published',$this->published);
                 $criteria->compare('additional_info',$this->additional_info,true);
+                $criteria->compare('update_time',$this->update_time,true);
                 
                 if(Yii::app()->search->prepareSqlite()){
                     $condition_name='lower(t.name) like lower("%'.$this->name.'%")';    
@@ -206,7 +207,7 @@ class Product extends CActiveRecord
                                 'asc' => $expr='productMaker.name',
                                 'desc' => $expr.' DESC',
                             ),
-                            'id','name', 'catalog_number', 'count', 'liquidity','min_quantity'
+                            'id','name', 'catalog_number', 'count', 'liquidity','min_quantity', 'update_time'
                         )),
 
 		));

@@ -18,7 +18,7 @@ class ProductController extends Controller
                     
             $dataProvider = $model->search();
             
-            $dataProvider->pagination->pageSize = 12;
+            $dataProvider->pagination->pageSize = 11;
 
             $this->render('product', array(
                     'model'=>$model,
