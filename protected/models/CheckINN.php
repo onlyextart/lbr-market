@@ -6,6 +6,8 @@
         
         // этот метод вызвается непосредственно при валидации
         protected function validateAttribute($object, $attribute) {
+            $country=$object->country_id;
+            if ($country==UserCountry::RUSSIA){
             $inn = $object->$attribute;
             if (!empty($inn)&&!preg_match('/^[0-9]+$/', $inn)){
                 $this->addError ($object, $attribute, $this->notValid);
@@ -76,6 +78,7 @@
                 else{
                     $this->addError ($object, $attribute, $this->notValid);
                 }
+            }
             }
         }
     }

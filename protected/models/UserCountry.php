@@ -13,6 +13,11 @@ class UserCountry extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+         
+        const BELARUS=1;
+        const KAZAKHSTAN=2;
+        const RUSSIA=3;  
+        
 	public function tableName()
 	{
 		return 'user_country';
@@ -93,4 +98,22 @@ class UserCountry extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+         public function getAllCountries(){
+            $countries= UserCountry::model()->findAll();
+            $list = CHtml::listData($countries, 'id', 'name');
+            return $list;
+        }
+        
+         public function getAllLabels(){
+            $labels= UserCountry::model()->findAll();
+            $list = CHtml::listData($labels, 'id', 'label');
+            return $list;
+        }
+        
+        public function getCountryLabel($id_country){
+            $country= UserCountry::model()->find('id=:id_country',array('id_country'=>$id_country));
+            return $country['label'];
+        }
+        
 }

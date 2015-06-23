@@ -2,11 +2,20 @@
     $err = Yii::app()->user->getFlash('error');
 ?>
 <script>
+$(function(){ 
+    var labels=<?php echo json_encode(UserCountry::model()->getAllLabels());?>;
      alertify.set({ delay: 6000 });
         <?php if ($err) :?>
             alertify.error('<?php echo $err; ?>');
-        <?php endif; ?>
-    }); 
+        <?php endif; ?> 
+     $(document).ready(function(){
+            $("#country_user").change(function(){
+                country_id=$('#country_user').val();
+                $("#label_inn").text(labels[country_id]+" ");
+         });
+     });
+     
+}); 
 </script>
 <div class="reg-wrapper">
 <div class='reg-header'>
@@ -36,11 +45,20 @@ $form=$this->beginWidget('CActiveForm', array(
             <?php echo $form->textField($model_form,'company'); ?>
     </div>
     <div class="row">
+            <?php echo $form->labelEx($model_form,'country_id'); ?>
+            <?php echo $form->dropDownList($model_form,'country_id',UserCountry::model()->getAllCountries(),array('id'=>'country_user')) ?>
+    </div>
+    <div class="row">
             <?php echo $form->labelEx($model_form,'organization_address'); ?>
             <?php echo $form->textArea($model_form,'organization_address'); ?>
     </div>
     <div class="row">
-            <?php echo $form->labelEx($model_form,'inn'); ?>
+            <label class="required" for="RegFormLegalPerson_inn">
+                <span id="label_inn">
+                    <?php echo empty($model_form->country_id)? UserCountry::model()->getCountryLabel(UserCountry::RUSSIA):UserCountry::model()->getCountryLabel($model_form->country_id) ;?>  
+                </span>
+                <span class="required">*</span>
+            </label>
             <?php echo $form->textField($model_form,'inn'); ?>
     </div>
     <div class="row">

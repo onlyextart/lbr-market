@@ -14,6 +14,7 @@ class RegFormLegalPerson extends CFormModel
     public $phone;
     //public $filial;
     public $verifyCode;
+    public $country_id;
     //public $parent;
     //public $type_contact;
      
@@ -22,12 +23,12 @@ class RegFormLegalPerson extends CFormModel
     {
         return array(
             //array('company, name, login, email, organization_address,inn,phone,filial', 'safe'),
-            array('company, name, login, email, organization_address,inn,phone', 'safe'),
+            array('company, name, login, email, organization_address,inn,phone,country_id', 'safe'),
             array('login','checkUniqueLogin'),
             array('login','match','pattern'=>'/^[A-Za-z_0-9\-]{6,}$/','message'=>'Логин должен содержать не менее 6 символов ("_", "-", цифры и латинские буквы)'),
             array('password','match','pattern'=>'/^[A-Za-z_0-9\-]{6,}$/','message'=>'Пароль должен содержать не менее 6 символов ("_", "-", цифры и латинские буквы)'),
             //array('name,company, login, password,  password_confirm, email, organization_address,inn,verifyCode,filial,phone', 'required'),
-            array('name,company, login, password,  password_confirm, email, organization_address,inn,verifyCode,phone', 'required'),
+            array('name,company, login, password,  password_confirm, email, organization_address,inn,verifyCode,phone,country_id', 'required'),
             array('password_confirm','compare','compareAttribute'=>'password', 'message'=>'Пароли должны совпадать'),
             array('email','checkUniqueEmail'),
             //array('phone','match','pattern' => '/^[\+\(]?[\d]{1,}[\s]?[\(]?[\d]*[\)]?[\d\s\-]{1,}$/','message' => 'Некорректный формат телефона'),
@@ -70,6 +71,7 @@ class RegFormLegalPerson extends CFormModel
             'verifyCode' => 'Код проверки',
             'organization_address' => 'Юридический адрес',  
             'inn'=>'ИНН',
+            'country_id'=>'Страна',
            // 'filial'=>'Регион отгрузки',
         );
     }
