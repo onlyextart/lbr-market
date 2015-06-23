@@ -34,7 +34,7 @@ $mess = Yii::app()->user->getFlash('message');
 //                echo '<div class="message success">'.$mess.'</div>';
 //            }
         ?>
-        <?php echo CHtml::errorSummary($model); ?>
+        <?php echo CHtml::errorSummary($model, ''); ?>
 	<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
 		<?php echo $form->textField($model,'username'); ?>
