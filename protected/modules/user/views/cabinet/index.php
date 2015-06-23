@@ -46,11 +46,11 @@
                     <?php 
                     if(User::model()->checkCart(Yii::app()->user->_id,$model_info->filial)){
                             echo $form->dropDownList($model_info,'filial',User::model()->getAllFilials());
-                           // echo CHtml::label('Цены будут отображены с учетом выбранного региона отгрузки', 'filial', array('class'=>'note'));
+                            echo "<div class='note'>для отображения цен на условиях самовывоза</div>";
                         }
                         else{
                             echo $form->dropDownList($model_info,'filial',User::model()->getAllFilials(),array('disabled'=>true));
-                            echo CHtml::label('Изменение региона возможно только при пустой корзине', 'filial', array('class'=>'note'));
+                            echo "<div class='note'>изменение региона возможно только при пустой корзине</div>";
                         }
                     
                     ?>

@@ -852,7 +852,7 @@ input#full-search
     margin-left:150px;
 }
 
-.reg-data div.wide.form .phone .note, .reg-data div.wide.form .email .note, .cabinet-data div.wide.form .phone .note{
+.reg-data div.wide.form .phone .note, .reg-data div.wide.form .email .note, .cabinet-data div.wide.form .phone .note, .cabinet-data div.wide.form .filial .note{
     font-size: 11px;
     margin-left:130px;
 }
@@ -915,12 +915,6 @@ input#full-search
 
 .cabinet-data .cabinet-data-info div.wide.form .row select{
     width:300px;
-}
-
-.cabinet-data .cabinet-data-info div.wide.form .filial .note{
-    font-size: 9px;
-    font-style:italic;
-    margin:0;
 }
 
 .cabinet-data div.wide.form .btn{
