@@ -32,10 +32,10 @@ $errorMsg = Yii::app()->user->getFlash('error');
 ?>
 <span class="admin-btn-wrapper">
     <?php if(!empty($model->id)): ?>
-    <div class="admin-btn-one">
+    <!--div class="admin-btn-one">
         <span class="admin-btn-del"></span>
         <?php echo CHtml::link('Удалить', '/admin/equipmentmaker/delete/id/'.$model->id, array('class' => 'btn-admin')); ?>
-    </div>
+    </div-->
     <?php endif; ?>
     <div class="admin-btn-one">
         <span class="admin-btn-save"></span>

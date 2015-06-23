@@ -1,3 +1,11 @@
+<div class="row">
+    <?php
+        echo $form_view->labelEx($model, 'logo');
+        echo $form_view->fileField($model, 'logo');
+        echo $form_view->error($model, 'logo'); 
+    ?>
+</div>
+
 <?php
 if(!empty($model->logo)) { 
     $this->widget('zii.widgets.CDetailView', array(
