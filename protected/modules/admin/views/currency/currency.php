@@ -13,7 +13,7 @@
         'id'=>'currencyListGrid',
         'dataProvider'=>$data,
         'template'=>'{items}',
-        'columns' => array('id', 'name', 'exchange_rate', 'update_time', 'iso', 'symbol'),
+        'columns' => array('name', 'exchange_rate', 'update_time', 'iso', 'symbol'),
     ));
 ?>
 </div>
