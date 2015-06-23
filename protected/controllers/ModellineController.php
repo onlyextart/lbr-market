@@ -5,6 +5,7 @@ class ModellineController extends Controller
     public function actionIndex($id = null)
     {
         $hitProducts = $modelIds = $ids = array();
+        $topText = $bottomText = '';
         
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         $modelline = ModelLine::model()->cache(1000, $dependency)->findByPk($id);
@@ -15,6 +16,8 @@ class ModellineController extends Controller
         Yii::app()->params['meta_title'] = $headTitle;
         if(!empty($modelline->meta_title))Yii::app()->params['meta_title'] = $modelline->meta_title;
         if(!empty($modelline->meta_description))Yii::app()->params['meta_description'] = $modelline->meta_description;
+        if(!empty($modelline->top_text)) $topText = $modelline->top_text;
+        if(!empty($modelline->bottom_text)) $bottomText = $modelline->bottom_text;
         
         $models = $modelline->children()->findAll(array('order'=>'name'));
         $response = '';
@@ -68,7 +71,7 @@ class ModellineController extends Controller
         // random products for hit products
         $hitProducts = $this->setHitProducts($ids);
         
-        $this->render('modelline', array('response' => $response, 'hitProducts'=>$hitProducts, 'title'=>$headTitle));
+        $this->render('modelline', array('response' => $response, 'hitProducts'=>$hitProducts, 'title'=>$headTitle, 'topText'=>$topText, 'bottomText'=>$bottomText));
     }
     
     private function setHitProducts($ids)

@@ -716,8 +716,9 @@ div.form .errorSummary ul {
 
 /*----- end Form-errors ---------------------*/
 /*----- start Rich text area - editor ---------------------*/
-.row.field_meta_description > div,
-.field_meta_title > div{
+.field_meta_description div.workzone iframe, .field_meta_description div.workzone, 
+.field_meta_title div.workzone iframe, .field_meta_title div.workzone
+{
     height: 200px !important;
 }
 /*----- end Rich text area - editor ---------------------*/

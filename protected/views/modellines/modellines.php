@@ -16,7 +16,9 @@
     ?>
 </div>
 <div class="modellines-wrapper">   
-    <!--h1>Модельные ряды</h1-->
+    <?php if(!empty($topText)): ?>
+    <div class="text"><?php echo $topText?></div>
+    <?php endif; ?>
     <div class="elements">
         <?php if(!empty($response)): ?>
         <?php echo $response; ?>
@@ -38,6 +40,9 @@
         </div>
         <?php endforeach; ?>
     </div>
+    <?php if(!empty($bottomText)): ?>
+    <div class="text"><?php echo $bottomText?></div>
+    <?php endif; ?>
     <?php endif; ?>
 </div>
 

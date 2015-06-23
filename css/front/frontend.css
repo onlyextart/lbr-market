@@ -1738,6 +1738,13 @@ input#full-search{
     margin-bottom: 10px;
     margin-left: 5px;
 }
+.subcategory-wrapper .text, .modellines-wrapper .text, .modelline-wrapper .text {
+    text-align: justify;
+    margin: 5px 5px 20px;
+    line-height: 20px;
+    font: 14px "Trebuchet MS";
+    text-indent: 30px;
+}
 .spec-offer{
     margin: 10px 10px 10px 0;
 }
