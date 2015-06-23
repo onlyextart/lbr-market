@@ -238,10 +238,10 @@ class SiteController extends Controller
                     $model_user[0]->status = User::USER_NOT_CONFIRMED;
                     if ($model_user[0]->save()){
                         $email = new TEmail;
-                        $email->from_email = Yii::app()->params['admin_email'];
+                        $email->from_email = 'webmaster@lbr.ru';
                         $email->from_name = 'Интернет-магазин ЛБР АгроМаркет';
-                        $email->to_email = 'isakov@lbr.ru,boyko@lbr.ru,teterukova@lbr.ru';
-                        $email->to_name = 'Исаков Федор Федорович';
+                        $email->to_email = Yii::app()->params['admin_email'];
+                        $email->to_name = 'Администрация интернет-магазина ЛБР АгроМаркет';
                         $email->subject = 'Подтверждение регистрации';
                         $email->type = 'text/html';
                         $email->body = '<p>Здравствуйте! Зарегистрировался новый пользователь: login '.$model_user[0]->login.', email '.$model_user[0]->email.'</p>';
@@ -383,10 +383,17 @@ class SiteController extends Controller
         if(isset($_POST['QuickForm']))
         {
         $model->attributes=$_POST['QuickForm'];
+        //Сохраняем загруженные файлы на сервер нашей функцией uploadMultifile
+         if($filez=$this->uploadMultifile($model,'attachments','/images/quickform/'))
+           {
+        $model->attachments=implode(",", $filez);
+           }
         if($model->validate())
         {                    
         
         //используем представление 'quickform' из директории views/mail
+            $address = 'webmaster@lbr.ru';
+            $name = 'Интернет-магазин ЛБР АгроМаркет';
         $mail = new YiiMailer ('quickform', 
                 array(
                     
@@ -396,16 +403,13 @@ class SiteController extends Controller
                     'region' => $model->region,                   
                     'organization' => $model->organization,
                     'body' => $model->body));
-        //устанавливаем свойства
-        $mail->setFrom($model->email, $model->name);
+        //устанавливаем свойства        
+        $mail->setFrom($address, $name);
         $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
-        $mail->setTo('vasiliyan@lbr.ru');
+        $mail->setTo('shop@lbr.ru');
+        $mail->setAttachment($model->attachments);
 
-        //Сохраняем загруженные файлы на сервер нашей функцией uploadMultifile
-         if($filez=$this->uploadMultifile($model,'attachments','/images/quickform/'))
-           {
-        $model->attachments=implode(",", $filez);
-           }
+        
 
         //Прикрепляем к сообщению загруженные файлы с помощью setAttachment() 
         $attachments = explode(',', $model->attachments);

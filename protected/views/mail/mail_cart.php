@@ -37,7 +37,7 @@
                                     </td>
                                     <td style="padding-right: 20px; width: 200px;">
                                         <p style="margin: 0; padding: 0; color: #6e7071; background: none !important; font-size: 16px; font-weight: normal; font-family: 'Myriad Pro', Arial Narrow, Arial, Helvetica,sans-serif; font-style: italic; outline: none; float: right;">
-                                            www.lbr-market.lbr.ru
+                                            www.lbr-market.ru
                                         </p>
                                     </td>
                                     
@@ -89,8 +89,8 @@
             <table rules="none" style="width:600px">
                 <tbody>
                     <tr>
-                        <td><a href="http://lbr-market.ru/" target="_blank" style="margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: black; "><strong>www.lbr-market.ru</strong></a> – широкий ассортимент запчастей для</div><div>сельскохозяйственной техники.</div><div>тел. для всех регионов России: +8 800 000 00 00 </td>
-                        <td style="float:right">&nbsp;<img src="http://shop.lbr.test/images/mail/tractor.png" /></td>
+                        <td><a href="http://lbr-market.ru/" target="_blank" style="margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: black; "><strong>www.lbr-market.ru</strong></a> – широкий ассортимент запчастей для</div><div>сельскохозяйственной техники.</div><div>тел. для всех регионов России: +8 800 555 32 19</td>
+                        <td style="float:right">&nbsp;<img src="http://lbr-market.ru/images/mail/tractor.png" /></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align:right">&nbsp;2015 © ООО "ЛБР-АгроMаркет"  <span style="text-align:right"></span></td>

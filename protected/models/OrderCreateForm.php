@@ -35,7 +35,7 @@ class OrderCreateForm extends CFormModel
             array('user_comment', 'length', 'max'=>'500'),
             array('user_address', 'length', 'max'=>'255'),
             array('user_phone', 'length', 'min'=>3, 'max'=>'30'),
-            array('user_phone','match','pattern' => '/^\+\d{1,3}\(\d{2,4}\)\d{5,7}$/','message' => 'Некорректный формат телефона'),
+            array('user_phone','match','pattern' => '/^\+\d{1,3}\(\d{2,4}\)\d{5,7}$/','message' => 'Некорректный формат телефона (пример корректного: +7(4722)402104)'),
             //array('user_phone','match', 'pattern'=>'/^([\s\d-+]+)$/i', 'message'=>'Поле "{attribute}" должно содержать только следующие символы: 0-9,-,+ и пробел'),
         );
     }
