@@ -58,6 +58,12 @@ $errorMsg = Yii::app()->user->getFlash('error');
             ),
             
             array(
+                'name'=>'update_time',
+                'value'=>'$data->update_time',
+                //'value'=>'(empty($data->update_time)) ? "-" : $data->update_time',
+            ),
+            
+            array(
                 'name'=>'liquidity',
                 'value'=>'$data->liquidity',
             ),
