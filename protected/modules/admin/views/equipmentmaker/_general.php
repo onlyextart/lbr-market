@@ -32,7 +32,7 @@
 </div>
 
 <?php
-if(!empty($model->logo)) { 
+/*if(!empty($model->logo)) { 
     $this->widget('zii.widgets.CDetailView', array(
         'data'=>$model,
         'htmlOptions'=>array(
@@ -60,5 +60,5 @@ if(!empty($model->logo)) {
 $this->widget('application.extensions.fancybox.EFancyBox', array(
     'target'=>'a.pretty',
     'config'=>array(),
-));
+));*/
 

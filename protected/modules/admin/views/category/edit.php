@@ -1,5 +1,5 @@
 <?php
-$name = 'Создание категории';
+$name = 'Существующие категории';
 $submit_text = 'Создать';
 if (!empty($model->id)) {
     $submit_text = 'Сохранить';
@@ -38,7 +38,11 @@ $errorMsg = Yii::app()->user->getFlash('error');
 <div class="total">
     <div class="left">
         <div class="form wide">
-            <?php echo $form->asTabs(); ?>
+            <?php
+            if (!empty($model->id)) {
+               echo $form->asTabs(); 
+            }
+            ?>
         </div>
     </div>
     <div class="right">
