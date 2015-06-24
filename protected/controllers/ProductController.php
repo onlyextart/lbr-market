@@ -92,25 +92,30 @@ class ProductController extends Controller
         $breadcrumbs[] = $data->name;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
 
-        $this->render('index', array('data' => $data, 'price'=>$mainProductPrice[0], 'update'=>$mainProductPrice[1], 'maker' => $maker, 'relatedProducts' => $relatedProducts, 'analogProducts'=>$analogProducts[0], 'drafts'=>$analogProducts[1]));
+        $this->render('index', array('data' => $data, 'price'=>$mainProductPrice[0], 'update'=>$mainProductPrice[1], 'filial'=>$mainProductPrice[2], 'maker' => $maker, 'relatedProducts' => $relatedProducts, 'analogProducts'=>$analogProducts[0], 'drafts'=>$analogProducts[1]));
     }
     
     public function getPrice($productId)
     {
         if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
             $user = User::model()->findByPk(Yii::app()->user->_id);
+            $filial = Filial::model()->findByPk($user->filial)->name;
+            
             if(!empty($user->filial)) {
                 $update = $priceLabel = '';
                 
                 $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$productId, 'filial_id'=>$user->filial));
                 if(!empty($price)) {
-                    $currency = Currency::model()->findByPk($price->currency_code)->symbol;
-                    $priceLabel = $price->price.' '.$currency;
+                    $currency = Currency::model()->findByPk($price->currency_code);
+                    if($currency->exchange_rate == 0) return null;
+                    $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
                     if(!empty($price->update_time)) $update = date('d.m.Y H:i', strtotime($price->update_time));
                 }
-                
-                return array($priceLabel, $update);
-            } else return null;
+
+                return array($priceLabel, $update, $filial);
+            } else {
+                return null;
+            }
         }
     }
     

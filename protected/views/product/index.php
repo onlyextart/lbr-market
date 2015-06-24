@@ -66,24 +66,24 @@
                      </td>
                   </tr>
                   <?php endif; ?>
-                  <?php //if(!empty($price)): ?>
-<!--                  <tr itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">
+                  <?php if((!empty(Yii::app()->user->isShop)) && !empty($price) && Yii::app()->params['showPrices']): ?>
+                  <tr itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">
                      <td>Цена:</td>
                      <td class="price">
-                         <div itemprop="price">-->
+                         <div itemprop="price">
                              <?php
-//                                if (!Yii::app()->user->isGuest) {
-//                                    echo '<span title="цена">'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: <a href="/user/cabinet/index/">XXX</a>)</div>';
-//                                }
-//                                else{
-//                                    echo '<span class="price_link"><a href="/site/login/">Узнать цену</a></span>';
-//                                }
+                                if (!Yii::app()->user->isGuest) {
+                                    echo '<span title="цена">'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
+                                }
+                                else{
+                                    echo '<span class="price_link"><a href="/site/login/">Узнать цену</a></span>';
+                                }
                              ?>
-<!--                        </div>
+                        </div>
                         <link href="http://schema.org/InStock" itemprop="availability">
                      </td>
-                  </tr>-->
-                  <?php //endif; ?>
+                  </tr>
+                  <?php endif; ?>
                   <?php if ((!Yii::app()->user->isGuest && !empty($price)) || Yii::app()->user->isGuest): ?>
                   <tr>
                      <td>Наличие:</td>
