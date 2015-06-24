@@ -19,10 +19,10 @@ return array(
                     ),
                 ),
                 'meta_title'=>array(
-                    'type'=>'SRichTextarea',
+                    'type'=>'text',
                 ),
                 'meta_description'=>array(
-                    'type'=>'SRichTextarea',
+                    'type'=>'text',
                 ),
                 'top_text'=>array(
                     'type'=>'SRichTextarea',
