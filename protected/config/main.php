@@ -179,7 +179,7 @@ return array(
         'sortOrder' => 'asc',//Yii::app()->params['sortOrder']
         'sortCol' => 'col',//Yii::app()->params['sortCol']
         'showDrafts' => 0,
-        'footerLabel' => '2015 &copy; ООО "ЛБР-АгроMаркет"',
+        'footerLabel' => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
         'breadcrumbs' => array(),
         'meta_title' => 'Запчасти ЛБР-Агромаркет',
         'meta_description' => 'Магазин запчастей, запчасти ЛБР',
