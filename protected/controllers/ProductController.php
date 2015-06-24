@@ -102,14 +102,17 @@ class ProductController extends Controller
             $filial = Filial::model()->findByPk($user->filial)->name;
             
             if(!empty($user->filial)) {
-                $update = $priceLabel = '';
+                $update = $price = '';
                 
                 $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$productId, 'filial_id'=>$user->filial));
                 if(!empty($price)) {
                     $currency = Currency::model()->findByPk($price->currency_code);
-                    if($currency->exchange_rate == 0) return null;
+                    if(!$currency->exchange_rate) return null;
+                    
                     $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
-                    if(!empty($price->update_time)) $update = date('d.m.Y H:i', strtotime($price->update_time));
+                    
+                    $update = date('d.m.Y H:i', strtotime($currency->update_time));
+                    if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
                 }
 
                 return array($priceLabel, $update, $filial);
