@@ -66,7 +66,7 @@
                      </td>
                   </tr>
                   <?php endif; ?>
-                  <?php if((!empty(Yii::app()->user->isShop)) && !empty($price) && Yii::app()->params['showPrices']): ?>
+                  <?php if((!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) && !empty($price) && Yii::app()->params['showPrices']): ?>
                   <tr itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">
                      <td>Цена:</td>
                      <td class="price">
