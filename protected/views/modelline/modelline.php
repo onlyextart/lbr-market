@@ -42,7 +42,10 @@
         <?php endforeach; ?>
     </div>
     <?php if(!empty($bottomText)): ?>
-    <div class="text"><?php echo $bottomText?></div>
+    <div class="text">
+        <div><?php echo $bottomText?></div>
+        <span class="bottom-more">Подробнее...</span>
+    </div>
     <?php endif; ?>
     <?php endif; ?>
 </div>

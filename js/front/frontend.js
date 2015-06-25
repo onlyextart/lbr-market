@@ -113,6 +113,22 @@ $(document).ready(function($){
         $( this ).find('a').removeClass("active");
         $( this ).find('ul').hide();
     });
+    
+    // seo-text in bottom
+    $('.text div *').hide();
+    $('.text div *:first-child').show();
+    $('.text div *:nth-child(2)').show();
+    $('.bottom-more').click(function(){
+        if ($(this).hasClass('show-text')){
+            $(this).parent().find('div *').hide();
+            $(this).parent().find('div *:first-child').show();
+            $(this).parent().find('div *:nth-child(2)').show();
+            $(this).removeClass('show-text').text('Подробнее...');
+        }else{
+            $(this).parent().find('div *').show();
+            $(this).addClass('show-text').text('Скрыть'); 
+        }
+    });
 });
 
 function setCookie(name, value, expires, path, domain, secure) {
