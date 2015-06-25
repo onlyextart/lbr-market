@@ -16,7 +16,7 @@
     $alertMsg = Yii::app()->user->getFlash('message');
     $errorMsg = Yii::app()->user->getFlash('error');
     $orderCount = Order::model()->count(new CDbCriteria(array(
-      'condition' => 'user_id = :user_id',
+      'condition' => 'user_id = :user_id and status_id<>'.Order::CART,
       'params' => array(':user_id'=>$model->id)
     )));
 ?>
