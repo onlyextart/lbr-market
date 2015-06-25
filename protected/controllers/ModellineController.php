@@ -100,9 +100,10 @@ class ModellineController extends Controller
         set_time_limit(200);
         $max = count($elements);
         $temp = array();
+        $count = 16;
         
-        if($max > 16) {
-            for($i = 0; $i < 16; ) {
+        if($max > $count) {
+            /*for($i = 0; $i < $count; ) {
                 $offset = mt_rand(0, $max);                
                 $saleProduct = Product::model()->findByAttributes(
                     array(
@@ -118,13 +119,25 @@ class ModellineController extends Controller
                    $temp[] = $saleProduct[id];
                    $i++;
                 }
-            }
+            }*/
+            
+            $offset = mt_rand(0, $max);
+            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
+                array(
+                    'id' => $elements,
+                ), 
+                array(
+                    'offset' => $offset,
+                    'limit' => $count,
+                )
+            );
         } else {
             foreach($elements as $element) {
                 $temp[] = $element;
             }
+            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
         }
-        $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+        
         return $hitProducts;
     }
 }

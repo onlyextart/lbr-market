@@ -12,6 +12,14 @@ class SiteController extends Controller
             'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
         ));
         
+        $offset = mt_rand(0, $max);
+        $hitProducts = Product::model()->cache(1000, $dependency)->findAll(array(
+            'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500
+            'offset' => $offset,
+            'limit' => 8,
+        ));
+        
+        /*
         if($max > 8) {
             $temp = array();
             for($i=0; $i<8; ) {
@@ -35,7 +43,7 @@ class SiteController extends Controller
                 'limit' => 8,
             ));
         }
-        
+        */
         $bestOffer = BestOffer::model()->findAll(array('condition'=>'published=1', 'order'=>'IFNULL(level, 1000000000)'));
         $filials = array ('1' => 'Москва', '2' => 'Новосибирск');
         

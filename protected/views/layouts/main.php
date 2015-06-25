@@ -17,6 +17,7 @@
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/core.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/default.css" />
         <?php
+            /*
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
             Yii::app()->clientScript->registerCssFile('/css/front/alertify/core.css');
@@ -24,19 +25,21 @@
             Yii::app()->clientScript->registerCssFile('/css/front/alertify/default.css');
             Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js');
             Yii::app()->clientScript->registerScriptFile('/js/front/cart.js');
-            Yii::app()->clientScript->registerScriptFile('/js/front/jquery.BlackAndWhite.min.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.jcarousel.min.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.carouFredSel.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.dcjqaccordion.2.7.js');
+            Yii::app()->clientScript->registerScriptFile('/js/jquery.dcjqaccordion.2.7.min.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.hoverIntent.minified.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.mCustomScrollbar.concat.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.js');
-            Yii::app()->clientScript->registerScriptFile('/js/alertify.js');
+            Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.min.js');
+            Yii::app()->clientScript->registerScriptFile('/js/alertify.min.js');
             Yii::app()->clientScript->registerScriptFile('/js/front/search.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.dotdotdot.js');
+            Yii::app()->clientScript->registerScriptFile('/js/jquery.dotdotdot.min.js');
             Yii::app()->clientScript->registerScriptFile('/js/easyTooltip.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/jquery.inputmask.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/inputmask.js');
+            */
+        
+            //Yii::app()->clientScript->registerScriptFile('/js/front/jquery.BlackAndWhite.min.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/jquery.inputmask.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/inputmask.js');
         ?>
     </head>
     <body>

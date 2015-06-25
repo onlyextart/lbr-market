@@ -35,7 +35,7 @@ class UserAccount extends CWidget
         if(Yii::app()->controller->id != 'sale') {
             ////////////////////////////////////////
             $sql = '';
-            $ids = array();
+            $ids = $elements = array();
             
             if(!empty(Yii::app()->params['currentSale'])) {
                 $ids[] = Yii::app()->params['currentSale'];
@@ -86,14 +86,14 @@ class UserAccount extends CWidget
             $max = count($elements);
 
             if($max > $count) {
-                $temp = array();
+                /*$temp = array();
                 for($i=0; $i < $count; ) {
                     $offset = mt_rand(0, $max);
-                    /*$productId = Product::model()->cache(1000, $dependency)->find(array(
-                        'condition' => 'liquidity = "D" and image not NULL', // price more 500 
-                        'offset' => $offset,
-                        'limit' => 1,
-                    ))->id;*/
+                    //$productId = Product::model()->cache(1000, $dependency)->find(array(
+                    //    'condition' => 'liquidity = "D" and image not NULL', // price more 500 
+                    //    'offset' => $offset,
+                    //    'limit' => 1,
+                    //))->id;
                     
                     $productId = Product::model()->cache(1000, $dependency)->findByAttributes(
                         array(
@@ -111,6 +111,16 @@ class UserAccount extends CWidget
                 }
 
                 $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
+                */
+                $offset = mt_rand(0, $max);
+                $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(
+                    array(
+                        'id' => $elements,
+                    ), 
+                    array(
+                        'offset' => $offset,
+                        'limit' => $count,
+                ));
             } else if($max > 0) {
                 /*
                 $sale = Product::model()->cache(1000, $dependency)->findAll(array(
