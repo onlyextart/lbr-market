@@ -219,9 +219,10 @@ class SubcategoryController extends Controller
         set_time_limit(200);
         $max = count($elements);
         $temp = array();
+        $count = 8;
         
-        if($max > 8) {
-            for($i = 0; $i < 8; ) {
+        if($max > $count) {
+            /*for($i = 0; $i < 8; ) {
                 $offset = mt_rand(0, $max);                
                 $saleProduct = Product::model()->findByAttributes(
                     array(
@@ -237,14 +238,23 @@ class SubcategoryController extends Controller
                    $temp[] = $saleProduct[id];
                    $i++;
                 }
-            }
+            }*/
+            $offset = mt_rand(0, $max);
+            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
+                array(
+                    'id' => $elements,
+                ), 
+                array(
+                    'offset' => $offset,
+                    'limit' => $count,
+            ));
         } else {
             foreach($elements as $element) {
                 $temp[] = $element;
             }
+            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
         }
         
-        $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
         return $hitProducts;
     }
     
