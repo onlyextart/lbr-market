@@ -130,60 +130,7 @@
                 <li>
                     <a href="#">Аналоги</a>
                     <ul>
-                    <?php foreach($analogProducts as $analog): ?>
-                        <li>
-                            <div class="spareparts-wrapper">
-                                <div class="row">
-                                     <div class="cell width-20">
-                                         <a target="_blank" class="prodInfo" href="<?php echo $analog->path ?>"><?php echo $analog->name ?></a>
-                                     </div>
-                                     <div class="cell cell-img">
-                                         <?php 
-                                             $image = '/images/no-photo.png';
-                                             if(!empty($analog->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$analog->image;
-                                         ?>
-                                         <a href="<?php echo $image ?>" class="thumbnail" target="_blank">
-                                             <img src="<?php echo $image ?>" alt="<?php echo $analog->name ?>"/>
-                                         </a>
-                                     </div>
-                                     <div class="cell draft width-35">
-                                        <?php 
-                                        if(!empty($drafts)){
-                                           foreach($drafts[$analog->id] as $draft){echo $draft;}  
-                                        }
-                                        ?>
-                                     </div>
-                                     <?php if(!Yii::app()->user->isGuest): ?>
-                                     <div class="cell width-15">
-                                         <span><?php echo 'XXX руб.'//$analog->priceInFilial[0]->price.' руб.'//.Currency::model()->findByPk($analog->priceInFilial[0]->currency_code)->symbol; ?></span>
-                                     </div>
-                                     <?php else: ?>
-                                     <div class="cell width-15 price_link">
-                                        <a href="/site/login/">Узнать цену</a>
-                                     </div>
-                                     <?php endif; ?>
-                                     <div class="cell width-20">
-                                         <div class="cart-form" elem="<?php echo $analog->id ?>">
-                                            <?php if($analog->count > 0): ?>
-                                            <span class="stock in-stock"><?php echo Product::IN_STOCK_SHORT ?></span>
-                                            <?php else: ?>
-                                            <span class="stock"><?php echo Product::NO_IN_STOCK ?></span>
-                                            <?php endif; ?>
-                                            <?php if(Yii::app()->user->isGuest || !empty(Yii::app()->user->isShop)): ?>
-                                            <?php //if(!empty($analog->priceInFilial[0]->price)):?>
-                                            <input type="number" min="1" pattern="[0-9]*" name="quantity" value="1" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">
-                                            <input type="button" title="Добавить в корзину" value="" class="small-cart-button">
-                                            <?php //endif; ?>
-                                            <button class="wish-small" title="Добавить в блокнот">
-                                               <span class="wish-icon"></span>
-                                            </button>
-                                            <?php endif; ?>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                        </li>
-                    <?php endforeach; ?>
+                    <?php echo $analogProducts; ?>
                     </ul>
                 </li>
              </ul>

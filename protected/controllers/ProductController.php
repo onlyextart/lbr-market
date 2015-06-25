@@ -142,8 +142,18 @@ class ProductController extends Controller
         $criteria = new CDbCriteria;
         $criteria->addInCondition('t.id', $temp);
         //if(!empty($filial)) $criteria->addCondition('priceInFilial.filial_id = '.$filial);
-        $analogProducts = Product::model()->with('priceInFilial')->findAll($criteria);
+        //$analogProducts = Product::model()->with('priceInFilial')->findAll($criteria);
+        $analogProducts = $this->getAnalogProducts($criteria, $temp);
         
+        //$array = array('date' => $curDate, 'minUpdate' => $updateTimeInMilliseconds, 'end'=>$endDate);
+        //echo json_encode($array);
+        return array($analogProducts, $drafts);
+    }
+    
+    public function getDrafts($temp)
+    {
+        $drafts = array();
+        $result = '';
         // drafts for analog
         if(Yii::app()->params['showDrafts']){
             foreach($temp as $analogId) {            
@@ -156,10 +166,79 @@ class ProductController extends Controller
                 }
             }
         }
+        if(!empty($drafts)){
+            foreach($drafts[$analog->id] as $draft){
+                $result .= $draft;
+            }  
+        }
+        return $result;
+    }
         
-        //$array = array('date' => $curDate, 'minUpdate' => $updateTimeInMilliseconds, 'end'=>$endDate);
-        //echo json_encode($array);
-        return array($analogProducts, $drafts);
+    public function getAnalogProducts($criteria, $temp)
+    {
+        $analogProducts = '';
+        $products = Product::model()->with('priceInFilial')->findAll($criteria);
+        foreach ($products as $analog) {
+            $countLabel = '<span class="stock">'.Product::NO_IN_STOCK.'</span>';
+            if($analog->count > 0) {
+                $countLabel = '<span class="stock in-stock">'.Product::IN_STOCK_SHORT.'</span>';
+            }
+        
+            $image = '/images/no-photo.png';
+            if(!empty($analog->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$analog->image;
+            
+            $drafts = $this->getDrafts($temp);
+           
+            $analogProducts .= '<li>'.
+                                    '<div class="spareparts-wrapper">'.
+                                        '<div class="row">'.
+                                             '<div class="cell width-20">'.
+                                                 '<a target="_blank" class="prodInfo" href="'.$analog->path.'">'.$analog->name.'</a>'.
+                                             '</div>'.
+                                             '<div class="cell cell-img">'.
+                                                 '<a href="'.$image.'" class="thumbnail" target="_blank">'.
+                                                     '<img src="'.$image.'" alt="'.$analog->name.'"/>'.
+                                                 '</a>'.
+                                             '</div>'.
+                                             '<div class="cell draft width-35">'.
+                                                $drafts.
+                                             '</div>'
+             ;
+             if(!Yii::app()->user->isGuest) {
+                $price = '';
+                if(!empty($analog->priceInFilial[0]->price)) {
+                    $currency = Currency::model()->findByPk($analog->priceInFilial[0]->currency_code)->exchange_rate;
+                    $price = ($analog->priceInFilial[0]->price*$currency).' руб.';
+                }
+                
+                $analogProducts .= '<div class="cell width-15">'.
+                   '<span>'.$price.
+                '</div>';
+             } else {
+                $analogProducts .= '<div class="cell width-15 price_link">'.
+                   '<a href="/site/login/">Узнать цену</a>'.
+                '</div>';
+             }
+             $analogProducts .=      '<div class="cell width-20">'.
+                                         '<div class="cart-form" elem="<?php echo $analog->id ?>">'.
+                                            $countLabel;
+                                            
+             if(Yii::app()->user->isGuest || !empty(Yii::app()->user->isShop)){
+                $analogProducts .= '<input type="number" min="1" pattern="[0-9]*" name="quantity" value="1" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">'.
+                    '<input type="button" title="Добавить в корзину" value="" class="small-cart-button">'.
+                    '<button class="wish-small" title="Добавить в блокнот">'.
+                    '<span class="wish-icon"></span>'.
+                    '</button>'
+                ;
+             }
+
+             $analogProducts .=           '</div>'.
+                                     '</div>'.
+                                 '</div>'.
+                             '</div>'.
+                        '</li>';
+        }
+        return $analogProducts;
     }
     
     public function showRelatedProducts($id)
