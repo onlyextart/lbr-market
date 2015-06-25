@@ -206,7 +206,7 @@ class ProductController extends Controller
              ;
              if(!Yii::app()->user->isGuest) {
                 $price = '';
-                if(!empty($analog->priceInFilial[0]->price)) {
+                if(!empty($analog->priceInFilial[0]->price) && Yii::app()->params['showPrices']) {
                     $currency = Currency::model()->findByPk($analog->priceInFilial[0]->currency_code)->exchange_rate;
                     $price = ($analog->priceInFilial[0]->price*$currency).' руб.';
                 }
