@@ -21,7 +21,7 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
         
-        public function beforeAction()
+        /*public function beforeAction()
         {
             $script = Yii::app()->clientScript;
             //$script->registerCoreScript('jquery');
@@ -46,5 +46,5 @@ class Controller extends CController
             $script->registerScriptFile('/js/easyTooltip.js');
 
             return true;
-        }
+        }*/
 }
