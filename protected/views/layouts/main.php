@@ -29,8 +29,8 @@
             Yii::app()->clientScript->registerScriptFile('/js/jquery.dcjqaccordion.2.7.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.hoverIntent.minified.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.mCustomScrollbar.concat.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.js');
-            Yii::app()->clientScript->registerScriptFile('/js/alertify.js');
+            Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.min.js');
+            Yii::app()->clientScript->registerScriptFile('/js/alertify.min.js');
             Yii::app()->clientScript->registerScriptFile('/js/front/search.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.dotdotdot.js');
             Yii::app()->clientScript->registerScriptFile('/js/easyTooltip.js');
