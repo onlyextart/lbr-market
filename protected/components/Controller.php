@@ -24,11 +24,14 @@ class Controller extends CController
         public function beforeAction()
         {
             $script = Yii::app()->clientScript;
-            $script->registerCoreScript('jquery');
+            //$script->registerCoreScript('jquery');
+            $script->registerScriptFile('/js/jquery.1.11.3.min.js');
+            
             $script->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
             $script->registerCssFile('/css/front/alertify/core.css');
             $script->registerCssFile('/css/front/tip-darkgray/tip-darkgray.css');
             $script->registerCssFile('/css/front/alertify/default.css');
+            
             $script->registerScriptFile('/js/front/frontend.js');
             $script->registerScriptFile('/js/front/cart.js');
             $script->registerScriptFile('/js/jquery.jcarousel.min.js');
