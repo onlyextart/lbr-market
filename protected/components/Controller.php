@@ -20,4 +20,28 @@ class Controller extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+        
+        public function beforeAction()
+        {
+            $script = Yii::app()->clientScript;
+            $script->registerCoreScript('jquery');
+            $script->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
+            $script->registerCssFile('/css/front/alertify/core.css');
+            $script->registerCssFile('/css/front/tip-darkgray/tip-darkgray.css');
+            $script->registerCssFile('/css/front/alertify/default.css');
+            $script->registerScriptFile('/js/front/frontend.js');
+            $script->registerScriptFile('/js/front/cart.js');
+            $script->registerScriptFile('/js/jquery.jcarousel.min.js');
+            $script->registerScriptFile('/js/jquery.carouFredSel.min.js');
+            $script->registerScriptFile('/js/jquery.dcjqaccordion.2.7.min.js');
+            $script->registerScriptFile('/js/jquery.hoverIntent.minified.js');
+            $script->registerScriptFile('/js/jquery.mCustomScrollbar.concat.min.js');
+            $script->registerScriptFile('/js/jquery.cookie.min.js');
+            $script->registerScriptFile('/js/alertify.min.js');
+            $script->registerScriptFile('/js/front/search.js');
+            $script->registerScriptFile('/js/jquery.dotdotdot.min.js');
+            $script->registerScriptFile('/js/easyTooltip.js');
+
+            return true;
+        }
 }
