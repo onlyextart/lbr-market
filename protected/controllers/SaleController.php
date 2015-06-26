@@ -3,15 +3,23 @@ class SaleController extends Controller
 {
     public function actionIndex()
     {   
-        $sql = '';
+        $sql = $filial = '';
+        
+        if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
+           $user = User::model()->findByPk(Yii::app()->user->_id);   
+           $filial = $user->filial;
+        }
+        
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');     
         $criteria = new CDbCriteria();
         $criteria->distinct = true;
         
         $criteria->join = 'JOIN product_in_model_line p ON p.product_id = t.id ' .
                           'JOIN model_line m ON m.id = p.model_line_id '.
-                          'JOIN category c ON c.id = m.category_id'
+                          'JOIN category c ON c.id = m.category_id '.
+                          'JOIN price_in_filial pr ON pr.product_id = t.id'
         ;
+        
         /*if(!empty(Yii::app()->session['maker'])) {
             $sql = 'and m.maker_id = '.Yii::app()->session['maker'];
         }
@@ -23,7 +31,8 @@ class SaleController extends Controller
             
             $criteria->addInCondition('m.category_id', $categories);
         }*/
-        $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql); // price more 500 
+        
+        $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL and pr.filial_id = '.$filial.$sql); // price more 500 
 
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
             array(
@@ -56,5 +65,19 @@ class SaleController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
 
         $this->render('index', array('data' => $data));
+    }
+    
+    public function getPrice($price, $currencyCode)
+    {
+        $priceLabel = '';
+        // logged user
+        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
+            $currency = Currency::model()->findByPk($currencyCode);
+            if($currency->exchange_rate) {
+                $priceLabel = ($price*$currency->exchange_rate).' руб.';
+            }
+        }
+        
+        return $priceLabel;
     }
 }

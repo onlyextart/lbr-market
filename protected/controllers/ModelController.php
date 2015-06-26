@@ -316,7 +316,6 @@ class ModelController extends Controller
         $result .= '</div></div>';
         $result .= '</div></div></li>';
         return $result;
-        
     }
     
     private static function sortByName($a, $b)
