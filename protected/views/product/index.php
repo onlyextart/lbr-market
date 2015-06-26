@@ -139,13 +139,29 @@
         
         <?php if(!empty($relatedProducts)): ?>
         <h2>Сопутствующие товары</h2>
-        <div id="best-sales">
+        <div class="best-sales">
             <?php foreach($relatedProducts as $related): ?>
             <div class="one_banner">
                <h3><a target="_blank" href="<?php echo $related->path; ?>"><?php echo $related->name; ?></a></h3>
                <div class="img-wrapper">
                    <a target="_blank" href="<?php echo $related->path; ?>">
                       <img src="http://api.lbr.ru/images/shop/spareparts/<?php echo $related->image; ?>" alt="">
+                   </a>
+               </div>
+            </div>
+            <?php endforeach;?>
+        </div>
+        <?php endif; ?>
+        
+        <?php if(!empty($drafts)): ?>
+        <h2>Сборочные чертежи</h2>
+        <div class="best-sales">
+            <?php foreach($drafts as $draft): ?>
+            <div class="one_banner">
+               <h3><a target="_blank" href="/draft/index/id/<?php echo $draft[id]; ?>/"><?php echo $draft[name]; ?></a></h3>
+               <div class="img-wrapper">
+                   <a target="_blank" href="/draft/index/id/<?php echo $draft[id]; ?>/">
+                      <img src="http://api.lbr.ru/images/shop/draft/<?php echo $draft[image]; ?>" alt="Нет изображения">
                    </a>
                </div>
             </div>

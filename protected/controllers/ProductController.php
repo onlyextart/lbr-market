@@ -3,14 +3,6 @@ class ProductController extends Controller
 {
     public function actionIndex($id)
     {
-        // product page
-        
-        /*
-        $model = new ModelLine;
-        $data = $model->getPageByPath($page);
-        */
-        /////////////////////////////////////////////////////////////
-        
         $data = Product::model()->findByPk($id);
         if(!$data)
             throw new CHttpException(404, 'Товар не найден');
@@ -20,7 +12,7 @@ class ProductController extends Controller
         Yii::app()->params['meta_title'] = $data->name;
         
         // bradcrumbs
-        if(!empty(Yii::app()->request->urlReferrer) && !empty(Yii::app()->session['model'])) {
+        if(!empty(Yii::app()->request->urlReferrer) && !empty(Yii::app()->session['model']) && $data->liquidity != 'D') {
             //preg_match_all('~(.*)/model/show/id/(\d*)~i', Yii::app()->request->urlReferrer, $result);
             //$modellineId = (int)$result[2][0];
             
@@ -38,65 +30,54 @@ class ProductController extends Controller
             $parent = $modelline->parent()->find();
             $breadcrumbs[$parent->name] = '/modelline/index/id/'.$parent->id;
         
-            $breadcrumbs[" $modelline->name"] = Yii::app()->request->urlReferrer;
-                    
-            //var_dump($modelline);
-            //exit;
-            
-            //$breadcrumbs['l'] = Yii::app()->request->urlReferrer;
-            
-            /*$category = Category::model()->findByPk(Yii::app()->session['category']);
-            preg_match('/\d{2,}\./i', $category->name, $result);
-            $label = trim(substr($category->name, strlen($result[0])));
-            $breadcrumbs[$label] = '/subcategory/index/id/'.$category->id;
-            
-            $crt = new CDbCriteria();
-            $crt->compare('product_id', $id, true);
-            $crt->compare('model_line_id', Yii::app()->session['model'], true);
-            */
-            //$crt->join = 'LEFT JOIN model_line ON model_line.id=model_line_id';
-            //$crt->addCondition("model_line.category_id=$category->id");
-            //$crt->condition = 'model_line.category_id = '.$category->id;
-            /*$crt->with = array(
-                'product_in_model_line' => array('joinType'=>'JOIN'),
-            );
-            $crt->addCondition('t.id = product_in_model_line.model_line_id');
-            */
-            /*
-            $criteria->with = array(
-                    'owners'=>array(
-                            'order'=>'owners.name ASC, owners.surname ASC',
-                            'on'=>'owners.name = "John"',
-                            'joinType'=>'INNER JOIN',
-                    ),
-                    'breed',
-            );*/
-
-            //$result = ProductInModelLine::model()->findAll($crt);
-            //echo '<pre>';
-            //echo Yii::app()->session['model'].'<br>';
-            //var_dump($result);
-            //exit;
-            
+            $breadcrumbs[" $modelline->name"] = Yii::app()->request->urlReferrer;            
         } else if(!empty(Yii::app()->params['searchFlag'])) {
             $url = '/search/show/';
             if(strpos(Yii::app()->request->urlReferrer, $url))
                $breadcrumbs['Поиск'] = Yii::app()->request->urlReferrer;
-            else $breadcrumbs['Поиск'] = $url; //Yii::app()->request->urlReferrer;
+            else $breadcrumbs['Поиск'] = $url;
         }
         
-        $relatedProducts = $this->showRelatedProducts($id);
-        $mainProductPrice = $this->getPrice($id);
-        $analogProducts = $this->showAnalog($id, $filial);
-
         $breadcrumbs[] = $data->name;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+        
+        $relatedProducts = $this->showRelatedProducts($id);
+        $mainProduct = $this->getMainProductInfo($id);
+        $analogProducts = $this->getAnalogProducts($id);
+        $drafts = $this->getDrafts($id);
 
-        $this->render('index', array('data' => $data, 'price'=>$mainProductPrice[0], 'update'=>$mainProductPrice[1], 'filial'=>$mainProductPrice[2], 'maker' => $maker, 'relatedProducts' => $relatedProducts, 'analogProducts'=>$analogProducts[0], 'drafts'=>$analogProducts[1]));
+        $this->render('index', array(
+            'data' => $data, 
+            'price'=> $mainProduct[0], 
+            'update'=> $mainProduct[1], 
+            'filial'=> $mainProduct[2], 
+            'maker' => $maker, 
+            'relatedProducts' => $relatedProducts, 
+            'analogProducts'=>$analogProducts, 
+            'drafts'=>$drafts
+        ));
     }
     
-    public function getPrice($productId)
+    public function showRelatedProducts($id)
     {
+        $temp = Yii::app()->db->createCommand()
+            ->selectDistinct('related_product_id')
+            ->from('related_product')
+            ->where('product_id=:id', array(':id'=>$id))
+            ->queryColumn()
+        ;
+        
+        $criteria = new CDbCriteria;
+        $criteria->addInCondition('id', $temp);
+        $criteria->addCondition('image IS NOT NULL');
+        $relatedProducts = Product::model()->findAll($criteria);
+        
+        return $relatedProducts;
+    }
+    
+    public function getMainProductInfo($productId)
+    {
+        // logged user
         if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
             $user = User::model()->findByPk(Yii::app()->user->_id);
             $filial = Filial::model()->findByPk($user->filial)->name;
@@ -119,19 +100,17 @@ class ProductController extends Controller
             } else {
                 return null;
             }
-        }
+        } /*else if(!Yii::app()->user->isGuest){ // admin
+            
+        } else { //guest
+            
+        }*/
     }
-    
-    public function showAnalog($id)
+        
+    public function getAnalogProducts($id)
     {
-        $filial = null;
-        $drafts = array();
-        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
-            $user = User::model()->findByPk(Yii::app()->user->_id);
-            if(!empty($user->filial)) {
-                $filial = $user->filial;
-            }
-        } // else ---- if user not logged
+        $analogProducts = '';
+
         $temp = Yii::app()->db->createCommand()
             ->selectDistinct('analog_product_id')
             ->from('analog')
@@ -141,43 +120,8 @@ class ProductController extends Controller
         
         $criteria = new CDbCriteria;
         $criteria->addInCondition('t.id', $temp);
-        //if(!empty($filial)) $criteria->addCondition('priceInFilial.filial_id = '.$filial);
-        //$analogProducts = Product::model()->with('priceInFilial')->findAll($criteria);
-        $analogProducts = $this->getAnalogProducts($criteria, $temp);
-        
-        //$array = array('date' => $curDate, 'minUpdate' => $updateTimeInMilliseconds, 'end'=>$endDate);
-        //echo json_encode($array);
-        return array($analogProducts, $drafts);
-    }
-    
-    public function getDrafts($temp)
-    {
-        $drafts = array();
-        $result = '';
-        // drafts for analog
-        if(Yii::app()->params['showDrafts']){
-            foreach($temp as $analogId) {            
-                $allDrafts = ProductInDraft::model()->findAllByAttributes(array('product_id'=>$analogId));
-                if(!empty($allDrafts)) {
-                    foreach($allDrafts as $one) {
-                        $draft = Draft::model()->findByPk($one['draft_id']);
-                        $drafts[$analogId][] = '<a target="_blank" href="/draft/index/id/'.$draft->id.'">Чертеж "'.$draft->name.'"</a>';
-                    }
-                }
-            }
-        }
-        if(!empty($drafts)){
-            foreach($drafts[$analog->id] as $draft){
-                $result .= $draft;
-            }  
-        }
-        return $result;
-    }
-        
-    public function getAnalogProducts($criteria, $temp)
-    {
-        $analogProducts = '';
         $products = Product::model()->with('priceInFilial')->findAll($criteria);
+        
         foreach ($products as $analog) {
             $countLabel = '<span class="stock">'.Product::NO_IN_STOCK.'</span>';
             if($analog->count > 0) {
@@ -187,8 +131,8 @@ class ProductController extends Controller
             $image = '/images/no-photo.png';
             if(!empty($analog->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$analog->image;
             
-            $drafts = $this->getDrafts($temp);
-           
+            $drafts = $this->getDraftsLabel($analog->id);
+
             $analogProducts .= '<li>'.
                                     '<div class="spareparts-wrapper">'.
                                         '<div class="row">'.
@@ -214,6 +158,7 @@ class ProductController extends Controller
                 $analogProducts .= '<div class="cell width-15">'.
                    '<span>'.$price.
                 '</div>';
+                
              } else {
                 $analogProducts .= '<div class="cell width-15 price_link">'.
                    '<a href="/site/login/">Узнать цену</a>'.
@@ -223,7 +168,7 @@ class ProductController extends Controller
                                          '<div class="cart-form" elem="<?php echo $analog->id ?>">'.
                                             $countLabel;
                                             
-             if(Yii::app()->user->isGuest || !empty(Yii::app()->user->isShop)){
+             if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
                 $analogProducts .= '<input type="number" min="1" pattern="[0-9]*" name="quantity" value="1" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">'.
                     '<input type="button" title="Добавить в корзину" value="" class="small-cart-button">'.
                     '<button class="wish-small" title="Добавить в блокнот">'.
@@ -241,34 +186,40 @@ class ProductController extends Controller
         return $analogProducts;
     }
     
-    public function showRelatedProducts($id)
+    public function getDraftsLabel($id)
     {
-        $temp = Yii::app()->db->createCommand()
-            ->selectDistinct('related_product_id')
-            ->from('related_product')
-            ->where('product_id=:id', array(':id'=>$id))
-            ->queryColumn()
-        ;
+        $draftLabel = '';
         
-        $criteria = new CDbCriteria;
-        $criteria->addInCondition('id', $temp);
-        $criteria->addCondition('image IS NOT NULL');
-        $relatedProducts = Product::model()->findAll($criteria);
+        if(Yii::app()->params['showDrafts']) {
+            $allDrafts = ProductInDraft::model()->findAllByAttributes(array('product_id'=>$id));
+            if(!empty($allDrafts)) {
+                foreach($allDrafts as $one) {
+                    $draft = Draft::model()->findByPk($one['draft_id']);
+                    $draftLabel .= '<a target="_blank" href="/draft/index/id/'.$draft->id.'/">Чертеж "'.$draft->name.'"</a>';
+                }
+            }
+        }
         
-        return $relatedProducts;
+        return $draftLabel;
     }
-
-    public function actionMark() {
-        /*-------------------*/
-        /*$folder = $_SERVER['DOCUMENT_ROOT'] . '/../api/images/shop/spareparts/*.{jpg,jpeg,JPG,JPEG,png,gif}';
-        $files = glob($folder, GLOB_BRACE);
-        $waterMarkPath = $_SERVER['DOCUMENT_ROOT'] . '/images/watermark.png';
-        foreach($files as $file) {
-           $imgPath = $file;
-           Yii::app()->ih->load($imgPath);
-           Yii::app()->ih->watermark_center_full($waterMarkPath);
-           Yii::app()->ih->save($imgPath);
-        }*/
-        /*-------------------*/
+    
+    public function getDrafts($id)
+    {
+        $drafts = array();
+        
+        if(Yii::app()->params['showDrafts']) {
+            $allDrafts = ProductInDraft::model()->findAllByAttributes(array('product_id'=>$id));
+            $allDrafts = ProductInDraft::model()->findAllByAttributes(array('product_id'=>$id));
+            if(!empty($allDrafts)) {
+                foreach($allDrafts as $one) {
+                    $draft = Draft::model()->findByPk($one['draft_id']);
+                    $drafts[$draft->id]['id'] = $draft->id;
+                    $drafts[$draft->id]['name'] = $draft->name;
+                    $drafts[$draft->id]['image'] = $draft->image;
+                }
+            }
+        }
+        
+        return $drafts;
     }
 }

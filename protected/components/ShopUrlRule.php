@@ -14,6 +14,7 @@ class ShopUrlRule extends CBaseUrlRule
         //search for "/catalog/01-traktory/"
         //or "/manufacturer/case/"
         //or "/sparepart/15-bolt/"
+        
         if(preg_match('/^[\w,-]+(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $page = $matches[1];
             
@@ -136,7 +137,7 @@ class ShopUrlRule extends CBaseUrlRule
         else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)((\/[\w,-]+){2})$/', $pathInfo, $matches)){
             //echo '<pre>';
             //var_dump($matches);exit;
-            
+
             $modelLine = ModelLine::model()->find(
                 'path=:path',
                 array(':path'=>$matches[4])
@@ -164,6 +165,7 @@ class ShopUrlRule extends CBaseUrlRule
                             array(':path'=>$matches[5])
                         );
                         
+                        Yii::app()->session['model'] = $modelLine->id;
                         return '/model/show/id/'.$modelLine->id;
                     }
                 }
