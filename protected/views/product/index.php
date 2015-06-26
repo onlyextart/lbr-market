@@ -66,7 +66,7 @@
                      </td>
                   </tr>
                   <?php endif; ?>
-                  <?php if(Yii::app()->params['showPrices']): ?>
+                  <?php if(Yii::app()->params['showPrices'] && (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && $price))): ?>
                   <tr itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">
                      <td>Цена:</td>
                      <td class="price">
@@ -102,10 +102,10 @@
                      <td>Корзина</td>
                      <td class="price">
                         <div class="cart-form" elem="<?php echo $data->id ?>">
-                             <?php //if(!empty($price)): ?>
+                             <?php if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && $price): ?>
                              <input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="7" size="7" autocomplete="off" product="1" class="cart-quantity">
                              <input type="button" title="Добавить в корзину" value="" class="small-cart-button">
-                             <?php //endif; ?>
+                             <?php endif; ?>
                              <button class="wish" title="Добавить в блокнот">
                                  <span class="wish-icon"></span>
                                  В блокнот
