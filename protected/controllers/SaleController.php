@@ -20,7 +20,8 @@ class SaleController extends Controller
                           'JOIN price_in_filial pr ON pr.product_id = t.id'
         ;
         
-        /*if(!empty(Yii::app()->session['maker'])) {
+        /*
+        if(!empty(Yii::app()->session['maker'])) {
             $sql = 'and m.maker_id = '.Yii::app()->session['maker'];
         }
         if(!empty(Yii::app()->session['category'])) {
@@ -30,9 +31,12 @@ class SaleController extends Controller
             }
             
             $criteria->addInCondition('m.category_id', $categories);
-        }*/
+        }
+        */
         
-        $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL and pr.filial_id = '.$filial.$sql); // price more 500 
+        $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql); 
+        if(!empty($filial)) $criteria->addCondition('pr.filial_id = :filial and pr.price > 500'); // price more 500
+        $criteria->params = array(':filial'=>$filial);
 
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
             array(
