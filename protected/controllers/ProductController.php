@@ -77,52 +77,40 @@ class ProductController extends Controller
     
     public function getMainProductInfo($productId)
     {
+        $priceLabel = $update = $filial = '';
         // logged user
         if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
             $user = User::model()->findByPk(Yii::app()->user->_id);
             $filial = Filial::model()->findByPk($user->filial)->name;
             
             if(!empty($user->filial)) {
-                $update = $price = '';
-                
                 $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$productId, 'filial_id'=>$user->filial));
-                if(!empty($price)) {
-                    $currency = Currency::model()->findByPk($price->currency_code);
-                    if(!$currency->exchange_rate) return null;
-                    
-                    $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
-                    
-                    $update = date('d.m.Y H:i', strtotime($currency->update_time));
-                    if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
-                }
-
-                return array($priceLabel, $update, $filial);
-            } else {
-                return null;
-            }
-        }
-    }
-    
-    public function getPrice($id)
-    {
-        // logged user
-        $priceLabel = '';
-        
-        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
-            $user = User::model()->findByPk(Yii::app()->user->_id);
-            $filial = Filial::model()->findByPk($user->filial)->name;
-            
-            if(!empty($user->filial)) {
-                $update = $price = '';
-                
-                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$id, 'filial_id'=>$user->filial));
                 if(!empty($price)) {
                     $currency = Currency::model()->findByPk($price->currency_code);
                     if($currency->exchange_rate) {
                         $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
+                    
+                        $update = date('d.m.Y H:i', strtotime($currency->update_time));
+                        if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
                     }
-                }  
-            } 
+                }
+            }
+        } else if(!Yii::app()->user->isGuest) {
+            //admin
+        }
+        
+        return array($priceLabel, $update, $filial);
+    }
+    
+    public function getPrice($price, $currencyCode)
+    {
+        $priceLabel = '';
+        // logged user
+        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
+            $currency = Currency::model()->findByPk($currencyCode);
+            if($currency->exchange_rate) {
+                $priceLabel = ($price*$currency->exchange_rate).' руб.';
+            }
         }
         
         return $priceLabel;
@@ -130,8 +118,12 @@ class ProductController extends Controller
         
     public function getAnalogProducts($id)
     {
-        $analogProducts = '';
-
+        $analogProducts = $filial = '';
+        if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
+           $user = User::model()->findByPk(Yii::app()->user->_id);   
+           $filial = $user->filial;
+        }
+        
         $temp = Yii::app()->db->createCommand()
             ->selectDistinct('analog_product_id')
             ->from('analog')
@@ -141,6 +133,7 @@ class ProductController extends Controller
         
         $criteria = new CDbCriteria;
         $criteria->addInCondition('t.id', $temp);
+        if (!empty($filial)) $criteria->addInCondition('priceInFilial.filial_id', array($filial));
         $products = Product::model()->with('priceInFilial')->findAll($criteria);
         
         foreach ($products as $analog) {
@@ -169,18 +162,25 @@ class ProductController extends Controller
                                                 $drafts.
                                              '</div>'
              ;
-             if(!Yii::app()->user->isGuest) {
-                $price = $this->getPrice($analog->id);
+             
+             if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
+                $price = '';
+                if(!empty($analog->priceInFilial[0]->price)) $price = $this->getPrice($analog->priceInFilial[0]->price, $analog->priceInFilial[0]->currency_code);
                 
                 $analogProducts .= '<div class="cell width-15">'.
                    '<span>'.$price.
-                '</div>';
-                
+                '</div>';   
+             } else if(!Yii::app()->user->isGuest) {
+                 // admin
+                 $analogProducts .= '<div class="cell width-15">'.
+                   '<span>'.'XXX'.
+                '</div>';  
              } else {
                 $analogProducts .= '<div class="cell width-15 price_link">'.
                    '<a href="/site/login/">Узнать цену</a>'.
                 '</div>';
              }
+             
              $analogProducts .=      '<div class="cell width-20">'.
                                          '<div class="cart-form" elem="<?php echo $analog->id ?>">'.
                                             $countLabel;

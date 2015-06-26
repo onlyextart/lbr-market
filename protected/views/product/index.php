@@ -66,16 +66,17 @@
                      </td>
                   </tr>
                   <?php endif; ?>
-                  <?php if((!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) && !empty($price) && Yii::app()->params['showPrices']): ?>
+                  <?php if(Yii::app()->params['showPrices']): ?>
                   <tr itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">
                      <td>Цена:</td>
                      <td class="price">
                          <div itemprop="price">
                              <?php
-                                if (!Yii::app()->user->isGuest) {
-                                    echo '<span title="цена">'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
-                                }
-                                else{
+                                if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
+                                    echo '<span>'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
+                                } else if(!Yii::app()->user->isGuest) {
+                                    echo '<span>XXX</span>';
+                                } else {
                                     echo '<span class="price_link"><a href="/site/login/">Узнать цену</a></span>';
                                 }
                              ?>
@@ -84,7 +85,7 @@
                      </td>
                   </tr>
                   <?php endif; ?>
-                  <?php if ((!Yii::app()->user->isGuest && !empty($price)) || Yii::app()->user->isGuest): ?>
+                  <?php //if ((!Yii::app()->user->isGuest && !empty($price)) || Yii::app()->user->isGuest): ?>
                   <tr>
                      <td>Наличие:</td>
                      <td>
@@ -95,7 +96,7 @@
                         <?php endif; ?>
                      </td>
                   </tr>
-                  <?php endif; ?>
+                  <?php //endif; ?>
                   <?php if(Yii::app()->user->isGuest || !empty(Yii::app()->user->isShop)): ?>
                   <tr>
                      <td>Корзина</td>
