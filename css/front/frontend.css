@@ -3154,3 +3154,16 @@ div.ui-widget-header{
 }
 
 /*----- end QuickForm ---------------*/
+
+.phone_number{
+    text-align: center; 
+    font: 'Trebuchet MS'; 
+    font-size: 25px;
+    font-weight: bolder; 
+    color: #F39314;
+    padding: 28px 0 0;
+}
+div.phone_text{
+    font-size: 13px;
+    font-weight: normal;
+}
