@@ -100,11 +100,32 @@ class ProductController extends Controller
             } else {
                 return null;
             }
-        } /*else if(!Yii::app()->user->isGuest){ // admin
+        }
+    }
+    
+    public function getPrice($id)
+    {
+        // logged user
+        $priceLabel = '';
+        
+        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
+            $user = User::model()->findByPk(Yii::app()->user->_id);
+            $filial = Filial::model()->findByPk($user->filial)->name;
             
-        } else { //guest
-            
-        }*/
+            if(!empty($user->filial)) {
+                $update = $price = '';
+                
+                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$id, 'filial_id'=>$user->filial));
+                if(!empty($price)) {
+                    $currency = Currency::model()->findByPk($price->currency_code);
+                    if($currency->exchange_rate) {
+                        $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
+                    }
+                }  
+            } 
+        }
+        
+        return $priceLabel;
     }
         
     public function getAnalogProducts($id)
@@ -149,11 +170,7 @@ class ProductController extends Controller
                                              '</div>'
              ;
              if(!Yii::app()->user->isGuest) {
-                $price = '';
-                if(!empty($analog->priceInFilial[0]->price) && Yii::app()->params['showPrices']) {
-                    $currency = Currency::model()->findByPk($analog->priceInFilial[0]->currency_code)->exchange_rate;
-                    $price = ($analog->priceInFilial[0]->price*$currency).' руб.';
-                }
+                $price = $this->getPrice($analog->id);
                 
                 $analogProducts .= '<div class="cell width-15">'.
                    '<span>'.$price.
