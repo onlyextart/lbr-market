@@ -130,7 +130,7 @@ class CartController extends Controller
                                         //устанавливаем свойства
                                         $mail->setFrom($address, $name);
                                         $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
-                                        $mail->setTo('vasiliyan@lbr.ru');
+                                        $mail->setTo('shop@lbr.ru');
                                         $mail->send();
                                         $transaction->commit();
                                         Order::model()->deleteAll('status_id=:cart_status and user_id=:user', array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id));
