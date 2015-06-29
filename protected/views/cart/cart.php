@@ -16,6 +16,12 @@
             $action = '/cart/index/';
         ?>
     </div>
+    <?php if($mess = Yii::app()->user->getFlash('error')): ?>
+    <div class="flash_error">
+        <?php echo $mess; ?>
+    </div>
+    <?php //echo Yii::app()->user->setFlash('message', ''); ?>
+    <?php endif; ?>
     <div class="cart-header">
        <h1>Корзина</h1>
     </div>
@@ -38,7 +44,7 @@
                 <?php if(!Yii::app()->user->isGuest): ?>
                     <?php 
                        foreach($items as $item): 
-                       $price = $this->getPrice($item->product->id, $item->count);
+                       $price = $this->getProductPrice($item->product->id, $item->count);
                     ?>
                     <tr>
                         <td width="110px" align="center">
@@ -52,11 +58,12 @@
                         </td>
                         <td width="220px">
                             <?php
-                            
-                            echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
-                            echo CHtml::openTag('span', array('class'=>'price'));
-                            echo $price['one'];//'XXXX руб.';
-                            echo CHtml::closeTag('span');
+                            if(Yii::app()->params['showPrices']) {
+                                echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
+                                echo CHtml::openTag('span', array('class'=>'price'));
+                                echo $price['one'];//'XXXX руб.';
+                                echo CHtml::closeTag('span');
+                            }
                             ?>
                         </td>
                         <td>
@@ -68,9 +75,11 @@
                         </td>
                         <td>
                             <?php
-                            echo CHtml::openTag('span', array('class'=>'price'));
-                            echo $price['total'];
-                            echo CHtml::closeTag('span');
+                            if(Yii::app()->params['showPrices']) {
+                                echo CHtml::openTag('span', array('class'=>'price'));
+                                echo $price['total'];
+                                echo CHtml::closeTag('span');
+                            }
                             ?>
                         </td>
                         <td width="20px">
@@ -115,7 +124,7 @@
                <?php endif; ?>
            </tbody>
         </table>
-        <?php if(!Yii::app()->user->isGuest): ?>
+        <?php if(!Yii::app()->user->isGuest && Yii::app()->params['showPrices']): ?>
         <div class="price recount-price">
             <button class="recount" type="submit" name="recount" value="1">Пересчитать</button>
             <span class="total">Всего:</span>
@@ -198,14 +207,15 @@
             </div>
         </div>
     </div>
+    <?php if(Yii::app()->params['showPrices']):?>
     <div class="confirm_order">
         <h1>Всего к оплате:</h1>
-        <span id="total-price" class="total"><?php echo 'XXXXX' ?></span>
-        <span class="current_currency">
-            <?php echo 'руб.'; ?>
+        <span id="total-price" class="total">
+            <?php echo $total; ?>
         </span>
         <button class="btn" type="submit" name="create" value="1">Оформить</button>
     </div>
+    <?php endif; ?>
     <?php else: ?>
     <div class="confirm_order">
         <input class="btn guestcart" type="button" value="Авторизоваться">

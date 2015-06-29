@@ -2262,7 +2262,7 @@ input.small-cart-button{
     margin-right: 10px;
     margin-left: 10px;
 }
-div.flash_messages {
+div.flash_messages, div.flash_error {
     background-color: #dff0d8;
     border-color: #d6e9c6;
     border-radius: 4px;
@@ -2272,7 +2272,10 @@ div.flash_messages {
     padding: 8px 35px 8px 14px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-
+div.flash_error {
+    background-color: #fcd6d6;
+    color: #fc0101;
+}
 .wish, .wish-small {
     background: url("/images/main_menu_bg.png") repeat-x scroll 0 -1px #d7d4d4;
     border: 1px solid #ccc;
@@ -2342,7 +2345,7 @@ div.flash_messages {
     display:block;
     clear: both;
 }
-.ordered-products .recount{
+.ordered-products .recount .total{
     color: #000;
     font-size: 24px;
     margin-top: 5px;

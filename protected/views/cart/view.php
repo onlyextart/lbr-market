@@ -23,9 +23,9 @@
                     <td>
                         <h3><?php echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));?></h3>
                         <?php
-                        echo CHtml::openTag('div', array('class'=>'price'));
-                        echo 'XXXX руб.';
-                        echo CHtml::closeTag('div');
+                        //echo CHtml::openTag('div', array('class'=>'price'));
+                        //echo 'XXXX руб.';
+                        //echo CHtml::closeTag('div');
                         ?>
                     <td>
                         <?php echo $item->count ?>
@@ -33,7 +33,7 @@
                     <td>
                         <?php
                         echo CHtml::openTag('span', array('class'=>'price'));
-                        echo 'XXXX руб.';
+                        echo $item->price.' руб.';
                         echo CHtml::closeTag('span');
                         ?>
                     </td>
@@ -46,7 +46,6 @@
                 <h2>Данные получателя</h2>
                 <div class="form wide">
                     <div class="row"> Доставка: <?php echo ($order->delivery->name)? $order->delivery->name : ''; ?> </div>
-                    <div class="row"> Стоимость: xxxx </div>
                     <div class="row"> <?php echo (!empty($order->user_name)) ? $order->user_name : $order->user->name; ?> </div>
                     <div class="row"> <?php echo (!empty($order->user_email)) ? $order->user_email : $order->user->email; ?> </div>
                 </div>
@@ -54,7 +53,7 @@
         </div>
         <div class="recount">
             <span class="total">Всего к оплате:</span>
-            <span id="total-price"> xxxx </span>
+            <span id="total-price"><?php echo $order->total_price.' руб.'?></span>
         </div>
     </div>
 </div>

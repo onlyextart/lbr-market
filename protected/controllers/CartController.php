@@ -91,49 +91,55 @@ class CartController extends Controller
                                 $order = new Order;
                                 $order->attributes = $this->form->attributes;
                                 $order->status_id = Order::ORDER_NEW;
+                                $order->filial = User::model()->findByPk(Yii::app()->user->_id)->filial;
                                 
                                 if($order->save()) {
-                                   foreach($products as $productId => $count){
-                                       $orderProduct = new OrderProduct;
-                                       $orderProduct->order_id = $order->id;
-                                       $orderProduct->product_id = $productId;
-                                       $orderProduct->count = 1;
-                                       if((int)$count > 0) $orderProduct->count = $count;
-                                       
-                                       if($orderProduct->save()) {
-                                           $success = true;
+                                   $productsWithoutPrice = array();
+                                   foreach($products as $productId => $count) {
+                                       $checkPrice = PriceInFilial::model()->find('product_id=:product_id and filial_id=:filial_id', array(':product_id'=>$productId, ':filial_id'=>User::model()->findByPk(Yii::app()->user->_id)->filial));
+                                       if(!empty($checkPrice)) {
+                                            $orderProduct = new OrderProduct;
+                                            $orderProduct->order_id = $order->id;
+                                            $orderProduct->product_id = $productId;
+                                            $orderProduct->count = 1;
+                                            if((int)$count > 0) $orderProduct->count = $count;
+                                            $result = $this->getPrice($productId, $count);
+                                            $orderProduct->price = $result['total'];
+                                            $orderProduct->save();
                                        } else {
-                                           $transaction->rollback();
+                                           $productsWithoutPrice[$productId] = $count;
                                        }
                                     }
+
+                                    $countProductsInOrder = OrderProduct::model()->count(
+                                        'order_id=:order_id', 
+                                        array(':order_id'=>$order->id)
+                                    );
                                     
-                                    if($success){
+                                    if($countProductsInOrder) {
+                                        $order->total_price = $this->setTotalPriceForOrder($order);
+                                        $order->save();
                                         
+                                        Order::model()->deleteAll(
+                                                'status_id=:cart_status and user_id=:user', 
+                                                array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id)
+                                        );
                                         
-                                        $address = 'webmaster@lbr.ru';
-                                        $name = 'Интернет-магазин ЛБР АгроМаркет';
-                                        $mail = new YiiMailer ('mail_cart', 
-                                            array( 
-                                                'name' => $order->user_name,
-                                                'id' => $order->id,
-                                                //'count' => $orderProduct->count,
-                                                'email' => $order->user_email,
-                                                'phone' => $order->user_phone))
-                                        ;
-                                        //устанавливаем свойства
-                                        $mail->setFrom($address, $name);
-                                        $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
-                                        $mail->setTo('shop@lbr.ru');
-                                        $mail->send();
+                                        $this->saveProductsWithoutPrice($productsWithoutPrice);
+                                        //$this->sendMail($order, $model);
+                                        
                                         $transaction->commit();
-                                        Order::model()->deleteAll('status_id=:cart_status and user_id=:user', array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id));
                                         Yii::app()->user->setFlash('message', 'Ваш заказ принят.');
                                         Yii::app()->request->redirect($this->createUrl('view', array('secret_key'=>$order->secret_key)));
-                                        
+                                    } else {
+                                        $order->delete();
+                                        $transaction->rollback();
+                                        Yii::app()->user->setFlash('error', 'В заказе присутствуют исключительно товары, на которые нет цены.');
                                     }
+                                    
                                 } else {
                                     $transaction->rollback();
-                                    Yii::app()->user->setFlash('error', 'Произошла ошибка при сохранении заказа');
+                                    Yii::app()->user->setFlash('error', 'Произошла ошибка при сохранении заказа.');
                                 }
                             }
                         }
@@ -226,9 +232,74 @@ class CartController extends Controller
         $this->render('cart', array('items'=>$items, 'deliveryMethods'=>$deliveryMethods, 'total' => $totalLabel));
     }
     
-    public function getPrice($id, $count)
+    public function sendMail($order, $model)
+    {
+        // send mail
+        $address = 'webmaster@lbr.ru';
+        $name = 'Интернет-магазин ЛБР АгроМаркет';
+        $mail = new YiiMailer ('mail_cart', 
+            array( 
+                'name' => $order->user_name,
+                'id' => $order->id,
+                //'count' => $orderProduct->count,
+                'email' => $order->user_email,
+                'phone' => $order->user_phone))
+        ;
+        //устанавливаем свойства
+        $mail->setFrom($address, $name);
+        $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
+        $mail->setTo('shop@lbr.ru');
+        $mail->send();
+        // end send mail
+    }
+    
+    public function setTotalPriceForOrder($order)
+    {
+        $totalPrice = 0;
+        $allProducts = OrderProduct::model()->findAll(
+            'order_id=:order_id', 
+            array(':order_id'=>$order->id)
+        );
+        foreach ($allProducts as $product) {
+            $result = $this->getPrice($product->product_id, $product->count);
+            $totalPrice += $result['total'];
+        }
+        return $totalPrice;
+    }
+    
+    public function saveProductsWithoutPrice($productsWithoutPrice)
+    {
+        foreach($productsWithoutPrice as $product) {
+            $order = new Order;
+            $order->user_id = Yii::app()->user->_id;
+            $order->status_id = Order::CART;
+
+            if($order->save()) {
+               foreach($productsWithoutPrice as $productId => $count) {
+                    $orderProduct = new OrderProduct;
+                    $orderProduct->order_id = $order->id;
+                    $orderProduct->product_id = $productId;
+                    $orderProduct->count = 1;
+                    if((int)$count > 0) $orderProduct->count = $count;
+
+                    $orderProduct->save();
+                }
+            }                 
+        }
+    }
+    
+    public function getProductPrice($id, $count)
     {
         $priceLabel = $totalPriceLabel = 'нет цены';
+        $result = $this->getPrice($id, $count);
+        if(!empty($result['one']))$priceLabel = $result['one'].' руб.';
+        if(!empty($result['total']))$totalPriceLabel = $result['total'].' руб.';
+        return array('one'=>$priceLabel, 'total'=>$totalPriceLabel);
+    }
+    
+    public function getPrice($id, $count)
+    {
+        $priceLabel = $totalPriceLabel = 0;
         
         // logged user
         if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
@@ -238,8 +309,8 @@ class CartController extends Controller
             if(!empty($price)) {
                $currency = Currency::model()->findByPk($price->currency_code);
                if($currency->exchange_rate) {
-                  $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
-                  $totalPriceLabel = ($price->price*$count*$currency->exchange_rate).' руб.';
+                  $priceLabel = ($price->price*$currency->exchange_rate);
+                  $totalPriceLabel = ($price->price*$count*$currency->exchange_rate);
                }
             }   
         }
@@ -356,15 +427,25 @@ class CartController extends Controller
     {
         if(!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
            $order = Yii::app()->db->createCommand()
-                ->select('o.id')
+                ->select('o.id order, p.id id')
                 ->from('order o')
                 ->join('order_product op', 'o.id=op.order_id')
                 ->join('product p', 'p.id=op.product_id')
                 ->where('status_id=:cart_status and user_id=:user and p.path=:path', array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id, ':path'=>'/'.$path.'/'))
                 ->queryRow()
            ;
-           if(!empty($order)) $curOrder = Order::model()->findByPk($order[id]);
-           if(!empty($curOrder)) $curOrder->delete();
+           
+           if(!empty($order)) {
+               $curOrder = Order::model()->findByPk($order[order]);
+               if(!empty($curOrder)) {
+                   $countProducts = OrderProduct::model()->count('order_id=:order_id', array(':order_id'=>$curOrder->id));
+                   if($countProducts == 1) {
+                       $curOrder->delete();
+                   } else {
+                       OrderProduct::model()->deleteAll('order_id=:order_id and product_id=:product_id', array(':order_id'=>$curOrder->id, ':product_id'=>$order[id]));
+                   }
+               }
+           }
         }
         
         $this->redirect('/cart/');
