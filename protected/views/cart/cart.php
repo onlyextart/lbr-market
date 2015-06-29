@@ -36,7 +36,10 @@
            </thead>
            <tbody>
                 <?php if(!Yii::app()->user->isGuest): ?>
-                    <?php foreach($items as $item): ?>
+                    <?php 
+                       foreach($items as $item): 
+                       $price = $this->getPrice($item->product->id, $item->count);
+                    ?>
                     <tr>
                         <td width="110px" align="center">
                             <?php
@@ -49,23 +52,24 @@
                         </td>
                         <td width="220px">
                             <?php
+                            
                             echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
                             echo CHtml::openTag('span', array('class'=>'price'));
-                            echo 'XXXX руб.';
+                            echo $price['one'];//'XXXX руб.';
                             echo CHtml::closeTag('span');
                             ?>
                         </td>
                         <td>
-                            <div class="plus">+</div>
+                            <div class="minus">&minus;</div>
                             <?php //echo CHtml::textField("", $item->count, array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
                             <?php //echo CHtml::numberField('products['.$item->product->id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7)) ?>
                             <?php echo CHtml::textField('products['.$item->product->id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7)) ?>
-                            <div class="minus">&minus;</div>
+                            <div class="plus">&plus;</div>
                         </td>
                         <td>
                             <?php
                             echo CHtml::openTag('span', array('class'=>'price'));
-                            echo 'XXXX руб.';
+                            echo $price['total'];
                             echo CHtml::closeTag('span');
                             ?>
                         </td>
@@ -92,9 +96,9 @@
                             ?>
                         </td>
                         <td>
-                            <div class="plus">+</div>
-                            <?php echo CHtml::textField("products[$item[id]]", $item[count], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
                             <div class="minus">&minus;</div>
+                            <?php echo CHtml::textField("products[$item[id]]", $item[count], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
+                            <div class="plus">&plus;</div>
                         </td>
                         <td>
                             <?php
@@ -113,10 +117,10 @@
         </table>
         <?php if(!Yii::app()->user->isGuest): ?>
         <div class="price recount-price">
-            <!--button class="recount" type="submit" name="recount" value="1">Пересчитать</button-->
+            <button class="recount" type="submit" name="recount" value="1">Пересчитать</button>
             <span class="total">Всего:</span>
             <span id="total">
-                <?php echo 'XXX'.' руб.'; ?>
+                <?php echo $total; ?>
             </span>
         </div>
         <?php endif; ?>

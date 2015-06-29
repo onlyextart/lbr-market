@@ -8,11 +8,10 @@ class CartController extends Controller
     {
         $items = $temp = array();
         $this->form = new OrderCreateForm;
-        Yii::app()->params['meta_title'] = 'Оформление заказа';
+        Yii::app()->params['meta_title'] = 'Корзина';
+        $totalLabel = 'XXX';
         
-        if(Yii::app()->user->isGuest){
-            //$this->redirect('/site/login');
-            
+        if(Yii::app()->user->isGuest) {
             if(Yii::app()->request->isPostRequest && Yii::app()->request->getPost('create'))
             {
                 if(isset($_POST['OrderCreateForm']))
@@ -104,16 +103,13 @@ class CartController extends Controller
                                        $orderProduct->count = 1;
                                        if((int)$count > 0) $orderProduct->count = $count;
                                        
-                                       
-                                       if($orderProduct->save()) 
+                                       if($orderProduct->save()) {
                                            $success = true;
-                                       else {
+                                       } else {
                                            $transaction->rollback();
                                        }
-                                    
-                                
-                                        
                                     }
+                                    
                                     if($success){
                                         $mail = new YiiMailer ('mail_cart', 
                                             array( 
@@ -165,9 +161,9 @@ class CartController extends Controller
                     }
                 }
             }
-            //var_dump(Yii::app()->session['cart']);//exit;
+            
             if(!empty(Yii::app()->session['cart'])) {
-                foreach(Yii::app()->session['cart'] as $productId => $count){
+                foreach(Yii::app()->session['cart'] as $productId => $count) {
                     $order = Yii::app()->db->createCommand()
                         ->select('o.id')
                         ->from('order o')
@@ -200,6 +196,7 @@ class CartController extends Controller
             }
             
             $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id));
+            
             foreach($allOrdersInCart as $orderInCart) {
                 $temp[] = $orderInCart->id;
             }
@@ -207,10 +204,46 @@ class CartController extends Controller
             $criteria = new CDbCriteria();
             $criteria->addInCondition("order_id", $temp);
             $items = OrderProduct::model()->with('product', 'order')->findAll($criteria);
+            
+            $totalPrice = 0;
+            foreach($items as $item) {
+                $user = User::model()->findByPk(Yii::app()->user->_id);   
+                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$item->product->id, 'filial_id'=>$user->filial));
+                
+                if(!empty($price)) {
+                    $currency = Currency::model()->findByPk($price->currency_code);
+                    if($currency->exchange_rate) {
+                       $totalPrice += ($price->price*$item->count*$currency->exchange_rate).' руб.';
+                    }
+                }  
+            }
+            
+            $totalLabel = $totalPrice.' руб.';
         }
         
         $deliveryMethods = Delivery::model()->findAll();
-        $this->render('cart', array('items'=>$items, 'deliveryMethods'=>$deliveryMethods));
+        $this->render('cart', array('items'=>$items, 'deliveryMethods'=>$deliveryMethods, 'total' => $totalLabel));
+    }
+    
+    public function getPrice($id, $count)
+    {
+        $priceLabel = $totalPriceLabel = 'нет цены';
+        
+        // logged user
+        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
+            $user = User::model()->findByPk(Yii::app()->user->_id);   
+            $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$id, 'filial_id'=>$user->filial));
+            
+            if(!empty($price)) {
+               $currency = Currency::model()->findByPk($price->currency_code);
+               if($currency->exchange_rate) {
+                  $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
+                  $totalPriceLabel = ($price->price*$count*$currency->exchange_rate).' руб.';
+               }
+            }   
+        }
+        
+        return array('one'=>$priceLabel, 'total'=>$totalPriceLabel);
     }
     
     public function actionView()
