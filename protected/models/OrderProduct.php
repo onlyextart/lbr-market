@@ -38,7 +38,7 @@ class OrderProduct extends CActiveRecord
 			array('price', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, order_id, product_id, count, price', 'safe', 'on'=>'search'),
+			array('id, order_id, product_id, count, price, total_price, currency, currency_code', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,8 +64,11 @@ class OrderProduct extends CActiveRecord
 			'id' => 'ID',
 			'order_id' => 'Order',
 			'product_id' => 'Product',
-			'count' => 'Count',
-			'price' => 'Price',
+			'count' => 'Количество',
+			'price' => 'Цена в валюте',
+			'total_price' => 'Общая сумма',
+			'currency' => 'Курс валюты',
+			'currency_code' => 'Код валюты',
 		);
 	}
 
@@ -93,6 +96,9 @@ class OrderProduct extends CActiveRecord
 		$criteria->compare('product_id',$this->product_id);
 		$criteria->compare('count',$this->count);
 		$criteria->compare('price',$this->price);
+		$criteria->compare('total_price',$this->total_price);
+		$criteria->compare('currency',$this->currency);
+		$criteria->compare('currency_code',$this->currency_code);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

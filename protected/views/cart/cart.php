@@ -137,7 +137,7 @@
             <h2>Способ доставки</h2>
             <ul>
                 <?php foreach($deliveryMethods as $delivery): ?>
-                <?php if($delivery->id == 1): ?>
+                <?php //if($delivery->id == 1): ?>
                 <li>
                         <label class="radio">
                                 <?php
@@ -154,7 +154,7 @@
                         </label>
                         <!--p><? echo $delivery->name?></p-->
                 </li>
-                <?php endif; ?>
+                <?php //endif; ?>
                 <?php endforeach; ?>
                  <!--li>
                    <label class="radio">

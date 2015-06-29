@@ -563,6 +563,16 @@ class SiteController extends Controller
         $root2 = new EquipmentMaker;
         $root2->name = 'Expom';
         $root2->save();*/
+        Delivery::model()->deleteAll('id=2');
+        $methods = array(
+            'Доставка транспортной компанией (выбор и оплату услуг транспортной компании производит клиент)', 
+            'Доставка транспортной компанией (оплата услуг по доставке включается в сумму заказа)'
+        );
+        foreach($methods as $method){
+            $one = new Delivery();
+            $one->name = $method;
+            $one->save();
+        }
     }
     public function actionTranslitePath()
     {

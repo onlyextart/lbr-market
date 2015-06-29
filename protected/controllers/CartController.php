@@ -96,15 +96,18 @@ class CartController extends Controller
                                 if($order->save()) {
                                    $productsWithoutPrice = array();
                                    foreach($products as $productId => $count) {
-                                       $checkPrice = PriceInFilial::model()->find('product_id=:product_id and filial_id=:filial_id', array(':product_id'=>$productId, ':filial_id'=>User::model()->findByPk(Yii::app()->user->_id)->filial));
-                                       if(!empty($checkPrice)) {
+                                       $priceInFilial = PriceInFilial::model()->find('product_id=:product_id and filial_id=:filial_id', array(':product_id'=>$productId, ':filial_id'=>User::model()->findByPk(Yii::app()->user->_id)->filial));
+                                       if(!empty($priceInFilial)) {
                                             $orderProduct = new OrderProduct;
                                             $orderProduct->order_id = $order->id;
                                             $orderProduct->product_id = $productId;
                                             $orderProduct->count = 1;
                                             if((int)$count > 0) $orderProduct->count = $count;
                                             $result = $this->getPrice($productId, $count);
-                                            $orderProduct->price = $result['total'];
+                                            $orderProduct->total_price = $result['total'];
+                                            $orderProduct->price = $priceInFilial->price;
+                                            $orderProduct->currency = Currency::model()->findByPk($priceInFilial->currency_code)->exchange_rate;
+                                            $orderProduct->currency_code = $priceInFilial->currency_code;
                                             $orderProduct->save();
                                        } else {
                                            $productsWithoutPrice[$productId] = $count;
@@ -126,7 +129,7 @@ class CartController extends Controller
                                         );
                                         
                                         $this->saveProductsWithoutPrice($productsWithoutPrice);
-                                        //$this->sendMail($order, $model);
+                                        $this->sendMail($order, $model);
                                         
                                         $transaction->commit();
                                         Yii::app()->user->setFlash('message', 'Ваш заказ принят.');

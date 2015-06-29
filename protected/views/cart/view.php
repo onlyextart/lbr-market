@@ -23,9 +23,9 @@
                     <td>
                         <h3><?php echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));?></h3>
                         <?php
-                        //echo CHtml::openTag('div', array('class'=>'price'));
-                        //echo 'XXXX руб.';
-                        //echo CHtml::closeTag('div');
+                        echo CHtml::openTag('div', array('class'=>'price'));
+                        echo ($item->price*$item->currency).' руб.';
+                        echo CHtml::closeTag('div');
                         ?>
                     <td>
                         <?php echo $item->count ?>
@@ -33,7 +33,7 @@
                     <td>
                         <?php
                         echo CHtml::openTag('span', array('class'=>'price'));
-                        echo $item->price.' руб.';
+                        echo $item->total_price.' руб.';
                         echo CHtml::closeTag('span');
                         ?>
                     </td>
