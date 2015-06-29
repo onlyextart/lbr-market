@@ -78,9 +78,6 @@ class CartController extends Controller
         } else { // logged user
             if(Yii::app()->request->isPostRequest) { 
                 if(Yii::app()->request->getPost('create')) {
-                    /*echo '<pre>';
-                    var_dump($_POST['OrderCreateForm']);
-                    exit;*/
                     if(isset($_POST['OrderCreateForm'])) {
                         $this->form->attributes = $_POST['OrderCreateForm'];
                         if($this->form->validate()) {
