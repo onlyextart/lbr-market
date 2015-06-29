@@ -58,15 +58,13 @@
                         </td>
                         <td width="220px">
                             <?php
-                            if(Yii::app()->params['showPrices']) {
                                 echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
                                 echo CHtml::openTag('span', array('class'=>'price'));
-                                echo $price['one'];//'XXXX руб.';
+                                echo (Yii::app()->params['showPrices'])?$price['one']:'';
                                 echo CHtml::closeTag('span');
-                            }
                             ?>
                         </td>
-                        <td>
+                        <td width="120px">
                             <div class="minus">&minus;</div>
                             <?php //echo CHtml::textField("", $item->count, array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
                             <?php //echo CHtml::numberField('products['.$item->product->id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7)) ?>
@@ -75,11 +73,9 @@
                         </td>
                         <td>
                             <?php
-                            if(Yii::app()->params['showPrices']) {
                                 echo CHtml::openTag('span', array('class'=>'price'));
-                                echo $price['total'];
+                                echo (Yii::app()->params['showPrices'])?$price['total']:'Информация о ценах в данный момент не доступна';
                                 echo CHtml::closeTag('span');
-                            }
                             ?>
                         </td>
                         <td width="20px">
@@ -135,6 +131,7 @@
         <?php endif; ?>
     </div>
     <?php if(!Yii::app()->user->isGuest): ?>
+    <?php if(Yii::app()->params['showPrices']):?>
     <div class="order-data">
         <div class="delivery-type">
             <h2>Способ доставки</h2>
@@ -207,7 +204,6 @@
             </div>
         </div>
     </div>
-    <?php if(Yii::app()->params['showPrices']):?>
     <div class="confirm_order">
         <h1>Всего к оплате:</h1>
         <span id="total-price" class="total">

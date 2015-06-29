@@ -77,7 +77,7 @@ class CartController extends Controller
             $this->redirect('/');
         } else { // logged user
             if(Yii::app()->request->isPostRequest) { 
-                if(Yii::app()->request->getPost('create')) {
+                if(Yii::app()->request->getPost('create') && Yii::app()->params['showPrices']) {
                     if(isset($_POST['OrderCreateForm'])) {
                         $this->form->attributes = $_POST['OrderCreateForm'];
                         if($this->form->validate()) {
@@ -144,7 +144,7 @@ class CartController extends Controller
                             }
                         }
                     }
-                } else if(Yii::app()->request->getPost('recount')) {
+                } else if(Yii::app()->request->getPost('recount') && Yii::app()->params['showPrices']) {
                     $success = false;
                     $products = $_POST['products'];
                     if(!empty($products)) {
