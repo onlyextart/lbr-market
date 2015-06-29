@@ -108,17 +108,21 @@ class CartController extends Controller
                                     }
                                     
                                     if($success){
+                                        
+                                        
+                                        $address = 'webmaster@lbr.ru';
+                                        $name = 'Интернет-магазин ЛБР АгроМаркет';
                                         $mail = new YiiMailer ('mail_cart', 
                                             array( 
                                                 'name' => $order->user_name,
-                                                'id' => $orderProduct->id,
+                                                'id' => $order->id,
                                                 //'count' => $orderProduct->count,
                                                 'email' => $order->user_email,
                                                 'phone' => $order->user_phone))
                                         ;
                                         //устанавливаем свойства
-                                        $mail->setFrom($model->email, $model->name);
-                                        $mail->setSubject("Создан заказ на сайте ".Yii::app()->params['host'].": Пользователем - ".$order->user_name);
+                                        $mail->setFrom($address, $name);
+                                        $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
                                         $mail->setTo('shop@lbr.ru');
                                         $mail->send();
                                         $transaction->commit();
