@@ -148,7 +148,9 @@
                             echo '<tr data-price>';
                             echo '<td>'.$product_order->name.'</td>';
                             echo '<td>'.CHtml::activeTextField($product_order, "[$num]count").'</td>';
-                            echo '<td>'.(int)$product_order->price.'</td>';
+                            echo '<td>'.$product_order->total_price.' руб.'.$product_order->currency;
+                            echo ((int)$product_order->currency > 1)?'('.$product_order->price.$product_order->currency_symbol.'<small>цена</small>'.'*'.$product_order->currency.'<small>курс валюты</small>'.')':'';
+                            echo '</td>';
                             echo '<td>'.$product_order->catalog_number.'</td>';
                             echo '<td><a class="delete" href="'.Yii::app()->createUrl("admin/orderProduct/delete", array("id"=>$product_order->id)).'" title="Удалить"><img src="/assets/6ecd7f96/gridview/delete.png" alt="Удалить"></a></td>';
                             echo '</tr>'; 
@@ -167,7 +169,7 @@
             </h2>
          </div>
         <div class="col_value">
-        <h2><?php echo $price;?></h2>
+        <h2><?php echo $price.' руб.';?></h2>
         </div>
 
         
