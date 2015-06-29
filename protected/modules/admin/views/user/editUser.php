@@ -15,10 +15,6 @@
     );
     $alertMsg = Yii::app()->user->getFlash('message');
     $errorMsg = Yii::app()->user->getFlash('error');
-    $orderCount = Order::model()->count(new CDbCriteria(array(
-      'condition' => 'user_id = :user_id and status_id<>'.Order::CART,
-      'params' => array(':user_id'=>$model->id)
-    )));
 ?>
 <div class="total">
     <div class="left">
@@ -248,8 +244,8 @@
     </div>
     <div class="right">
         <h1>Дополнительно</h1>
-        <?php if($orderCount > 0): ?>
-        <a href="#">Заказов: <?php echo $orderCount ?></a>
+        <?php if(count($orders) > 0): ?>
+        <a href="#">Заказов: <?php echo count($orders) ?></a>
         <?php else: ?>
         <div class="user-order">Заказов: <?php echo $orderCount ?></div>
         <?php endif; ?>

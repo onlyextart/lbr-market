@@ -79,6 +79,11 @@ class UserController extends Controller
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Пользователь не найден.'));
         
+        $orders = array();//Order::model()->findAllByAttributes('user_id=:user_id and status_id=:status', array(':user_id'=>$id, ':status'=>Order::ORDER_NEW));
+       /*     $orderCount = Order::model()->count(new CDbCriteria(array(
+      'condition' => 'user_id = :user_id and status_id<>'.Order::CART,
+      'params' => array(':user_id'=>$model->id)
+    )));*/
         if($model->organization_type==User::LEGAL_PERSON){
             $form = new UserFormLegalPerson;
             $model_name='UserFormLegalPerson';
@@ -143,9 +148,9 @@ class UserController extends Controller
                         Yii::log($errors, 'error');
                         Yii::app()->user->setFlash('error', $errors);
                     }
-                    $this->render('editUser', array('model'=>$model, 'model_form' => $form), false, true);
-                } else $this->render('editUser', array('model'=>$model, 'model_form' => $form, 'formErrors'=>$form->getErrors()), false, true);
-            } else $this->render('editUser', array('model'=>$model, 'model_form' => $form), false, true);
+                    $this->render('editUser', array('model'=>$model, 'model_form' => $form, 'orders'=>$orders), false, true);
+                } else $this->render('editUser', array('model'=>$model, 'model_form' => $form, 'formErrors'=>$form->getErrors(), 'orders'=>$orders), false, true);
+            } else $this->render('editUser', array('model'=>$model, 'model_form' => $form, 'orders'=>$orders), false, true);
         } else {
             $this->render('application.modules.admin.views.default.error', array('error' => 'Для редактирования недостаточно прав доступа.'));
         }
