@@ -91,7 +91,7 @@
             <table rules="none" style="width:600px">
                 <tbody>
                     <tr>
-                        <td><div><a href="http://lbr-market.ru/" target="_blank" style="color:#f58220"><strong>www.lbr-market.ru</strong></a> – широкий ассортимент запчастей для</div><div>сельскохозяйственной техники.</div><div>тел. для всех регионов России: +8 800 555 32 19</div>  </td>
+                        <td><div><a href="http://lbr-market.ru/" target="_blank" style="color:#f58220"><strong>www.lbr-market.ru</strong></a> – широкий ассортимент запчастей для</div><div>сельскохозяйственной техники.</div><div>тел. для всех регионов России: 8-800-5553219</div>  </td>
                         <td style="float:right">&nbsp;<img src="http://lbr-market.ru/images/mail/tractor.png" /></td>
                     </tr>
                     <tr>
