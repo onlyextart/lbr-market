@@ -85,9 +85,6 @@
                     <li>
                         <a href="http://www.lbr.ru/company/" title="О компании">О компании</a>
                     </li>
-                    <!--li>
-                        <a href="http://career.lbr.ru/" title="Карьера">Карьера</a>
-                    </li-->
                     <li>
                         <a href="/search/show/" title="Поиск">Поиск</a>
                     </li>
@@ -186,12 +183,11 @@
 
 <script>
     $(document).ready(function($){
-        /*
-        var setFilialName = getCookie('filial');
+        var setFilialName = getCookie('lbrfilial');
         if(!setFilialName){
-            $("#setRegion").dialog("open");
+            //$("#setRegion").dialog("open");
+            showRegions();
         }
-        */
     });
 </script>
 <!----- Universal Analitics ----->

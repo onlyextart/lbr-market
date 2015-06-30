@@ -460,20 +460,20 @@ class SiteController extends Controller
     
     public function actionSetRegion()
     {
-        Yii::app()->session['region'] = (int)$_POST['id'];
+        Yii::app()->request->cookies['lbrfilial'] = new CHttpCookie('lbrfilial', (int)$_POST['id']);
     }
 
-    public function actionGetRegions()
+    public function actionGetRegions($id = null)
     {
         $filials = array();
         $allFilials = Filial::model()->findAll(array('condition'=>'level != 1'));
         foreach($allFilials as $filial){
-                $filials['filials'][$filial->id] = $filial->name;
+           $filials['filials'][$filial->id] = $filial->name;
         }
 
         // set active element
         if(Yii::app()->search->prepareSqlite()) {
-                $filials['active'] = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
+            $filials['active'] = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
         }
 
         echo json_encode($filials);
