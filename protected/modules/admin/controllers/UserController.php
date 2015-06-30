@@ -1,7 +1,9 @@
 <?php
-
+Yii::import('ext.yiiext.sidebartabs.STabbedForm');
 class UserController extends Controller
 {
+    public $sidebarContent;
+    
     public function actionIndex()
     {
         if(Yii::app()->user->checkAccess('shopReadUser'))
@@ -78,12 +80,8 @@ class UserController extends Controller
         $model = User::model()->findByPk($id);
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Пользователь не найден.'));
-        
-        $orders = array();//Order::model()->findAllByAttributes('user_id=:user_id and status_id=:status', array(':user_id'=>$id, ':status'=>Order::ORDER_NEW));
-       /*     $orderCount = Order::model()->count(new CDbCriteria(array(
-      'condition' => 'user_id = :user_id and status_id<>'.Order::CART,
-      'params' => array(':user_id'=>$model->id)
-    )));*/
+        //echo $id; exit;
+        $orders = array();
         if($model->organization_type==User::LEGAL_PERSON){
             $form = new UserFormLegalPerson;
             $model_name='UserFormLegalPerson';
@@ -131,7 +129,7 @@ class UserController extends Controller
                 if($form->validate()) {
                     if($model->save()) {
                         Yii::app()->user->setFlash('message', 'Пользователь сохранен успешно.');
-                        if(!empty($text_email)){
+                        if(!empty($text_email)) {
                              $email = new TEmail;
                              $email->from_email = Yii::app()->params['admin_email'];
                              $email->from_name = 'Интернет-магазин ЛБР АгроМаркет';
@@ -141,7 +139,6 @@ class UserController extends Controller
                              $email->type = 'text/html';
                              $email->body = $text_email;
                              $email->sendMail();
-                             
                         }
                     } else {
                         $errors = $model->getErrors();
