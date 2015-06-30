@@ -1,7 +1,7 @@
 <div class="grid-wrapper">
 <?php
     $this->widget('zii.widgets.grid.CGridView', array(
-        'id'=>'makerListGrid',
+        'id'=>'priceListGrid',
         //'filter'=>$model,
         'dataProvider'=>$data,
         'template'=>'{items}{pager}{summary}',
@@ -12,19 +12,19 @@
         ),
         'columns' => array(
             array( 
-                'name'=>'',
+                'name'=>'filial.name',
                 'type'=>'raw',
                 'filter'=>false,
                 'value'=>'$data->filial->name',
             ),
             array( 
-                'name'=>'Цена (в базе)',
+                'name'=>'price',
                 'type'=>'raw',
                 'filter'=>false,
                 'value'=>'$data->price." ".$data->currency->symbol',
             ),
             array( 
-                'name'=>'Цена (руб)',
+                'name'=>'price_in_rub',
                 'type'=>'raw',
                 'filter'=>false,
                 'value'=>'($data->price*$data->currency->exchange_rate)." руб."',

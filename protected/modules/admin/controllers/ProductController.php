@@ -153,13 +153,18 @@ class ProductController extends Controller
                     'pageSize'=>'18'
                 ),
                 'sort'=>array(
-                    /*'defaultOrder' => 'modelLine.name ASC',
+                    'defaultOrder' => 'filial.name ASC',
                     'attributes'=>array(
-                        'modelline_name' => array(
-                            'asc' => $expr='modelLine.name',
+                        'price',
+                        'filial.name' => array(
+                            'asc' => $expr='filial.name',
                             'desc' => $expr.' DESC',
                         ),
-                    )*/
+                        'price_in_rub' => array(
+                            'asc' => $expr='price*currency.exchange_rate',
+                            'desc' => $expr.' DESC',
+                        ),
+                    )
                 ),
             )
         );

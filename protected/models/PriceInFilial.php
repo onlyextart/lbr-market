@@ -65,7 +65,8 @@ class PriceInFilial extends CActiveRecord
 			'id' => 'ID',
 			'product_id' => 'Product',
 			'filial_id' => 'Filial',
-			'price' => 'Price',
+			'price' => 'Цена (в базе)',
+			'price_in_rub' => 'Цена (руб.)',
 			'currency_code' => 'Currency Code',
 			'update_time' => 'Update Time',
 		);
