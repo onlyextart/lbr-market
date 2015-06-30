@@ -43,19 +43,7 @@ class ProductController extends Controller
         $model->group=$model->productGroup->name;
         
         $modellines = $this->getModellines($id);
-        /*$modellines = array();
-        $allModelLines = ProductInModelLine::model()->findAllByAttributes(array('product_id'=>$id));
-        
-        foreach ($allModelLines as $oneModelLine)
-        {
-            $modelline = ModelLine::model()->findByPk($oneModelLine->model_line_id);
-            $brand = EquipmentMaker::model()->findByPk($modelline->maker_id)->path;
-            $type = Category::model()->findByPk($modelline->category_id)->path;
-            $modellines[$oneModelLine->model_line_id]['id'] = $oneModelLine->model_line_id;
-            $modellines[$oneModelLine->model_line_id]['path'] = '/catalog'.$type.$brand.$modelline->path.'/';
-            $modellines[$oneModelLine->model_line_id]['name'] = $modelline->name;
-        }
-        */
+        $prices = $this->getPrices($id);
         
         $criteria = new CDbCriteria;
         $criteria->order = 'parent, lft';
@@ -98,8 +86,8 @@ class ProductController extends Controller
                         'id'=>$id
                     ));
                 }
-            } else $this->render('edit', array('model'=>$model, 'groups'=>$groups, 'id'=>$id, 'modellines'=>$modellines), false, true); 
-        } else $this->render('edit', array('model'=>$model, 'groups'=>$groups, 'id'=>$id, 'modellines'=>$modellines), false, true);  
+            } else $this->render('edit', array('model'=>$model, 'groups'=>$groups, 'id'=>$id, 'modellines'=>$modellines, 'prices'=>$prices), false, true); 
+        } else $this->render('edit', array('model'=>$model, 'groups'=>$groups, 'id'=>$id, 'modellines'=>$modellines, 'prices'=>$prices), false, true);  
     }
     
     
@@ -145,6 +133,34 @@ class ProductController extends Controller
                             'desc' => $expr.' DESC',
                         ),
                 )),
+            )
+        );
+            
+        return $modellines;
+    }
+    
+    public function getPrices($id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->with = array('currency', 'filial', 'product');
+        $criteria->condition = 'product_id=:id';
+        $criteria->params = array(':id'=>$id);
+
+        $modellines = new CActiveDataProvider('PriceInFilial', 
+            array(
+                'criteria'=>$criteria,
+                'pagination'=>array(
+                    'pageSize'=>'18'
+                ),
+                'sort'=>array(
+                    /*'defaultOrder' => 'modelLine.name ASC',
+                    'attributes'=>array(
+                        'modelline_name' => array(
+                            'asc' => $expr='modelLine.name',
+                            'desc' => $expr.' DESC',
+                        ),
+                    )*/
+                ),
             )
         );
             

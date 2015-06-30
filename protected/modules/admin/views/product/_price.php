@@ -12,13 +12,24 @@
         ),
         'columns' => array(
             array( 
-                'name'=>'modelline_name',
+                'name'=>'',
                 'type'=>'raw',
                 'filter'=>false,
-                'value'=>'CHtml::link(CHtml::encode($data->modelLine->name), array(ModelLine::getUrl($data->modelLine->id)))',
+                'value'=>'$data->filial->name',
+            ),
+            array( 
+                'name'=>'Цена (в базе)',
+                'type'=>'raw',
+                'filter'=>false,
+                'value'=>'$data->price." ".$data->currency->symbol',
+            ),
+            array( 
+                'name'=>'Цена (руб)',
+                'type'=>'raw',
+                'filter'=>false,
+                'value'=>'($data->price*$data->currency->exchange_rate)." руб."',
             ),
         ),
     ));
 ?>
 </div>
-

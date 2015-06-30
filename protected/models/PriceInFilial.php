@@ -52,6 +52,7 @@ class PriceInFilial extends CActiveRecord
 		return array(
 			'filial' => array(self::BELONGS_TO, 'Filial', 'filial_id'),
 			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
+			'currency' => array(self::BELONGS_TO, 'Currency', 'currency_code'),
 		);
 	}
 
