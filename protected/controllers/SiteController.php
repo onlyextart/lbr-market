@@ -458,10 +458,26 @@ class SiteController extends Controller
          }
         }
     
-    /*public function actionSetRegion()
+    public function actionSetRegion()
     {
         Yii::app()->session['region'] = (int)$_POST['id'];
-    }*/
+    }
+
+    public function actionGetRegions()
+    {
+        $filials = array();
+        $allFilials = Filial::model()->findAll(array('condition'=>'level != 1'));
+        foreach($allFilials as $filial){
+                $filials['filials'][$filial->id] = $filial->name;
+        }
+
+        // set active element
+        if(Yii::app()->search->prepareSqlite()) {
+                $filials['active'] = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
+        }
+
+        echo json_encode($filials);
+    }
     
 //    public function actionTestFilial()
 //    {
