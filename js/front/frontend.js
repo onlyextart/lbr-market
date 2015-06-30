@@ -2,42 +2,41 @@ $(document).ready(function($){
     alertify.set({ delay: 5000 }); 
     
     /* choose filial */    
-    $.ajax({
-            url : '/site/getRegions/',
-            type : 'POST',
-            dataType : "json",
-            success:function(data) {
-               var temp = [];
+    /*$.ajax({
+        url : '/site/getRegions/',
+        type : 'POST',
+        dataType : "json",
+        success:function(data) {
+           var temp = [];
 
-               $.each(data['filials'], function(key, value) {
-                            temp.push({v:value, k: key});
-               });
+           $.each(data['filials'], function(key, value) {
+                        temp.push({v:value, k: key});
+           });
 
-               temp.sort(function(a,b){
-                       if(a.v > b.v){ return 1}
-                            if(a.v < b.v){ return -1}
-                              return 0;
-               });
+           temp.sort(function(a,b){
+                   if(a.v > b.v){ return 1}
+                        if(a.v < b.v){ return -1}
+                          return 0;
+           });
 
-               $.each(temp, function(key, obj) {
-                            $('#select-region')
-                                    .append($("<option></option>")
-                                    .attr("value", obj.k)
-                                    .text(obj.v))
-                            ;
-               });
+           $.each(temp, function(key, obj) {
+                        $('#select-region')
+                                .append($("<option></option>")
+                                .attr("value", obj.k)
+                                .text(obj.v))
+                        ;
+           });
 
-               if(data['active']) {
-                       $('#select-region').val(data['active']).prop('selected', true);
-               }
+           if(data['active']) {
+                   $('#select-region').val(data['active']).prop('selected', true);
+           }
 
-               $("#setRegion").dialog("open");
-            },
-            error:function() {
-                    alert('Ошибка запроса к серверу.');
-            }
-	});
-    });
+           $("#setRegion").dialog("open");
+        },
+        error:function() {
+                alert('Ошибка запроса к серверу.');
+        }
+    });*/
 
     /*$('.btn-request').click(function() {
             document.location.href = "/site/quickform/";
