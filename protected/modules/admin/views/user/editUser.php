@@ -64,8 +64,7 @@
     
             $tabs=array(
                 'Общая информация'=>$this->renderPartial('_general', array('form'=>$form, 'model_form'=>$model_form), true),
-                'Заказы' => $this->renderPartial('_orders', array('form'=>$form, 'model_form'=>$model_form), true),
-                //'meta-информация' => $this->renderPartial('_meta', array('model'=>$model,'form_view'=>$form_view), true),
+                'Заказы' => $this->renderPartial('_orders', array('form'=>$form, 'model'=>$model_form, 'data'=>$orders), true),
             );
             
             $errorSummary = $form->errorSummary($model_form)."\n";

@@ -80,8 +80,9 @@ class UserController extends Controller
         $model = User::model()->findByPk($id);
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Пользователь не найден.'));
-        //echo $id; exit;
-        $orders = array();
+        
+        $orders = $this->getOrders($id);
+        
         if($model->organization_type==User::LEGAL_PERSON){
             $form = new UserFormLegalPerson;
             $model_name='UserFormLegalPerson';
@@ -151,6 +152,36 @@ class UserController extends Controller
         } else {
             $this->render('application.modules.admin.views.default.error', array('error' => 'Для редактирования недостаточно прав доступа.'));
         }
+    }
+    
+    public function getOrders($id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'status_id<>0 and user_id=:id';
+        $criteria->params = array(':id'=>$id);
+
+        $sort = new CSort();
+        $sort->sortVar = 'sort';
+        $sort->defaultOrder = 'date_created DESC';
+        /*$sort->attributes = array(
+            'last_edit' => array(
+                'asc' => 'last_edit ASC',
+                'desc' => 'last_edit DESC',
+                'default' => 'asc',
+            )
+        );*/
+
+        $orders = new CActiveDataProvider('Order', 
+            array(
+                'criteria'=>$criteria,
+                'sort'=>$sort,
+                'pagination'=>array(
+                    'pageSize'=>'20'
+                )
+            )
+        );
+            
+        return $orders;
     }
     
     public function actionDelete($id)
