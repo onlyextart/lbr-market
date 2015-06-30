@@ -96,7 +96,9 @@
                     </li-->
                 </ul>
             </div>
-            <!--div class="region-label">Ваш регион: <span id="region">Не выбран</span></div-->
+            <?php if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
+               <div class="region-label">Ваш регион: <span id="region">Не выбран</span></div>
+            <?php endif; ?>
             <div class="map">
                 <a href="http://www.lbr.ru/company/contacts/">
                     <span>Контакты</span>
@@ -156,11 +158,11 @@
         <!--OnlineSeller.ru {/literal} -->
                                         
 
-        <!--div>
+        <div>
             <?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                 'id' => 'setRegion',
                 'options' => array(
-                    'title' => 'Выбор региона',
+                    'title' => 'Выбор филиала',
                     'autoOpen' => false,
                     'modal' => true,
                     'resizable'=> false,
@@ -169,7 +171,7 @@
             ?>
             <div class="row">
                 <?php
-                   //echo CHtml::dropDownList('select-region', '2', $filials);
+                echo CHtml::dropDownList('select-region', '', array());
                 ?>
             </div>
             <div class="reg-button">
@@ -178,7 +180,7 @@
             <?php
                 $this->endWidget('zii.widgets.jui.CJuiDialog');
             ?>
-        </div-->
+        </div>
     </body>
 </html>
 
