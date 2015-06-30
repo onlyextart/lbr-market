@@ -163,13 +163,6 @@ class UserController extends Controller
         $sort = new CSort();
         $sort->sortVar = 'sort';
         $sort->defaultOrder = 'date_created DESC';
-        /*$sort->attributes = array(
-            'last_edit' => array(
-                'asc' => 'last_edit ASC',
-                'desc' => 'last_edit DESC',
-                'default' => 'asc',
-            )
-        );*/
 
         $orders = new CActiveDataProvider('Order', 
             array(

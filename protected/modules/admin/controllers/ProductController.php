@@ -36,10 +36,14 @@ class ProductController extends Controller
             $model->price_value=(int)$model->price->value;
             //$model->currency_iso=$model->price->currency->iso;
         }
+        
+        
+        
         $model->productMaker_name=$model->productMaker->name;
         $model->group=$model->productGroup->name;
         
-        $modellines = array();
+        $modellines = $this->getModellines($id);
+        /*$modellines = array();
         $allModelLines = ProductInModelLine::model()->findAllByAttributes(array('product_id'=>$id));
         
         foreach ($allModelLines as $oneModelLine)
@@ -51,6 +55,7 @@ class ProductController extends Controller
             $modellines[$oneModelLine->model_line_id]['path'] = '/catalog'.$type.$brand.$modelline->path.'/';
             $modellines[$oneModelLine->model_line_id]['name'] = $modelline->name;
         }
+        */
         
         $criteria = new CDbCriteria;
         $criteria->order = 'parent, lft';
@@ -117,5 +122,28 @@ class ProductController extends Controller
             $group='{"id":'.$group_info->id.', "name":"'.$group_info->name.'"}';
             echo $group;
         }
+    }
+    
+    public function getModellines($id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'product_id=:id';
+        $criteria->params = array(':id'=>$id);
+
+        $sort = new CSort();
+        //$sort->sortVar = 'sort';
+        //$sort->defaultOrder = 'name';
+
+        $modellines = new CActiveDataProvider('ProductInModelLine', 
+            array(
+                'criteria'=>$criteria,
+                'sort'=>$sort,
+                'pagination'=>array(
+                    'pageSize'=>'18'
+                )
+            )
+        );
+            
+        return $modellines;
     }
 }

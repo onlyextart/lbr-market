@@ -59,7 +59,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
                     'Общая информация'=>$this->renderPartial('_general', array('model'=>$model,'form_view'=>$form_view), true),
                     'Сборочный чертеж' => $this->renderPartial('_images', array('model'=>$model,'form_view'=>$form_view), true),
                     'Дополнительно' => $this->renderPartial('_addinfo', array('model'=>$model,'form_view'=>$form_view), true),
-                    'Модельные ряды' => $this->renderPartial('_modellines', array('model'=>$model,'form_view'=>$form_view, 'modellines'=>$modellines), true),
+                    'Модельные ряды' => $this->renderPartial('_modellines', array('model'=>$model,'form_view'=>$form_view, 'data'=>$modellines), true),
                     //'Группа' => $this->renderPartial('_group', array('model'=>$model,'form_view'=>$form_view), true)
                 );
                 

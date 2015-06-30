@@ -29,7 +29,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
                 'name'=>'name',
                 'type'=>'raw',
                 'value'=>'CHtml::link(CHtml::encode($data->name), array("edit","id"=>$data->id))',
-                ),
+            ),
             
             array(
                 'name'=>'productGroup_name',
