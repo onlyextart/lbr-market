@@ -2,34 +2,66 @@ $(document).ready(function($){
     alertify.set({ delay: 5000 }); 
     
     /* choose filial */    
-    $('#region').click(function() {
-        $("#setRegion").dialog("open");
-    });
-    
-    $('.btn-request').click(function() {
-        document.location.href = "/site/quickform/";
-    });
-    
-    $('.guestcart').click(function() {
-        document.location.href = "/site/login/";
-    });
-    
-    $('#confirm-region').click(function() {
-        var selector = $('#select-region').find(":selected");
-        $.ajax({
-            type: 'POST',
-            url: '/site/setRegion',
-            dataType: 'json',
-            data:{
-                id: selector.val(),
+    $.ajax({
+            url : '/site/getRegions/',
+            type : 'POST',
+            dataType : "json",
+            success:function(data) {
+               var temp = [];
+
+               $.each(data['filials'], function(key, value) {
+                            temp.push({v:value, k: key});
+               });
+
+               temp.sort(function(a,b){
+                       if(a.v > b.v){ return 1}
+                            if(a.v < b.v){ return -1}
+                              return 0;
+               });
+
+               $.each(temp, function(key, obj) {
+                            $('#select-region')
+                                    .append($("<option></option>")
+                                    .attr("value", obj.k)
+                                    .text(obj.v))
+                            ;
+               });
+
+               if(data['active']) {
+                       $('#select-region').val(data['active']).prop('selected', true);
+               }
+
+               $("#setRegion").dialog("open");
             },
-            success: function() {
-                //setCookie('filial', $(this).attr('contact'), '3', '/', '.lbr.ru')
-                $("#region").text(selector.text());
-                if ($("#setRegion").dialog("isOpen")) {
-                    $("#setRegion").dialog('close');
-                }
-        }});           
+            error:function() {
+                    alert('Ошибка запроса к серверу.');
+            }
+	});
+    });
+
+    /*$('.btn-request').click(function() {
+            document.location.href = "/site/quickform/";
+    });*/
+
+    $('#confirm-region').click(function() {
+            var selector = $('#select-region').find(":selected");
+            $.ajax({
+                    type: 'POST',
+                    url: '/site/setRegion',
+                    dataType: 'json',
+                    data:{
+                            id: selector.val(),
+                    },
+                    success: function() {
+                            //setCookie('filial', $(this).attr('contact'), '3', '/', '.lbr.ru');
+
+                            $("#region").text(selector.text());
+                            if($("#setRegion").dialog("isOpen")) {
+                                    $("#setRegion").dialog('close');
+                            }
+
+                            //console.log(<?php echo Yii::app()->session['region'] ?>);
+            }});           
     });
     /* end choose filial */
     
