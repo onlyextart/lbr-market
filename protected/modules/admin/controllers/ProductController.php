@@ -127,20 +127,24 @@ class ProductController extends Controller
     public function getModellines($id)
     {
         $criteria = new CDbCriteria();
+        $criteria->with = array('modelLine');
         $criteria->condition = 'product_id=:id';
         $criteria->params = array(':id'=>$id);
-
-        $sort = new CSort();
-        //$sort->sortVar = 'sort';
-        //$sort->defaultOrder = 'name';
 
         $modellines = new CActiveDataProvider('ProductInModelLine', 
             array(
                 'criteria'=>$criteria,
-                'sort'=>$sort,
                 'pagination'=>array(
                     'pageSize'=>'18'
-                )
+                ),
+                'sort'=>array(
+                    'defaultOrder' => 'modelLine.name ASC',
+                    'attributes'=>array(
+                        'modelline_name' => array(
+                            'asc' => $expr='modelLine.name',
+                            'desc' => $expr.' DESC',
+                        ),
+                )),
             )
         );
             

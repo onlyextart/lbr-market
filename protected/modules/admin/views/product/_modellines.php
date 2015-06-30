@@ -22,7 +22,7 @@
         ),
         'columns' => array(
             array( 
-                'name'=>'jjj',
+                'name'=>'modelline_name',
                 'type'=>'raw',
                 'filter'=>false,
                 'value'=>'CHtml::link(CHtml::encode($data->modelLine->name), array(ModelLine::getUrl($data->modelLine->id)))',
