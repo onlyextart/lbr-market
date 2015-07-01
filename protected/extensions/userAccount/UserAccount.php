@@ -20,13 +20,42 @@ class UserAccount extends CWidget
                $this->controller->redirect($returnUrl);
         }
         
-        $sale = $this->setSaleProducts();
-        //echo '<pre>';
-        //var_dump($sale); exit;
-        $this->render('index',array('model'=>$model, 'sale'=>$sale));
+        $sale = $this->getSaleProducts();
+        $cartCount = $this->getCartCount();
+        
+        $this->render('index',array('model'=>$model, 'sale'=>$sale, 'cartCount'=>$cartCount));
     }
     
-    private function setSaleProducts()
+    private function getCartCount()
+    {
+        $cartCount = 0;
+        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) 
+        {
+            $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id));
+            foreach($allOrdersInCart as $orderInCart){
+                $cartCount += OrderProduct::model()->find('order_id=:order', array(':order'=>$orderInCart->id))->count;
+            }
+        } else if(Yii::app()->user->isGuest) {
+            if(!empty(Yii::app()->session['cart'])) {
+                foreach(Yii::app()->session['cart'] as $productId => $count){
+                   $cartCount += $count;
+                }
+            }
+        }
+        
+        $cartLabel = ' товаров';
+        if($cartCount == 1) {
+            $cartLabel = ' товар';
+        } else if($cartCount == 2 || $cartCount == 3 || $cartCount == 4){
+            $cartLabel = ' товарa';
+        }
+
+        $cartCount .= $cartLabel;
+        
+        return $cartCount;
+    }
+    
+    private function getSaleProducts()
     {
         $sql = '';
         $sale = $temp = array();

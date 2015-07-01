@@ -9,7 +9,7 @@ class CartController extends Controller
         $items = $temp = array();
         $this->form = new OrderCreateForm;
         Yii::app()->params['meta_title'] = 'Корзина';
-        $totalLabel = 'XXX';
+        $totalLabel = '';
         
         if(Yii::app()->user->isGuest) {
             if(Yii::app()->request->isPostRequest && Yii::app()->request->getPost('create'))
@@ -60,7 +60,7 @@ class CartController extends Controller
             }
             
             if(!empty(Yii::app()->session['cart'])) {
-                foreach(Yii::app()->session['cart'] as $productId => $count){
+                foreach(Yii::app()->session['cart'] as $productId => $count) {
                     $product = Product::model()->findByPk($productId);
                     $prodImage = '/images/no-photo.png';
                     if(!empty($product->image)) $prodImage = 'http://api.lbr.ru/images/shop/spareparts/'.$product->image;

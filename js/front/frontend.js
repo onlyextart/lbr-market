@@ -31,14 +31,6 @@ $(document).ready(function($){
         }
     });
     
-    $('#sale-block ul').carouFredSel({
-        prev: '#prev-logo-sale',
-        next: '#next-logo-sale',
-        items: 3,
-        direction: 'down',
-        auto: false,
-    });
-    
     $(".one_banner h3").dotdotdot({
         ellipsis : '... ',
         wrap	 : 'letter',
@@ -85,6 +77,16 @@ $(document).ready(function($){
             },
         });
     });
+    
+    if($('#sale-block ul').length) {
+        $('#sale-block ul').carouFredSel({
+            prev: '#prev-logo-sale',
+            next: '#next-logo-sale',
+            items: 3,
+            direction: 'down',
+            auto: false,
+        });
+    }
     
     $('.prod-wrapper .dcjq-parent-li').each(function( index ) {
         $( this ).find('a').removeClass("active");

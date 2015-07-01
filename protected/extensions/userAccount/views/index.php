@@ -1,32 +1,15 @@
 <?php
-$cartCount = 0;
 if(!Yii::app()->user->isGuest) {
     if(Yii::app()->user->isShop) {
         $user = User::model()->findByPk(Yii::app()->user->_id);
         $user->date_last_login = date('Y-m-d H:i:s');
         $user->save();
-        
-        $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id));
-        foreach($allOrdersInCart as $orderInCart){
-            $cartCount += OrderProduct::model()->find('order_id=:order', array(':order'=>$orderInCart->id))->count;
-        }
-        
-        $cartLabel = ' товаров';
-        if($cartCount == 1) {
-            $cartLabel = ' товар';
-        } else if($cartCount == 2 || $cartCount == 3 || $cartCount == 4){
-            $cartLabel = ' товарa';
-        }
-        
-        $cartCount .= $cartLabel;
     } else {
         $user = AuthUser::model()->findByPk(Yii::app()->user->_id);
     }
     $name = (!empty($user->name))? $user->name : $user->login;
 ?>
     <div class='user-info'>
-        <?php //echo '<span class="user-name"> Добро пожаловать, '.$user->name.'!</span>'; ?>
-        <?php //echo '<span class="user-name"> Добро пожаловать!</span>'; ?>
         <?php echo 'Добро пожаловать, '.$name.'!'; ?>
     </div>
     <?php if(Yii::app()->user->isShop) { ?>
@@ -57,22 +40,7 @@ if(!Yii::app()->user->isGuest) {
                         <li><a href="/user/logout/" class="exit">Выход</a></li>
                 </ul>
     <?php }
-} else {
-    if(!empty(Yii::app()->params['cart'])) {
-        foreach(Yii::app()->params['cart'] as $item) {
-            $cartCount += $item;
-        }
-    }
-    
-    $cartLabel = ' товаров';
-    if($cartCount == 1) {
-        $cartLabel = ' товар';
-    } else if($cartCount == 2 || $cartCount == 3 || $cartCount == 4){
-        $cartLabel = ' товарa';
-    }
-
-    $cartCount .= $cartLabel;
-        
+} else {        
     $form=$this->beginWidget('CActiveForm', array(
         'id'=>'login-form',
         'enableClientValidation'=>true,
@@ -82,9 +50,7 @@ if(!Yii::app()->user->isGuest) {
     )); ?>
     
     <div class="text_quickform">
-        
         <p>Вы можете оформить заявку, и  в кратчайшие сроки наши специалисты произведут подбор запасных частей согласно заявке и указанным моделям техники.</p>
-        
     </div>
     
     <div class="clearfix"></div>
@@ -94,8 +60,6 @@ if(!Yii::app()->user->isGuest) {
         <div class="clearfix"></div>
     <a href="/cart/" class="cart"><img src="/images/cart.png" alt="Корзина"/></a>
     <div class="cart-label">В корзине <a id="cart-count" href="/cart/"><?php echo $cartCount ?></a></div>
-    
-    
 <?php $this->endWidget();    
 }
 ?>
