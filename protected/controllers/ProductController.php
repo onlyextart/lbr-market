@@ -48,13 +48,13 @@ class ProductController extends Controller
 
         $this->render('index', array(
             'data' => $data, 
-            'price'=> $mainProduct[0], 
-            'update'=> $mainProduct[1], 
-            'filial'=> $mainProduct[2], 
+            'price' => $mainProduct[0], 
+            'update' => $mainProduct[1], 
+            'filial' => $mainProduct[2], 
             'maker' => $maker, 
             'relatedProducts' => $relatedProducts, 
-            'analogProducts'=>$analogProducts, 
-            'drafts'=>$drafts
+            'analogProducts' => $analogProducts, 
+            'drafts' => $drafts
         ));
     }
     
@@ -95,25 +95,25 @@ class ProductController extends Controller
                     }
                 }
             }
-        } else if(!Yii::app()->user->isGuest) {
-            //admin
-        }
-        
-        return array($priceLabel, $update, $filial);
-    }
-    
-    public function getPrice($price, $currencyCode)
-    {
-        $priceLabel = '';
-        // logged user
-        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
-            $currency = Currency::model()->findByPk($currencyCode);
-            if($currency->exchange_rate) {
-                $priceLabel = ($price*$currency->exchange_rate).' руб.';
+        } else if(!Yii::app()->user->isGuest && !empty(Yii::app()->request->cookies['lbrfilial']->value)) {
+            $filialId = Yii::app()->request->cookies['lbrfilial']->value;
+            $filial = Filial::model()->findByPk($filialId)->name;
+            
+            if(!empty($filialId)) {
+                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$productId, 'filial_id'=>$filialId));
+                if(!empty($price)) {
+                    $currency = Currency::model()->findByPk($price->currency_code);
+                    if($currency->exchange_rate) {
+                        $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
+                    
+                        $update = date('d.m.Y H:i', strtotime($currency->update_time));
+                        if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
+                    }
+                }
             }
         }
         
-        return $priceLabel;
+        return array($priceLabel, $update, $filial);
     }
         
     public function getAnalogProducts($id)
@@ -122,6 +122,8 @@ class ProductController extends Controller
         if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
            $user = User::model()->findByPk(Yii::app()->user->_id);   
            $filial = $user->filial;
+        } else if(!Yii::app()->user->isGuest){
+           $filial = Yii::app()->request->cookies['lbrfilial']->value;
         }
         
         $temp = Yii::app()->db->createCommand()
@@ -163,18 +165,14 @@ class ProductController extends Controller
                                              '</div>'
              ;
              
-             if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
+             if(!Yii::app()->user->isGuest) {
                 $price = '';
-                if(!empty($analog->priceInFilial[0]->price)) $price = $this->getPrice($analog->priceInFilial[0]->price, $analog->priceInFilial[0]->currency_code);
+                if(!empty($analog->priceInFilial[0]->price) && Yii::app()->params['showPrices'])
+                    $price = Price::model()->getPrice($analog->id);
                 
                 $analogProducts .= '<div class="cell width-15">'.
                    '<span>'.$price.
-                '</div>';   
-             } else if(!Yii::app()->user->isGuest) {
-                 // admin
-                 $analogProducts .= '<div class="cell width-15">'.
-                   '<span>'.'XXX'.
-                '</div>';  
+                '</div>';
              } else {
                 $analogProducts .= '<div class="cell width-15 price_link">'.
                    '<a href="/site/login/">Узнать цену</a>'.

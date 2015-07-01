@@ -52,7 +52,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
                //var_dump($data->priceInFilial);
                
                if(Yii::app()->params['showPrices']) {
-                  echo $this->getPrice($data->id); 
+                  echo Price::model()->getPrice($data->id); 
                }
             ?></span>
         </div>

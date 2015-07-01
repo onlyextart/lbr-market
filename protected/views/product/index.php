@@ -66,7 +66,7 @@
                      </td>
                   </tr>
                   <?php endif; ?>
-                  <?php if(Yii::app()->params['showPrices'] && (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && $price))): ?>
+                  <?php if(Yii::app()->params['showPrices']): ?>
                   <tr itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">
                      <td>Цена:</td>
                      <td class="price">
@@ -75,7 +75,7 @@
                                 if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
                                     echo '<span>'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
                                 } else if(!Yii::app()->user->isGuest) {
-                                    echo '<span>XXX</span>';
+                                    echo '<span>'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: '.$filial.')</div>';
                                 } else {
                                     echo '<span class="price_link"><a href="/site/login/">Узнать цену</a></span>';
                                 }

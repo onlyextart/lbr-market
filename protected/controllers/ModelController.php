@@ -237,7 +237,7 @@ class ModelController extends Controller
         $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
         $model = Product::model()->cache(1000, $depend)->findByPk($id);
         $draftLabel = $price = '';
-        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) $price = $this->getPrice($id);
+        if(!Yii::app()->user->isGuest && !empty(Yii::app()->params['showPrices'])) $price = Price::model()->getPrice($id);//$price = $this->getPrice($id);
 
         if(Yii::app()->params['showDrafts']){
             $allDrafts = ProductInDraft::model()->findAllByAttributes(array('product_id'=>$id));
@@ -276,13 +276,9 @@ class ModelController extends Controller
             '</div>';
         }*/
 
-        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
+        if(!Yii::app()->user->isGuest) {
             $result .= '<div class="cell width-15">'.
                 '<span>'.$price.'</span>'.
-            '</div>';
-        } else if(!Yii::app()->user->isGuest) {
-            $result .= '<div class="cell width-15">'.
-                '<span>цена ХХХ1</span>'.
             '</div>';
         } else {
             $result .= '<div class="cell width-15 price-link">'.

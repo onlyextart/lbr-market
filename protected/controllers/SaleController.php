@@ -92,38 +92,4 @@ class SaleController extends Controller
         
         return $priceLabel;
     }*/
-    
-    public function getPrice($productId)
-    {
-        //echo ' = '.$productId; exit;
-        $priceLabel = '';
-        if(Yii::app()->params['showPrices']) {
-            // logged user
-            if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
-               $user = User::model()->findByPk(Yii::app()->user->_id);   
-               $filialId = $user->filial;
-               $priceLabel = $this->getPriceInFilial($productId, $filialId);
-            } else if(Yii::app()->user->isGuest && !empty(Yii::app()->request->cookies['lbrfilial']->value)) { //guest
-               $filialId = Yii::app()->request->cookies['lbrfilial']->value;
-               $priceLabel = $this->getPriceInFilial($productId, $filialId);
-            }
-        }
-        
-        return $priceLabel;
-    }
-    
-    public function getPriceInFilial($productId, $filialId)
-    {
-        $priceLabel = '';
-        
-        $priceInFilial = PriceInFilial::model()->find('product_id = :id and filial_id = :filial', array('id'=>$productId, 'filial'=>$filialId));
-        if(!empty($priceInFilial)) {
-            $currency = Currency::model()->findByPk($priceInFilial->currency_code);
-            if(!empty($currency)) {
-                $priceLabel = ($priceInFilial->price*$currency->exchange_rate).' руб.';
-            }
-        }
-        
-        return $priceLabel;
-    }
 }
