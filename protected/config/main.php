@@ -180,7 +180,8 @@ return array(
         'sortOrder' => 'asc',//Yii::app()->params['sortOrder']
         'sortCol' => 'col',//Yii::app()->params['sortCol']
         'showDrafts' => 0,
-        'showPrices' => 1,//Yii::app()->params['showPrices']
+        'showPrices' => 1, //Yii::app()->params['showPrices']
+        'randomImages' => 1, //Yii::app()->params['randomImages']
         'footerLabel' => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
         'breadcrumbs' => array(),
         'meta_title' => 'Запчасти ЛБР-Агромаркет',

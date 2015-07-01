@@ -115,41 +115,43 @@ class UserAccount extends CWidget
             $max = count($elements);
 
             if($max > $count) {
-                /*$temp = array();
-                for($i=0; $i < $count; ) {
+                if(Yii::app()->params['randomImages']) {
+                    $temp = array();
+                    for($i=0; $i < $count; ) {
+                        $offset = mt_rand(0, $max);
+                        //$productId = Product::model()->cache(1000, $dependency)->find(array(
+                        //    'condition' => 'liquidity = "D" and image not NULL', // price more 500 
+                        //    'offset' => $offset,
+                        //    'limit' => 1,
+                        //))->id;
+
+                        $productId = Product::model()->cache(1000, $dependency)->findByAttributes(
+                            array(
+                                'id' => $elements,
+                            ), 
+                            array(
+                                'offset' => $offset,
+                                'limit' => 1,
+                        ))->id;
+
+                        if(!in_array($productId, $temp) && !empty($productId)) {
+                           $temp[] = $productId;
+                           $i++;
+                        }
+                    }
+
+                    $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
+                } else {
                     $offset = mt_rand(0, $max);
-                    //$productId = Product::model()->cache(1000, $dependency)->find(array(
-                    //    'condition' => 'liquidity = "D" and image not NULL', // price more 500 
-                    //    'offset' => $offset,
-                    //    'limit' => 1,
-                    //))->id;
-                    
-                    $productId = Product::model()->cache(1000, $dependency)->findByAttributes(
+                    $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(
                         array(
                             'id' => $elements,
                         ), 
                         array(
                             'offset' => $offset,
-                            'limit' => 1,
-                    ))->id;
-
-                    if(!in_array($productId, $temp) && !empty($productId)) {
-                       $temp[] = $productId;
-                       $i++;
-                    }
+                            'limit' => $count,
+                    ));
                 }
-
-                $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
-                */
-                $offset = mt_rand(0, $max);
-                $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(
-                    array(
-                        'id' => $elements,
-                    ), 
-                    array(
-                        'offset' => $offset,
-                        'limit' => $count,
-                ));
             } else if($max > 0) {
                 /*
                 $sale = Product::model()->cache(1000, $dependency)->findAll(array(

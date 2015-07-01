@@ -131,35 +131,37 @@ class ModelController extends Controller
         $count = 4;
 
         if($max > $count) {
-            /*for($i = 0; $i < $count; ) {
-                $offset = mt_rand(0, $max);                
-                $saleProduct = Product::model()->findByAttributes(
+            if(Yii::app()->params['randomImages']) {
+                for($i = 0; $i < $count; ) {
+                    $offset = mt_rand(0, $max);                
+                    $saleProduct = Product::model()->findByAttributes(
+                        array(
+                            'id'=>$elements,
+                        ), 
+                        array(
+                            'offset' => $offset,
+                            'limit' => 1,
+                        )
+                    );
+
+                    if(!in_array($saleProduct[id], $temp) && !empty($saleProduct[id])) {
+                       $temp[] = $saleProduct[id];
+                       $i++;
+                    }
+                }
+                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+            } else {
+                $offset = mt_rand(0, $max);
+                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
                     array(
-                        'id'=>$elements,
+                        'id' => $elements,
                     ), 
                     array(
                         'offset' => $offset,
-                        'limit' => 1,
+                        'limit' => $count,
                     )
                 );
-
-                if(!in_array($saleProduct[id], $temp) && !empty($saleProduct[id])) {
-                   $temp[] = $saleProduct[id];
-                   $i++;
-                }
             }
-            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
-            */
-            $offset = mt_rand(0, $max);
-            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
-                array(
-                    'id' => $elements,
-                ), 
-                array(
-                    'offset' => $offset,
-                    'limit' => $count,
-                )
-            );
         } else {
             foreach($elements as $element) {
                 $temp[] = $element;
@@ -212,7 +214,7 @@ class ModelController extends Controller
         return $result;
     }
     
-    public function getPrice($id)
+    /*public function getPrice($id)
     {
         $priceLabel = '';
         
@@ -230,7 +232,7 @@ class ModelController extends Controller
         }
         
         return $priceLabel;
-    }
+    }*/
     
     public function showProducts($id, $flag)
     {   
@@ -265,17 +267,7 @@ class ModelController extends Controller
                      </div>
                      <div class="cell draft width-35">'.$draftLabel.'</div>'
         ;
-
-        /*if(!Yii::app()->user->isGuest) {
-            $result .= '<div class="cell width-15">'.
-                '<span>цена ХХХ</span>'.
-            '</div>';
-        } else {
-            $result .= '<div class="cell width-15 price-link">'.
-                '<a href="/site/login/">Узнать цену</a>'.
-            '</div>';
-        }*/
-
+        
         if(!Yii::app()->user->isGuest) {
             $result .= '<div class="cell width-15">'.
                 '<span>'.$price.'</span>'.
