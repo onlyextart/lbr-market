@@ -41,6 +41,7 @@
             //Yii::app()->clientScript->registerScriptFile('/js/front/jquery.BlackAndWhite.min.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/jquery.inputmask.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/inputmask.js');
+            $filial = Yii::app()->request->cookies['lbrfilial']->value;
         ?>
     </head>
     <body>
@@ -94,7 +95,14 @@
                 </ul>
             </div>
             <?php if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
-               <div class="region-label">Ваш регион: <span id="region">Не выбран</span></div>
+               <?php
+                  if(!empty($filial)): 
+                      $filial = Filial::model()->findByPk($filial)->name; 
+               ?>
+                  <div class="region-label">Ваш филиал: <span id="region"><?php echo $filial?></span></div>
+               <?php else: ?>
+                  <div class="region-label">Ваш филиал: <span id="region"><?php echo $filial?>-Не выбран</span></div>
+               <?php endif; ?>
             <?php endif; ?>
             <div class="map">
                 <a href="http://www.lbr.ru/company/contacts/">

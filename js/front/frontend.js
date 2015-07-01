@@ -6,10 +6,6 @@ $(document).ready(function($){
         showRegions();
     });
     
-    /*$('.btn-request').click(function() {
-        document.location.href = "/site/quickform/";
-    });*/
-    
     $('#confirm-region').click(function() {
         var selector = $('#select-region').find(":selected");
         $.ajax({
@@ -20,14 +16,11 @@ $(document).ready(function($){
                 id: selector.val(),
             },
             success: function() {
-                //setCookie('filial', $(this).attr('contact'), '3', '/', '.lbr.ru');
-                
-                $("#region").text(selector.text());
+                location.reload();
+                /*$("#region").text(selector.text());
                 if($("#setRegion").dialog("isOpen")) {
                     $("#setRegion").dialog('close');
-                }
-                
-                //console.log(<?php echo Yii::app()->session['region'] ?>);
+                }*/
         }});           
     });
     /* end choose filial */

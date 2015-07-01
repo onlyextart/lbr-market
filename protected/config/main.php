@@ -171,6 +171,7 @@ return array(
         //'host'=>'lbr.test',
         'host'=>'lbr-market.ru',
         'admin_email'=>'shop@lbr.ru',
+        'maxInCart' => 5, // count of product types
         'region'=>'',
         'currentType' => '',
         'currentMaker' => '',
@@ -217,6 +218,5 @@ return array(
             ),
             'FAQ'=>'/admin/faq/',
         ),
-        'maxInCart' => 5, // count of product types
     ),
 );

@@ -46,7 +46,15 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
         </div>
         <div class="cell draft width-35"><?php echo (Yii::app()->params['showDrafts']) ? $draftLabel : '' ?></div>
         <div class="cell width-15">
-            <span><?php echo $this->getPrice($data->priceInFilial[0]->price, $data->priceInFilial[0]->currency_code) ?></span>
+            <span><?php
+               //echo $this->getPrice($data->priceInFilial[0]->price, $data->priceInFilial[0]->currency_code); 
+               //echo '<pre>';
+               //var_dump($data->priceInFilial);
+               
+               if(Yii::app()->params['showPrices']) {
+                  echo $this->getPrice($data->id); 
+               }
+            ?></span>
         </div>
         <div class="cell width-20">
             <div class="cart-form" elem="<?php echo $data->id ?>">

@@ -8,6 +8,8 @@ class SaleController extends Controller
         if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
            $user = User::model()->findByPk(Yii::app()->user->_id);   
            $filial = $user->filial;
+        } else if(!empty(Yii::app()->request->cookies['lbrfilial']->value)) { // guest
+           $filial = Yii::app()->request->cookies['lbrfilial']->value;
         }
         
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');     
@@ -35,9 +37,11 @@ class SaleController extends Controller
         */
         
         $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql); 
-        if(!empty($filial)) $criteria->addCondition('pr.filial_id = :filial and pr.price > 500'); // price more 500
-        $criteria->params = array(':filial'=>$filial);
-
+        if(!empty($filial)) {
+            $criteria->addCondition('pr.filial_id = :filial'); // price more 500
+            $criteria->params = array(':filial'=>$filial);
+        }
+        
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
             array(
                 'criteria' => $criteria,
@@ -64,6 +68,10 @@ class SaleController extends Controller
             )
         );
         
+        //echo '<pre>';
+        //var_dump($data->getData());
+        //exit;
+        
         Yii::app()->params['meta_title'] = 'Распродажа';
         $breadcrumbs[] = 'Распродажа';
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
@@ -71,14 +79,48 @@ class SaleController extends Controller
         $this->render('index', array('data' => $data));
     }
     
-    public function getPrice($price, $currencyCode)
+    /*public function getPrice($price, $currencyCode)
     {
         $priceLabel = '';
-        // logged user
-        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
+        
+        if(Yii::app()->params['showPrices']) {
             $currency = Currency::model()->findByPk($currencyCode);
             if($currency->exchange_rate) {
                 $priceLabel = ($price*$currency->exchange_rate).' руб.';
+            }
+        }
+        
+        return $priceLabel;
+    }*/
+    
+    public function getPrice($productId)
+    {
+        //echo ' = '.$productId; exit;
+        $priceLabel = '';
+        if(Yii::app()->params['showPrices']) {
+            // logged user
+            if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
+               $user = User::model()->findByPk(Yii::app()->user->_id);   
+               $filialId = $user->filial;
+               $priceLabel = $this->getPriceInFilial($productId, $filialId);
+            } else if(Yii::app()->user->isGuest && !empty(Yii::app()->request->cookies['lbrfilial']->value)) { //guest
+               $filialId = Yii::app()->request->cookies['lbrfilial']->value;
+               $priceLabel = $this->getPriceInFilial($productId, $filialId);
+            }
+        }
+        
+        return $priceLabel;
+    }
+    
+    public function getPriceInFilial($productId, $filialId)
+    {
+        $priceLabel = '';
+        
+        $priceInFilial = PriceInFilial::model()->find('product_id = :id and filial_id = :filial', array('id'=>$productId, 'filial'=>$filialId));
+        if(!empty($priceInFilial)) {
+            $currency = Currency::model()->findByPk($priceInFilial->currency_code);
+            if(!empty($currency)) {
+                $priceLabel = ($priceInFilial->price*$currency->exchange_rate).' руб.';
             }
         }
         
