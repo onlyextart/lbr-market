@@ -173,7 +173,7 @@
         <div class="guest-data">
             <h2>Адрес получателя</h2>
             <div class="form wide">
-                <?php echo CHtml::errorSummary($this->form); ?>
+                <?php echo CHtml::errorSummary($this->form, ''); ?>
                 <div class="row">
                     <div class="row">
                         <?php echo CHtml::activeLabel($this->form, 'user_name', array('required'=>true)); ?>
@@ -191,7 +191,7 @@
                     </div>
 
                     <div class="row">
-                        <?php echo CHtml::activeLabel($this->form, 'user_address', array('required'=>true)); ?>
+                        <?php echo CHtml::activeLabel($this->form, 'user_address'/*, array('required'=>true)*/); ?>
                         <?php echo CHtml::activeTextArea($this->form,'user_address'); ?>
                     </div>
 
@@ -242,6 +242,19 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
           var count = parseInt(elem.val()) - 1;
           if(count < 1) count = 1;
           elem.val(count);
+       });
+       
+       $('.delivery-type input[type=radio][id=OrderCreateForm_delivery_id]').change(function() {
+            var element = $('label[for=OrderCreateForm_user_address]');
+            if($(this).next().text() != 'Самовывоз') {
+                if(!element.hasClass('required')) {
+                    element.addClass('required');
+                    element.append('<span class="required">*</span>');
+                }
+            } else {
+                element.removeClass('required');
+                element.find('span').remove();
+            }
        });
     });
 </script>

@@ -2375,7 +2375,7 @@ div.form .errorSummary p {
 }
 div.form .errorSummary ul {
     margin: 0;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 10px;
 }
 div.form div.error input, div.form div.error textarea, div.form div.error select, div.form input.error, div.form textarea.error, div.form select.error {
     background: none repeat scroll 0 0 #fee;
