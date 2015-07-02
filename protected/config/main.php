@@ -177,11 +177,14 @@ return array(
         'currentMaker' => '',
         'currentSale' => '',
         'searchFlag' => '',
-        'sortOrder' => 'asc',//Yii::app()->params['sortOrder']
-        'sortCol' => 'col',//Yii::app()->params['sortCol']
+        
+        'sortOrder' => 'asc',
+        'sortCol' => 'col',
+        
         'showDrafts' => 0,
-        'showPrices' => 1, //Yii::app()->params['showPrices']
-        'randomImages' => 1, //Yii::app()->params['randomImages']
+        'showPrices' => 0,
+        'showPricesForAdmin' => 1, // will run if showPrices == 0,
+        'randomImages' => 1,
         'footerLabel' => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
         'breadcrumbs' => array(),
         'meta_title' => 'Запчасти ЛБР-Агромаркет',
@@ -190,7 +193,6 @@ return array(
             'Каталог'=>array(
                 'Валюта'=>'/admin/currency/',
                 'Группы товаров'=>'/admin/group/',
-                //'Доставка'=>'#',
                 'Запчасти'=>'/admin/product/',
                 'Категории'=>'/admin/category/',
                 'Модельные ряды'=>'/admin/modelline/',
@@ -201,6 +203,7 @@ return array(
             'Скидки'=>'/admin/discount/',
             'Заказы'=>array(
                 'Все заказы'=>'/admin/order/',
+                //'Доставка'=>'#',
                 'Статусы заказов'=>'/admin/orderstatus/',
             ),
             'Сайт'=>array(

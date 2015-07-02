@@ -119,10 +119,13 @@ class Price extends CActiveRecord
                    $user = User::model()->findByPk(Yii::app()->user->_id);   
                    $filialId = $user->filial;
                    $priceLabel = Price::model()->getPriceInFilial($productId, $filialId);
-                } else if(!empty(Yii::app()->request->cookies['lbrfilial']->value)) { //guest
+                } else if(!empty(Yii::app()->request->cookies['lbrfilial']->value)) { //guest or admin
                    $filialId = Yii::app()->request->cookies['lbrfilial']->value;
                    $priceLabel = Price::model()->getPriceInFilial($productId, $filialId);
                 }
+            } else if(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']) { // admin
+                $filialId = Yii::app()->request->cookies['lbrfilial']->value;
+                $priceLabel = Price::model()->getPriceInFilial($productId, $filialId);
             }
 
             return $priceLabel;

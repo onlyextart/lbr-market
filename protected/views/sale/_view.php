@@ -47,11 +47,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
         <div class="cell draft width-35"><?php echo (Yii::app()->params['showDrafts']) ? $draftLabel : '' ?></div>
         <div class="cell width-15">
             <span><?php
-               //echo $this->getPrice($data->priceInFilial[0]->price, $data->priceInFilial[0]->currency_code); 
-               //echo '<pre>';
-               //var_dump($data->priceInFilial);
-               
-               if(Yii::app()->params['showPrices']) {
+               if(Yii::app()->params['showPrices'] || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                   echo Price::model()->getPrice($data->id); 
                }
             ?></span>

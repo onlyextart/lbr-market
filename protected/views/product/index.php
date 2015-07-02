@@ -84,6 +84,18 @@
                         <link href="http://schema.org/InStock" itemprop="availability">
                      </td>
                   </tr>
+                  <?php elseif(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']): ?>
+                  <tr itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">
+                     <td>Цена:</td>
+                     <td class="price">
+                         <div itemprop="price">
+                             <?php
+                                echo '<span>'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: '.$filial.')</div>';
+                             ?>
+                        </div>
+                        <link href="http://schema.org/InStock" itemprop="availability">
+                     </td>
+                  </tr>
                   <?php endif; ?>
                   <?php //if ((!Yii::app()->user->isGuest && !empty($price)) || Yii::app()->user->isGuest): ?>
                   <tr>
