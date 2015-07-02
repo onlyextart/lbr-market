@@ -239,7 +239,7 @@ class ModelController extends Controller
         $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
         $model = Product::model()->cache(1000, $depend)->findByPk($id);
         $draftLabel = $price = '';
-        if(!Yii::app()->user->isGuest && !empty(Yii::app()->params['showPrices'])) $price = Price::model()->getPrice($id);//$price = $this->getPrice($id);
+        if(!Yii::app()->user->isGuest && (Yii::app()->params['showPrices'] || Yii::app()->params['showPricesForAdmin'])) $price = Price::model()->getPrice($id);//$price = $this->getPrice($id);
 
         if(Yii::app()->params['showDrafts']){
             $allDrafts = ProductInDraft::model()->findAllByAttributes(array('product_id'=>$id));
@@ -269,9 +269,11 @@ class ModelController extends Controller
         ;
         
         if(!Yii::app()->user->isGuest) {
-            $result .= '<div class="cell width-15">'.
-                '<span>'.$price.'</span>'.
-            '</div>';
+            if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])){
+                $result .= '<div class="cell width-15">'.
+                    '<span>'.$price.'</span>'.
+                '</div>';                
+            }
         } else {
             $result .= '<div class="cell width-15 price-link">'.
                 '<a href="/site/login/">Узнать цену</a>'.

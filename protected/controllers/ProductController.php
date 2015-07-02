@@ -168,9 +168,7 @@ class ProductController extends Controller
              if(!Yii::app()->user->isGuest) {
                 $price = '';
                 if(!empty($analog->priceInFilial[0]->price)) {
-                    if(!empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
-                        $price = Price::model()->getPrice($analog->id);
-                    } else if(empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']) {
+                    if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                         $price = Price::model()->getPrice($analog->id);
                     }   
                 }
