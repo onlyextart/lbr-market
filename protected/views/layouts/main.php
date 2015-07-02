@@ -101,7 +101,7 @@
                ?>
                   <div class="region-label">Ваш филиал: <span id="region"><?php echo $filial?></span></div>
                <?php else: ?>
-                  <div class="region-label">Ваш филиал: <span id="region"><?php echo $filial?>-Не выбран</span></div>
+                  <div class="region-label">Ваш филиал: <span id="region">Не выбран</span></div>
                <?php endif; ?>
             <?php endif; ?>
             <div class="map">
