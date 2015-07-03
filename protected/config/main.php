@@ -193,6 +193,7 @@ return array(
             'Каталог'=>array(
                 'Группы товаров'=>'/admin/group/',
                 'Запчасти'=>'/admin/product/',
+                'Запчасти, на которые нет цен'=>'/admin/noprice/',
                 'Категории'=>'/admin/category/',
                 'Модельные ряды'=>'/admin/modelline/',
                 'Производители запчастей'=>'/admin/productmaker/',
@@ -212,7 +213,6 @@ return array(
                 'Спецпредложения'=>'/admin/bestoffer/',
                 'Страницы'=>'/admin/page/',
                 'Структура'=>'/admin/structure/',
-                'Запчасти, на которые нет цен'=>'/admin/noprice/',
                 //'Хиты продаж'=>'/admin/bestseller/',
             ),
             //'Уведомления'=>'#',

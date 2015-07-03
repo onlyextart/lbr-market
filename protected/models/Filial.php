@@ -18,6 +18,7 @@
  */
 class Filial extends CActiveRecord
 {
+        public  $price;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -69,6 +70,7 @@ class Filial extends CActiveRecord
 			'lft' => 'Lft',
 			'parent' => 'Parent',
 			'level' => 'Level',
+                        'price' => 'Цена'
 		);
 	}
 

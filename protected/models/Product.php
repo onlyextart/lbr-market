@@ -134,7 +134,7 @@ class Product extends CActiveRecord
 			'catalog_number' => 'Каталожный номер',
 			'product_maker_id' => 'Производитель',
 			'image' => 'Изображение',
-			'count' => 'Количество',
+			'count' => 'В наличии, шт.',
 			'liquidity' => 'Ликвидность',
 			'min_quantity' => 'Минимальное количество',
 			'additional_info' => 'Дополнительная информация',
