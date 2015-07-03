@@ -18,7 +18,7 @@
  */
 class Filial extends CActiveRecord
 {
-        public  $price;
+        public  $price, $currency_code, $product_name;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -65,12 +65,14 @@ class Filial extends CActiveRecord
 			'id' => 'ID',
 			'external_id' => 'External',
 			'name' => 'Название',
+			'product_name' => 'Название',
 			'update_time' => 'Update Time',
 			'rgt' => 'Rgt',
 			'lft' => 'Lft',
 			'parent' => 'Parent',
 			'level' => 'Level',
-                        'price' => 'Цена'
+                        'price' => 'Цена',
+                        'product_external_id' => 'ID'
 		);
 	}
 

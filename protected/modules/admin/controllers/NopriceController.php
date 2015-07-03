@@ -39,14 +39,26 @@ class NopriceController extends Controller
             $dataProviderNotAllPrices = new CActiveDataProvider('Filial', array(
                 'criteria' => array(
                     //'with' => array('product'=>array('select'=>'name')),
-                    'select' => array('p.product_id id, p.price price, t.name name'),
+                    'select' => array('p.product_id id, p.currency_code currency_code, p.price price, t.name name'),
                     'join' => 'LEFT JOIN price_in_filial AS p ON p.filial_id = t.id',
-                    //'condition' => 'price IS NULL'
+                    'order' => 'p.product_id',
+                    'condition' => 'p.price IS NULL and t.level > 1'
                 ),
                 'pagination' => array(
                     'pageSize' => 18,
                 )
             ));
+            /*$dataProviderNotAllPrices = new CActiveDataProvider('PriceInFilial', array(
+                'criteria' => array(
+                    //'with' => array('product'=>array('select'=>'name')),
+                    'select' => array('t.product_id id, t.price price, f.name name'),
+                    'join' => 'RIGHT JOIN filial AS f ON t.filial_id = f.id',
+                    //'condition' => 'price IS NULL'
+                ),
+                'pagination' => array(
+                    'pageSize' => 18,
+                )
+            ));*/
             
             $this->render('noprice', array(
                     'model'=>$model,

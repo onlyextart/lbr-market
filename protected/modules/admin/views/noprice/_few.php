@@ -5,15 +5,26 @@
         'dataProvider'=>$data,
         'template'=>'{items}{pager}{summary}',
         'columns' => array(
-            'id',
-            //'name',
-            /*'external_id', 
+            array(
+                'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
+            ),
+            //'id',
             array (
-                'name'=>'name',
+                'name'=>'product_external_id',
                 'type'=>'raw',
-                'value'=>'CHtml::link(CHtml::encode($data->name), array("product/edit","id"=>$data->id))',
-            ),*/
-            'price',
+                'value'=>'Product::model()->findByPk($data->id)->external_id',
+            ),
+            array (
+                'name'=>'product_name',
+                'type'=>'raw',
+                'value'=>'CHtml::link(CHtml::encode(Product::model()->findByPk($data->id)->name), array("product/edit","id"=>$data->id), array("target"=>"_blank"))',
+            ),
+            //'price',
+            array (
+                'name'=>'price',
+                'type'=>'raw',
+                'value'=>'$data->price." ".Currency::model()->findByPk($data->currency_code)->symbol',
+            ),
             'name'
         ),
     ));
