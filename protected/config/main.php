@@ -191,7 +191,6 @@ return array(
         'meta_description' => 'Магазин запчастей, запчасти ЛБР',
         'menu_admin' => array(
             'Каталог'=>array(
-                'Валюта'=>'/admin/currency/',
                 'Группы товаров'=>'/admin/group/',
                 'Запчасти'=>'/admin/product/',
                 'Категории'=>'/admin/category/',
@@ -203,8 +202,9 @@ return array(
             'Скидки'=>'/admin/discount/',
             'Заказы'=>array(
                 'Все заказы'=>'/admin/order/',
-                'Способы доставки'=>'/admin/delivery/',
                 'Статусы заказов'=>'/admin/orderstatus/',
+                'Способы доставки'=>'/admin/delivery/',
+                'Валюта'=>'/admin/currency/',
             ),
             'Сайт'=>array(
                 //'Актуальные предложения'=>'/admin/actualoffer/',
