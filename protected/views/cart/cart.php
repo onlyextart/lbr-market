@@ -214,7 +214,8 @@
     <?php endif; ?>
     <?php else: ?>
     <div class="confirm_order">
-        <input class="btn guestcart" type="button" value="Авторизоваться">
+        <!--input class="btn guestcart" type="button" value="Авторизоваться"-->
+        <?php echo CHtml::link('Авторизоваться', '/site/login/', array('class' => 'btn guestcart','target'=>'_blank')); ?>
     </div>
     <?php endif; ?>
     <?php echo CHtml::endForm() ?>

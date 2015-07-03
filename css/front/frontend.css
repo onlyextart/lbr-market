@@ -2176,6 +2176,7 @@ input.small-cart-button{
 .btn.guestcart {
     margin-bottom: 8px;
     margin-right: 5px;
+    display: inline-block;
 }
 .cart-wrapper .silver_button {
     display: inline-block;
