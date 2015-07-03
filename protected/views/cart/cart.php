@@ -131,43 +131,24 @@
         <?php endif; ?>
     </div>
     <?php if(!Yii::app()->user->isGuest): ?>
-    <?php if(Yii::app()->params['showPrices']):?>
     <div class="order-data">
         <div class="delivery-type">
             <h2>Способ доставки</h2>
             <ul>
                 <?php foreach($deliveryMethods as $delivery): ?>
-                <?php //if($delivery->id == 1): ?>
                 <li>
-                        <label class="radio">
-                                <?php
-                                echo CHtml::activeRadioButton($this->form, 'delivery_id', array(
-                                        'checked'        => ($this->form->delivery_id == $delivery->id),
-                                        'uncheckValue'   => null,
-                                        'value'          => $delivery->id,
-                                        //'data-price'     => Yii::app()->currency->convert($delivery->price),
-                                        //'data-free-from' => Yii::app()->currency->convert($delivery->free_from),
-                                        //'onClick'        => 'recountOrderTotalPrice(this);',
-                                ));
-                                ?>
-                                <span><?php echo CHtml::encode($delivery->name) ?></span>
-                        </label>
-                        <!--p><? echo $delivery->name?></p-->
+                    <label class="radio">
+                        <?php
+                        echo CHtml::activeRadioButton($this->form, 'delivery_id', array(
+                            'checked'        => ($this->form->delivery_id == $delivery->id),
+                            'uncheckValue'   => null,
+                            'value'          => $delivery->id,
+                        ));
+                        ?>
+                        <span><?php echo CHtml::encode($delivery->name) ?></span>
+                    </label>
                 </li>
-                <?php //endif; ?>
                 <?php endforeach; ?>
-                 <!--li>
-                   <label class="radio">
-                      <input type="radio" id="OrderCreateForm_delivery_id" name="OrderCreateForm[delivery_id]" value="1">						
-                      <span>Самовывоз</span>
-                   </label>
-                </li>
-                <li>
-                   <label class="radio">
-                      <input type="radio" id="OrderCreateForm_delivery_id" name="OrderCreateForm[delivery_id]" value="2">						
-                      <span>Курьером</span>
-                   </label>
-                </li-->
             </ul>
         </div>
         <div class="guest-data">
@@ -205,13 +186,12 @@
         </div>
     </div>
     <div class="confirm_order">
-        <h1>Всего к оплате:</h1>
+        <?php if((Yii::app()->params['showPrices'])):?><h1>Всего к оплате:</h1><?php endif;?>
         <span id="total-price" class="total">
-            <?php echo $total; ?>
+            <?php echo (Yii::app()->params['showPrices'])? $total : '<h1>Информация о ценах временно не доступна</h1>'; ?>
         </span>
         <button class="btn" type="submit" name="create" value="1">Оформить</button>
     </div>
-    <?php endif; ?>
     <?php else: ?>
     <div class="confirm_order">
         <?php echo CHtml::link('Авторизоваться', '/site/login/', array('class' => 'btn guestcart','target'=>'_blank')); ?>
