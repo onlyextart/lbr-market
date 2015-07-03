@@ -4,7 +4,7 @@ class SaleController extends Controller
     public function actionIndex()
     {   
         $sql = $filial = '';
-        
+        set_time_limit(0);
         if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
            $user = User::model()->findByPk(Yii::app()->user->_id);   
            $filial = $user->filial;

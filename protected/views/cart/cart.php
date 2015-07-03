@@ -74,7 +74,7 @@
                         <td>
                             <?php
                                 echo CHtml::openTag('span', array('class'=>'price'));
-                                echo (Yii::app()->params['showPrices'])?$price['total']:'Информация о ценах в данный момент не доступна';
+                                echo (Yii::app()->params['showPrices']) ? $price['total'] : Yii::app()->params['textHidePrice'];
                                 echo CHtml::closeTag('span');
                             ?>
                         </td>
@@ -188,7 +188,7 @@
     <div class="confirm_order">
         <?php if((Yii::app()->params['showPrices'])):?><h1>Всего к оплате:</h1><?php endif;?>
         <span id="total-price" class="total">
-            <?php echo (Yii::app()->params['showPrices'])? $total : '<h1>Информация о ценах временно не доступна</h1>'; ?>
+            <?php echo (Yii::app()->params['showPrices']) ? $total : '<h1>'.Yii::app()->params['textHidePrice'].'</h1>'; ?>
         </span>
         <button class="btn" type="submit" name="create" value="1">Оформить</button>
     </div>

@@ -166,12 +166,12 @@ class ProductController extends Controller
              ;
              
              if(!Yii::app()->user->isGuest) {
-                $price = '';
+                $price = ''; //Yii::app()->params['textHidePrice'];
                 if(!empty($analog->priceInFilial[0]->price)) {
                     if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                         $price = Price::model()->getPrice($analog->id);
-                    }   
-                }
+                    } else $price = Yii::app()->params['textHidePrice'];
+                } else $price = 'нет цены';
                 
                 $analogProducts .= '<div class="cell width-15">'.
                    '<span>'.$price.
