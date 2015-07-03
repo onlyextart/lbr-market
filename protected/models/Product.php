@@ -124,7 +124,7 @@ class Product extends CActiveRecord
             
                 return array(
 			'id' => 'ID',
-			'external_id' => 'External',
+			'external_id' => 'ID',
 			'name' => 'Название',
 			'product_group_id' => 'Группа продукта',
                         'group'=>'Группа продукта',
@@ -207,7 +207,7 @@ class Product extends CActiveRecord
                                 'asc' => $expr='productMaker.name',
                                 'desc' => $expr.' DESC',
                             ),
-                            'id','name', 'catalog_number', 'count', 'liquidity','min_quantity', 'update_time'
+                            'id', 'external_id', 'name', 'catalog_number', 'count', 'liquidity','min_quantity', 'update_time'
                         )),
 
 		));

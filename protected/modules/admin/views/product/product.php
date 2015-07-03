@@ -24,7 +24,8 @@ $errorMsg = Yii::app()->user->getFlash('error');
             'class' => 'LinkPager',
             //'header' => false,
         ),
-        'columns' => array('id', 
+        'columns' => array(
+            'external_id',
             array (
                 'name'=>'name',
                 'type'=>'raw',
@@ -34,7 +35,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
             array(
                 'name'=>'productGroup_name',
                 'value'=>'$data->productGroup->name',
-             ),
+            ),
             
             /*array(
                 'name'=>'price_value',
