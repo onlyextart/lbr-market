@@ -212,6 +212,7 @@ return array(
                 'Спецпредложения'=>'/admin/bestoffer/',
                 'Страницы'=>'/admin/page/',
                 'Структура'=>'/admin/structure/',
+                'Запчасти, на которые нет цен'=>'/admin/noprice/',
                 //'Хиты продаж'=>'/admin/bestseller/',
             ),
             //'Уведомления'=>'#',

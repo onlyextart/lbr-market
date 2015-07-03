@@ -40,7 +40,10 @@ class Product extends CActiveRecord
                 //$price_value, 
                 $productMaker_name,
                 //$currency_iso,
-                $group;
+                $group, 
+                $price,
+                $filial
+        ;
         
         CONST IN_STOCK = 'есть в наличии';
         CONST IN_STOCK_SHORT = 'в наличии';
@@ -142,6 +145,7 @@ class Product extends CActiveRecord
 			'published' => 'Опубликовать',
                         'update_time' => 'Дата обновления',
                         'weight' => 'Вес',
+                        'price' => 'Цена'
 		);
 	}
 
