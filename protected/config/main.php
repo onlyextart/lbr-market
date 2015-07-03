@@ -203,7 +203,7 @@ return array(
             'Скидки'=>'/admin/discount/',
             'Заказы'=>array(
                 'Все заказы'=>'/admin/order/',
-                //'Доставка'=>'#',
+                'Способы доставки'=>'/admin/delivery/',
                 'Статусы заказов'=>'/admin/orderstatus/',
             ),
             'Сайт'=>array(
