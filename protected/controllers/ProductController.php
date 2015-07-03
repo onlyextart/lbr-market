@@ -93,7 +93,7 @@ class ProductController extends Controller
                         $update = date('d.m.Y H:i', strtotime($currency->update_time));
                         if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
                     }
-                }
+                } else $priceLabel = Yii::app()->params['textNoPrice'];
             }
         } else if(!Yii::app()->user->isGuest && !empty(Yii::app()->request->cookies['lbrfilial']->value)) {
             $filialId = Yii::app()->request->cookies['lbrfilial']->value;
@@ -109,7 +109,7 @@ class ProductController extends Controller
                         $update = date('d.m.Y H:i', strtotime($currency->update_time));
                         if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
                     }
-                }
+                } else $priceLabel = Yii::app()->params['textNoPrice'];
             }
         }
         
@@ -171,11 +171,9 @@ class ProductController extends Controller
                     if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                         $price = Price::model()->getPrice($analog->id);
                     } else $price = Yii::app()->params['textHidePrice'];
-                } else $price = 'нет цены';
+                } else $price = Yii::app()->params['textNoPrice'];
                 
-                $analogProducts .= '<div class="cell width-15">'.
-                   '<span>'.$price.
-                '</div>';
+                $analogProducts .= '<div class="cell width-15">'.$price.'</div>';
              } else {
                 $analogProducts .= '<div class="cell width-15 price_link">'.
                    '<a href="/site/login/">Узнать цену</a>'.

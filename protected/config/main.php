@@ -188,6 +188,7 @@ return array(
         'footerLabel' => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
         'breadcrumbs' => array(),
         'textHidePrice' => 'Информация о ценах временно недоступна',
+        'textNoPrice' => 'нет цены',
         'meta_title' => 'Запчасти ЛБР-Агромаркет',
         'meta_description' => 'Магазин запчастей, запчасти ЛБР',
         'menu_admin' => array(
