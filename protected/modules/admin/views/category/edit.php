@@ -39,9 +39,9 @@ $errorMsg = Yii::app()->user->getFlash('error');
     <div class="left">
         <div class="form wide">
             <?php
-            if (!empty($model->id)) {
+            //if (!empty($model->id)) {
                echo $form->asTabs(); 
-            }
+            //}
             ?>
         </div>
     </div>

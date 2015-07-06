@@ -27,7 +27,7 @@ class CategoryController extends Controller
         $form = new STabbedForm('application.modules.admin.views.category.form', $model);
         $form->formWidget = 'ext.yiiext.sidebartabs.CJuiTabs';
         $form->summaryOnEachTab = true;
-
+        
         $criteria = new CDbCriteria;
         $criteria->order = 'parent, lft';
         $criteria->condition = 'level = 1';
@@ -67,9 +67,19 @@ class CategoryController extends Controller
                 Yii::app()->user->setFlash('message', 'Категория сохранена.');
             }
         }
-        $form = new STabbedForm('application.modules.admin.views.category.form', $model);
-        $form->formWidget = 'ext.yiiext.sidebartabs.CJuiTabs';
-        $form->summaryOnEachTab = true;
+        
+        //$form = new STabbedForm('application.modules.admin.views.category.form', $model);
+        //$form->formWidget = 'ext.yiiext.sidebartabs.CJuiTabs';
+        //$form->summaryOnEachTab = true;
+        ////////////////////////////
+        $tabs=array(
+            'Общая информация'=>$this->renderPartial('form', array('model'=>$model), true),
+            'Сборочный чертеж' => $this->renderPartial('_seo', array('model'=>$model), true),
+            
+        );
+
+        $this->beginWidget('ext.yiiext.sidebartabs.CJuiTabs', array('tabs'=>$tabs));
+        $this->endWidget();
         
         $criteria = new CDbCriteria;
         $criteria->order = 'parent, lft';

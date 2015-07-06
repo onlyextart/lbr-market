@@ -33,10 +33,15 @@ class ModellinesController extends Controller
         // end breadcrumbs
         
         Yii::app()->params['meta_title'] = $categoryRoot->name;
-        if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
-        if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
-        if(!empty($categoryRoot->top_text)) $topText = $categoryRoot->top_text;
-        if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
+                
+        if(!empty($maker)) {
+            
+        } else {
+            if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
+            if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
+            if(!empty($categoryRoot->top_text)) $topText = $categoryRoot->top_text;
+            if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
+        }
         
         // сортировать по типу техники
         /*if(empty(Yii::app()->params['currentMaker'])){

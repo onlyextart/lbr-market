@@ -620,4 +620,55 @@ class SiteController extends Controller
             $product->save();
         }*/
     }
+    
+    public function actionSeo()
+    {
+        set_time_limit(0);
+        $category = Category::model()->find('level = 1');
+        $roots = $category->children()->findAll();
+        //echo '<pre>';
+        foreach($roots as $root) {
+            //var_dump($root->name);
+            $children = $root->children()->findAll();
+            foreach($children as $child) {
+                $criteria = new CDbCriteria();
+                $criteria->distinct = true;
+                $criteria->condition = 'category_id = '.$child->id;      
+                $criteria->select = 'maker_id';
+                $models = ModelLine::model()->findAll($criteria);
+                foreach($models as $model) {
+                    //$temp[] = $model['maker_id'];
+                    $seoModel = new CategorySeo();
+                    $seoModel->category_id = $root->id;
+                    $seoModel->equipment_id = $model['maker_id'];
+                    $seoModel->save();
+                }
+
+                //$crit = new CDbCriteria();
+                //$crit->addInCondition('id', $temp);
+                //$makersAll = EquipmentMaker::model()->findAll($crit);
+            }
+            /*foreach ($makersAll as $maker) {
+                $seoModel = new CategorySeo();
+                $seoModel->category_id = $root->id;
+                $seoModel->equipment_id = $maker->id;
+                $seoModel->save();
+            }*/
+        }
+        
+        
+        
+        
+        
+            
+        /*$modellines = ModelLine::model()->findAll();
+        foreach($modellines as $modelline) {
+            if(!empty($modelline->category_id) && !empty($modelline->maker_id)){
+                $seoModel = new CategorySeo();
+                $seoModel->category_id = $modelline->category_id;
+                $seoModel->equipment_id = $modelline->maker_id;
+                $seoModel->save();
+            }
+        }*/
+    }
 }

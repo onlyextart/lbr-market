@@ -1,4 +1,6 @@
 <?php
+echo 1;
+/*
 return array(
     //'id'=>'Category',
     'showErrorSummary'=>true,
@@ -21,6 +23,12 @@ return array(
                 'path'=>array(
                     'type'=>'text',
                 ),
+            ),
+        ),
+        'seo'=>array(
+            'type'=>'form',
+            'title'=>'Мета данные',
+            'elements'=>array(
                 'meta_title'=>array(
                     'type'=>'text',
                 ),
@@ -33,11 +41,8 @@ return array(
                 'bottom_text'=>array(
                     'type'=>'SRichTextarea',
                 ),
-                /*'alias'=>array(
-                    'type'=>'text',
-                ),*/
             ),
         ),
     ),
-);
+);*/
 

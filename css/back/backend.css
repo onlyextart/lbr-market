@@ -798,7 +798,7 @@ body .alertify-log-error{
     padding: 0;
 }
 .left .ui-widget-header{
-    border: none;
+    /*border: none;*/
 }
 .left .ui-tabs a:link, .left .ui-tabs a:visited, .left .ui-tabs a.light, .left .ui-tabs a:hover, .left .ui-tabs .user-order{
     font-weight: normal;
