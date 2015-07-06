@@ -3146,7 +3146,7 @@ div.ui-widget-header{
     padding: 10px 10px;
 }
 
-.text_quickform_info{
+.text_quickform_info {
     color: #5f5e5e;
     margin-bottom: 10px;
     padding: 10px 14px;
@@ -3155,7 +3155,7 @@ div.ui-widget-header{
     font-weight: bold;
     line-height: 1.5;
 }
-.text_quickform{
+.text_quickform, .cart-label-no-price{
     color: #5f5e5e;
     border-radius: 5px;
     box-shadow: 2px 2px 2px #d1d0d0;

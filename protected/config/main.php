@@ -181,7 +181,7 @@ return array(
         'sortOrder' => 'asc',
         'sortCol' => 'col',
         
-        'showPrices' => 0,
+        'showPrices' => 1,
         'showPricesForAdmin' => 1, // will run if showPrices == 0,
         'showDrafts' => 0,
         'randomImages' => 1,

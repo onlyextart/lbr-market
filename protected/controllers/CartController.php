@@ -7,6 +7,7 @@ class CartController extends Controller
     public function actionIndex()
     {
         $items = $temp = array();
+        $showLabelForNoPrice = false;
         $this->form = new OrderCreateForm;
         Yii::app()->params['meta_title'] = 'Корзина';
         $totalLabel = '';
@@ -217,22 +218,29 @@ class CartController extends Controller
             
             $totalPrice = 0;
             foreach($items as $item) {
-                $user = User::model()->findByPk(Yii::app()->user->_id);   
-                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$item->product->id, 'filial_id'=>$user->filial));
-                
-                if(!empty($price)) {
-                    $currency = Currency::model()->findByPk($price->currency_code);
-                    if($currency->exchange_rate) {
-                       $totalPrice += ($price->price*$item->count*$currency->exchange_rate).' руб.';
+                if(is_numeric($totalPrice)) {
+                    $user = User::model()->findByPk(Yii::app()->user->_id);   
+                    $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$item->product->id, 'filial_id'=>$user->filial));
+
+                    if(!empty($price)) {
+                        $currency = Currency::model()->findByPk($price->currency_code);
+                        if($currency->exchange_rate) {
+                           $totalPrice += ($price->price*$item->count*$currency->exchange_rate);
+                        }
+                    } else {
+                        $showLabelForNoPrice = true;
+                        $totalPrice = 'XXX';
                     }
-                }  
+                }
             }
             
-            $totalLabel = $totalPrice.' руб.';
+            if(is_numeric($totalPrice)) 
+               $totalLabel = $totalPrice.' руб.';
+            else $totalLabel = 'стоимость будет указана в счет-фактуре.';
         }
         
         $deliveryMethods = Delivery::model()->findAll();
-        $this->render('cart', array('items'=>$items, 'deliveryMethods'=>$deliveryMethods, 'total' => $totalLabel));
+        $this->render('cart', array('items'=>$items, 'deliveryMethods'=>$deliveryMethods, 'total' => $totalLabel, 'showLabelForNoPrice'=>$showLabelForNoPrice));
     }
     
     public function sendMail($order, $model)

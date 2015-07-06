@@ -36,11 +36,11 @@ class SaleController extends Controller
         }
         */
         
-        $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql); 
-        if(!empty($filial)) {
+        $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql);
+        /*if(!empty($filial)) {
             $criteria->addCondition('pr.filial_id = :filial'); // price more 500
             $criteria->params = array(':filial'=>$filial);
-        }
+        }*/
         
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
             array(
@@ -56,10 +56,6 @@ class SaleController extends Controller
                             'desc'=>'t.name DESC',
                             'default'=>'asc',
                         ),
-                        /*'count'=>array(
-                            'asc'=>'t.count DESC',
-                            'desc'=>'t.count ASC',
-                        ),*/
                     ),
                     'defaultOrder'=>array(
                         'name' => CSort::SORT_ASC,
@@ -68,28 +64,10 @@ class SaleController extends Controller
             )
         );
         
-        //echo '<pre>';
-        //var_dump($data->getData());
-        //exit;
-        
         Yii::app()->params['meta_title'] = 'Распродажа';
         $breadcrumbs[] = 'Распродажа';
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
 
         $this->render('index', array('data' => $data));
     }
-    
-    /*public function getPrice($price, $currencyCode)
-    {
-        $priceLabel = '';
-        
-        if(Yii::app()->params['showPrices']) {
-            $currency = Currency::model()->findByPk($currencyCode);
-            if($currency->exchange_rate) {
-                $priceLabel = ($price*$currency->exchange_rate).' руб.';
-            }
-        }
-        
-        return $priceLabel;
-    }*/
 }

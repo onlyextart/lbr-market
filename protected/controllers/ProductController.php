@@ -135,7 +135,7 @@ class ProductController extends Controller
         
         $criteria = new CDbCriteria;
         $criteria->addInCondition('t.id', $temp);
-        if (!empty($filial)) $criteria->addInCondition('priceInFilial.filial_id', array($filial));
+        //if (!empty($filial)) $criteria->addInCondition('priceInFilial.filial_id', array($filial));
         $products = Product::model()->with('priceInFilial')->findAll($criteria);
         
         foreach ($products as $analog) {
@@ -166,12 +166,11 @@ class ProductController extends Controller
              ;
              
              if(!Yii::app()->user->isGuest) {
-                $price = ''; //Yii::app()->params['textHidePrice'];
-                if(!empty($analog->priceInFilial[0]->price)) {
-                    if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
-                        $price = Price::model()->getPrice($analog->id);
-                    } else $price = Yii::app()->params['textHidePrice'];
-                } else $price = Yii::app()->params['textNoPrice'];
+                $price = '';
+                if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
+                    $price = Price::model()->getPrice($analog->id);
+                    if(empty($price)) $price = Yii::app()->params['textNoPrice'];
+                } else $price = Yii::app()->params['textHidePrice'];
                 
                 $analogProducts .= '<div class="cell width-15">'.$price.'</div>';
              } else {

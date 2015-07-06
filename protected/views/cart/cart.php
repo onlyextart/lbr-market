@@ -28,6 +28,11 @@
     <?php if(empty($items)): ?>
     <div class="empty-cart">В корзине нет товаров.</div>
     <?php else: ?>
+    <?php if($showLabelForNoPrice): ?>
+    <div class="cart-label-no-price">
+        Стоимость запчастей без цены будет указана в счет-фактуре.
+    </div>
+    <?php endif; ?>
     <?php echo CHtml::form() ?>
     <div class="order_products">
         <table width="100%">
@@ -60,7 +65,7 @@
                             <?php
                                 echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
                                 echo CHtml::openTag('span', array('class'=>'price'));
-                                echo (Yii::app()->params['showPrices'])?$price['one']:'';
+                                echo (Yii::app()->params['showPrices'])? $price['one']:'';
                                 echo CHtml::closeTag('span');
                             ?>
                         </td>

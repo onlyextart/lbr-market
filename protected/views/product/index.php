@@ -73,9 +73,9 @@
                          <div itemprop="price">
                              <?php
                                 if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
-                                    echo '<span>'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
+                                    echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
                                 } else if(!Yii::app()->user->isGuest) {
-                                    echo '<span>'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: '.$filial.')</div>';
+                                    echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: '.$filial.')</div>';
                                 } else {
                                     echo '<span class="price_link"><a href="/site/login/">Узнать цену</a></span>';
                                 }

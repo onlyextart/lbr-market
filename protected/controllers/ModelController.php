@@ -241,9 +241,10 @@ class ModelController extends Controller
         $draftLabel = '';
         $price = '';
         if(!Yii::app()->user->isGuest) {
-            if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']))
+            if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                 $price = Price::model()->getPrice($id);
-            else $price = Yii::app()->params['textHidePrice'];
+                if(empty($price)) $price = Yii::app()->params['textNoPrice'];
+            } else $price = Yii::app()->params['textHidePrice'];
         }
         
         if(Yii::app()->params['showDrafts']){
