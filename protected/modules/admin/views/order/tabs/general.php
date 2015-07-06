@@ -153,7 +153,7 @@
                             echo '<td>';
                                 if($product_order->price){
                                     echo $product_order->total_price.' руб.';
-                                    echo ((int)$product_order->currency > 1)?'<br>('.$product_order->price.$product_order->currency_symbol.' * '.$product_order->currency.')':'';
+                                    echo ((int)$product_order->currency > 1)?'<br>('.$product_order->count.' * '.$product_order->price.$product_order->currency_symbol.' * '.$product_order->currency.')':'';
                                 } else echo Yii::app()->params['textNoPrice'];
                             echo '</td>';
                             echo '<td>'.$product_order->catalog_number.'</td>';
