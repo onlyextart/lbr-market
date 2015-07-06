@@ -639,7 +639,7 @@ class SiteController extends Controller
                 foreach($models as $model) {
                     //$temp[] = $model['maker_id'];
                     $seoModel = new CategorySeo();
-                    $seoModel->category_id = $root->id;
+                    $seoModel->category_id = $child->id;
                     $seoModel->equipment_id = $model['maker_id'];
                     $seoModel->save();
                 }

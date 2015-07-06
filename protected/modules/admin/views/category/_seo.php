@@ -12,11 +12,17 @@
             //'header' => false,
         ),
         'columns' => array(
-            array(
+            /*array(
                 'name'=>'id',
                 'type'=>'raw',
                 'value'=>''
-            )
+            )*/
+            array( 
+                'name'=>'id',
+                'type'=>'raw',
+                'filter'=>false,
+                'value'=>'CHtml::link(CHtml::encode($data->equipmentMaker->name), array("#"))',
+            ),
         ),
     ));
 ?>
