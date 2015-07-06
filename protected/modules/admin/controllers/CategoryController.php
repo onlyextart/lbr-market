@@ -99,7 +99,7 @@ class CategoryController extends Controller
             array(
                 'criteria'=>$criteria,
                 'pagination'=>array(
-                    'pageSize'=>'18'
+                    'pageSize'=>'15'
                 ),
                 /*'sort'=>array(
                     'defaultOrder' => 'modelLine.name ASC',

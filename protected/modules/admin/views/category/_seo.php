@@ -21,7 +21,7 @@
                 'name'=>'Название',
                 'type'=>'raw',
                 'filter'=>false,
-                'value'=>'CHtml::link(CHtml::encode($data->equipmentMaker->name), array("#"))',
+                'value'=>'CHtml::link(CHtml::encode($data->equipmentMaker->name), array("/"))',
             ),
         ),
     ));
