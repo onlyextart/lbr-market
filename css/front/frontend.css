@@ -2789,6 +2789,9 @@ ul.yiiPager .selected a {
     border-collapse: collapse;
     width: 100%;
 }
+.orders-grid tr th:first-child, .orders-grid tr td:first-child{
+    width: 160px;
+}
 /*.orders-grid table.items tbody tr.even, .orders-grid table.items tbody tr.even:hover {
     background-color: #f8f8f8;
 }
