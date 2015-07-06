@@ -143,18 +143,24 @@
                 </tr>
             
                 <?php
-                    if (!empty($form_product)){
+                    if (!empty($form_product)) {
+                        $price = 0;
                         foreach ($form_product as $num => $product_order) {
                             echo '<tr data-price>';
                             echo '<td>'.$product_order->name.'</td>';
                             echo '<td>'.CHtml::activeTextField($product_order, "[$num]count").'</td>';
-                            echo '<td>'.$product_order->total_price.' руб.';
-                            echo ((int)$product_order->currency > 1)?'<br>('.$product_order->price.$product_order->currency_symbol.' * '.$product_order->currency.')':'';
+                            
+                            echo '<td>';
+                                if($product_order->price){
+                                    echo $product_order->total_price.' руб.';
+                                    echo ((int)$product_order->currency > 1)?'<br>('.$product_order->price.$product_order->currency_symbol.' * '.$product_order->currency.')':'';
+                                } else echo Yii::app()->params['textNoPrice'];
                             echo '</td>';
                             echo '<td>'.$product_order->catalog_number.'</td>';
                             echo '<td><a class="delete" href="'.Yii::app()->createUrl("admin/orderProduct/delete", array("id"=>$product_order->id)).'" title="Удалить"><img src="/assets/6ecd7f96/gridview/delete.png" alt="Удалить"></a></td>';
-                            echo '</tr>'; 
-                            $price+=$product_order->price*$product_order->count;
+                            echo '</tr>';
+                            if(is_numeric($price) && !empty($product_order->price)) $price += $product_order->price*$product_order->currency*$product_order->count;
+                            else $price = Yii::app()->params['textNoPrice'];
                         }
                     }
                   
@@ -169,7 +175,7 @@
             </h2>
          </div>
         <div class="col_value">
-        <h2><?php echo $price.' руб.';?></h2>
+            <h2><?php echo (is_numeric($price))?$price.' руб.':Yii::app()->params['textNoPrice'];?></h2>
         </div>
 
         

@@ -36,7 +36,7 @@ class NopriceController extends Controller
                 )
             ));
             
-            $dataProviderNotAllPrices = new CActiveDataProvider('Filial', array(
+            /*$dataProviderNotAllPrices = new CActiveDataProvider('Filial', array(
                 'criteria' => array(
                     //'with' => array('product'=>array('select'=>'name')),
                     'select' => array('p.product_id id, p.currency_code currency_code, p.price price, t.name name'),
@@ -47,7 +47,8 @@ class NopriceController extends Controller
                 'pagination' => array(
                     'pageSize' => 18,
                 )
-            ));
+            ));*/
+            
             /*$dataProviderNotAllPrices = new CActiveDataProvider('PriceInFilial', array(
                 'criteria' => array(
                     //'with' => array('product'=>array('select'=>'name')),
@@ -63,7 +64,7 @@ class NopriceController extends Controller
             $this->render('noprice', array(
                     'model'=>$model,
                     'data'=>$dataProvider,
-                    'notAll'=>$dataProviderNotAllPrices ,
+                    //'notAll'=>$dataProviderNotAllPrices ,
             ));
        // } else {
       //      $this->render('application.modules.admin.views.default.error', array('error' => 'У Вас недостаточно прав доступа.'));

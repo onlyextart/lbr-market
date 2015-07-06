@@ -33,7 +33,7 @@
     
             $tabs=array(
                 'Вообще нет цен'=>$this->renderPartial('_all', array('form'=>$form, 'data'=>$data), true),
-                'Нет цен на отдельные филиалы' => $this->renderPartial('_few', array('form'=>$form, 'data'=>$notAll), true),
+                //'Нет цен на отдельные филиалы' => $this->renderPartial('_few', array('form'=>$form, 'data'=>$notAll), true),
             );
             
             /*$errorSummary = $form->errorSummary($model_form)."\n";

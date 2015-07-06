@@ -15,7 +15,7 @@
                 'name'=>'id',
                 'type'=>'raw',
                 'filter'=>false,
-                'value'=>'CHtml::link(CHtml::encode($data->id), array("order/edit","id"=>$data->id))',
+                'value'=>'CHtml::link(CHtml::encode($data->id), array("order/edit","id"=>$data->id), array("target"=>"_blank"))',
             ),
             array(
                 'name'=>'status_id',
