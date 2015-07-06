@@ -2358,6 +2358,11 @@ div.flash_error {
     margin: 0;
 }
 
+.order-wrapper #total-price span{
+    display: block;
+    padding-left: 10px;
+}
+
 /*----- end Cart Ordered Products ----------------------*/
 /*----- start Cart form errors ----------------------*/
 div.form .errorSummary {

@@ -8,6 +8,11 @@
     <div class="order-header">
 	<h1>Заказ <span>от <?php echo date("Y.m.d H:i", strtotime($order->date_created)) ?></span></h1>
     </div>
+    <?php if($showLabelForNoPrice): ?>
+    <div class="cart-label-no-price">
+        Стоимость запчастей без цены будет указана в счет-фактуре.
+    </div>
+    <?php endif; ?>
     <div class="ordered-products">
         <table width="100%">
 	   <thead>
@@ -24,7 +29,7 @@
                         <h3><?php echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));?></h3>
                         <?php
                         echo CHtml::openTag('div', array('class'=>'price'));
-                        echo ($item->price*$item->currency).' руб.';
+                        echo ($item->price)?($item->price*$item->currency).' руб.':Yii::app()->params['textNoPrice'];
                         echo CHtml::closeTag('div');
                         ?>
                     <td>
@@ -33,7 +38,7 @@
                     <td>
                         <?php
                         echo CHtml::openTag('span', array('class'=>'price'));
-                        echo $item->total_price.' руб.';
+                        echo ($item->price)? $item->total_price.' руб.':Yii::app()->params['textNoPrice'];
                         echo CHtml::closeTag('span');
                         ?>
                     </td>
@@ -53,7 +58,7 @@
         </div>
         <div class="recount">
             <span class="total">Всего к оплате:</span>
-            <span id="total-price"><?php echo $order->total_price.' руб.'?></span>
+            <span id="total-price"><?php echo $total ?></span>
         </div>
     </div>
 </div>

@@ -84,7 +84,7 @@ class CartController extends Controller
                         if($this->form->validate()) {
                             $success = false;
                             $products = $_POST['products'];
-                            //var_dump($products); exit;
+                            
                             if(!empty($products)) {
                                 $app = Yii::app();
                                 $transaction = $app->db_auth->beginTransaction();
@@ -95,32 +95,34 @@ class CartController extends Controller
                                 $order->filial = User::model()->findByPk(Yii::app()->user->_id)->filial;
                                 
                                 if($order->save()) {
-                                   $productsWithoutPrice = array();
+                                   //$productsWithoutPrice = array();
                                    foreach($products as $productId => $count) {
                                        $priceInFilial = PriceInFilial::model()->find('product_id=:product_id and filial_id=:filial_id', array(':product_id'=>$productId, ':filial_id'=>User::model()->findByPk(Yii::app()->user->_id)->filial));
-                                       if(!empty($priceInFilial)) {
+                                       //if(!empty($priceInFilial)) {
                                             $orderProduct = new OrderProduct;
                                             $orderProduct->order_id = $order->id;
                                             $orderProduct->product_id = $productId;
                                             $orderProduct->count = 1;
                                             if((int)$count > 0) $orderProduct->count = $count;
-                                            $result = $this->getPrice($productId, $count);
-                                            $orderProduct->total_price = $result['total'];
-                                            $orderProduct->price = $priceInFilial->price;
-                                            $orderProduct->currency = Currency::model()->findByPk($priceInFilial->currency_code)->exchange_rate;
-                                            $orderProduct->currency_code = $priceInFilial->currency_code;
+                                            if(!empty($priceInFilial)) {
+                                                $result = $this->getPrice($productId, $count);
+                                                $orderProduct->total_price = $result['total'];
+                                                $orderProduct->price = $priceInFilial->price;
+                                                $orderProduct->currency = Currency::model()->findByPk($priceInFilial->currency_code)->exchange_rate;
+                                                $orderProduct->currency_code = $priceInFilial->currency_code;
+                                            }
                                             $orderProduct->save();
-                                       } else {
+                                       /*} else {
                                            $productsWithoutPrice[$productId] = $count;
-                                       }
+                                       }*/
                                     }
 
-                                    $countProductsInOrder = OrderProduct::model()->count(
+                                    /*$countProductsInOrder = OrderProduct::model()->count(
                                         'order_id=:order_id', 
                                         array(':order_id'=>$order->id)
                                     );
                                     
-                                    if($countProductsInOrder) {
+                                    if($countProductsInOrder) {*/
                                         $order->total_price = $this->setTotalPriceForOrder($order);
                                         $order->save();
                                         
@@ -129,17 +131,18 @@ class CartController extends Controller
                                                 array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id)
                                         );
                                         
-                                        $this->saveProductsWithoutPrice($productsWithoutPrice);
-                                        $this->sendMail($order, $model);
+                                        //$this->saveProductsWithoutPrice($productsWithoutPrice);
+                                        
+                                        //$this->sendMail($order, $model);
                                         
                                         $transaction->commit();
                                         Yii::app()->user->setFlash('message', 'Ваш заказ принят.');
                                         Yii::app()->request->redirect($this->createUrl('view', array('secret_key'=>$order->secret_key)));
-                                    } else {
+                                    /*} else {
                                         $order->delete();
                                         $transaction->rollback();
                                         Yii::app()->user->setFlash('error', 'В заказе присутствуют исключительно товары, на которые нет цены.');
-                                    }
+                                    }*/
                                     
                                 } else {
                                     $transaction->rollback();
@@ -332,13 +335,39 @@ class CartController extends Controller
     public function actionView()
     {
         Yii::app()->params['meta_title'] = 'Просмотр заказа';
+        $showLabelForNoPrice = false;
+        
         $secret_key = Yii::app()->request->getParam('secret_key');
         $order = Order::model()->with('user', 'delivery')->find('secret_key=:secret_key', array(':secret_key'=>$secret_key));
         if(!$order)
            throw new CHttpException(404, 'Ошибка. Заказ не найден.');
 
         $items = OrderProduct::model()->with('product', 'order')->findAll('order_id = :id', array(':id'=>$order->id));
-        $this->render('view', array('items'=>$items, 'order'=>$order));
+        ////////////////////
+        $totalPrice = 0;
+        $totalLabel = '<span>стоимость будет указана в счет-фактуре.</span>';
+        foreach($items as $item) {
+            if(is_numeric($totalPrice)) {
+                $user = User::model()->findByPk(Yii::app()->user->_id);   
+                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$item->product->id, 'filial_id'=>$user->filial));
+
+                if(!empty($price)) {
+                    $currency = Currency::model()->findByPk($price->currency_code);
+                    if($currency->exchange_rate) {
+                       $totalPrice += ($price->price*$item->count*$currency->exchange_rate);
+                    }
+                } else {
+                    $showLabelForNoPrice = true;
+                    $totalPrice = 'XXX';
+                }
+            }
+        }
+        
+        if(is_numeric($totalPrice)) 
+            $totalLabel = $totalPrice.' руб.';
+        
+        ///////////////////
+        $this->render('view', array('items'=>$items, 'order'=>$order, 'showLabelForNoPrice'=>$showLabelForNoPrice, 'total'=>$totalLabel));
     }
     
     public function actionAdd()
