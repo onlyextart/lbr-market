@@ -348,9 +348,8 @@ class CartController extends Controller
         $totalLabel = '<span>стоимость будет указана в счет-фактуре.</span>';
         foreach($items as $item) {
             if(is_numeric($totalPrice)) {
-                $user = User::model()->findByPk(Yii::app()->user->_id);   
-                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$item->product->id, 'filial_id'=>$user->filial));
-
+                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$item->product->id, 'filial_id'=>$order->filial));
+                
                 if(!empty($price)) {
                     $currency = Currency::model()->findByPk($price->currency_code);
                     if($currency->exchange_rate) {
