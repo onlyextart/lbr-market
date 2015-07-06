@@ -55,7 +55,6 @@
                 'model'=>$model,
                 'attribute'=>'bottom_text'));
             ?>
-        ?>
     </div>
 
 <?php
