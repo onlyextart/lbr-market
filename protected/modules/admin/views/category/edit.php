@@ -43,7 +43,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
                //echo $form->asTabs(); 
             //}
             
-            $form_view = $this->beginWidget('CActiveForm', array(
+            $form = $this->beginWidget('CActiveForm', array(
                 'id'=>'product-form',
                 'action'=>$action,
                 'htmlOptions'=>array('enctype'=>'multipart/form-data'),
@@ -64,8 +64,8 @@ $errorMsg = Yii::app()->user->getFlash('error');
             ));
 
             $tabs=array(
-                'Общая информация'=>$this->renderPartial('form', array('model'=>$model), true),
-                'Мета данные' => $this->renderPartial('_seo', array('model'=>$model, 'data'=>$equipmentMaker), true),
+                'Общая информация'=>$this->renderPartial('form', array('model'=>$model, 'form'=>$form), true),
+                'Мета данные' => $this->renderPartial('_seo', array('model'=>$model, 'form'=>$form, 'data'=>$equipmentMaker), true),
             );
 
             $this->beginWidget('ext.yiiext.sidebartabs.CJuiTabs', array('tabs'=>$tabs));

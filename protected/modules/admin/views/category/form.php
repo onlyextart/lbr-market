@@ -1,5 +1,30 @@
+
+    <div class="row">      
+        <?php  
+            echo $form->labelEx($model, 'name');
+            echo $form->textField($model, 'name');
+        ?>
+    </div>
+
+    <div class="row">      
+        <?php  
+            echo $form->labelEx($model, 'path');
+            echo $form->textField($model, 'path');
+        ?>
+    </div>
+
+    <div class="row">      
+        <?php   
+            echo $form->labelEx($model, 'published');
+            echo $form->dropDownList($model, 'published', array(
+                1=>'Да',
+                0=>'Нет'
+            ));
+        ?>
+    </div>
+
 <?php
-echo 1;
+
 /*
 return array(
     //'id'=>'Category',
