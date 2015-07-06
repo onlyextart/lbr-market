@@ -40,8 +40,37 @@ $errorMsg = Yii::app()->user->getFlash('error');
         <div class="form wide">
             <?php
             //if (!empty($model->id)) {
-               echo $form->asTabs(); 
+               //echo $form->asTabs(); 
             //}
+            
+            $form_view = $this->beginWidget('CActiveForm', array(
+                'id'=>'product-form',
+                'action'=>$action,
+                'htmlOptions'=>array('enctype'=>'multipart/form-data'),
+                'enableClientValidation' => true,        
+                'clientOptions'=>array(
+                    'validateOnSubmit'=>true,
+                    'validateOnChange' => true,
+                    'afterValidate'=>'js:function( form, data, hasError ) 
+                    {     
+                        if( hasError ){
+                            return false;
+                        }
+                        else{
+                            return true;
+                        }
+                    }'
+                ),
+            ));
+
+            $tabs=array(
+                'Общая информация'=>$this->renderPartial('form', array('model'=>$model), true),
+                'Мета данные' => $this->renderPartial('_seo', array('model'=>$model, 'data'=>$equipmentMaker), true),
+            );
+
+            $this->beginWidget('ext.yiiext.sidebartabs.CJuiTabs', array('tabs'=>$tabs));
+            $this->endWidget();
+            $this->endWidget();
             ?>
         </div>
     </div>

@@ -72,14 +72,7 @@ class CategoryController extends Controller
         //$form->formWidget = 'ext.yiiext.sidebartabs.CJuiTabs';
         //$form->summaryOnEachTab = true;
         ////////////////////////////
-        $tabs=array(
-            'Общая информация'=>$this->renderPartial('form', array('model'=>$model), true),
-            'Сборочный чертеж' => $this->renderPartial('_seo', array('model'=>$model), true),
-            
-        );
-
-        $this->beginWidget('ext.yiiext.sidebartabs.CJuiTabs', array('tabs'=>$tabs));
-        $this->endWidget();
+        
         
         $criteria = new CDbCriteria;
         $criteria->order = 'parent, lft';
@@ -94,7 +87,11 @@ class CategoryController extends Controller
                 'model'=>$model, 'groups'=>$groups, 'rootId'=>$rootId
         ), true);
         
-        $this->render('edit', array('model'=>$model, 'form' => $form), false, true);
+        //$this->render('edit', array('model'=>$model, 'form' => $form), false, true);
+        
+        $equipmentMaker = CategorySeo::model()->findAll('category_id=:id', array('id'=>$id));
+        //var_dump($equipmentMaker);exit;
+        $this->render('edit', array('model'=>$model, 'equipmentMaker'=>$equipmentMaker), false, true);
     }
     
     public function updateChildPath($model)

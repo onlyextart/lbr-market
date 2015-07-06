@@ -1,8 +1,19 @@
+<div class="grid-wrapper">
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+/*
+    $this->widget('zii.widgets.grid.CGridView', array(
+        'id'=>'makerListGrid',
+        //'filter'=>$model,
+        'dataProvider'=>$data,
+        'template'=>'{items}{pager}{summary}',
+        'summaryText'=>'Элементы {start}—{end} из {count}.',
+        'pager' => array(
+            'class' => 'LinkPager',
+            //'header' => false,
+        ),
+        'columns' => array(
+            'id'
+        ),
+    ));*/
+?>
+</div>
