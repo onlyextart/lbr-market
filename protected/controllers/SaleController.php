@@ -15,7 +15,7 @@ class SaleController extends Controller
                           'JOIN category c ON c.id = m.category_id '.
                           'JOIN price_in_filial pr ON pr.product_id = t.id'
         ;*/
-        
+        //////////////////////////////////////////
         /*
         if(!empty(Yii::app()->session['maker'])) {
             $sql = 'and m.maker_id = '.Yii::app()->session['maker'];
@@ -29,7 +29,7 @@ class SaleController extends Controller
             $criteria->addInCondition('m.category_id', $categories);
         }
         */
-        
+        //////////////////////////////////////////
         $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql);
         
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
@@ -39,7 +39,7 @@ class SaleController extends Controller
                    'pageSize' => 7,
                    'pageVar' => 'page',
                 ),
-                'sort'=>array(
+                /*'sort'=>array(
                     'attributes'=>array(
                         'name'=>array(
                             'asc'=>'t.name ASC',
@@ -50,12 +50,13 @@ class SaleController extends Controller
                     'defaultOrder'=>array(
                         'name' => CSort::SORT_ASC,
                     ),
-                ),
+                ),*/
             )
         );
         
         Yii::app()->params['meta_title'] = 'Распродажа';
-        Yii::app()->params['breadcrumbs'] = 'Распродажа';  
+        //$breadcrumbs[] = 'Распродажа';
+        //Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
 
         $this->render('index', array('data' => $data));
     }
