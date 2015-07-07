@@ -8,9 +8,19 @@
 
         <div class="row">      
             <?php  
+                echo $form_view->labelEx($model, 'external_id');
+                echo $form_view->textField($model, 'external_id', array('disabled'=>'true'));
+            ?>
+        </div>
+
+        <div class="row">      
+            <?php  
                 echo $form_view->error($model, 'published'); 
                 echo $form_view->labelEx($model, 'published');
                 echo $form_view->dropDownList($model, 'published',array('0'=>'Нет','1'=>'Да'));
+                if (!empty($model->id)) {
+                    echo CHtml::link('Предварительный просмотр', $model->path, array('class' => 'link_view','target'=>'_blank')); 
+                }
             ?>
         </div>
 

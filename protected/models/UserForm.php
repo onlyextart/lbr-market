@@ -20,13 +20,14 @@ class UserForm extends CFormModel
     public $date_last_login;
     public $organization_type;
     public $filial;
+    public $status_id;
 
 
     public function rules()
     {
         return array(
-            array('id, company, name, login, password, email, address, phone, parent, type_contact, status, block_reason, block_date, date_created, date_last_login', 'safe', 'on'=>'search'),
-            array('id, company, name, login, password, email, address, phone, parent, type_contact, status, block_reason, block_date, date_created, date_last_login, organization_type,filial', 'safe'),
+            array('id, company, name, login, password, email, address, phone, parent, type_contact, status, block_reason, block_date, date_created, date_last_login, status_id', 'safe', 'on'=>'search'),
+            array('id, company, name, login, password, email, address, phone, parent, type_contact, status, block_reason, block_date, date_created, date_last_login, organization_type, filial, status_id', 'safe'),
             array('id, parent, type_contact, status', 'numerical', 'integerOnly' => true),
             array('email, login, name,password,filial', 'required'),
             array('email', 'email', 'message'=>'Неправильно заполнено поле «Email»'),
@@ -103,6 +104,7 @@ class UserForm extends CFormModel
             'date_last_login'  => 'Последний вход',      
             'organization_type'=>'Тип учетной записи',
             'filial'=>'Регион отгрузки',
+            'status_id'=>'Статус',
         );
     }
 }

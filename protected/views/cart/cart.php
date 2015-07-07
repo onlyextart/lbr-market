@@ -16,12 +16,23 @@
             $action = '/cart/index/';
         ?>
     </div>
+    <?php if($mess = Yii::app()->user->getFlash('error')): ?>
+    <div class="flash_error">
+        <?php echo $mess; ?>
+    </div>
+    <?php //echo Yii::app()->user->setFlash('message', ''); ?>
+    <?php endif; ?>
     <div class="cart-header">
        <h1>Корзина</h1>
     </div>
     <?php if(empty($items)): ?>
     <div class="empty-cart">В корзине нет товаров.</div>
     <?php else: ?>
+    <?php if($showLabelForNoPrice): ?>
+    <div class="cart-label-no-price">
+        Стоимость запчастей без цены будет указана в счет-фактуре.
+    </div>
+    <?php endif; ?>
     <?php echo CHtml::form() ?>
     <div class="order_products">
         <table width="100%">
@@ -36,7 +47,10 @@
            </thead>
            <tbody>
                 <?php if(!Yii::app()->user->isGuest): ?>
-                    <?php foreach($items as $item): ?>
+                    <?php 
+                       foreach($items as $item): 
+                       $price = $this->getProductPrice($item->product->id, $item->count);
+                    ?>
                     <tr>
                         <td width="110px" align="center">
                             <?php
@@ -49,24 +63,24 @@
                         </td>
                         <td width="220px">
                             <?php
-                            echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
-                            echo CHtml::openTag('span', array('class'=>'price'));
-                            echo 'XXXX руб.';
-                            echo CHtml::closeTag('span');
+                                echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
+                                echo CHtml::openTag('span', array('class'=>'price'));
+                                echo (Yii::app()->params['showPrices'])? $price['one']:'';
+                                echo CHtml::closeTag('span');
                             ?>
                         </td>
-                        <td>
-                            <div class="plus">+</div>
+                        <td width="120px">
+                            <div class="minus">&minus;</div>
                             <?php //echo CHtml::textField("", $item->count, array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
                             <?php //echo CHtml::numberField('products['.$item->product->id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7)) ?>
                             <?php echo CHtml::textField('products['.$item->product->id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7)) ?>
-                            <div class="minus">&minus;</div>
+                            <div class="plus">&plus;</div>
                         </td>
                         <td>
                             <?php
-                            echo CHtml::openTag('span', array('class'=>'price'));
-                            echo 'XXXX руб.';
-                            echo CHtml::closeTag('span');
+                                echo CHtml::openTag('span', array('class'=>'price'));
+                                echo (Yii::app()->params['showPrices']) ? $price['total'] : Yii::app()->params['textHidePrice'];
+                                echo CHtml::closeTag('span');
                             ?>
                         </td>
                         <td width="20px">
@@ -92,9 +106,9 @@
                             ?>
                         </td>
                         <td>
-                            <div class="plus">+</div>
-                            <?php echo CHtml::textField("products[$item[id]]", $item[count], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
                             <div class="minus">&minus;</div>
+                            <?php echo CHtml::textField("products[$item[id]]", $item[count], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
+                            <div class="plus">&plus;</div>
                         </td>
                         <td>
                             <?php
@@ -111,12 +125,12 @@
                <?php endif; ?>
            </tbody>
         </table>
-        <?php if(!Yii::app()->user->isGuest): ?>
+        <?php if(!Yii::app()->user->isGuest && Yii::app()->params['showPrices']): ?>
         <div class="price recount-price">
-            <!--button class="recount" type="submit" name="recount" value="1">Пересчитать</button-->
+            <button class="recount" type="submit" name="recount" value="1">Пересчитать</button>
             <span class="total">Всего:</span>
             <span id="total">
-                <?php echo 'XXX'.' руб.'; ?>
+                <?php echo $total; ?>
             </span>
         </div>
         <?php endif; ?>
@@ -127,43 +141,25 @@
             <h2>Способ доставки</h2>
             <ul>
                 <?php foreach($deliveryMethods as $delivery): ?>
-                <?php if($delivery->id == 1): ?>
                 <li>
-                        <label class="radio">
-                                <?php
-                                echo CHtml::activeRadioButton($this->form, 'delivery_id', array(
-                                        'checked'        => ($this->form->delivery_id == $delivery->id),
-                                        'uncheckValue'   => null,
-                                        'value'          => $delivery->id,
-                                        //'data-price'     => Yii::app()->currency->convert($delivery->price),
-                                        //'data-free-from' => Yii::app()->currency->convert($delivery->free_from),
-                                        //'onClick'        => 'recountOrderTotalPrice(this);',
-                                ));
-                                ?>
-                                <span><?php echo CHtml::encode($delivery->name) ?></span>
-                        </label>
-                        <!--p><? echo $delivery->name?></p-->
+                    <label class="radio">
+                        <?php
+                        echo CHtml::activeRadioButton($this->form, 'delivery_id', array(
+                            'checked'        => ($this->form->delivery_id == $delivery->id),
+                            'uncheckValue'   => null,
+                            'value'          => $delivery->id,
+                        ));
+                        ?>
+                        <span><?php echo CHtml::encode($delivery->name) ?></span>
+                    </label>
                 </li>
-                <?php endif; ?>
                 <?php endforeach; ?>
-                 <!--li>
-                   <label class="radio">
-                      <input type="radio" id="OrderCreateForm_delivery_id" name="OrderCreateForm[delivery_id]" value="1">						
-                      <span>Самовывоз</span>
-                   </label>
-                </li>
-                <li>
-                   <label class="radio">
-                      <input type="radio" id="OrderCreateForm_delivery_id" name="OrderCreateForm[delivery_id]" value="2">						
-                      <span>Курьером</span>
-                   </label>
-                </li-->
             </ul>
         </div>
         <div class="guest-data">
             <h2>Адрес получателя</h2>
             <div class="form wide">
-                <?php echo CHtml::errorSummary($this->form); ?>
+                <?php echo CHtml::errorSummary($this->form, ''); ?>
                 <div class="row">
                     <div class="row">
                         <?php echo CHtml::activeLabel($this->form, 'user_name', array('required'=>true)); ?>
@@ -181,7 +177,7 @@
                     </div>
 
                     <div class="row">
-                        <?php echo CHtml::activeLabel($this->form, 'user_address', array('required'=>true)); ?>
+                        <?php echo CHtml::activeLabel($this->form, 'user_address'/*, array('required'=>true)*/); ?>
                         <?php echo CHtml::activeTextArea($this->form,'user_address'); ?>
                     </div>
 
@@ -195,16 +191,15 @@
         </div>
     </div>
     <div class="confirm_order">
-        <h1>Всего к оплате:</h1>
-        <span id="total-price" class="total"><?php echo 'XXXXX' ?></span>
-        <span class="current_currency">
-            <?php echo 'руб.'; ?>
+        <?php if((Yii::app()->params['showPrices'])):?><h1>Всего к оплате:</h1><?php endif;?>
+        <span id="total-price" class="total">
+            <?php echo (Yii::app()->params['showPrices']) ? $total : '<h1>'.Yii::app()->params['textHidePrice'].'</h1>'; ?>
         </span>
         <button class="btn" type="submit" name="create" value="1">Оформить</button>
     </div>
     <?php else: ?>
     <div class="confirm_order">
-        <input class="btn guestcart" type="button" value="Авторизоваться">
+        <?php echo CHtml::link('Авторизоваться', '/site/login/', array('class' => 'btn guestcart','target'=>'_blank')); ?>
     </div>
     <?php endif; ?>
     <?php echo CHtml::endForm() ?>
@@ -232,6 +227,19 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
           var count = parseInt(elem.val()) - 1;
           if(count < 1) count = 1;
           elem.val(count);
+       });
+       
+       $('.delivery-type input[type=radio][id=OrderCreateForm_delivery_id]').change(function() {
+            var element = $('label[for=OrderCreateForm_user_address]');
+            if($(this).next().text() != 'Самовывоз') {
+                if(!element.hasClass('required')) {
+                    element.addClass('required');
+                    element.append('<span class="required">*</span>');
+                }
+            } else {
+                element.removeClass('required');
+                element.find('span').remove();
+            }
        });
     });
 </script>

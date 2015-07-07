@@ -24,17 +24,18 @@ $errorMsg = Yii::app()->user->getFlash('error');
             'class' => 'LinkPager',
             //'header' => false,
         ),
-        'columns' => array('id', 
+        'columns' => array(
+            'external_id',
             array (
                 'name'=>'name',
                 'type'=>'raw',
                 'value'=>'CHtml::link(CHtml::encode($data->name), array("edit","id"=>$data->id))',
-                ),
+            ),
             
             array(
                 'name'=>'productGroup_name',
                 'value'=>'$data->productGroup->name',
-             ),
+            ),
             
             /*array(
                 'name'=>'price_value',
@@ -58,21 +59,20 @@ $errorMsg = Yii::app()->user->getFlash('error');
             ),
             
             array(
-                'name'=>'update_time',
-                'value'=>'$data->update_time',
-                //'value'=>'(empty($data->update_time)) ? "-" : $data->update_time',
-            ),
-            
-            array(
                 'name'=>'liquidity',
                 'value'=>'$data->liquidity',
             ),
             
-            array(
+            /*array(
                 'name'=>'min_quantity',
                 'value'=>'$data->min_quantity',
-            ),
+            ),*/
             
+            array(
+                'name'=>'update_time',
+                'value'=>'$data->update_time',
+                //'value'=>'(empty($data->update_time)) ? "-" : $data->update_time',
+            ),
                         
             array(
                 'class'=>'CButtonColumn',

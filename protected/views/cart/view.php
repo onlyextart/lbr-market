@@ -8,6 +8,11 @@
     <div class="order-header">
 	<h1>Заказ <span>от <?php echo date("Y.m.d H:i", strtotime($order->date_created)) ?></span></h1>
     </div>
+    <?php if($showLabelForNoPrice): ?>
+    <div class="cart-label-no-price">
+        Стоимость запчастей без цены будет указана в счет-фактуре.
+    </div>
+    <?php endif; ?>
     <div class="ordered-products">
         <table width="100%">
 	   <thead>
@@ -24,7 +29,7 @@
                         <h3><?php echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));?></h3>
                         <?php
                         echo CHtml::openTag('div', array('class'=>'price'));
-                        echo 'XXXX руб.';
+                        echo ($item->price)?($item->price*$item->currency).' руб.':Yii::app()->params['textNoPrice'];
                         echo CHtml::closeTag('div');
                         ?>
                     <td>
@@ -33,7 +38,7 @@
                     <td>
                         <?php
                         echo CHtml::openTag('span', array('class'=>'price'));
-                        echo 'XXXX руб.';
+                        echo ($item->price)? $item->total_price.' руб.':Yii::app()->params['textNoPrice'];
                         echo CHtml::closeTag('span');
                         ?>
                     </td>
@@ -46,7 +51,6 @@
                 <h2>Данные получателя</h2>
                 <div class="form wide">
                     <div class="row"> Доставка: <?php echo ($order->delivery->name)? $order->delivery->name : ''; ?> </div>
-                    <div class="row"> Стоимость: xxxx </div>
                     <div class="row"> <?php echo (!empty($order->user_name)) ? $order->user_name : $order->user->name; ?> </div>
                     <div class="row"> <?php echo (!empty($order->user_email)) ? $order->user_email : $order->user->email; ?> </div>
                 </div>
@@ -54,7 +58,7 @@
         </div>
         <div class="recount">
             <span class="total">Всего к оплате:</span>
-            <span id="total-price"> xxxx </span>
+            <span id="total-price"><?php echo $total ?></span>
         </div>
     </div>
 </div>

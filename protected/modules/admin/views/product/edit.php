@@ -57,9 +57,11 @@ $errorMsg = Yii::app()->user->getFlash('error');
              
                 $tabs=array(
                     'Общая информация'=>$this->renderPartial('_general', array('model'=>$model,'form_view'=>$form_view), true),
+                    'Цены' => $this->renderPartial('_price', array('model'=>$model,'form_view'=>$form_view, 'data'=>$prices), true),
                     'Сборочный чертеж' => $this->renderPartial('_images', array('model'=>$model,'form_view'=>$form_view), true),
                     'Дополнительно' => $this->renderPartial('_addinfo', array('model'=>$model,'form_view'=>$form_view), true),
-                    'Модельные ряды' => $this->renderPartial('_modellines', array('model'=>$model,'form_view'=>$form_view, 'modellines'=>$modellines), true),
+                    'Модельные ряды' => $this->renderPartial('_modellines', array('model'=>$model,'form_view'=>$form_view, 'data'=>$modellines), true),
+
                     //'Группа' => $this->renderPartial('_group', array('model'=>$model,'form_view'=>$form_view), true)
                 );
                 

@@ -40,7 +40,10 @@ class Product extends CActiveRecord
                 //$price_value, 
                 $productMaker_name,
                 //$currency_iso,
-                $group;
+                $group, 
+                $price,
+                $filial
+        ;
         
         CONST IN_STOCK = 'есть в наличии';
         CONST IN_STOCK_SHORT = 'в наличии';
@@ -124,14 +127,14 @@ class Product extends CActiveRecord
             
                 return array(
 			'id' => 'ID',
-			'external_id' => 'External',
+			'external_id' => 'ID',
 			'name' => 'Название',
 			'product_group_id' => 'Группа продукта',
                         'group'=>'Группа продукта',
 			'catalog_number' => 'Каталожный номер',
 			'product_maker_id' => 'Производитель',
 			'image' => 'Изображение',
-			'count' => 'Количество',
+			'count' => 'В наличии, шт.',
 			'liquidity' => 'Ликвидность',
 			'min_quantity' => 'Минимальное количество',
 			'additional_info' => 'Дополнительная информация',
@@ -142,6 +145,7 @@ class Product extends CActiveRecord
 			'published' => 'Опубликовать',
                         'update_time' => 'Дата обновления',
                         'weight' => 'Вес',
+                        'price' => 'Цена'
 		);
 	}
 
@@ -207,7 +211,7 @@ class Product extends CActiveRecord
                                 'asc' => $expr='productMaker.name',
                                 'desc' => $expr.' DESC',
                             ),
-                            'id','name', 'catalog_number', 'count', 'liquidity','min_quantity', 'update_time'
+                            'id', 'external_id', 'name', 'catalog_number', 'count', 'liquidity','min_quantity', 'update_time'
                         )),
 
 		));

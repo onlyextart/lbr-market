@@ -41,6 +41,7 @@
             //Yii::app()->clientScript->registerScriptFile('/js/front/jquery.BlackAndWhite.min.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/jquery.inputmask.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/inputmask.js');
+            $filial = Yii::app()->request->cookies['lbrfilial']->value;
         ?>
     </head>
     <body>
@@ -85,9 +86,6 @@
                     <li>
                         <a href="http://www.lbr.ru/company/" title="О компании">О компании</a>
                     </li>
-                    <!--li>
-                        <a href="http://career.lbr.ru/" title="Карьера">Карьера</a>
-                    </li-->
                     <li>
                         <a href="/search/show/" title="Поиск">Поиск</a>
                     </li>
@@ -96,7 +94,16 @@
                     </li-->
                 </ul>
             </div>
-            <!--div class="region-label">Ваш регион: <span id="region">Не выбран</span></div-->
+            <?php if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
+               <?php
+                  if(!empty($filial)): 
+                      $filial = Filial::model()->findByPk($filial)->name; 
+               ?>
+                  <div class="region-label">Ваш филиал: <span id="region"><?php echo $filial?></span></div>
+               <?php else: ?>
+                  <div class="region-label">Ваш филиал: <span id="region">Не выбран</span></div>
+               <?php endif; ?>
+            <?php endif; ?>
             <div class="map">
                 <a href="http://www.lbr.ru/company/contacts/">
                     <span>Контакты</span>
@@ -156,11 +163,11 @@
         <!--OnlineSeller.ru {/literal} -->
                                         
 
-        <!--div>
+        <div>
             <?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                 'id' => 'setRegion',
                 'options' => array(
-                    'title' => 'Выбор региона',
+                    'title' => 'Выбор филиала',
                     'autoOpen' => false,
                     'modal' => true,
                     'resizable'=> false,
@@ -169,7 +176,7 @@
             ?>
             <div class="row">
                 <?php
-                   //echo CHtml::dropDownList('select-region', '2', $filials);
+                echo CHtml::dropDownList('select-region', '', array());
                 ?>
             </div>
             <div class="reg-button">
@@ -178,17 +185,17 @@
             <?php
                 $this->endWidget('zii.widgets.jui.CJuiDialog');
             ?>
-        </div-->
+        </div>
     </body>
 </html>
+
 <script>
     $(document).ready(function($){
-        /*
-        var setFilialName = getCookie('filial');
+        var setFilialName = getCookie('lbrfilial');
         if(!setFilialName){
-            $("#setRegion").dialog("open");
+            //$("#setRegion").dialog("open");
+            showRegions();
         }
-        */
     });
 </script>
 <!----- Universal Analitics ----->

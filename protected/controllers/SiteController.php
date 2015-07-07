@@ -2,58 +2,51 @@
 class SiteController extends Controller
 {
     public function actionIndex($s = null)
-    {   
-        //Yii::app()->session['category'] = Yii::app()->session['maker'] = Yii::app()->session['model'] = Yii::app()->session['search'] = null;
-        //if(empty(Yii::app()->session['order'])) Yii::app()->session['order'] = 'asc';
-        //if(empty(Yii::app()->session['sort'])) Yii::app()->session['sort'] = 'col';
-        
+    {
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
         $max = Product::model()->cache(1000, $dependency)->count(array(
             'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
         ));
-        
         $offset = mt_rand(0, $max);
-        $hitProducts = Product::model()->cache(1000, $dependency)->findAll(array(
-            'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500
-            'offset' => $offset,
-            'limit' => 8,
-        ));
         
-        /*
-        if($max > 8) {
-            $temp = array();
-            for($i=0; $i<8; ) {
-                $offset = mt_rand(0, $max);
-                $hitProductId = Product::model()->cache(1000, $dependency)->find(array(
-                    'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
-                    'offset' => $offset,
-                    'limit' => 1,
-                ))->id;
-                
-                if(!in_array($hitProductId, $temp)) {
-                   $temp[] = $hitProductId;
-                   $i++;
+        /*if(Yii::app()->params['randomImages']) {
+            if($max > 8) {
+                $temp = array();
+                for($i=0; $i<8; ) {
+                    $hitProductId = Product::model()->cache(1000, $dependency)->find(array(
+                        'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
+                        'offset' => $offset,
+                        'limit' => 1,
+                    ))->id;
+
+                    if(!in_array($hitProductId, $temp)) {
+                       $temp[] = $hitProductId;
+                       $i++;
+                    }
                 }
+
+                $hitProducts = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
+            } else {
+                $hitProducts = Product::model()->cache(1000, $dependency)->findAll(array(
+                    'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500
+                    'limit' => 8,
+                ));
             }
-            
-            $hitProducts = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
-        } else {
+        } else {*/
             $hitProducts = Product::model()->cache(1000, $dependency)->findAll(array(
                 'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500
+                'offset' => $offset,
                 'limit' => 8,
             ));
-        }
-        */
-        $bestOffer = BestOffer::model()->findAll(array('condition'=>'published=1', 'order'=>'IFNULL(level, 1000000000)'));
-        $filials = array ('1' => 'Москва', '2' => 'Новосибирск');
+        //}
         
-        $this->render('index', array('hitProducts' => $hitProducts, 'bestoffer' => $bestOffer, 'filials' => $filials));
+        $bestOffer = BestOffer::model()->findAll(array('condition'=>'published=1', 'order'=>'IFNULL(level, 1000000000)'));
+        
+        $this->render('index', array('hitProducts' => $hitProducts, 'bestoffer' => $bestOffer));
     }
     
     public function actionDescription($url)
     {
-        //Yii::app()->session['category'] = Yii::app()->session['maker'] = null;
-
         $model = Page::model()->findByAttributes(array('url'=>$url));
         $this->render('staticPage', array('data'=>$model), false, true);
     }
@@ -458,10 +451,31 @@ class SiteController extends Controller
          }
         }
     
-    /*public function actionSetRegion()
+    public function actionSetRegion()
     {
-        Yii::app()->session['region'] = (int)$_POST['id'];
-    }*/
+        $cookie = new CHttpCookie('lbrfilial', (int)$_POST['id']);
+        $cookie->expire = time() + 60*60*24*30*12; // year
+        Yii::app()->request->cookies['lbrfilial'] = $cookie;
+    }
+
+    public function actionGetRegions()
+    {
+        $exists = false;
+        $filials = array();
+        $chosenFilialId = Yii::app()->request->cookies['lbrfilial']->value;
+        $allFilials = Filial::model()->findAll(array('condition'=>'level != 1'));
+        foreach($allFilials as $filial) {
+           $filials['filials'][$filial->id] = $filial->name;
+        }
+        
+        if(!empty($chosenFilialId)) $exists = Filial::model()->exists('id = :id', array(':id'=>$chosenFilialId));
+        // set active element
+        if(Yii::app()->search->prepareSqlite() && !$exists) {
+            $filials['active'] = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
+        } else $filials['active'] = $chosenFilialId;
+        
+        echo json_encode($filials);
+    }
     
 //    public function actionTestFilial()
 //    {
@@ -563,6 +577,16 @@ class SiteController extends Controller
         $root2 = new EquipmentMaker;
         $root2->name = 'Expom';
         $root2->save();*/
+        Delivery::model()->deleteAll('id=2');
+        $methods = array(
+            'Доставка транспортной компанией (выбор и оплату услуг транспортной компании производит клиент)', 
+            'Доставка транспортной компанией (оплата услуг по доставке включается в сумму заказа)'
+        );
+        foreach($methods as $method){
+            $one = new Delivery();
+            $one->name = $method;
+            $one->save();
+        }
     }
     public function actionTranslitePath()
     {

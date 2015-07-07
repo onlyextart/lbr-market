@@ -52,7 +52,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
             
             array(
                 'name'=>'total_price',
-                'value'=>'(int)$data->total_price',
+                'value'=>'$data->total_price',
             ),
                         
             array(

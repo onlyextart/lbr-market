@@ -20,13 +20,42 @@ class UserAccount extends CWidget
                $this->controller->redirect($returnUrl);
         }
         
-        $sale = $this->setSaleProducts();
-        //echo '<pre>';
-        //var_dump($sale); exit;
-        $this->render('index',array('model'=>$model, 'sale'=>$sale));
+        $sale = $this->getSaleProducts();
+        $cartCount = $this->getCartCount();
+        
+        $this->render('index',array('model'=>$model, 'sale'=>$sale, 'cartCount'=>$cartCount));
     }
     
-    private function setSaleProducts()
+    private function getCartCount()
+    {
+        $cartCount = 0;
+        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) 
+        {
+            $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id));
+            foreach($allOrdersInCart as $orderInCart){
+                $cartCount += OrderProduct::model()->find('order_id=:order', array(':order'=>$orderInCart->id))->count;
+            }
+        } else if(Yii::app()->user->isGuest) {
+            if(!empty(Yii::app()->session['cart'])) {
+                foreach(Yii::app()->session['cart'] as $productId => $count){
+                   $cartCount += $count;
+                }
+            }
+        }
+        
+        $cartLabel = ' товаров';
+        if($cartCount == 1) {
+            $cartLabel = ' товар';
+        } else if($cartCount == 2 || $cartCount == 3 || $cartCount == 4){
+            $cartLabel = ' товарa';
+        }
+
+        $cartCount .= $cartLabel;
+        
+        return $cartCount;
+    }
+    
+    private function getSaleProducts()
     {
         $sql = '';
         $sale = $temp = array();
@@ -86,41 +115,43 @@ class UserAccount extends CWidget
             $max = count($elements);
 
             if($max > $count) {
-                /*$temp = array();
-                for($i=0; $i < $count; ) {
+                if(Yii::app()->params['randomImages']) {
+                    $temp = array();
+                    for($i=0; $i < $count; ) {
+                        $offset = mt_rand(0, $max);
+                        //$productId = Product::model()->cache(1000, $dependency)->find(array(
+                        //    'condition' => 'liquidity = "D" and image not NULL', // price more 500 
+                        //    'offset' => $offset,
+                        //    'limit' => 1,
+                        //))->id;
+
+                        $productId = Product::model()->cache(1000, $dependency)->findByAttributes(
+                            array(
+                                'id' => $elements,
+                            ), 
+                            array(
+                                'offset' => $offset,
+                                'limit' => 1,
+                        ))->id;
+
+                        if(!in_array($productId, $temp) && !empty($productId)) {
+                           $temp[] = $productId;
+                           $i++;
+                        }
+                    }
+
+                    $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
+                } else {
                     $offset = mt_rand(0, $max);
-                    //$productId = Product::model()->cache(1000, $dependency)->find(array(
-                    //    'condition' => 'liquidity = "D" and image not NULL', // price more 500 
-                    //    'offset' => $offset,
-                    //    'limit' => 1,
-                    //))->id;
-                    
-                    $productId = Product::model()->cache(1000, $dependency)->findByAttributes(
+                    $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(
                         array(
                             'id' => $elements,
                         ), 
                         array(
                             'offset' => $offset,
-                            'limit' => 1,
-                    ))->id;
-
-                    if(!in_array($productId, $temp) && !empty($productId)) {
-                       $temp[] = $productId;
-                       $i++;
-                    }
+                            'limit' => $count,
+                    ));
                 }
-
-                $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
-                */
-                $offset = mt_rand(0, $max);
-                $sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(
-                    array(
-                        'id' => $elements,
-                    ), 
-                    array(
-                        'offset' => $offset,
-                        'limit' => $count,
-                ));
             } else if($max > 0) {
                 /*
                 $sale = Product::model()->cache(1000, $dependency)->findAll(array(
