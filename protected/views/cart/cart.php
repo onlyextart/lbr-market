@@ -30,7 +30,7 @@
     <?php else: ?>
     <?php if($showLabelForNoPrice): ?>
     <div class="cart-label-no-price">
-        Стоимость запчастей без цены будет указана в счет-фактуре.
+        Стоимость запчастей с пометкой "<?php echo Yii::app()->params['textNoPrice'] ?>" будет указана в счет-фактуре.
     </div>
     <?php endif; ?>
     <?php echo CHtml::form() ?>
@@ -136,7 +136,7 @@
         <?php if(!Yii::app()->user->isGuest && Yii::app()->params['showPrices']): ?>
         <div class="price recount-price">
             <button class="recount" type="submit" name="recount" value="1">Пересчитать</button>
-            <span class="total">Всего:</span>
+            <span class="total">Итого:</span>
             <span id="total">
                 <?php echo $total; ?>
             </span>
