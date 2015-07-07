@@ -122,7 +122,8 @@
                 <div class="main-menu">
                     <ul id="nav" class="dropdown">
                         <li><a href="/"><span>Главная</span></a></li>
-                        <li><a href="/sale/"><span>Распродажа</span></a></li>
+                        <!--li><a href="/sale/"><span>Распродажа</span></a></li-->
+                        <li><a href="#"><span>Распродажа</span></a></li>
                         <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
                         <li><a href="/payment/"><span>Условия и оплата</span></a></li>
                         <li><a href="/garantiya/"><span>Гарантия</span></a></li>
