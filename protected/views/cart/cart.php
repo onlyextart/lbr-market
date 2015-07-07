@@ -199,7 +199,7 @@
         </div>
     </div>
     <div class="confirm_order">
-        <?php if((Yii::app()->params['showPrices'])):?><h1>Всего к оплате:</h1><?php endif;?>
+        <?php if((Yii::app()->params['showPrices'])):?><h1>Итого:</h1><?php endif;?>
         <span id="total-price" class="total">
             <?php echo (Yii::app()->params['showPrices']) ? $total : '<h1>'.Yii::app()->params['textHidePrice'].'</h1>'; ?>
         </span>
