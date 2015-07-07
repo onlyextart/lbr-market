@@ -314,11 +314,10 @@ class CartController extends Controller
     
     public function getPrice($id, $count)
     {
-        $priceLabel = $totalPriceLabel = 0;
+        $priceLabel = $totalPriceLabel = '';
         
-        // logged user
         if(Yii::app()->params['showPrices']) {
-            if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) $user = User::model()->findByPk(Yii::app()->user->_id)->filial; 
+            if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) $filial = User::model()->findByPk(Yii::app()->user->_id)->filial; 
             else $filial = Yii::app()->request->cookies['lbrfilial']->value;
             
             $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$id, 'filial_id'=>$filial));
