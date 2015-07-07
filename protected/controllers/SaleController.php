@@ -2,7 +2,7 @@
 class SaleController extends Controller
 {
     public function actionIndex()
-    {   echo 2; exit;
+    {   
         $sql = $filial = '';
         //set_time_limit(0);
         if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
@@ -11,7 +11,7 @@ class SaleController extends Controller
         } else if(!empty(Yii::app()->request->cookies['lbrfilial']->value)) { // guest
            $filial = Yii::app()->request->cookies['lbrfilial']->value;
         }
-        
+        echo 3; exit;
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');     
         $criteria = new CDbCriteria();
         $criteria->distinct = true;
