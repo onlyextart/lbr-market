@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="recount">
-            <span class="total">К оплате без учета доставки:</span>
+            <span class="total">Итого:</span>
             <span id="total-price">
             <?php 
             if(Yii::app()->params['showPrices']) {
