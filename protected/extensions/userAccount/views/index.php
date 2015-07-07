@@ -98,15 +98,15 @@ if(!Yii::app()->user->isGuest) {
 <?php endif; ?>
 
 <script>
-    $(document).ready(function($){
+    /*$(document).ready(function($){
         var updateCart = function() {
             $.ajax({
                 type: 'POST',
                 url: '/cart/count',
-                /*dataType: 'json',
+                dataType: 'json',
                 data:{
                     id: selector.val(),
-                },*/
+                },
                 success: function(data) {
                     console.log(data);
             }});  
@@ -117,5 +117,5 @@ if(!Yii::app()->user->isGuest) {
                 //setInterval(updateCart, interval);
         <?php //endif; ?>
         
-    });
+    });*/
 </script>

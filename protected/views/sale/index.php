@@ -15,7 +15,7 @@
         ));
     ?>
 </div>
-<div class="bestoffer-wrapper">
+<!--div class="bestoffer-wrapper">
     <div class="elements">
         <h1>Распродажа</h1><img class="spec-label" src="/images/sale-label.png">
         <?php if(count($data->getData())): 
@@ -42,14 +42,10 @@
             )); 
         ?>
         <?php else: ?>
-           <?php //if(empty(Yii::app()->session['maker']) && empty(Yii::app()->session['category'])): ?>
               <div class="empty">На данный момент нет распродаж.</div>
-           <?php //else: ?>
-              <!--div class="empty">Для указанного фильтра на данный момент нет распродаж.</div-->
-           <?php //endif; ?>
         <?php endif; ?>
     </div>
-</div>
+</div-->
 <script>
     $(function() {
         $( ".small-cart-button" ).on('click', function() {
