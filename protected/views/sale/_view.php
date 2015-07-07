@@ -1,4 +1,5 @@
 <?php
+echo 1; exit;
 $image = '/images/no-photo.png';
 if(!empty($data->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$data->image;
 
