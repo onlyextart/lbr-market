@@ -25,6 +25,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
             //'header' => false,
         ),
         'columns' => array(
+            'id',
             'external_id',
             array (
                 'name'=>'name',
