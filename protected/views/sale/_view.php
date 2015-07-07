@@ -8,7 +8,7 @@ if($data->count > 0) {
 } 
 
 $cart = '';
-if(Yii::app()->user->isGuest || !empty(Yii::app()->user->isShop)){
+if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
     $cart = '<input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">
         <input type="button" title="Добавить в корзину" value="" class="small-cart-button">'
     ;
@@ -49,11 +49,11 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
             <span><?php
                if(!Yii::app()->params['showPrices']) {
                    // show for admin
-                   /*if(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']) {
+                   if(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']) {
                       $priceLabel = Price::model()->getPrice($data->id);
                       if(!empty($priceLabel)) echo $priceLabel;
                       else echo Yii::app()->params['textNoPrice'];
-                   } else echo Yii::app()->params['textHidePrice'];*/
+                   } else echo Yii::app()->params['textHidePrice'];
                } else {
                   $priceLabel = Price::model()->getPrice($data->id);
                   if(!empty($priceLabel)) echo $priceLabel;
