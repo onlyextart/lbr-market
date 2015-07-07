@@ -240,12 +240,6 @@ class ModelController extends Controller
         $model = Product::model()->cache(1000, $depend)->findByPk($id);
         $draftLabel = '';
         $price = '';
-        if(!Yii::app()->user->isGuest) {
-            if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
-                $price = Price::model()->getPrice($id);
-                if(empty($price)) $price = Yii::app()->params['textNoPrice'];
-            } else $price = Yii::app()->params['textHidePrice'];
-        }
         
         if(Yii::app()->params['showDrafts']){
             $allDrafts = ProductInDraft::model()->findAllByAttributes(array('product_id'=>$id));
@@ -274,7 +268,14 @@ class ModelController extends Controller
                      <div class="cell draft width-35">'.$draftLabel.'</div>'
         ;
         
-        if(!Yii::app()->user->isGuest) {
+        if(!Yii::app()->user->isGuest || ($model->liquidity == 'D' && $model->count > 0)) {
+            if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
+                $price = Price::model()->getPrice($id);
+                if(empty($price)) $price = Yii::app()->params['textNoPrice'];
+            } else $price = Yii::app()->params['textHidePrice'];
+        }
+        
+        if(!Yii::app()->user->isGuest || ($model->liquidity == 'D' && $model->count > 0)) {
             $result .= '<div class="cell width-15">'.
                 '<span>'.$price.'</span>'.
             '</div>';
