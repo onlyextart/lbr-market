@@ -95,7 +95,7 @@ class ProductController extends Controller
                     }
                 } else $priceLabel = Yii::app()->params['textNoPrice'];
             }
-        } else if(!Yii::app()->user->isGuest && !empty(Yii::app()->request->cookies['lbrfilial']->value)) {
+        } else if(!empty(Yii::app()->request->cookies['lbrfilial']->value)) {
             $filialId = Yii::app()->request->cookies['lbrfilial']->value;
             $filial = Filial::model()->findByPk($filialId)->name;
             

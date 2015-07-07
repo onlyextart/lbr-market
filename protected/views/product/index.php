@@ -76,6 +76,8 @@
                                     echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
                                 } else if(!Yii::app()->user->isGuest) {
                                     echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: '.$filial.')</div>';
+                                } else if($data->liquidity == 'D' && $data->count > 0){
+                                    echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: '.$filial.')</div>';
                                 } else {
                                     echo '<span class="price_link"><a href="/site/login/">Узнать цену</a></span>';
                                 }

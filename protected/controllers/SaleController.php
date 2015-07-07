@@ -3,12 +3,14 @@ class SaleController extends Controller
 {
     public function actionIndex()
     {   
-        //$sql = '';
+        
         
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');     
         $criteria = new CDbCriteria();
         
         /*
+        
+        $sql = '';
         if(!empty(Yii::app()->session['maker'])) {
             $sql = 'and m.maker_id = '.Yii::app()->session['maker'];
         }
@@ -25,7 +27,8 @@ class SaleController extends Controller
         
         $criteria->distinct = true;
         $criteria->join = 'JOIN price_in_filial pr ON pr.product_id = t.id';
-        $criteria->addCondition('t.liquidity = "D" and t.count > 0 and t.image IS NOT NULL and pr.price > 0');
+        //$criteria->addCondition('t.liquidity = "D" and t.count > 0 and t.image IS NOT NULL and pr.price > 0');
+        $criteria->addCondition('t.liquidity = "D" and t.count > 0 and pr.price > 0');
         
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
             array(
