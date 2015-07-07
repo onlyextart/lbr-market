@@ -48,7 +48,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
         <div class="cell draft width-35"><?php echo (Yii::app()->params['showDrafts']) ? $draftLabel : '' ?></div>
         <div class="cell width-15">
             <span><?php
-               /*if(!Yii::app()->params['showPrices']) {
+               if(!Yii::app()->params['showPrices']) {
                    // show for admin
                    if(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']) {
                       $priceLabel = Price::model()->getPrice($data->id);
@@ -59,7 +59,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
                   $priceLabel = Price::model()->getPrice($data->id);
                   if(!empty($priceLabel)) echo $priceLabel;
                   else echo Yii::app()->params['textNoPrice'];
-               }*/
+               }
             ?></span>
         </div>
         <div class="cell width-20">
