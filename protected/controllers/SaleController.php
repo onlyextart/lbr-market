@@ -8,7 +8,7 @@ class SaleController extends Controller
 
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');     
         $criteria = new CDbCriteria();
-        $criteria->distinct = true;
+        //$criteria->distinct = true;
         
         /*$criteria->join = 'JOIN product_in_model_line p ON p.product_id = t.id ' .
                           'JOIN model_line m ON m.id = p.model_line_id '.
@@ -30,7 +30,7 @@ class SaleController extends Controller
         }
         */
         //////////////////////////////////////////
-        $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql);
+        //$criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql);
         
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
             array(
@@ -55,8 +55,8 @@ class SaleController extends Controller
         );
         
         Yii::app()->params['meta_title'] = 'Распродажа';
-        //$breadcrumbs[] = 'Распродажа';
-        //Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
+        $breadcrumbs[] = 'Распродажа';
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
 
         $this->render('index', array('data' => $data));
     }
