@@ -20,8 +20,7 @@ class UserAccount extends CWidget
                $this->controller->redirect($returnUrl);
         }
         
-        $sale = array();
-        if(Yii::app()->controller->id != 'sale') $this->getSaleProducts();
+        $sale = $this->getSaleProducts();
         $cartCount = $this->getCartCount();
         
         $this->render('index',array('model'=>$model, 'sale'=>$sale, 'cartCount'=>$cartCount));
