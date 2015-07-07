@@ -71,6 +71,7 @@ class CartController extends Controller
                         'name' => $product->name,
                         'img' => $prodImage,
                         'count' => $count,
+                        'liquidity' => $product->liquidity,
                     );
                 }
             }
@@ -304,7 +305,7 @@ class CartController extends Controller
     
     public function getProductPrice($id, $count)
     {
-        $priceLabel = $totalPriceLabel = 'нет цены';
+        $priceLabel = $totalPriceLabel = Yii::app()->params['textNoPrice'];
         $result = $this->getPrice($id, $count);
         if(!empty($result['one']))$priceLabel = $result['one'].' руб.';
         if(!empty($result['total']))$totalPriceLabel = $result['total'].' руб.';
@@ -316,9 +317,11 @@ class CartController extends Controller
         $priceLabel = $totalPriceLabel = 0;
         
         // logged user
-        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
-            $user = User::model()->findByPk(Yii::app()->user->_id);   
-            $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$id, 'filial_id'=>$user->filial));
+        if(Yii::app()->params['showPrices']) {
+            if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) $user = User::model()->findByPk(Yii::app()->user->_id)->filial; 
+            else $filial = Yii::app()->request->cookies['lbrfilial']->value;
+            
+            $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$id, 'filial_id'=>$filial));
             
             if(!empty($price)) {
                $currency = Currency::model()->findByPk($price->currency_code);
