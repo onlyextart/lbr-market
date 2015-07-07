@@ -41,6 +41,14 @@
             //Yii::app()->clientScript->registerScriptFile('/js/front/jquery.BlackAndWhite.min.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/jquery.inputmask.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/inputmask.js');
+            
+            if(empty(Yii::app()->request->cookies['lbrfilial'])){
+                $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
+                $cookie = new CHttpCookie('lbrfilial', $id);
+                $cookie->expire = time() + 60*60*24*30*12; // year
+                Yii::app()->request->cookies['lbrfilial'] = $cookie;
+            }
+            
             $filial = Yii::app()->request->cookies['lbrfilial']->value;
         ?>
     </head>
@@ -190,13 +198,13 @@
 </html>
 
 <script>
-    $(document).ready(function($){
+    /*$(document).ready(function($){
         var setFilialName = getCookie('lbrfilial');
         if(!setFilialName){
             //$("#setRegion").dialog("open");
             showRegions();
         }
-    });
+    });*/
 </script>
 <!----- Universal Analitics ----->
 <script>

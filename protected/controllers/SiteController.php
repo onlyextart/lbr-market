@@ -2,7 +2,7 @@
 class SiteController extends Controller
 {
     public function actionIndex($s = null)
-    {
+    {        
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
         $max = Product::model()->cache(1000, $dependency)->count(array(
             'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
