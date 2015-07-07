@@ -28,7 +28,8 @@ class SaleController extends Controller
         $criteria->distinct = true;
         $criteria->join = 'JOIN price_in_filial pr ON pr.product_id = t.id';
         //$criteria->addCondition('t.liquidity = "D" and t.count > 0 and t.image IS NOT NULL and pr.price > 0');
-        $criteria->addCondition('t.liquidity = "D" and t.count > 0 and pr.price > 0');
+        //$criteria->addCondition('t.liquidity = "D" and t.count > 0 and pr.price > 0');
+        $criteria->addCondition('t.liquidity = "D" and t.count > 0');
         
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
             array(

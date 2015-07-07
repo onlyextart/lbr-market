@@ -165,7 +165,7 @@ class ProductController extends Controller
                                              '</div>'
              ;
              
-             if(!Yii::app()->user->isGuest) {
+             if(!Yii::app()->user->isGuest || ($analog->liquidity == 'D' && $analog->count > 0)) {
                 $price = '';
                 if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                     $price = Price::model()->getPrice($analog->id);
