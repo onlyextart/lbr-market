@@ -199,7 +199,7 @@
     </div>
     <?php else: ?>
     <div class="confirm_order">
-        <?php echo CHtml::link('Авторизоваться', '/site/login/', array('class' => 'btn guestcart','target'=>'_blank')); ?>
+        <?php echo CHtml::link('Авторизоваться', '/site/login/', array('class' => 'btn guestcart')); ?>
     </div>
     <?php endif; ?>
     <?php echo CHtml::endForm() ?>
