@@ -78,7 +78,7 @@ class CartController extends Controller
             $this->redirect('/');
         } else { // logged user
             if(Yii::app()->request->isPostRequest) { 
-                if(Yii::app()->request->getPost('create') && Yii::app()->params['showPrices']) {
+                if(Yii::app()->request->getPost('create')) {
                     if(isset($_POST['OrderCreateForm'])) {
                         $this->form->attributes = $_POST['OrderCreateForm'];
                         if($this->form->validate()) {

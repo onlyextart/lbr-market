@@ -29,7 +29,9 @@
                         <h3><?php echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));?></h3>
                         <?php
                         echo CHtml::openTag('div', array('class'=>'price'));
-                        echo ($item->price)?($item->price*$item->currency).' руб.':Yii::app()->params['textNoPrice'];
+                        if(Yii::app()->params['showPrices']) {
+                           echo ($item->price)?($item->price*$item->currency).' руб.':Yii::app()->params['textNoPrice'];
+                        } else echo Yii::app()->params['textHidePrice']; 
                         echo CHtml::closeTag('div');
                         ?>
                     <td>
@@ -38,7 +40,9 @@
                     <td>
                         <?php
                         echo CHtml::openTag('span', array('class'=>'price'));
-                        echo ($item->price)? $item->total_price.' руб.':Yii::app()->params['textNoPrice'];
+                        if(Yii::app()->params['showPrices']) {
+                           echo ($item->price)? $item->total_price.' руб.':Yii::app()->params['textNoPrice'];
+                        } else echo Yii::app()->params['textHidePrice']; 
                         echo CHtml::closeTag('span');
                         ?>
                     </td>
@@ -58,7 +62,13 @@
         </div>
         <div class="recount">
             <span class="total">Всего к оплате:</span>
-            <span id="total-price"><?php echo $total ?></span>
+            <span id="total-price">
+            <?php 
+            if(Yii::app()->params['showPrices']) {
+               echo $total; 
+            } else echo '<div>'.Yii::app()->params['textHidePrice'].'</div>'; 
+            ?>
+            </span>
         </div>
     </div>
 </div>
