@@ -24,6 +24,12 @@
                 'value'=>'$data->price." ".$data->currency->symbol',
             ),
             array( 
+                'name'=>'Курс валюты',
+                'type'=>'raw',
+                'filter'=>false,
+                'value'=>'$data->currency->exchange_rate." (на ".date("d.m.Y H:i", strtotime($data->currency->update_time)).")"',
+            ),
+            array( 
                 'name'=>'price_in_rub',
                 'type'=>'raw',
                 'filter'=>false,

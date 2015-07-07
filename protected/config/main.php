@@ -207,7 +207,7 @@ return array(
                 'Все заказы'=>'/admin/order/',
                 'Статусы заказов'=>'/admin/orderstatus/',
                 'Способы доставки'=>'/admin/delivery/',
-                'Валюта'=>'/admin/currency/',
+                'Курсы валют'=>'/admin/currency/',
             ),
             'Сайт'=>array(
                 //'Актуальные предложения'=>'/admin/actualoffer/',
