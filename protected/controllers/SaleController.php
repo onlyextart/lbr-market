@@ -10,11 +10,11 @@ class SaleController extends Controller
         $criteria = new CDbCriteria();
         $criteria->distinct = true;
         
-        $criteria->join = 'JOIN product_in_model_line p ON p.product_id = t.id ' .
+        /*$criteria->join = 'JOIN product_in_model_line p ON p.product_id = t.id ' .
                           'JOIN model_line m ON m.id = p.model_line_id '.
                           'JOIN category c ON c.id = m.category_id '.
                           'JOIN price_in_filial pr ON pr.product_id = t.id'
-        ;
+        ;*/
         
         /*
         if(!empty(Yii::app()->session['maker'])) {
