@@ -97,9 +97,6 @@
                     <li>
                         <a href="/search/show/" title="Поиск">Поиск</a>
                     </li>
-                    <!--li>
-                        <a href="/" title="Карьера">Вход</a>
-                    </li-->
                 </ul>
             </div>
             <?php if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
@@ -118,30 +115,27 @@
                     <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
                 </a>
             </div>
-            <!--div id="main-menu"-->
-                <div class="main-menu">
-                    <ul id="nav" class="dropdown">
-                        <li><a href="/"><span>Главная</span></a></li>
-                        <!--li><a href="/sale/"><span>Распродажа</span></a></li-->
-                        <li><a href="#"><span>Распродажа</span></a></li>
-                        <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
-                        <li><a href="/payment/"><span>Условия и оплата</span></a></li>
-                        <li><a href="/garantiya/"><span>Гарантия</span></a></li>
-                        <li><a href="/delivery/"><span>Доставка</span></a></li>
-                        <?php   
-                        
-                            # Подключаем файл
-                            if (!Yii::app()->user->isGuest && Yii::app()->user->isShop)
-                                echo '<li class="last"><a href="/user/cabinet/index/"><span>Кабинет</span></a></li>';
-                            else if(Yii::app()->user->isGuest)
-                                echo '<li class="last"><a href="/user/cabinet/index/"><span>Вход / Регистрация</span></a></li>';
-                            else 
-                                echo '<li class="last empty-li"><span class="empty-menu"></span></li>';
-                            
-                        ?>
-                    </ul>
-                </div>
-            <!--/div-->
+            <div class="main-menu">
+                <ul id="nav" class="dropdown">
+                    <li><a href="/"><span>Главная</span></a></li>
+                    <li><a href="/sale/"><span>Распродажа</span></a></li>
+                    <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
+                    <li><a href="/payment/"><span>Условия и оплата</span></a></li>
+                    <li><a href="/garantiya/"><span>Гарантия</span></a></li>
+                    <li><a href="/delivery/"><span>Доставка</span></a></li>
+                    <?php   
+
+                        # Подключаем файл
+                        if (!Yii::app()->user->isGuest && Yii::app()->user->isShop)
+                            echo '<li class="last"><a href="/user/cabinet/index/"><span>Кабинет</span></a></li>';
+                        else if(Yii::app()->user->isGuest)
+                            echo '<li class="last"><a href="/user/cabinet/index/"><span>Вход / Регистрация</span></a></li>';
+                        else 
+                            echo '<li class="last empty-li"><span class="empty-menu"></span></li>';
+
+                    ?>
+                </ul>
+            </div>
         </header>
         <div class="wrapper">
             <div class="left-sidebar">
