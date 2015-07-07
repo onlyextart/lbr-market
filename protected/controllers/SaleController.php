@@ -2,7 +2,7 @@
 class SaleController extends Controller
 {
     public function actionIndex()
-    {   
+    {   echo 2; exit;
         $sql = $filial = '';
         //set_time_limit(0);
         if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
