@@ -8,13 +8,15 @@ class SaleController extends Controller
 
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');     
         $criteria = new CDbCriteria();
-        //$criteria->distinct = true;
+        /*
+        $criteria->distinct = true;
         
-        /*$criteria->join = 'JOIN product_in_model_line p ON p.product_id = t.id ' .
+        $criteria->join = 'JOIN product_in_model_line p ON p.product_id = t.id ' .
                           'JOIN model_line m ON m.id = p.model_line_id '.
                           'JOIN category c ON c.id = m.category_id '.
                           'JOIN price_in_filial pr ON pr.product_id = t.id'
         ;*/
+        
         //////////////////////////////////////////
         /*
         if(!empty(Yii::app()->session['maker'])) {
@@ -30,7 +32,7 @@ class SaleController extends Controller
         }
         */
         //////////////////////////////////////////
-        //$criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql);
+        $criteria->addCondition('t.liquidity = "D" and t.count > 0 and t.image IS NOT NULL '.$sql);
         
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
             array(
@@ -39,7 +41,7 @@ class SaleController extends Controller
                    'pageSize' => 7,
                    'pageVar' => 'page',
                 ),
-                /*'sort'=>array(
+                'sort'=>array(
                     'attributes'=>array(
                         'name'=>array(
                             'asc'=>'t.name ASC',
@@ -50,7 +52,7 @@ class SaleController extends Controller
                     'defaultOrder'=>array(
                         'name' => CSort::SORT_ASC,
                     ),
-                ),*/
+                ),
             )
         );
         
