@@ -42,7 +42,7 @@
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/jquery.inputmask.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/inputmask.js');
             
-            if(empty(Yii::app()->request->cookies['lbrfilial'])){
+            if(empty(Yii::app()->request->cookies['lbrfilial'])) {
                 $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
                 $cookie = new CHttpCookie('lbrfilial', $id);
                 $cookie->expire = time() + 60*60*24*30*12; // year
