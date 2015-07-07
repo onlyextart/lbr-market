@@ -1,8 +1,5 @@
 <div class="breadcrumbs">
     <?php
-        /*$breadcrumbs['Тест'] = '/';
-        $breadcrumbs[] = 'Производитель';
-        Yii::app()->params['breadcrumbs'] = $breadcrumbs;  */
         $this->widget('zii.widgets.CBreadcrumbs', array(
             'links' => Yii::app()->params['breadcrumbs'],
             'activeLinkTemplate' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="{url}">{label}</a></span>',
@@ -15,7 +12,7 @@
         ));
     ?>
 </div>
-<!--div class="bestoffer-wrapper">
+<div class="bestoffer-wrapper">
     <div class="elements">
         <h1>Распродажа</h1><img class="spec-label" src="/images/sale-label.png">
         <?php if(count($data->getData())): 
@@ -45,7 +42,7 @@
               <div class="empty">На данный момент нет распродаж.</div>
         <?php endif; ?>
     </div>
-</div-->
+</div>
 <script>
     $(function() {
         $( ".small-cart-button" ).on('click', function() {

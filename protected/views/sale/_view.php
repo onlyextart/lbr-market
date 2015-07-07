@@ -1,5 +1,5 @@
 <?php
-echo 1; exit;
+echo 1;/*
 $image = '/images/no-photo.png';
 if(!empty($data->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$data->image;
 
@@ -33,9 +33,9 @@ if(!empty($allDrafts)){
 $this->widget('application.extensions.fancybox.EFancyBox', array(
 	'target'=>'a.thumbnail',
 	'config'=>array(),
-));
+));*/
 ?>
-<div class="spareparts-wrapper">
+<!--div class="spareparts-wrapper">
     <div class="row">
         <div class="cell width-20">
             <a target="_blank" href="<?php echo $data->path ?>"><?php echo $data->name ?></a>
@@ -69,4 +69,4 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
             </div>
         </div>
     </div>
-</div>
+</div-->
