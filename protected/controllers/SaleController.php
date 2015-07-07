@@ -3,16 +3,9 @@ class SaleController extends Controller
 {
     public function actionIndex()
     {   
-        $sql = $filial = '';
+        $sql = '';
         //set_time_limit(0);
-        echo 1;
-        if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
-           $user = User::model()->findByPk(Yii::app()->user->_id);   
-           $filial = $user->filial;
-        } else if(!empty(Yii::app()->request->cookies['lbrfilial']->value)) { // guest
-           $filial = Yii::app()->request->cookies['lbrfilial']->value;
-        }
-        echo 3; exit;
+
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');     
         $criteria = new CDbCriteria();
         $criteria->distinct = true;
@@ -38,10 +31,6 @@ class SaleController extends Controller
         */
         
         $criteria->addCondition('liquidity = "D" and count > 0 and image not NULL '.$sql);
-        /*if(!empty($filial)) {
-            $criteria->addCondition('pr.filial_id = :filial'); // price more 500
-            $criteria->params = array(':filial'=>$filial);
-        }*/
         
         $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
             array(
@@ -66,8 +55,7 @@ class SaleController extends Controller
         );
         
         Yii::app()->params['meta_title'] = 'Распродажа';
-        $breadcrumbs[] = 'Распродажа';
-        Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
+        Yii::app()->params['breadcrumbs'] = 'Распродажа';  
 
         $this->render('index', array('data' => $data));
     }
