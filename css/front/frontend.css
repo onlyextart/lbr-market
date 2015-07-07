@@ -2348,10 +2348,12 @@ div.flash_error {
 }
 .ordered-products .recount .total{
     color: #000;
-    font-size: 24px;
-    margin-top: 5px;
-    padding-left: 20px;
+    font-size: 20px;
+    margin-top: 10px;
+    /*padding-left: 20px;*/
     padding-right: 10px;
+    display: inline-block;
+    /*padding-top: 10px;*/
 }
 
 .ordered-products h3{
