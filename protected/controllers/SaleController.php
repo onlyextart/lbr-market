@@ -5,6 +5,7 @@ class SaleController extends Controller
     {   
         $sql = $filial = '';
         //set_time_limit(0);
+        echo 1;
         if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
            $user = User::model()->findByPk(Yii::app()->user->_id);   
            $filial = $user->filial;
