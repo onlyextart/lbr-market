@@ -577,7 +577,7 @@ class SiteController extends Controller
         $root2 = new EquipmentMaker;
         $root2->name = 'Expom';
         $root2->save();*/
-        Delivery::model()->deleteAll('id=2');
+        /*Delivery::model()->deleteAll('id=2');
         $methods = array(
             'Доставка транспортной компанией (выбор и оплату услуг транспортной компании производит клиент)', 
             'Доставка транспортной компанией (оплата услуг по доставке включается в сумму заказа)'
@@ -586,7 +586,10 @@ class SiteController extends Controller
             $one = new Delivery();
             $one->name = $method;
             $one->save();
-        }
+        }*/
+        $delivery = Delivery::model()->findByPk(4);
+        $delivery->name = 'Доставка транспортной компанией (оплата услуг по доставке включается в счет-фактуру)';
+        $delivery->save();
     }
     public function actionTranslitePath()
     {
