@@ -30,7 +30,7 @@
     <?php else: ?>
     <?php if($showLabelForNoPrice): ?>
     <div class="cart-label-no-price">
-        Стоимость запчастей без цены будет указана в счет-фактуре.
+        Стоимость запчастей с пометкой "<?php echo Yii::app()->params['textNoPrice'] ?>" будет указана в счет-фактуре.
     </div>
     <?php endif; ?>
     <?php echo CHtml::form() ?>
@@ -71,8 +71,6 @@
                         </td>
                         <td width="120px">
                             <div class="minus">&minus;</div>
-                            <?php //echo CHtml::textField("", $item->count, array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
-                            <?php //echo CHtml::numberField('products['.$item->product->id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7)) ?>
                             <?php echo CHtml::textField('products['.$item->product->id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7)) ?>
                             <div class="plus">&plus;</div>
                         </td>
@@ -84,37 +82,47 @@
                             ?>
                         </td>
                         <td width="20px">
-                            <!--a class="remove" href="/cart/remove/<?php echo $item->order->id ?>/"></a-->
                             <a class="remove" href="/cart/remove<?php echo $item->product->path ?>"></a>
                         </td>
                     </tr>
                     <?php endforeach ?>
                <?php else: ?>
-                    <?php foreach($items as $item): ?>
+                    <?php 
+                    foreach($items as $item): 
+                        $price = $this->getProductPrice($item[id], $item[count]);
+                    ?>
                     <tr>
                         <td width="110px" align="center">
                             <?php
                             echo CHtml::link(CHtml::image($item['img'], '', array('class'=>'thumbnail')), $item['img'], array('class'=>'thumbnail'));
                             ?>
                         </td>
-                        <td width="210px" >
+                        <td width="220px" >
                             <?php
-                            echo CHtml::link($item[name], $item[path]);
-                            //echo CHtml::openTag('span', array('class'=>'price'));
-                            //echo '<a href="/site/login/">Узнать цену</a>';
-                            //echo CHtml::closeTag('span');
+                            echo CHtml::link($item[name], $item[path], array('target'=>'_blank'));
+                            if($item[liquidity] == 'D' && $item[count] > 0) {
+                                echo CHtml::openTag('span', array('class'=>'price'));
+                                echo (Yii::app()->params['showPrices'])? $price['one']:'';
+                                echo CHtml::closeTag('span');
+                            }
                             ?>
                         </td>
-                        <td>
+                        <td width="120px">
                             <div class="minus">&minus;</div>
                             <?php echo CHtml::textField("products[$item[id]]", $item[count], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
                             <div class="plus">&plus;</div>
                         </td>
                         <td>
                             <?php
-                            echo CHtml::openTag('span', array('class'=>'price'));
-                            echo '<a class="price-link" href="/site/login/">Узнать цену</a>';
-                            echo CHtml::closeTag('span');
+                            if($item[liquidity] == 'D' && $item[count] > 0) {
+                                echo CHtml::openTag('span', array('class'=>'price'));
+                                echo (Yii::app()->params['showPrices']) ? $price['total'] : Yii::app()->params['textHidePrice'];
+                                echo CHtml::closeTag('span');
+                            } else {
+                                echo CHtml::openTag('span', array('class'=>'price'));
+                                echo '<a class="price-link" href="/site/login/">Узнать цену</a>';
+                                echo CHtml::closeTag('span');
+                            }
                             ?>
                         </td>
                         <td width="20px">
@@ -128,7 +136,7 @@
         <?php if(!Yii::app()->user->isGuest && Yii::app()->params['showPrices']): ?>
         <div class="price recount-price">
             <button class="recount" type="submit" name="recount" value="1">Пересчитать</button>
-            <span class="total">Всего:</span>
+            <span class="total">Итого:</span>
             <span id="total">
                 <?php echo $total; ?>
             </span>
@@ -177,7 +185,7 @@
                     </div>
 
                     <div class="row">
-                        <?php echo CHtml::activeLabel($this->form, 'user_address'/*, array('required'=>true)*/); ?>
+                        <?php echo CHtml::activeLabel($this->form, 'user_address'); ?>
                         <?php echo CHtml::activeTextArea($this->form,'user_address'); ?>
                     </div>
 
