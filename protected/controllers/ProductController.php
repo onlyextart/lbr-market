@@ -170,7 +170,7 @@ class ProductController extends Controller
                 $price = '';
                 if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                     $price = Price::model()->getPrice($analog->id);
-                    if(empty($price)) $price = Yii::app()->params['textNoPrice'];
+                    if(empty($price)) $price = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
                 } else $price = Yii::app()->params['textHidePrice'];
                 
                 $analogProducts .= '<div class="cell width-15">'.$price.'</div>';
