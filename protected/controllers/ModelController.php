@@ -271,7 +271,7 @@ class ModelController extends Controller
         if(!Yii::app()->user->isGuest || ($model->liquidity == 'D' && $model->count > 0)) {
             if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                 $price = Price::model()->getPrice($id);
-                if(empty($price)) $price = Yii::app()->params['textNoPrice'];
+                if(empty($price)) $price = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
             } else $price = Yii::app()->params['textHidePrice'];
         }
         
