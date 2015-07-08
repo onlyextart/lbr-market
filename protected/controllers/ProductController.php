@@ -135,6 +135,7 @@ class ProductController extends Controller
         
         $criteria = new CDbCriteria;
         $criteria->addInCondition('t.id', $temp);
+        $criteria->order = 't.count desc, t.name';
         //if (!empty($filial)) $criteria->addInCondition('priceInFilial.filial_id', array($filial));
         $products = Product::model()->with('priceInFilial')->findAll($criteria);
         
