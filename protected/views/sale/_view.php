@@ -53,12 +53,12 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
                    if(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']) {
                       $priceLabel = Price::model()->getPrice($data->id);
                       if(!empty($priceLabel)) echo $priceLabel;
-                      else echo Yii::app()->params['textNoPrice'];
+                      else echo '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
                    } else echo Yii::app()->params['textHidePrice'];
                } else {
                   $priceLabel = Price::model()->getPrice($data->id);
                   if(!empty($priceLabel)) echo $priceLabel;
-                  else echo Yii::app()->params['textNoPrice'];
+                  else echo '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
                }
             ?></span>
         </div>
