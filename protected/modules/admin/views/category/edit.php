@@ -64,8 +64,8 @@ $errorMsg = Yii::app()->user->getFlash('error');
             ));
 
             $tabs=array(
-                'Общая информация'=>$this->renderPartial('form', array('model'=>$model, 'form'=>$form), true),
-                'Мета данные' => $this->renderPartial('_seo', array('model'=>$model, 'form'=>$form, 'data'=>$equipmentMaker), true),
+                'Общая информация о категории'=>$this->renderPartial('form', array('model'=>$model, 'form'=>$form), true),
+                'Производители в категории' => $this->renderPartial('_seo', array('model'=>$model, 'form'=>$form, 'data'=>$equipmentMaker), true),
             );
 
             $this->beginWidget('ext.yiiext.sidebartabs.CJuiTabs', array('tabs'=>$tabs));

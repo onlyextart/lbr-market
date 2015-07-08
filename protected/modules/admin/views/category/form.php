@@ -1,4 +1,4 @@
-
+<?php if(!empty($model->id)): ?> 
     <div class="row">      
         <?php  
             echo $form->labelEx($model, 'name');
@@ -56,7 +56,7 @@
                 'attribute'=>'bottom_text'));
             ?>
     </div>
-
+<?php endif; ?>
 <?php
 
 /*

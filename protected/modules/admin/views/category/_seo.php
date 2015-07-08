@@ -1,6 +1,6 @@
+<?php if(!empty($data)): ?>
 <div class="grid-wrapper">
 <?php
-
     $this->widget('zii.widgets.grid.CGridView', array(
         'id'=>'makerListGrid',
         //'filter'=>$model,
@@ -27,3 +27,4 @@
     ));
 ?>
 </div>
+<?php endif; ?>
