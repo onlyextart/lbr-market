@@ -281,7 +281,7 @@ class ModelController extends Controller
             '</div>';
         } else {
             $result .= '<div class="cell width-15 price-link">'.
-                '<a href="/site/login/">Узнать цену</a>'.
+                '<a href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a>'.
             '</div>';
         }
 

@@ -120,7 +120,7 @@
                                 echo CHtml::closeTag('span');
                             } else {
                                 echo CHtml::openTag('span', array('class'=>'price'));
-                                echo '<a class="price-link" href="/site/login/">Узнать цену</a>';
+                                echo '<a class="price-link" href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a>';
                                 echo CHtml::closeTag('span');
                             }
                             ?>

@@ -175,7 +175,7 @@ class ProductController extends Controller
                 $analogProducts .= '<div class="cell width-15">'.$price.'</div>';
              } else {
                 $analogProducts .= '<div class="cell width-15 price_link">'.
-                   '<a href="/site/login/">Узнать цену</a>'.
+                   '<a href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a>'.
                 '</div>';
              }
              
