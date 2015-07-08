@@ -79,7 +79,7 @@
                                 } else if($data->liquidity == 'D' && $data->count > 0){
                                     echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: '.$filial.')</div>';
                                 } else {
-                                    echo '<span class="price_link"><a href="/site/login/">Узнать цену</a></span>';
+                                    echo '<span class="price_link"><a href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a></span>';
                                 }
                              ?>
                         </div>
