@@ -6,6 +6,8 @@ $(document).ready(function($){
         showRegions();
     });
     
+    $('.no-price-label').easyTooltip({content:'Цена будет указана в счет-фактуре'}); 
+    
     $('#confirm-region').click(function() {
         var selector = $('#select-region').find(":selected");
         $.ajax({
