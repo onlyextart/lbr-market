@@ -93,7 +93,7 @@ class ProductController extends Controller
                         $update = date('d.m.Y H:i', strtotime($currency->update_time));
                         if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
                     }
-                } else $priceLabel = Yii::app()->params['textNoPrice'];
+                } else $priceLabel = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
             }
         } else if(!empty(Yii::app()->request->cookies['lbrfilial']->value)) {
             $filialId = Yii::app()->request->cookies['lbrfilial']->value;
@@ -109,7 +109,7 @@ class ProductController extends Controller
                         $update = date('d.m.Y H:i', strtotime($currency->update_time));
                         if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
                     }
-                } else $priceLabel = Yii::app()->params['textNoPrice'];
+                } else $priceLabel = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
             }
         }
         
