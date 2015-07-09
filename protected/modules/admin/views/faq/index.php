@@ -3,7 +3,7 @@
     <p>Список разделов:</p>
     <div class="faq-menu">
         <ol>
-           <li><a href="#meta">Добавление/редактирование meta-title, meta-description</a></li>
+           <li><a href="#meta">Добавление/редактирование meta-title, meta-description, seo-тексты (верхиний/нижний)</a></li>
         </ol>
     </div>
     <p>Разделы:</p>
