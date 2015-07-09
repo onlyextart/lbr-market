@@ -103,7 +103,17 @@ class CategorySeo extends CActiveRecord
                 }
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+                    'criteria'=>$criteria,
+                    'sort'=>array('attributes'=>array(
+                            'categoryName'=>array(
+                                'asc' => $expr='category.name',
+                                'desc' => $expr.' DESC',
+                            ),
+                            'equipmentMakerName'=>array(
+                                'asc' => $expr='equipmentMaker.name',
+                                'desc' => $expr.' DESC',
+                            ),
+                        )),
 		));
 	}
 

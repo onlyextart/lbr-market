@@ -194,7 +194,7 @@ return array(
                 'Модельные ряды'=>'/admin/modelline/',
                 'Производители запчастей'=>'/admin/productmaker/',
                 'Производители техники'=>'/admin/equipmentmaker/',
-                'Производители техники в категории - seo'=>'/admin/categoryseo/',
+                'Производители техники в категории'=>'/admin/categoryseo/',
                 'Филиалы и зоны'=>'/admin/filial/',
             ),
             'Скидки'=>'/admin/discount/',

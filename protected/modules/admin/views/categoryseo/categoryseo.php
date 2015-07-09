@@ -1,5 +1,5 @@
 <?php
-$name = 'Производители техники в категории - seo';
+$name = 'Производители техники в категории';
 $this->breadcrumbs = array(
     'Home'=>$this->createUrl('/admin/'),
     'Каталог'=>Yii::app()->createUrl(''),

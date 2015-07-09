@@ -209,7 +209,6 @@ class Product extends CActiveRecord
                             ),
                             'id','name', 'catalog_number', 'count', 'liquidity','min_quantity', 'update_time'
                         )),
-
 		));
 	}
         
