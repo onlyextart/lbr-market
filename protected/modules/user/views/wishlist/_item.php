@@ -15,7 +15,14 @@
        <?php echo ($data->count > 0) ? Product::IN_STOCK : Product::NO_IN_STOCK ; ?>             
     </div>
     <div class="width-20">      
-       xxxx руб.                
+       <?php
+          $price = Yii::app()->params['textHidePrice'];
+          if(Yii::app()->params['showPrices']) {
+             $price = Price::model()->getPrice($data->id);
+             if(empty($price)) $price = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
+          }
+          echo $price;
+       ?>                
     </div>
     <div class="width-5 remove-wrap">
         <a class="remove" href="/wishlist/remove<?php echo $data->path ?>"></a>
