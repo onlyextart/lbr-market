@@ -14,6 +14,7 @@
  */
 class CategorySeo extends CActiveRecord
 {
+        public $categoryName, $equipmentMakerName;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -31,10 +32,10 @@ class CategorySeo extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('category_id, equipment_id', 'numerical', 'integerOnly'=>true),
-			array('meta_title, meta_description, top_text, bottom_text', 'safe'),
+			array('meta_title, meta_description, top_text, bottom_text, categoryName, equipmentMakerName', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, category_id, equipment_id, meta_title, meta_description, top_text, bottom_text', 'safe', 'on'=>'search'),
+			array('id, category_id, equipment_id, meta_title, meta_description, top_text, bottom_text, categoryName, equipmentMakerName', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,10 +61,12 @@ class CategorySeo extends CActiveRecord
 			'id' => 'ID',
 			'category_id' => 'Category',
 			'equipment_id' => 'Equipment',
-			'meta_title' => 'Meta Title',
-			'meta_description' => 'Meta Description',
-			'top_text' => 'Top Text',
-			'bottom_text' => 'Bottom Text',
+                        'meta_title' => 'meta-title',
+			'meta_description' => 'meta-description',
+                        'top_text' => 'Верхний блок',
+                        'bottom_text' => 'Нижний блок',
+                        'categoryName' => 'Название категории',
+                        'equipmentMakerName' => 'Название производителя техники',
 		);
 	}
 
@@ -84,6 +87,7 @@ class CategorySeo extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+                $criteria->with = array( 'category', 'equipmentMaker' );
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('category_id',$this->category_id);
@@ -92,6 +96,11 @@ class CategorySeo extends CActiveRecord
 		$criteria->compare('meta_description',$this->meta_description,true);
 		$criteria->compare('top_text',$this->top_text,true);
 		$criteria->compare('bottom_text',$this->bottom_text,true);
+                
+                if($this->prepareSqlite()){
+                    $criteria->addCondition('lower(category.name) like lower("%'.$this->categoryName.'%")');
+                    $criteria->addCondition('lower(equipmentMaker.name) like lower("%'.$this->equipmentMakerName.'%")');
+                }
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,4 +117,15 @@ class CategorySeo extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public function prepareSqlite()
+        {
+            function lower($str){
+                $return = str_replace(array(")", "(", "'", '"' ), "", $str);
+                return mb_strtolower(strip_tags($return), "UTF-8");
+            }
+            Yii::app()->db->getPdoInstance()->sqliteCreateFunction('lower', 'lower', 1);
+            //Yii::app()->db_auth->getPdoInstance()->sqliteCreateFunction('lower', 'lower', 1);
+            return true;
+        }
 }
