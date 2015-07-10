@@ -1,8 +1,5 @@
 <div class="breadcrumbs">
     <?php
-        /*$breadcrumbs['Тест'] = '/';
-        $breadcrumbs[] = 'Производитель';
-        Yii::app()->params['breadcrumbs'] = $breadcrumbs;  */
         $this->widget('zii.widgets.CBreadcrumbs', array(
             'links' => Yii::app()->params['breadcrumbs'],
             'activeLinkTemplate' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="{url}">{label}</a></span>',
@@ -18,8 +15,7 @@
 <div class="bestoffer-wrapper">
     <div class="elements">
         <h1>Распродажа</h1><img class="spec-label" src="/images/sale-label.png">
-        <?php if(count($data->getData())): ?>
-        <?php 
+        <?php if(count($data->getData())): 
             $this->widget('zii.widgets.CListView', array(
                 'dataProvider' => $data,
                 'cssFile'      => false,
@@ -43,11 +39,7 @@
             )); 
         ?>
         <?php else: ?>
-           <?php //if(empty(Yii::app()->session['maker']) && empty(Yii::app()->session['category'])): ?>
               <div class="empty">На данный момент нет распродаж.</div>
-           <?php //else: ?>
-              <!--div class="empty">Для указанного фильтра на данный момент нет распродаж.</div-->
-           <?php //endif; ?>
         <?php endif; ?>
     </div>
 </div>

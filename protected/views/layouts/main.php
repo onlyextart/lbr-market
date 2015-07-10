@@ -18,8 +18,8 @@
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/default.css" />
         <?php
             
-            //Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerCoreScript('/js/jquery.1.11.3.min.js');
+            Yii::app()->clientScript->registerCoreScript('jquery');
+            //Yii::app()->clientScript->registerCoreScript('/js/jquery.1.11.3.min.js');
             Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
             Yii::app()->clientScript->registerCssFile('/css/front/alertify/core.css');
             Yii::app()->clientScript->registerCssFile('/css/front/tip-darkgray/tip-darkgray.css');
@@ -41,6 +41,15 @@
             //Yii::app()->clientScript->registerScriptFile('/js/front/jquery.BlackAndWhite.min.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/jquery.inputmask.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/inputmask.js');
+            
+            if(empty(Yii::app()->request->cookies['lbrfilial'])) {
+                $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
+                $cookie = new CHttpCookie('lbrfilial', $id);
+                $cookie->expire = time() + 60*60*24*30*12; // year
+                Yii::app()->request->cookies['lbrfilial'] = $cookie;
+            }
+            
+            $filial = Yii::app()->request->cookies['lbrfilial']->value;
         ?>
     </head>
     <body>
@@ -85,47 +94,48 @@
                     <li>
                         <a href="http://www.lbr.ru/company/" title="О компании">О компании</a>
                     </li>
-                    <!--li>
-                        <a href="http://career.lbr.ru/" title="Карьера">Карьера</a>
-                    </li-->
                     <li>
                         <a href="/search/show/" title="Поиск">Поиск</a>
                     </li>
-                    <!--li>
-                        <a href="/" title="Карьера">Вход</a>
-                    </li-->
                 </ul>
             </div>
-            <!--div class="region-label">Ваш регион: <span id="region">Не выбран</span></div-->
+            <?php if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
+               <?php
+                  if(!empty($filial)): 
+                      $filial = Filial::model()->findByPk($filial)->name; 
+               ?>
+                  <div class="region-label">Ваш филиал: <span id="region"><?php echo $filial?></span></div>
+               <?php else: ?>
+                  <div class="region-label">Ваш филиал: <span id="region">Не выбран</span></div>
+               <?php endif; ?>
+            <?php endif; ?>
             <div class="map">
                 <a href="http://www.lbr.ru/company/contacts/">
                     <span>Контакты</span>
                     <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
                 </a>
             </div>
-            <!--div id="main-menu"-->
-                <div class="main-menu">
-                    <ul id="nav" class="dropdown">
-                        <li><a href="/"><span>Главная</span></a></li>
-                        <li><a href="/sale/"><span>Распродажа</span></a></li>
-                        <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
-                        <li><a href="/payment/"><span>Условия и оплата</span></a></li>
-                        <li><a href="/garantiya/"><span>Гарантия</span></a></li>
-                        <li><a href="/delivery/"><span>Доставка</span></a></li>
-                        <?php   
-                        
-                            # Подключаем файл
-                            if (!Yii::app()->user->isGuest && Yii::app()->user->isShop)
-                                echo '<li class="last"><a href="/user/cabinet/index/"><span>Кабинет</span></a></li>';
-                            else if(Yii::app()->user->isGuest)
-                                echo '<li class="last"><a href="/user/cabinet/index/"><span>Вход / Регистрация</span></a></li>';
-                            else 
-                                echo '<li class="last empty-li"><span class="empty-menu"></span></li>';
-                            
-                        ?>
-                    </ul>
-                </div>
-            <!--/div-->
+            <div class="main-menu">
+                <ul id="nav" class="dropdown">
+                    <li><a href="/"><span>Главная</span></a></li>
+                    <li><a href="/sale/"><span>Распродажа</span></a></li>
+                    <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
+                    <li><a href="/payment/"><span>Условия и оплата</span></a></li>
+                    <li><a href="/garantiya/"><span>Гарантия</span></a></li>
+                    <li><a href="/delivery/"><span>Доставка</span></a></li>
+                    <?php   
+
+                        # Подключаем файл
+                        if (!Yii::app()->user->isGuest && Yii::app()->user->isShop)
+                            echo '<li class="last"><a href="/user/cabinet/index/"><span>Кабинет</span></a></li>';
+                        else if(Yii::app()->user->isGuest)
+                            echo '<li class="last"><a href="/user/cabinet/index/"><span>Вход / Регистрация</span></a></li>';
+                        else 
+                            echo '<li class="last empty-li"><span class="empty-menu"></span></li>';
+
+                    ?>
+                </ul>
+            </div>
         </header>
         <div class="wrapper">
             <div class="left-sidebar">
@@ -156,11 +166,11 @@
         <!--OnlineSeller.ru {/literal} -->
                                         
 
-        <!--div>
+        <div>
             <?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
                 'id' => 'setRegion',
                 'options' => array(
-                    'title' => 'Выбор региона',
+                    'title' => 'Выбор филиала',
                     'autoOpen' => false,
                     'modal' => true,
                     'resizable'=> false,
@@ -169,7 +179,7 @@
             ?>
             <div class="row">
                 <?php
-                   //echo CHtml::dropDownList('select-region', '2', $filials);
+                echo CHtml::dropDownList('select-region', '', array());
                 ?>
             </div>
             <div class="reg-button">
@@ -178,18 +188,18 @@
             <?php
                 $this->endWidget('zii.widgets.jui.CJuiDialog');
             ?>
-        </div-->
+        </div>
     </body>
 </html>
+
 <script>
-    $(document).ready(function($){
-        /*
-        var setFilialName = getCookie('filial');
+    /*$(document).ready(function($){
+        var setFilialName = getCookie('lbrfilial');
         if(!setFilialName){
-            $("#setRegion").dialog("open");
+            //$("#setRegion").dialog("open");
+            showRegions();
         }
-        */
-    });
+    });*/
 </script>
 <!----- Universal Analitics ----->
 <script>

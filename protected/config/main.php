@@ -171,25 +171,31 @@ return array(
         //'host'=>'lbr.test',
         'host'=>'lbr-market.ru',
         'admin_email'=>'shop@lbr.ru',
+        'maxInCart' => 5, // count of product types
         'region'=>'',
         'currentType' => '',
         'currentMaker' => '',
         'currentSale' => '',
         'searchFlag' => '',
-        'sortOrder' => 'asc',//Yii::app()->params['sortOrder']
-        'sortCol' => 'col',//Yii::app()->params['sortCol']
+        
+        'sortOrder' => 'asc',
+        'sortCol' => 'col',
+        
+        'showPrices' => 1,
+        'showPricesForAdmin' => 1, // will run if showPrices == 0,
         'showDrafts' => 0,
-        'showPrices' => 0,//Yii::app()->params['showPrices']
+        'randomImages' => 1,
         'footerLabel' => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
         'breadcrumbs' => array(),
+        'textHidePrice' => 'Информация о ценах временно недоступна',
+        'textNoPrice' => 'запросить цену',
         'meta_title' => 'Запчасти ЛБР-Агромаркет',
         'meta_description' => 'Магазин запчастей, запчасти ЛБР',
         'menu_admin' => array(
             'Каталог'=>array(
-                'Валюта'=>'/admin/currency/',
                 'Группы товаров'=>'/admin/group/',
-                //'Доставка'=>'#',
                 'Запчасти'=>'/admin/product/',
+                'Запчасти, на которые нет цен'=>'/admin/noprice/',
                 'Категории'=>'/admin/category/',
                 'Модельные ряды'=>'/admin/modelline/',
                 'Производители запчастей'=>'/admin/productmaker/',
@@ -201,6 +207,8 @@ return array(
             'Заказы'=>array(
                 'Все заказы'=>'/admin/order/',
                 'Статусы заказов'=>'/admin/orderstatus/',
+                'Способы доставки'=>'/admin/delivery/',
+                'Курсы валют'=>'/admin/currency/',
             ),
             'Сайт'=>array(
                 //'Актуальные предложения'=>'/admin/actualoffer/',
@@ -218,6 +226,5 @@ return array(
             ),
             'FAQ'=>'/admin/faq/',
         ),
-        'maxInCart' => 5, // count of product types
     ),
 );

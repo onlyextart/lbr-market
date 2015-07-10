@@ -60,6 +60,7 @@ class ProductInModelLine extends CActiveRecord
 			'id' => 'ID',
 			'model_line_id' => 'Model Line',
 			'product_id' => 'Product',
+                        'modelline_name' => 'Модельный ряд'
 		);
 	}
 

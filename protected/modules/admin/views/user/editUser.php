@@ -15,15 +15,34 @@
     );
     $alertMsg = Yii::app()->user->getFlash('message');
     $errorMsg = Yii::app()->user->getFlash('error');
-    $orderCount = Order::model()->count(new CDbCriteria(array(
-      'condition' => 'user_id = :user_id and status_id<>'.Order::CART,
-      'params' => array(':user_id'=>$model->id)
-    )));
 ?>
+<span class="admin-btn-wrapper">
+    <?php if(!empty($model->id)): ?>
+    <div class="admin-btn-one">
+        <span class="admin-btn-del"></span>
+        <?php echo CHtml::link('Удалить', '/admin/user/delete/id/'.$model->id, array('class' => 'btn-admin')); ?>
+    </div>
+    <?php else: ?>
+    <div class="admin-btn-one">
+        <span class="admin-btn-back"></span>
+        <?php echo CHtml::link('Назад', '/admin/user/create', array('id'=>'close-user','class' => 'btn-admin')); ?>
+    </div>
+    <?php endif; ?>
+    <div class="admin-btn-one">
+        <span class="admin-btn-save"></span>
+        <?php echo CHtml::button($submit_text, array('id' => 'save-btn', 'class'=>'btn-admin')); ?>
+    </div>
+    <div class="admin-btn-one">
+        <span class="admin-btn-close-user"></span>
+        <?php echo CHtml::button('Закрыть',array('id'=>'close-user', 'class'=>'btn-admin')); ?>
+    </div>
+</span>
+<h1><?php echo $name; ?></h1>
 <div class="total">
     <div class="left">
-        <div class="wide">
-        <?php $form = $this->beginWidget('CActiveForm', array(
+        <div class="form wide padding-all user-wrapper">
+        <?php 
+            $form = $this->beginWidget('CActiveForm', array(
                 'id'=>'transport-form',
                 'action'=>$action,
                 'enableClientValidation' => true,        
@@ -42,217 +61,31 @@
                 ),
                
             ));
-        ?>
-        <span class="admin-btn-wrapper">
-            <?php if(!empty($model->id)){ ?>
-            <div class="admin-btn-one">
-                <span class="admin-btn-del"></span>
-                <?php echo CHtml::link('Удалить', '/admin/user/delete/id/'.$model->id, array('class' => 'btn-admin')); ?>
-            </div>
-            <?php } else { ?>
-            <div class="admin-btn-one">
-                <span class="admin-btn-back"></span>
-                <?php echo CHtml::link('Назад', '/admin/user/create', array('id'=>'close-user','class' => 'btn-admin')); ?>
-            </div>
-            <?php } ?>
-            <div class="admin-btn-one">
-                <span class="admin-btn-save"></span>
-                <?php echo CHtml::submitButton($submit_text, array('class'=>'btn-admin')); ?>
-            </div>
-            <div class="admin-btn-one">
-                <span class="admin-btn-close-user"></span>
-                <?php echo CHtml::button('Закрыть',array('id'=>'close-user', 'class'=>'btn-admin')); ?>
-            </div>
-        </span>
-        <h1><?php echo $name; ?></h1>
-        <div class="form padding-all user-wrapper">    
-            <?php //echo $form->errorSummary($model); ?>
-            <?php if(!empty($formErrors)) {
-                echo '<div class="errorSummary"><p>Необходимо исправить следующие ошибки:</p><ul>';
-                foreach($formErrors as $error){
-                    echo '<li>'.$error[0].'</li>';
-                }  
-                foreach($model->errors as $error){
-                    echo '<li>'.$error[0].'</li>';
-                } 
-               echo '</ul></div>';
-            }?>
-            <div class="row">
-            <?php  
-                echo $form->error($model_form, 'organization_type'); 
-                echo $form->labelEx($model_form, 'organization_type');
-                echo CHtml::textField('organization_type', User::$userType[$model_form->organization_type],array('disabled'=>true));
-                echo $form->hiddenField($model_form, 'organization_type');
-             ?>
-            </div>
-            <div class="row">
-            <?php  
-                echo $form->error($model_form, 'login'); 
-                echo $form->labelEx($model_form, 'login');
-                if (!empty($model_form->id)){
-                    echo $form->textField($model_form, 'login',array('disabled'=>true));
-                }
-                else{
-                    echo $form->textField($model_form, 'login');
-                }
-            ?>
-            </div>
-            <div class="row">
-            <?php  
-                echo $form->error($model_form, 'email'); 
-                echo $form->labelEx($model_form, 'email');
-                if (!empty($model_form->id)){
-                    echo $form->textField($model_form, 'email',array('disabled'=>true));
-                }
-                else{
-                    echo $form->textField($model_form, 'email',array('autocomplete'=>'off'));
-                }
-                
-            ?>
-            </div>
-            <div class="row">
-            <?php if(empty($model_form->id)) { 
-                echo $form->error($model_form, 'password');
-                echo $form->labelEx($model_form, 'password');
-                echo $form->passwordField($model_form, 'password',array('autocomplete'=>'off'));
-            }
-            ?>
-            </div>
-            <div class="row">
-            <?php  
-                echo $form->error($model_form, 'name'); 
-                echo $form->labelEx($model_form, 'name');
-                echo $form->textField($model_form, 'name');
-            ?>
-            </div>
-            <div class="row">
-            <?php  
-                echo $form->error($model_form, 'company'); 
-                echo $form->labelEx($model_form, 'company');
-                echo $form->textField($model_form, 'company');
-            ?>
-            </div>
-            <div class="row">
-            <?php if($model_form->organization_type==User::INDIVIDUAL){ 
-                echo $form->error($model_form, 'address'); 
-                echo $form->labelEx($model_form, 'address');
-                echo $form->textArea($model_form, 'address');
-                }
-            ?>
-            </div>
-            <div class="row">
-            <?php if($model_form->organization_type==User::LEGAL_PERSON){ 
-                echo $form->error($model_form, 'country_id'); 
-                echo $form->labelEx($model_form,'country_id'); 
-                echo $form->dropDownList($model_form,'country_id',UserCountry::model()->getAllCountries(),array('id'=>'country_user'));
-                }
-            ?>
-            </div>
-            <div class="row">
-            <?php if($model_form->organization_type==User::LEGAL_PERSON){ 
-                echo $form->error($model_form, 'organization_address'); 
-                echo $form->labelEx($model_form, 'organization_address');
-                echo $form->textArea($model_form, 'organization_address');
-                }
-            ?>
-            </div>
-            <div class="row">
-            <?php if($model_form->organization_type==User::LEGAL_PERSON){ 
-                echo $form->error($model_form, 'inn'); 
-                //echo $form->labelEx($model_form, 'inn');?>
-                <label class="required" for="UserFormLegalPerson_inn">
-                    <span id="label_inn">
-                        <?php echo empty($model_form->country_id)? UserCountry::model()->getCountryLabel(UserCountry::RUSSIA):UserCountry::model()->getCountryLabel($model_form->country_id) ;?>  
-                    </span>
-                    <span class="required">*</span>
-                </label>
-                <?php echo $form->textArea($model_form, 'inn');
-                }
-            ?>
-            </div>
-            <div class="row">
-            <?php  
-                echo $form->error($model_form, 'phone'); 
-                echo $form->labelEx($model_form, 'phone');
-                echo $form->textField($model_form, 'phone');
-            ?>
-            </div>
-            <div class="row filial">
-                <?php 
-                    echo $form->error($model_form, 'filial');
-                    echo $form->labelEx($model_form,'filial'); 
-                    if(User::model()->checkCart($model_form->id,$model_form->filial)){
-                            echo $form->dropDownList($model_form,'filial',User::model()->getAllFilials(),array('class'=>'reg-filial')); 
-                        }
-                        else{
-                            echo $form->dropDownList($model_form,'filial',User::model()->getAllFilials(),array('class'=>'reg-filial','disabled'=>true));
-                            echo '<span class="note_change"> Изменение невозможно: корзина не пуста</span>';
-                          
-                        }
-                    ?>
-            </div>
-            <div class="status row">
-            <?php  
-                //echo $form->error($model_form, 'status');
-                echo $form->labelEx($model_form, 'status');
-                if(!empty($model_form->id))
-                {
-                    if($model_form->status==User::USER_NOT_ACTIVATED){
-                        echo CHtml::textField('status', User::$userStatus[User::USER_NOT_ACTIVATED], array('disabled'=>true));
-                    }
-                    else{
-                      echo $form->dropDownList($model_form, 'status', User::$userStatus, array('id'=>'User_status'));   
-                    }
-                }
-                else echo CHtml::textField('status', User::$userStatus[User::USER_ACTIVE], array('disabled'=>true)); 
-            ?>
-            </div>
-            <div class="row <?php echo ($model_form->status == User::USER_TEMPORARY_BLOCKED) ? '': 'hide'?>">
-            <?php  
-                echo $form->error($model_form, 'block_date'); 
-                echo $form->labelEx($model_form, 'block_date');
-                if(!empty($model_form->block_date)) $model_form->block_date = date("Y-m-d H:i:s", strtotime($model_form->block_date));
-                echo $form->textField($model_form, 'block_date', array('id'=>'User_block_date'));
-            ?>
-            </div>
-            <div class="row <?php echo ($model_form->status == User::USER_TEMPORARY_BLOCKED||$model_form->status == User::USER_BLOCKED||$model_form->status == User::USER_WARNING) ? '': 'hide'?>">
-            <?php  
-                echo $form->error($model_form, 'block_reason'); 
-                echo $form->labelEx($model_form, 'block_reason');
-                echo $form->textArea($model_form, 'block_reason', array('id'=>'User_block_reason'));
-            ?>
-            </div>
-            <?php if(!empty($model_form->id)):?>
-                <div class="row">
-                <?php
-                    echo $form->labelEx($model_form, 'date_created');
-                    if(!empty($model_form->date_created))$model_form->date_created = date("Y-m-d H:i:s", strtotime($model_form->date_created));
-                    echo CHtml::textField('date_created', $model_form->date_created, array('disabled'=>true)); //$form->textField($model, 'date_created', array('disabled'=>true)); 
-                ?>
-                </div>
-                <div class="row">
-                <?php  
-                    echo $form->labelEx($model_form, 'date_last_login');
-                    if(!empty($model_form->date_last_login))$label = date("Y-m-d H:i:s", strtotime($model_form->date_last_login));
-                    else $label = 'Не входил';
-                    echo CHtml::textField('date_last_login', $label, array('disabled'=>true)); 
-                ?>
-                </div>
-                <div class="row">
-                <?php echo $form->hiddenField($model_form, 'id'); ?>
-                </div>
-            <?php endif; ?>
-        </div>
-        <?php $this->endWidget(); ?> 
+    
+            $tabs=array(
+                'Общая информация'=>$this->renderPartial('_general', array('form'=>$form, 'model_form'=>$model_form), true),
+                'Заказы' => $this->renderPartial('_orders', array('form'=>$form, 'model'=>$model_form, 'data'=>$orders), true),
+            );
+            
+            $errorSummary = $form->errorSummary($model_form)."\n";
+            foreach ($tabs as &$tab)
+                $tab = $errorSummary.$tab;
+
+            $this->beginWidget('ext.yiiext.sidebartabs.SAdminSidebarTabs', array('tabs'=>$tabs));
+            $this->endWidget();
+            $this->endWidget(); 
+        ?> 
         </div>
     </div>
     <div class="right">
-        <h1>Дополнительно</h1>
-        <?php if($orderCount > 0): ?>
-        <a href="#">Заказов: <?php echo $orderCount ?></a>
+        <!--h1>Дополнительно</h1-->
+        <?php /*if(count($orders) > 0): ?>
+        <a href="#">Заказов: <?php echo count($orders) ?></a>
         <?php else: ?>
         <div class="user-order">Заказов: <?php echo $orderCount ?></div>
-        <?php endif; ?>
+        <?php endif; */?>
+        
+        <?php echo $this->sidebarContent; ?>
     </div>
 </div>
 <script>
@@ -275,8 +108,12 @@ $(function(){
     editUser.initCalendar();
     editUser.editStatus();
     
-    $('#close-user').click(function(){
+    $('#close-user').click(function() {
         document.location.href = "<?php echo Yii::app()->getBaseUrl(true) ?>/admin/user/";
+    });
+    
+    $( "#save-btn" ).click(function() {
+        $('form').submit();
     });
     
     var labels=<?php echo json_encode(UserCountry::model()->getAllLabels());?>;

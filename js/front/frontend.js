@@ -3,16 +3,10 @@ $(document).ready(function($){
     
     /* choose filial */    
     $('#region').click(function() {
-        $("#setRegion").dialog("open");
+        showRegions();
     });
     
-    $('.btn-request').click(function() {
-        document.location.href = "/site/quickform/";
-    });
-    
-    $('.guestcart').click(function() {
-        document.location.href = "/site/login/";
-    });
+    $('.no-price-label').easyTooltip({content:'Цена будет указана в счет-фактуре'}); 
     
     $('#confirm-region').click(function() {
         var selector = $('#select-region').find(":selected");
@@ -24,11 +18,11 @@ $(document).ready(function($){
                 id: selector.val(),
             },
             success: function() {
-                //setCookie('filial', $(this).attr('contact'), '3', '/', '.lbr.ru')
-                $("#region").text(selector.text());
-                if ($("#setRegion").dialog("isOpen")) {
+                location.reload();
+                /*$("#region").text(selector.text());
+                if($("#setRegion").dialog("isOpen")) {
                     $("#setRegion").dialog('close');
-                }
+                }*/
         }});           
     });
     /* end choose filial */
@@ -37,14 +31,6 @@ $(document).ready(function($){
         scrollButtons:{
             enable:true
         }
-    });
-    
-    $('#sale-block ul').carouFredSel({
-        prev: '#prev-logo-sale',
-        next: '#next-logo-sale',
-        items: 3,
-        direction: 'down',
-        auto: false,
     });
     
     $(".one_banner h3").dotdotdot({
@@ -94,6 +80,16 @@ $(document).ready(function($){
         });
     });
     
+    if($('#sale-block ul').length) {
+        $('#sale-block ul').carouFredSel({
+            prev: '#prev-logo-sale',
+            next: '#next-logo-sale',
+            items: 3,
+            direction: 'down',
+            auto: false,
+        });
+    }
+    
     $('.prod-wrapper .dcjq-parent-li').each(function( index ) {
         $( this ).find('a').removeClass("active");
         $( this ).find('ul').hide();
@@ -130,6 +126,44 @@ $(document).ready(function($){
         }
     });
 });
+
+function showRegions(){
+    $.ajax({
+        url : '/site/getRegions/',
+        type : 'POST',
+        dataType : "json",
+        success:function(data) {
+           var temp = [];
+
+           $.each(data['filials'], function(key, value) {
+                temp.push({v:value, k: key});
+           });
+
+           temp.sort(function(a,b){
+               if(a.v > b.v){ return 1}
+                if(a.v < b.v){ return -1}
+                  return 0;
+           });
+
+           $.each(temp, function(key, obj) {
+                $('#select-region')
+                    .append($("<option></option>")
+                    .attr("value", obj.k)
+                    .text(obj.v))
+                ;
+           });
+
+           if(data['active']) {
+               $('#select-region').val(data['active']).prop('selected', true);
+           }
+
+           $("#setRegion").dialog("open");
+        },
+        error:function() {
+            alert('Ошибка запроса к серверу.');
+        }
+    });
+}
 
 function setCookie(name, value, expires, path, domain, secure) {
     if (!name || !value) return false;

@@ -47,12 +47,12 @@ $errorMsg = Yii::app()->user->getFlash('error');
                 'value'=>'(empty($data->block_reason)) ? "-" : $data->block_reason',
             ),
             array(
-               'name'=>'date_last_login', 
-               'value'=>'(empty($data->date_last_login)) ? "Не входил" : date("Y-m-d H:i:s", strtotime($data->date_last_login))',
-            ),
-            array(
                'name'=>'date_created',
                'value'=>'date("Y-m-d H:i:s", strtotime($data->date_created))',
+            ),
+            array(
+               'name'=>'date_last_login', 
+               'value'=>'(empty($data->date_last_login)) ? "Не входил" : date("Y-m-d H:i:s", strtotime($data->date_last_login))',
             ),
             array(
                 'class'=>'CButtonColumn',

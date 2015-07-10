@@ -28,7 +28,8 @@ class OrderCreateForm extends CFormModel
     public function rules()
     {
         return array(
-            array('user_name, user_email, user_address, user_phone', 'required'),
+            array('user_name, user_email, user_phone', 'required'), // user_address
+            array('user_address', 'addressValidation'),
             array('delivery_id', 'required', 'message'=>'Необходимо выбрать способ доставки.'),
             array('user_email', 'email'),
             array('user_email', 'length', 'max'=>'100'),
@@ -39,6 +40,15 @@ class OrderCreateForm extends CFormModel
             //array('user_phone','match', 'pattern'=>'/^([\s\d-+]+)$/i', 'message'=>'Поле "{attribute}" должно содержать только следующие символы: 0-9,-,+ и пробел'),
         );
     }
+    
+    public function addressValidation($attribute, $params)
+    {
+       $delivery = Delivery::model()->findByPk($this->delivery_id)->name;
+       if ($delivery != 'Самовывоз') {
+          if (empty($this->user_address))
+             $this->addError("user_address", 'Необходимо указать адрес доставки.');
+       }
+    }
 
     public function attributeLabels()
     {
@@ -48,7 +58,7 @@ class OrderCreateForm extends CFormModel
             'user_comment'     => 'Комментарий',
             'user_address'     => 'Адрес доставки',
             'user_phone'       => 'Номер телефона',
-            'delivery_id' => 'Способ доставки',
+            'delivery_id'      => 'Способ доставки',
         );
     }
 }

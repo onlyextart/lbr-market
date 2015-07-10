@@ -16,7 +16,8 @@ class OrderController extends Controller
             $dataProvider = $model->search();
             
             $dataProvider->pagination->pageSize = 10;
-
+            $dataProvider->sort->defaultOrder = 'status_id, date_created desc';
+            
             $this->render('order', array(
                     'model'=>$model,
                     'data'=>$dataProvider,
@@ -47,9 +48,12 @@ class OrderController extends Controller
               $form_product[$key]=new OrderProductForm;
               $form_product[$key]->id=$one_product->id;
               $form_product[$key]->name=$one_product->product->name;
+              $form_product[$key]->total_price=$one_product->total_price;
               $form_product[$key]->price=$one_product->price;
               $form_product[$key]->count=$one_product->count;
               $form_product[$key]->catalog_number=$one_product->product->catalog_number;
+              $form_product[$key]->currency=$one_product->currency;
+              $form_product[$key]->currency_symbol=Currency::model()->findByPk($one_product->currency_code)->symbol;
             }
              
         }

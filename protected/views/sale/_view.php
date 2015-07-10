@@ -1,4 +1,5 @@
 <?php
+
 $image = '/images/no-photo.png';
 if(!empty($data->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$data->image;
 
@@ -8,9 +9,9 @@ if($data->count > 0) {
 } 
 
 $cart = '';
-if(Yii::app()->user->isGuest || !empty(Yii::app()->user->isShop)){
+if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
     $cart = '<input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">
-        <input type="text" title="Добавить в корзину" value="" class="small-cart-button">'
+        <input type="button" title="Добавить в корзину" value="" class="small-cart-button">'
     ;
 
     $cart .= '<button class="wish-small" title="Добавить в блокнот">
@@ -46,7 +47,20 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
         </div>
         <div class="cell draft width-35"><?php echo (Yii::app()->params['showDrafts']) ? $draftLabel : '' ?></div>
         <div class="cell width-15">
-            <!--span>цена</span-->
+            <span><?php
+               if(!Yii::app()->params['showPrices']) {
+                   // show for admin
+                   if(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']) {
+                      $priceLabel = Price::model()->getPrice($data->id);
+                      if(!empty($priceLabel)) echo $priceLabel;
+                      else echo '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
+                   } else echo Yii::app()->params['textHidePrice'];
+               } else {
+                  $priceLabel = Price::model()->getPrice($data->id);
+                  if(!empty($priceLabel)) echo $priceLabel;
+                  else echo '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
+               }
+            ?></span>
         </div>
         <div class="cell width-20">
             <div class="cart-form" elem="<?php echo $data->id ?>">

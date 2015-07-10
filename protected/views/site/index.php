@@ -106,13 +106,13 @@
 </div>
 <?php if(!empty($hitProducts)): ?>
 <span class="hit-label-main">Хиты продаж</span>
-<div id="best-sales">
+<div class="best-sales">
     <?php foreach($hitProducts as $product): ?>
     <div class="one_banner">
        <h3><a target="_blank" href="<?php echo $product->path; ?>"><?php echo $product->name; ?></a></h3>
        <div class="img-wrapper">
            <a target="_blank" href="<?php echo $product->path; ?>">
-              <img src="http://api.lbr.ru/images/shop/spareparts/<?php echo $product->image ?>" alt="">
+              <img src="http://api.lbr.ru/images/shop/spareparts/<?php echo $product->image; ?>" alt="">
            </a>
        </div>
     </div>

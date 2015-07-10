@@ -19,7 +19,7 @@ class Page extends CActiveRecord
         public static $necessaryPages = array(
             'delivery'=>'Доставка',
             'sale'=>'Распродажа и спецпредложения',
-            'service'=>'Гарантия и сервис',
+            'garantiya'=>'Гарантия',
             'payment'=>'Условия и оплата',
         );
 	/**

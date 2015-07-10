@@ -103,34 +103,37 @@ class ModellineController extends Controller
         $count = 16;
         
         if($max > $count) {
-            /*for($i = 0; $i < $count; ) {
-                $offset = mt_rand(0, $max);                
-                $saleProduct = Product::model()->findByAttributes(
+            if(Yii::app()->params['randomImages']) {
+                for($i = 0; $i < $count; ) {
+                    $offset = mt_rand(0, $max);                
+                    $saleProduct = Product::model()->findByAttributes(
+                        array(
+                            'id'=>$elements,
+                        ), 
+                        array(
+                            'offset' => $offset,
+                            'limit' => 1,
+                        )
+                    );
+
+                    if(!in_array($saleProduct[id], $temp) && !empty($saleProduct[id])) {
+                       $temp[] = $saleProduct[id];
+                       $i++;
+                    }
+                }
+                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+            } else {
+                $offset = mt_rand(0, $max);
+                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
                     array(
-                        'id'=>$elements,
+                        'id' => $elements,
                     ), 
                     array(
                         'offset' => $offset,
-                        'limit' => 1,
+                        'limit' => $count,
                     )
                 );
-
-                if(!in_array($saleProduct[id], $temp) && !empty($saleProduct[id])) {
-                   $temp[] = $saleProduct[id];
-                   $i++;
-                }
-            }*/
-            
-            $offset = mt_rand(0, $max);
-            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
-                array(
-                    'id' => $elements,
-                ), 
-                array(
-                    'offset' => $offset,
-                    'limit' => $count,
-                )
-            );
+            }
         } else {
             foreach($elements as $element) {
                 $temp[] = $element;

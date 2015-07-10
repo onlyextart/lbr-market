@@ -1,7 +1,9 @@
 <?php
-
+Yii::import('ext.yiiext.sidebartabs.STabbedForm');
 class UserController extends Controller
 {
+    public $sidebarContent;
+    
     public function actionIndex()
     {
         if(Yii::app()->user->checkAccess('shopReadUser'))
@@ -79,6 +81,8 @@ class UserController extends Controller
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Пользователь не найден.'));
         
+        $orders = $this->getOrders($id);
+        
         if($model->organization_type==User::LEGAL_PERSON){
             $form = new UserFormLegalPerson;
             $model_name='UserFormLegalPerson';
@@ -126,7 +130,7 @@ class UserController extends Controller
                 if($form->validate()) {
                     if($model->save()) {
                         Yii::app()->user->setFlash('message', 'Пользователь сохранен успешно.');
-                        if(!empty($text_email)){
+                        if(!empty($text_email)) {
                              $email = new TEmail;
                              $email->from_email = Yii::app()->params['admin_email'];
                              $email->from_name = 'Интернет-магазин ЛБР АгроМаркет';
@@ -136,19 +140,41 @@ class UserController extends Controller
                              $email->type = 'text/html';
                              $email->body = $text_email;
                              $email->sendMail();
-                             
                         }
                     } else {
                         $errors = $model->getErrors();
                         Yii::log($errors, 'error');
                         Yii::app()->user->setFlash('error', $errors);
                     }
-                    $this->render('editUser', array('model'=>$model, 'model_form' => $form), false, true);
-                } else $this->render('editUser', array('model'=>$model, 'model_form' => $form, 'formErrors'=>$form->getErrors()), false, true);
-            } else $this->render('editUser', array('model'=>$model, 'model_form' => $form), false, true);
+                    $this->render('editUser', array('model'=>$model, 'model_form' => $form, 'orders'=>$orders), false, true);
+                } else $this->render('editUser', array('model'=>$model, 'model_form' => $form, 'formErrors'=>$form->getErrors(), 'orders'=>$orders), false, true);
+            } else $this->render('editUser', array('model'=>$model, 'model_form' => $form, 'orders'=>$orders), false, true);
         } else {
             $this->render('application.modules.admin.views.default.error', array('error' => 'Для редактирования недостаточно прав доступа.'));
         }
+    }
+    
+    public function getOrders($id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'status_id<>0 and user_id=:id';
+        $criteria->params = array(':id'=>$id);
+
+        $sort = new CSort();
+        $sort->sortVar = 'sort';
+        $sort->defaultOrder = 'date_created DESC';
+
+        $orders = new CActiveDataProvider('Order', 
+            array(
+                'criteria'=>$criteria,
+                'sort'=>$sort,
+                'pagination'=>array(
+                    'pageSize'=>'20'
+                )
+            )
+        );
+            
+        return $orders;
     }
     
     public function actionDelete($id)
