@@ -3,7 +3,9 @@ $name = 'Существующие категории';
 $submit_text = 'Создать';
 if (!empty($model->id)) {
     $submit_text = 'Сохранить';
-    $name = 'Редактирование категории';
+    //$name = 'Редактирование категории';
+    //if($model->level != 1) 
+    $name = 'Редактирование категории "'.$model->name.'"';
 }
 $this->breadcrumbs = array(
     'Home'=>$this->createUrl('/admin/'),
@@ -39,9 +41,38 @@ $errorMsg = Yii::app()->user->getFlash('error');
     <div class="left">
         <div class="form wide">
             <?php
-            if (!empty($model->id)) {
-               echo $form->asTabs(); 
-            }
+            //if (!empty($model->id)) {
+               //echo $form->asTabs(); 
+            //}
+            
+            $form = $this->beginWidget('CActiveForm', array(
+                'id'=>'product-form',
+                'action'=>$action,
+                'htmlOptions'=>array('enctype'=>'multipart/form-data'),
+                'enableClientValidation' => true,        
+                'clientOptions'=>array(
+                    'validateOnSubmit'=>true,
+                    'validateOnChange' => true,
+                    'afterValidate'=>'js:function( form, data, hasError ) 
+                    {     
+                        if( hasError ){
+                            return false;
+                        }
+                        else{
+                            return true;
+                        }
+                    }'
+                ),
+            ));
+
+            $tabs=array(
+                'Общая информация о категории'=>$this->renderPartial('form', array('model'=>$model, 'form'=>$form), true),
+                'Производители в категории' => $this->renderPartial('_seo', array('model'=>$model, 'form'=>$form, 'data'=>$equipmentMaker), true),
+            );
+
+            $this->beginWidget('ext.yiiext.sidebartabs.CJuiTabs', array('tabs'=>$tabs));
+            $this->endWidget();
+            $this->endWidget();
             ?>
         </div>
     </div>

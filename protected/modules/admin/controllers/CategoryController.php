@@ -27,7 +27,7 @@ class CategoryController extends Controller
         $form = new STabbedForm('application.modules.admin.views.category.form', $model);
         $form->formWidget = 'ext.yiiext.sidebartabs.CJuiTabs';
         $form->summaryOnEachTab = true;
-
+        
         $criteria = new CDbCriteria;
         $criteria->order = 'parent, lft';
         $criteria->condition = 'level = 1';
@@ -67,9 +67,12 @@ class CategoryController extends Controller
                 Yii::app()->user->setFlash('message', 'Категория сохранена.');
             }
         }
-        $form = new STabbedForm('application.modules.admin.views.category.form', $model);
-        $form->formWidget = 'ext.yiiext.sidebartabs.CJuiTabs';
-        $form->summaryOnEachTab = true;
+        
+        //$form = new STabbedForm('application.modules.admin.views.category.form', $model);
+        //$form->formWidget = 'ext.yiiext.sidebartabs.CJuiTabs';
+        //$form->summaryOnEachTab = true;
+        ////////////////////////////
+        
         
         $criteria = new CDbCriteria;
         $criteria->order = 'parent, lft';
@@ -84,7 +87,32 @@ class CategoryController extends Controller
                 'model'=>$model, 'groups'=>$groups, 'rootId'=>$rootId
         ), true);
         
-        $this->render('edit', array('model'=>$model, 'form' => $form), false, true);
+        //$this->render('edit', array('model'=>$model, 'form' => $form), false, true);
+        
+        //$equipmentMaker = CategorySeo::model()->findAll('category_id=:id', array('id'=>$id));
+        $criteria = new CDbCriteria();
+        $criteria->with = array('equipmentMaker');
+        $criteria->condition = 'category_id=:id';
+        $criteria->params = array(':id'=>$id);
+
+        $equipmentMaker = new CActiveDataProvider('CategorySeo', 
+            array(
+                'criteria'=>$criteria,
+                'pagination'=>array(
+                    'pageSize'=>'15'
+                ),
+                /*'sort'=>array(
+                    'defaultOrder' => 'modelLine.name ASC',
+                    'attributes'=>array(
+                        'modelline_name' => array(
+                            'asc' => $expr='modelLine.name',
+                            'desc' => $expr.' DESC',
+                        ),
+                )),*/
+            )
+        );
+        
+        $this->render('edit', array('model'=>$model, 'equipmentMaker'=>$equipmentMaker), false, true);
     }
     
     public function updateChildPath($model)

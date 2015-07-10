@@ -33,10 +33,21 @@ class ModellinesController extends Controller
         // end breadcrumbs
         
         Yii::app()->params['meta_title'] = $categoryRoot->name;
-        if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
-        if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
-        if(!empty($categoryRoot->top_text)) $topText = $categoryRoot->top_text;
-        if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
+                
+        if(!empty($maker)) {
+            $seoText = CategorySeo::model()->find('category_id=:category and equipment_id=:maker', array('category'=>$categoryRoot->id, 'maker'=>$maker));
+            if(!empty($seoText)) {
+                if(!empty($seoText->meta_title)) Yii::app()->params['meta_title'] = $seoText->meta_title;
+                if(!empty($seoText->meta_description)) Yii::app()->params['meta_description'] = $seoText->meta_description;
+                if(!empty($seoText->top_text)) $topText = $seoText->top_text;
+                if(!empty($seoText->bottom_text)) $bottomText = $seoText->bottom_text;
+            }
+        } else {
+            if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
+            if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
+            if(!empty($categoryRoot->top_text)) $topText = $categoryRoot->top_text;
+            if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
+        }
         
         // сортировать по типу техники
         /*if(empty(Yii::app()->params['currentMaker'])){

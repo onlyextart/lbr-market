@@ -1,4 +1,65 @@
+<?php if(!empty($model->id)): ?> 
+    <div class="row">      
+        <?php  
+            echo $form->labelEx($model, 'name');
+            echo $form->textField($model, 'name');
+        ?>
+    </div>
+
+    <div class="row">      
+        <?php  
+            echo $form->labelEx($model, 'path');
+            echo $form->textField($model, 'path');
+        ?>
+    </div>
+
+    <div class="row">      
+        <?php   
+            echo $form->labelEx($model, 'published');
+            echo $form->dropDownList($model, 'published', array(
+                1=>'Да',
+                0=>'Нет'
+            ));
+        ?>
+    </div>
+
+    <div class="row">      
+        <?php  
+            echo $form->labelEx($model, 'meta_title');
+            echo $form->textField($model, 'meta_title');
+        ?>
+    </div>
+
+    <div class="row">      
+        <?php  
+            echo $form->labelEx($model, 'meta_description');
+            echo $form->textField($model, 'meta_description');
+        ?>
+    </div>
+
+    <div class="row">      
+        <?php  
+            echo $form->labelEx($model, 'top_text');
+            //echo $form->textField($model, 'top_text');
+            $this->widget('application.components.SRichTextarea',array(
+                'model'=>$model,
+                'attribute'=>'top_text'));
+            ?>
+    </div>
+
+    <div class="row">      
+        <?php  
+            echo $form->labelEx($model, 'bottom_text');
+            //echo $form->textField($model, 'bottom_text');
+            $this->widget('application.components.SRichTextarea',array(
+                'model'=>$model,
+                'attribute'=>'bottom_text'));
+            ?>
+    </div>
+<?php endif; ?>
 <?php
+
+/*
 return array(
     //'id'=>'Category',
     'showErrorSummary'=>true,
@@ -21,6 +82,12 @@ return array(
                 'path'=>array(
                     'type'=>'text',
                 ),
+            ),
+        ),
+        'seo'=>array(
+            'type'=>'form',
+            'title'=>'Мета данные',
+            'elements'=>array(
                 'meta_title'=>array(
                     'type'=>'text',
                 ),
@@ -33,11 +100,8 @@ return array(
                 'bottom_text'=>array(
                     'type'=>'SRichTextarea',
                 ),
-                /*'alias'=>array(
-                    'type'=>'text',
-                ),*/
             ),
         ),
     ),
-);
+);*/
 
