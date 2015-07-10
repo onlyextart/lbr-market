@@ -12,16 +12,11 @@
             //'header' => false,
         ),
         'columns' => array(
-            /*array(
-                'name'=>'id',
-                'type'=>'raw',
-                'value'=>''
-            )*/
             array( 
                 'name'=>'Название',
                 'type'=>'raw',
                 'filter'=>false,
-                'value'=>'CHtml::link(CHtml::encode($data->equipmentMaker->name), array("/"))',
+                'value'=>'CHtml::link(CHtml::encode($data->equipmentMaker->name), array("categoryseo/edit","id"=>$data->id), array("target"=>"_blank"))',
             ),
         ),
     ));

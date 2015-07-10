@@ -3,7 +3,9 @@ $name = 'Существующие категории';
 $submit_text = 'Создать';
 if (!empty($model->id)) {
     $submit_text = 'Сохранить';
-    $name = 'Редактирование категории';
+    //$name = 'Редактирование категории';
+    //if($model->level != 1) 
+    $name = 'Редактирование категории "'.$model->name.'"';
 }
 $this->breadcrumbs = array(
     'Home'=>$this->createUrl('/admin/'),
