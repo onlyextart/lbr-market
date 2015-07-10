@@ -32,12 +32,12 @@ $errorMsg = Yii::app()->user->getFlash('error');
             array( 
                 'name'=>'categoryName',
                 'type'=>'raw',
-                'value'=>'CHtml::link(CHtml::encode($data->category->name), array("edit","id"=>$data->id))',
+                'value'=>'CHtml::link(CHtml::encode($data->category->name), array("edit","id"=>$data->id), array("target"=>"_blank"))',
             ),
             array( 
                 'name'=>'equipmentMakerName',
                 'type'=>'raw',
-                'value'=>'CHtml::link(CHtml::encode($data->equipmentMaker->name), array("edit","id"=>$data->id))',
+                'value'=>'CHtml::link(CHtml::encode($data->equipmentMaker->name), array("edit","id"=>$data->id), array("target"=>"_blank"))',
             ),
             
             array(
