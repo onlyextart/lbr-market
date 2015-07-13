@@ -66,9 +66,12 @@
                             ФИО: <b><?php echo $name ?> </b><br />
                             email: <b><?php echo $email ?> </b><br />
                             Телефон: <b><?php echo $phone ?> </b><br />                                                               
-                            Регион: <b><?php echo $region ?> </b><br />
+                            
                             Организация: <b><?php echo $organization ?> </b><br />
                             Примечание: <b><?php echo $body ?> </b><br />
+                            Доставка: <b><?php echo $delivery ?> </b><br />
+                            Регион: <b><?php echo $region ?> </b><br />
+                            Адрес: <b><?php echo $adress ?> </b><br />
                         </p>    
                     </td></tr>
                 
