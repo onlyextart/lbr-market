@@ -1,3 +1,45 @@
+<style> 
+    .disabled{
+        disabled: disabled;
+    }
+    .hide{
+        display:none;
+    }
+</style>
+<script type="text/javascript">
+    $(function(){
+        
+         $(".delivery_type select").change(function(){
+             value=$(".delivery_type select").val();
+             if(value==<?= 1?>){            
+             
+                 $(".adress").addClass('hide');
+                 $('.adress *').prop("disabled", true);
+             }
+             else{
+                 $('.adress *').prop("disabled", false);
+                 $(".adress").removeClass('hide');
+             }
+             
+              if(value==<?= 3 ?> || value==<?= 4 ?>){
+                  $('.region *').prop("disabled", true);
+                     $(".region").addClass('hide');
+             }
+             else{
+                 $('.region *').prop("disabled", false);
+                 $(".region").removeClass('hide');
+             }
+             
+             if(value==<?= 0 ?>){
+            
+             
+                 $(".adress, .region").addClass('hide');
+             }
+             
+         });
+        
+    });
+</script>
 <?php
     $err = Yii::app()->user->getFlash('error');
 ?>
@@ -44,11 +86,6 @@
     </div>
         
     <div class="row">
-        <?php echo $form->labelEx($model,'region'); ?>
-        <?php echo $form->textField($model,'region'); ?>
-    </div>
-        
-    <div class="row">
         <?php echo $form->labelEx($model,'organization'); ?>
         <?php echo $form->textField($model,'organization'); ?>
     </div> 
@@ -58,6 +95,23 @@
         <?php echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>80, 'style'=>'max-width: 570px;')); ?>
         
     </div>
+    <div class="row">
+        <div class="row delivery_type">
+            <?php echo $form->error($model, "delivery"); ?>
+            <?php echo $form->labelEx($model, "delivery"); ?>
+            <?php echo $form->dropDownList($model, "delivery", QuickForm::getDeliveryTypes(), array_merge(array('empty'=>'Выберите способ доставки'))); ?>
+        </div>
+        <div disabled="disabled" class="row region <?php echo ($model->region) ? '': 'hide'?>">
+            <?php echo $form->error($model, "region"); ?>
+            <?php echo $form->labelEx($model, "region"); ?>
+            <?php echo $form->dropDownList($model,"region", QuickForm::getAllFilials(), array_merge(array('empty'=>'Выберите филиал')), array('class'=>'reg-filial')); ?>
+        </div>             
+        <div disabled="disabled" class="row adress <?php echo ($model->adress) ? '': 'hide'?>">
+            <?php echo $form->error($model, "adress"); ?>
+            <?php echo $form->labelEx($model, "adress"); ?>
+            <?php echo $form->textField($model,"adress"); ?>
+        </div>
+    </div> 
 <div id="attachments"></div>
 <div class="row">
 <?php echo $form->labelEx($model,'attachments'); ?>
@@ -94,6 +148,21 @@ array(
     
 <?php $this->endWidget(); ?>
 </div>
+<div class="row">
+    <p class="text_quickform_info">
+        Для составления заявки заполните следующие поля:
+   <ol> <li>Укажите Вашу контактную информацию.</li>
+<li>	В примечании укажите производителя, модель техники, каталожные номера запчастей и их количество. Если количество номеров более 5  воспользуйтесь <a href="/images/files/QuickFormsexample.xlsx" target="_blank" download="">ФОРМОЙ ЗАЯВКИ</a>, которую необходимо прикрепить во Вложение.</li> 
+<li>	Если каталожные номера запчастей неизвестны, прикрепите их фотографии во Вложение, а в примечании при этом укажите их количество, место установки, модель и производителя техники.</li>
+<li>	В строке доставка укажите способ доставки:</li> 
+а) самовывоз с филиалом отгрузки;<br /> 
+б) транспортной компанией, выбор и оплату услуг транспортной компании производит клиент;<br /> 
+в) транспортной компанией, оплата услуг по доставке включается в счет-фактуру.<br /> 
+При доставке транспортной компанией необходимо указать адрес.<br /> <br /> </ol>
+В течение суток с Вами свяжется персональный менеджер для согласования и оформления заказа.
+
+    </p>
+    </div> 
 </div><!-- form -->
 </div>
         </center>
