@@ -16,15 +16,18 @@ class QuickForm extends CFormModel
 
     /**
 * Declares the validation rules.
+     * 
+     * 
 */
-public function rules()
+        public function rules()
 {
     return array(            
-            array('name, email, phone, region, body,', 'required'),
-            array('attachments, name, email, phone, body, organization, region', 'safe'),
+            array('name, email, phone, body, delivery', 'required'),
+            array('adress', 'adressValidation'),
+            array('region', 'regionValidation'),
+            array('attachments, name, email, phone, body, organization, delivery, region, adress', 'safe'),
             array('email', 'email', 'message'=>'Неправильно заполнено поле «Email»'),
             array('phone', 'numerical', 'integerOnly'=>true, 'min'=>7),
-            array('region', 'match', 'pattern'=>'/[а-яА-ЯёЁa-zA-Z]+$/s', 'message'=>'В поле Регион только буквы'),
             array('attachments', 'file', 
                 'types'=>'jpg,jpeg,png,doc,docx,pdf,txt,xls,xlsx,',
                 'maxSize'=>1024 * 1024 * 4, // 4MB
@@ -39,7 +42,21 @@ public function rules()
             ),
     );
 }
-
+public function adressValidation($attribute)
+    {
+       if ($this->delivery != 1) {
+          if (empty($this->adress))
+             $this->addError("adress", 'Необходимо указать адрес доставки.');
+       }
+    }
+    
+    public function regionValidation($attribute)
+    {
+       if ($this->delivery != 3 && 4 ) {
+          if (empty($this->region))
+             $this->addError("region", 'Необходимо указать филиал отгрузки.');
+       }
+    }
 /**
 * Declares customized attribute labels.
 * If not declared here, an attribute would have a label that is
@@ -55,13 +72,29 @@ public function attributeLabels()
             'adress' => 'Адрес',
             'organization' => 'Организация',
             'delivery' => 'Доставка',  
-            'region' => 'Регион',
+            'region' => 'Филиал отгрузки',
             'body' => 'Примечание',
             'attachments'=>'Вложения',
             'verifyCode' => 'Код проверки',
+            'tk' => 'Способ оплаты',
             
               
             );
     }
     
+    static function getDeliveryTypes()
+        {
+        
+            $delivery = Delivery::model()->findAll();
+            $types_d = CHtml::listData($delivery,'id','name');
+//            $types[QuickForm::DEFAULT_DELIVERY_TYPE] = 'Самовывоз';
+//            $types[QuickForm::DISCOUNT_DELIVERY_TYPE] = 'Транспортной компанией';
+            return $types_d;
+        }
+    
+     public function getAllFilials(){
+            $filials= Filial::model()->findAll('level=2');
+            $list = CHtml::listData($filials, 'id', 'name');
+            return $list;
+        } 
 }
