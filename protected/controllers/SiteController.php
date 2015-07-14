@@ -394,7 +394,7 @@ class SiteController extends Controller
            }
         if($model->validate())
         {                    
-        
+       
         //используем представление 'quickform' из директории views/mail
             $address = 'webmaster@lbr.ru';
             $name = 'Интернет-магазин ЛБР АгроМаркет';
@@ -406,7 +406,10 @@ class SiteController extends Controller
                     'phone' => $model->phone, 
                     'region' => $model->region,                   
                     'organization' => $model->organization,
-                    'body' => $model->body));
+                    'body' => $model->body,
+                    'delivery' => $model->delivery,
+                    'region' => $model->region,
+                    'adress' => $model->adress));
         //устанавливаем свойства        
         $mail->setFrom($address, $name);
         $mail->setSubject("Письмо с сайта ".Yii::app()->params['host'].". Создана заявка от ".$model->name);
@@ -434,6 +437,7 @@ class SiteController extends Controller
         $this->refresh();
         }
         }
+        
         $this->render('quickform',array('model'=>$model));
         } 
 
