@@ -584,6 +584,10 @@ div.form select {
     background: -moz-linear-gradient(center top , #fff 20%, #f6f6f6 50%, #eee 52%, #f4f4f4 100%) repeat scroll 0 0 padding-box rgba(0, 0, 0, 0);
 }
 
+div.form select#delivery{
+    max-width: 450px;
+}
+
 div.form a.link_view{
     margin:0px 0px 0px 20px;
     text-decoration:underline;

@@ -46,7 +46,7 @@
             <?php  
                echo $form_view->error($form, 'delivery_id'); 
                echo $form_view->labelEx($form, 'delivery_id');
-               echo $form_view->dropDownList($form, 'delivery_id', CHtml::listData(Delivery::model()->findAll(),'id','name'));
+               echo $form_view->dropDownList($form, 'delivery_id', CHtml::listData(Delivery::model()->findAll(),'id','name'),array('id'=>'delivery'));
             ?>
         </div>
 
@@ -95,7 +95,7 @@
             <?php  
                 echo $form_view->error($form, 'user_comment'); 
                 echo $form_view->labelEx($form, 'user_comment');
-                echo $form_view->textArea($form, 'user_comment');
+                echo $form_view->textArea($form, 'user_comment', array('disabled'=>'true'));
             ?>
         </div>
 
