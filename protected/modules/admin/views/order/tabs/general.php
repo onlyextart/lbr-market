@@ -110,7 +110,7 @@
     </div>
     <div class="right50">
         <h2>Товары</h2>
-        <a href='#'>Добавить товар</a>
+<!--        <a href='#'>Добавить товар</a>-->
         <?php
                 $form_view_product=$this->beginWidget('CActiveForm', array(
                     'id'=>'order-product-form',
@@ -136,7 +136,7 @@
                <table class="add_info">
                 <tr>
                     <th>Название</th>
-                    <th>Количество</th>
+                    <th>Кол-во</th>
                     <th>Цена</th>
                     <th>Каталожный номер</th>
                     <th>&nbsp;</th>
@@ -147,7 +147,7 @@
                         $price = 0;
                         foreach ($form_product as $num => $product_order) {
                             echo '<tr data-price>';
-                            echo '<td>'.$product_order->name.'</td>';
+                            echo '<td>'.CHtml::link($product_order->name,$product_order->path,array('target'=>'_blank','class'=>'product_name')).'</td>';
                             echo '<td>'.CHtml::activeTextField($product_order, "[$num]count").'</td>';
                             
                             echo '<td>';

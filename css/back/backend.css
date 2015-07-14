@@ -303,8 +303,12 @@ header .menu > ul.nav > li.parent ul.nav li.item a{
 }
 
 .wrapper .total .wide .right50{
-    width: 49%;
-    float: left;
+    width: 46%;
+    float: right;
+    margin: 0 0 0 2%;
+    padding:5px;
+    border:solid 2px #dbdbdb;
+    border-radius:5px;
 }
 
 .wrapper .total:after{
@@ -314,24 +318,26 @@ header .menu > ul.nav > li.parent ul.nav li.item a{
 }
 
 .right50 h2{
-    margin-left: 50px;
+    margin-left: 5px;
     font-size: 13px;
     color:#4C4C4C;
 }
 
 .right50 table{
-   margin: 10px 0px 0px 50px;
+   margin: 20px 0px 0px 0px;
    width:90%;
   
 }
 .right50 table th{
    color:#969595;
    font-size:11px;
+   padding:0px 3px 0px 3px;
 }
 
 .right50 table td{
    font-size:11px;
    color:#4C4C4C;
+   padding:0px 3px 0px 3px;
 }
 
 .right50 table img{
@@ -353,6 +359,11 @@ header .menu > ul.nav > li.parent ul.nav li.item a{
     color:#4C4C4C;
     font-style:italic;
     text-shadow: 1px 1px 2px silver;
+}
+
+.right50 a.product_name{
+    text-align:left;
+    font-style:normal;
 }
 
 .right50 div.col_text{
@@ -585,7 +596,8 @@ div.form select {
 }
 
 div.form select#delivery{
-    max-width: 450px;
+    max-width: 430px;
+    min-width: 250px;
 }
 
 div.form a.link_view{

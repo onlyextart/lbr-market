@@ -53,6 +53,7 @@ class OrderController extends Controller
               $form_product[$key]->count=$one_product->count;
               $form_product[$key]->catalog_number=$one_product->product->catalog_number;
               $form_product[$key]->currency=$one_product->currency;
+              $form_product[$key]->path=$one_product->product->path;
               $form_product[$key]->currency_symbol=Currency::model()->findByPk($one_product->currency_code)->symbol;
             }
              
