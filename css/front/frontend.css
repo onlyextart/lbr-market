@@ -3178,6 +3178,12 @@ div.ui-widget-header{
     text-indent: 15px;
 }
 
+.phone_note
+{
+    font-size: 11px;
+    margin-left: 135px;
+}
+
 /*----- end QuickForm ---------------*/
 
 .phone_number{
