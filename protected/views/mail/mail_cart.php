@@ -62,7 +62,7 @@
                 
                 <tr><td style="width: 400px; padding: 10px 50px; word-wrap: break-word;">
                         <p style="width: 400px; margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: grey; ">
-                            Появилась новая заявка со следующими данными:<br />
+                            Появился новый заказ со следующими данными:<br />
                             ID Заявки: <b><?php echo $id ?></b><br />
                             ФИО: <b><?php echo $name ?> </b><br />
                             Телефон: <b><?php echo $phone ?> </b><br /> 

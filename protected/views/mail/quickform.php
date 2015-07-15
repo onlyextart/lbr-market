@@ -69,8 +69,8 @@
                             
                             Организация: <b><?php echo $organization ?> </b><br />
                             Примечание: <b><?php echo $body ?> </b><br />
-                            Доставка: <b><?php echo $delivery ?> </b><br />
-                            Регион: <b><?php echo $region ?> </b><br />
+                            Доставка: <b><?php echo $delivery = Delivery::model()->findByPk($delivery)->name; ?> </b><br />
+                            Регион: <b><?php echo $region = Filial::model()->findByPk($region)->name; ?> </b><br />
                             Адрес: <b><?php echo $adress ?> </b><br />
                         </p>    
                     </td></tr>
