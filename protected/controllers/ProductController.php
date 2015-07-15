@@ -181,7 +181,7 @@ class ProductController extends Controller
              }
              
              $analogProducts .=      '<div class="cell width-20">'.
-                                         '<div class="cart-form" elem="<?php echo $analog->id ?>">'.
+                                         '<div class="cart-form" elem="'.$analog->id.'">'.
                                             $countLabel;
                                             
              if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
