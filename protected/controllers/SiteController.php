@@ -56,6 +56,7 @@ class SiteController extends Controller
         return array(
             'captcha'=>array(
                 'class'=>'MyCCaptchaAction',
+                'testLimit'=>1,
             ),
         );
     }
