@@ -14,6 +14,17 @@ class QuickForm extends CFormModel
     public $delivery;
     public $region;
 
+    public function init()
+    {
+        if(!Yii::app()->user->isGuest && Yii::app()->user->isShop)
+        {
+            $user = User::model()->findByPk(Yii::app()->user->_id);
+            $this->name = $user->name;
+            $this->email = $user->email;
+            $this->phone = $user->phone;
+        }
+    }
+    
     /**
 * Declares the validation rules.
      * 
@@ -27,7 +38,7 @@ class QuickForm extends CFormModel
             array('region', 'regionValidation'),
             array('attachments, name, email, phone, body, organization, delivery, region, adress', 'safe'),
             array('email', 'email', 'message'=>'Неправильно заполнено поле «Email»'),
-            array('phone', 'numerical', 'integerOnly'=>true, 'min'=>7),
+            array('phone', 'numerical', 'min'=>7),
             array('attachments', 'file', 
                 'types'=>'jpg,jpeg,png,doc,docx,pdf,txt,xls,xlsx,',
                 'maxSize'=>1024 * 1024 * 4, // 4MB
@@ -37,6 +48,7 @@ class QuickForm extends CFormModel
             array(
                 'verifyCode',
                 'captcha',
+                'on'=>'insert',
                 // авторизованным пользователям код можно не вводить
                 'allowEmpty'=>!Yii::app()->user->isGuest || !CCaptcha::checkRequirements(),
             ),
