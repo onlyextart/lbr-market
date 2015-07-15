@@ -20,7 +20,8 @@
             
             Yii::app()->clientScript->registerCoreScript('jquery');
             //Yii::app()->clientScript->registerCoreScript('/js/jquery.1.11.3.min.js');
-            Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
+            //Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
+            Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3-min.css');
             Yii::app()->clientScript->registerCssFile('/css/front/alertify/core.css');
             Yii::app()->clientScript->registerCssFile('/css/front/tip-darkgray/tip-darkgray.css');
             Yii::app()->clientScript->registerCssFile('/css/front/alertify/default.css');
