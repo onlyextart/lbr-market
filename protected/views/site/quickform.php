@@ -83,6 +83,7 @@
     <div class="row">
         <?php echo $form->labelEx($model,'phone'); ?>
         <?php echo $form->textField($model,'phone'); ?>
+        <div class="phone_note">пример: +7(4722)402104</div>
     </div>
         
     <div class="row">

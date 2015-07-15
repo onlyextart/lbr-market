@@ -38,12 +38,12 @@ class QuickForm extends CFormModel
             array('region', 'regionValidation'),
             array('attachments, name, email, phone, body, organization, delivery, region, adress', 'safe'),
             array('email', 'email', 'message'=>'Неправильно заполнено поле «Email»'),
-            array('phone', 'numerical', 'min'=>7),
+            array('phone','match','pattern' => '/^\+\d{1,3}\(\d{2,4}\)\d{5,7}$/','message' => 'Некорректный формат телефона'),
             array('attachments', 'file', 
                 'types'=>'jpg,jpeg,png,doc,docx,pdf,txt,xls,xlsx,',
                 'maxSize'=>1024 * 1024 * 4, // 4MB
                 'tooLarge'=>'Ваш файл больше 4MB.',
-                'allowEmpty'=>1,            
+                'allowEmpty'=>1,
                 ),
             array(
                 'verifyCode',
