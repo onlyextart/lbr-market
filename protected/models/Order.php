@@ -74,6 +74,7 @@ class Order extends CActiveRecord
 			'status' => array(self::BELONGS_TO, 'OrderStatus', 'status_id'),
 			'delivery' => array(self::BELONGS_TO, 'Delivery', 'delivery_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+                        'filial'=>array(self::BELONGS_TO, 'Filial', 'filial'),
 			'orderProducts' => array(self::HAS_MANY, 'OrderProduct', 'order_id'),
 		);
 	}

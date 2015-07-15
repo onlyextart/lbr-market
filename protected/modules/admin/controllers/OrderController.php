@@ -33,9 +33,12 @@ class OrderController extends Controller
         $form=new OrderForm;
         $form->attributes=$model->attributes;
         if (!empty($model->user_id)){
-            $form->user_name=$model->user->name;
-            $form->user_email=$model->user->email;
-            $form->user_phone=$model->user->phone;
+            if(empty($model->user_name))$form->user_name=$model->user->name;
+            if(empty($model->user_email))$form->user_email=$model->user->email;
+            if(empty($model->user_phone))$form->user_phone=$model->user->phone;
+        }
+        if($model->user->organization_type==User::LEGAL_PERSON){
+            $form->user_inn=$model->user->inn;
         }
         
         $criteria=new CDbCriteria;

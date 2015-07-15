@@ -55,7 +55,8 @@
                 echo $form_view->error($form, 'user_name'); 
                 echo $form_view->labelEx($form, 'user_name');
                 if (!empty($form->user_id)){
-                   echo $form_view->textField($form, 'user_name', array('disabled'=>'true'));
+                  // echo $form_view->textField($form, 'user_name', array('disabled'=>'true'));
+                    echo CHtml::link($form->user_name,array('user/edit','id'=>$form->user_id),array('target'=>'_blank'));
                 }
                 else{
                     echo $form_view->textField($form, 'user_name');   
@@ -89,7 +90,23 @@
                 }
             ?>
         </div>
-
+        
+        <div class="row">      
+            <?php
+            if ($model->user->organization_type == User::LEGAL_PERSON) {
+                echo $form_view->error($form, 'user_inn');
+                ?>
+                <label class="required" for="OrderForm_user_inn">
+                    <span id="label_inn">
+                        <?php echo empty($model->user->country_id) ? UserCountry::model()->getCountryLabel(UserCountry::RUSSIA) : UserCountry::model()->getCountryLabel($model->user->country_id); ?>  
+                    </span>
+                    <span class="required">*</span>
+                </label>
+                <?php
+                echo $form_view->textField($form, 'user_inn',array('disabled'=>'true'));
+            }
+            ?>
+        </div>
 
         <div class="row">      
             <?php  
