@@ -13,6 +13,7 @@
  * @property string $path
  * @property string $meta_title
  * @property string $meta_description
+ * @property timestamp $update_time
  *
  * The followings are the available model relations:
  * @property ModelLine[] $modelLines
@@ -38,10 +39,10 @@ class EquipmentMaker extends CActiveRecord
                         array('name', 'required'),
                         array('logo', 'file', 'types'=>'jpg, jpeg, JPG, JPEG, gif, png', 'allowEmpty'=>true),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text', 'safe'),
+			array('external_id, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text', 'safe', 'on'=>'search'),
+			array('id, external_id, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,7 +75,8 @@ class EquipmentMaker extends CActiveRecord
 			'meta_title' => 'meta-title',
 			'meta_description' => 'meta-description',
                         'top_text' => 'Верхний блок',
-                        'bottom_text' => 'Нижний блок'
+                        'bottom_text' => 'Нижний блок',
+                        'update_time' => 'Время обновления'
 		);
 	}
 
@@ -107,6 +109,7 @@ class EquipmentMaker extends CActiveRecord
 		$criteria->compare('meta_description',$this->meta_description,true);
                 $criteria->compare('top_text',$this->top_text,true);
 		$criteria->compare('bottom_text',$this->bottom_text,true);
+		$criteria->compare('update_time',$this->update_time,true);
 
                 if(Yii::app()->search->prepareSqlite()){
                     $condition_name='lower(name) like lower("%'.$this->name.'%")';    
@@ -132,11 +135,16 @@ class EquipmentMaker extends CActiveRecord
 		return parent::model($className);
 	}
         
-        public function getAllMakers(){
-            $criteria=new CDbCriteria();
-            $criteria->condition='logo not null';
+        public function getAllMakers()
+        {
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'logo not null';
             $criteria->addCondition('published');
-            $makers= EquipmentMaker::model()->findAll($criteria);
+            
+            $makers = EquipmentMaker::model()->findAll($criteria);
+            //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
+            //$makers = EquipmentMaker::model()->cache(1000, $dependency)->findAll($criteria);
+            
             return $makers;
         }
 }

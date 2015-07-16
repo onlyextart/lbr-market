@@ -37,10 +37,10 @@ class ProductMaker extends CActiveRecord
 		return array(
 			array('name', 'required'),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, description, logo, published, country', 'safe'),
+			array('external_id, name, description, logo, published, country, update_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, description, logo, published, country', 'safe', 'on'=>'search'),
+			array('id, external_id, name, description, logo, published, country, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +69,7 @@ class ProductMaker extends CActiveRecord
 			'logo' => 'Логотип',
 			'published' => 'Опубликовать',
 			'country' => 'Страна',
+                        'update_time' => 'Время обновления'
 		);
 	}
 
@@ -96,6 +97,7 @@ class ProductMaker extends CActiveRecord
 		$criteria->compare('logo',$this->logo,true);
 		$criteria->compare('published',$this->published);
 		$criteria->compare('country',$this->country,true);
+		$criteria->compare('update_time',$this->update_time,true);
                 
                 if(Yii::app()->search->prepareSqlite()){
                     $condition_name='lower(name) like lower("%'.$this->name.'%")';    
@@ -121,11 +123,16 @@ class ProductMaker extends CActiveRecord
 		return parent::model($className);
 	}
         
-        public function getAllMakers(){
-            $criteria=new CDbCriteria();
-            $criteria->condition='logo not null';
+        public function getAllMakers()
+        {
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'logo not null';
             $criteria->addCondition('published');
-            $makers= ProductMaker::model()->findAll($criteria);
+            
+            $makers = ProductMaker::model()->findAll($criteria);
+            //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product_maker');
+            //$makers = ProductMaker::model()->cache(1000, $dependency)->findAll($criteria);
+            
             return $makers;
         }
 }
