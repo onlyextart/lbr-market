@@ -43,39 +43,3 @@
         <?php endif; ?>
     </div>
 </div>
-<script>
-    $(function() {
-        $( ".small-cart-button" ).on('click', function() {
-            var parent = $(this).parent();
-            var cart = parent.find('.cart-quantity');
-            var count = parseInt(cart.val());
-            
-            if(count > 0) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/cart/add',
-                    dataType: 'json',
-                    data: {
-                        id: parent.attr('elem'),
-                        count: count,
-                    },
-                    success: function(response) {
-                        cart.val('1');
-                        if(response.count) {
-                            var label = ' товаров';
-                            if(response.count == 1) {
-                                label = ' товар';
-                            } else if(response.count == 2 || response.count == 3 || response.count == 4){
-                                label = ' товарa';
-                            }
-                            $('#cart-count').text(response.count+label);
-                        }
-                        alertify.success(response.message);
-                    },
-                });
-            } else {
-                alertify.success('<div class="mes-notify"><span></span><div>Введено неправильное количество</div></div>');
-            }
-        });
-    });
-</script>
