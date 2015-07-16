@@ -147,10 +147,9 @@ class EquipmentMaker extends CActiveRecord
             $criteria->condition = 'logo not null';
             $criteria->addCondition('published');
             $criteria->offset = $offset;
-            $criteria->limit = 12;
+            $criteria->limit = 6;
             
             //$makers = EquipmentMaker::model()->findAll($criteria);
-            
             $makers = EquipmentMaker::model()->cache(1000, $dependency)->findAll($criteria);
             
             return $makers;

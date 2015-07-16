@@ -3,9 +3,10 @@ class SiteController extends Controller
 {
     public function actionIndex($s = null)
     {
+        $makers = $this->getMakers();
         $bestOffer = $this->getBestOffer();
         $hitProducts = $this->getHitProducts();
-        $makers = $this->getMakers();
+        
         
         $this->render('index', array('hitProducts' => $hitProducts, 'bestoffer' => $bestOffer, 'makers' => $makers));
     }
@@ -16,7 +17,6 @@ class SiteController extends Controller
         
         $equipmentMakers = EquipmentMaker::model()->getAllMakers();
         $productMakers = ProductMaker::model()->getAllMakers();
-        
         if(!empty($equipmentMakers) || !empty($productMakers)) {
             $path = Yii::getPathOfAlias('webroot'); 
             $result = '<div id="carousel-logo-wrapper">'.
