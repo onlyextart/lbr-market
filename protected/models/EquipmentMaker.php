@@ -140,7 +140,7 @@ class EquipmentMaker extends CActiveRecord
             $criteria = new CDbCriteria();
             $criteria->condition = 'logo not null';
             $criteria->addCondition('published');
-            $criteria->limit = 5;
+            $criteria->limit = 1;
             
             //$makers = EquipmentMaker::model()->findAll($criteria);
             $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
