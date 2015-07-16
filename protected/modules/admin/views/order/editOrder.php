@@ -55,7 +55,14 @@ $(function(){
     <?php elseif ($errorMsg): ?>
         alertify.error('<?php echo $errorMsg; ?>');
     <?php endif; ?>
-        
+    
+    editOrder.data = {
+        deliveryPickup:'<?php echo Delivery::DELIVERY_PICKUP?>',
+        deliveryClientTransport: '<?php echo Delivery::DELIVERY_CLIENT_TRANSPORT?>',
+        deliveryTransportInvoice : '<?php echo Delivery::DELIVERY_TRANSPORT_INVOICE?>',
+    };
+    editOrder.editDelivery();
+    
     $( "#save-btn" ).click(function() {
         $('form').submit();
     });

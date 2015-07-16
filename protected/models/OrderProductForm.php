@@ -11,12 +11,13 @@ class OrderProductForm extends CFormModel
     public $currency;
     public $currency_code;
     public $currency_symbol;
+    public $path;
     
 
     public function rules()
     {
         return array(
-            array('id,name,count,price,catalog_number,currency,currency_code, total_price, currency_symbol','safe'),
+            array('id,name,count,price,catalog_number,currency,currency_code, total_price, currency_symbol,path','safe'),
             array('count', 'numerical', 'integerOnly' => true, 'message'=>'В поле "Количество" должно быть целое число'),
             array('count', 'required'),
         );

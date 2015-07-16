@@ -21,8 +21,6 @@
              }'
             ),
         ));
- 
- 
     ?>
         
     <div class="left50">
@@ -31,6 +29,14 @@
                 echo $form_view->error($form, 'id'); 
                 echo $form_view->labelEx($form, 'id');
                 echo $form_view->textField($form, 'id', array('disabled'=>'true'));
+            ?>
+        </div>
+        
+        <div class="row">      
+            <?php  
+                echo $form_view->error($form, 'date_created'); 
+                echo $form_view->labelEx($form, 'date_created');
+                echo $form_view->textField($form, 'date_created', array('disabled'=>'true'));
             ?>
         </div>
 
@@ -42,20 +48,37 @@
             ?>
         </div>
 
-        <div class="row">      
+        <div class="row delivery-type">      
             <?php  
                echo $form_view->error($form, 'delivery_id'); 
                echo $form_view->labelEx($form, 'delivery_id');
-               echo $form_view->dropDownList($form, 'delivery_id', CHtml::listData(Delivery::model()->findAll(),'id','name'));
+               echo $form_view->dropDownList($form, 'delivery_id', CHtml::listData(Delivery::model()->findAll(),'id','name'),array('id'=>'delivery'));
             ?>
         </div>
-
+        
+        <div class="row">      
+            <?php  
+               echo $form_view->error($form, 'order_filial'); 
+               echo $form_view->labelEx($form, 'order_filial');
+               echo $form_view->textField($form, 'order_filial',array('disabled'=>'true'));
+            ?>
+        </div>
+        
+        <div class="row <?php echo ($form->delivery_id == 1) ? 'hide': ''?>">      
+            <?php  
+               echo $form_view->error($form, 'user_address');
+               echo $form_view->labelEx($form, 'user_address');
+               echo $form_view->textArea($form, 'user_address',array('id'=>'Order_user_address'));
+            ?>
+        </div>
+        
         <div class="row">      
             <?php  
                 echo $form_view->error($form, 'user_name'); 
                 echo $form_view->labelEx($form, 'user_name');
                 if (!empty($form->user_id)){
-                   echo $form_view->textField($form, 'user_name', array('disabled'=>'true'));
+                  // echo $form_view->textField($form, 'user_name', array('disabled'=>'true'));
+                    echo CHtml::link($form->user_name,array('user/edit','id'=>$form->user_id),array('target'=>'_blank'));
                 }
                 else{
                     echo $form_view->textField($form, 'user_name');   
@@ -89,13 +112,28 @@
                 }
             ?>
         </div>
-
+        
+        <div class="row">      
+            <?php
+            if ($model->user->organization_type == User::LEGAL_PERSON) {
+                echo $form_view->error($form, 'user_inn');
+                ?>
+                <label for="OrderForm_user_inn">
+                    <span id="label_inn">
+                        <?php echo empty($model->user->country_id) ? UserCountry::model()->getCountryLabel(UserCountry::RUSSIA) : UserCountry::model()->getCountryLabel($model->user->country_id); ?>  
+                    </span>
+                </label>
+                <?php
+                echo $form_view->textField($form, 'user_inn',array('disabled'=>'true'));
+            }
+            ?>
+        </div>
 
         <div class="row">      
             <?php  
                 echo $form_view->error($form, 'user_comment'); 
                 echo $form_view->labelEx($form, 'user_comment');
-                echo $form_view->textArea($form, 'user_comment');
+                echo $form_view->textArea($form, 'user_comment', array('disabled'=>'true'));
             ?>
         </div>
 
@@ -110,7 +148,7 @@
     </div>
     <div class="right50">
         <h2>Товары</h2>
-        <a href='#'>Добавить товар</a>
+<!--        <a href='#'>Добавить товар</a>-->
         <?php
                 $form_view_product=$this->beginWidget('CActiveForm', array(
                     'id'=>'order-product-form',
@@ -136,7 +174,7 @@
                <table class="add_info">
                 <tr>
                     <th>Название</th>
-                    <th>Количество</th>
+                    <th>Кол-во</th>
                     <th>Цена</th>
                     <th>Каталожный номер</th>
                     <th>&nbsp;</th>
@@ -147,7 +185,7 @@
                         $price = 0;
                         foreach ($form_product as $num => $product_order) {
                             echo '<tr data-price>';
-                            echo '<td>'.$product_order->name.'</td>';
+                            echo '<td>'.CHtml::link($product_order->name,$product_order->path,array('target'=>'_blank','class'=>'product_name')).'</td>';
                             echo '<td>'.CHtml::activeTextField($product_order, "[$num]count").'</td>';
                             
                             echo '<td>';
@@ -193,5 +231,27 @@
 </div>
 </div>
 
-
+<script>
+    $(function() {
+        function changeRequired(label){
+            if($('.delivery-type select[id=delivery]').val() !==<?php echo Delivery::DELIVERY_PICKUP?>) {
+                if(!label.hasClass('required')) {
+                    label.addClass('required');
+                    label.append('<span class="required"> *</span>');
+                }
+            } else {
+                label.removeClass('required');
+                label.find('span').remove();
+            }
+        };
+        
+        $(document).ready(function(){
+            var label_address=$('label[for=OrderForm_user_address]');
+            changeRequired(label_address);
+            
+           $('.delivery-type select[id=delivery]').change(changeRequired(label_address));
+        });
+       
+    });
+</script>
 

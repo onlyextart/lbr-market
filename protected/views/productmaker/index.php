@@ -1,6 +1,6 @@
 <div class="breadcrumbs">
     <?php
-        Yii::app()->params['meta_title']="Производители запчастей";
+        Yii::app()->params['meta_title']=$data->name;
     
         $this->widget('zii.widgets.CBreadcrumbs', array(
             'links' => Yii::app()->params['breadcrumbs'],
