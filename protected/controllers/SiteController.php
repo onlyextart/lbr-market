@@ -2,7 +2,56 @@
 class SiteController extends Controller
 {
     public function actionIndex($s = null)
-    {        
+    {
+        $bestOffer = $this->getBestOffer();
+        $hitProducts = $this->getHitProducts();
+        $makers = $this->getMakers();
+        
+        $this->render('index', array('hitProducts' => $hitProducts, 'bestoffer' => $bestOffer, 'makers' => $makers));
+    }
+    
+    public function getMakers()
+    {
+        $result = '';
+        
+        $equipmentMakers = EquipmentMaker::model()->getAllMakers();
+        $productMakers = ProductMaker::model()->getAllMakers();
+        
+        if(!empty($equipmentMakers) || !empty($productMakers)) {
+            $path = Yii::getPathOfAlias('webroot'); 
+            $result = '<div id="carousel-logo-wrapper">'.
+               '<div id="carousel-logo" class="jcarousel">'.
+                  '<ul>'
+            ;
+            
+            foreach ($equipmentMakers as $maker) {
+                if(file_exists($path.$maker->logo)){
+                    $result .= '<li><a href="/equipmentmaker/index/id/'.$maker->id.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="" /></div></a></li>'; 
+                }
+            }
+            
+            foreach ($productMakers as $maker) {
+                if(file_exists($path.$maker->logo)) {
+                    $result .= '<li><a href="/productmaker/index/id/'.$maker->id.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="" /></div></a></li>';
+                }    
+            }
+            
+            $result .= '</ul>'.
+                       '<div class="clearfix"></div>'.
+                       '<a id="prev-logo" class="prev" href="#">&lt;</a>'.
+                       '<a id="next-logo" class="next" href="#">&gt;</a>'.
+                    '</div>'.
+                '</div>'
+            ;
+        }
+        
+        return $result;
+    }
+    
+    public function getHitProducts()
+    {
+        $result = '';
+        
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
         $max = Product::model()->cache(1000, $dependency)->count(array(
             'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
@@ -39,10 +88,50 @@ class SiteController extends Controller
                 'limit' => 8,
             ));
         //}
+            
+        if(!empty($hitProducts)) {
+            $result = '<span class="hit-label-main">Хиты продаж</span>'.
+               '<div class="best-sales">'
+            ;
+            foreach($hitProducts as $product) {
+                $result .= '<div class="one_banner">';
+                $result .= '<h3><a target="_blank" href="'.$product->path.'">'.$product->name.'</a></h3>';
+                $result .= '<div class="img-wrapper">';
+                $result .= '<a target="_blank" href="'.$product->path.'">'.
+                      '<img src="http://api.lbr.ru/images/shop/spareparts/'.$product->image.'" alt="">'.
+                   '</a>'
+                ;
+                $result .= '</div></div>';
+            }
+            $result .= '</div>';
+        }
         
-        $bestOffer = BestOffer::model()->findAll(array('condition'=>'published=1', 'order'=>'IFNULL(level, 1000000000)'));
+        return $result;
+    }
+    
+    public function getBestOffer()
+    {
+        $result = '';
+        $bestOffers = BestOffer::model()->findAll(array('condition'=>'published=1', 'order'=>'IFNULL(level, 1000000000)'));
+        if(!empty($bestOffers)) {
+            $result = '<div id="carousel-wrapper">'.
+               '<div id="carousel">'.
+                  '<ul>'
+            ;
+            foreach($bestOffers as $offer) {
+               $link = "/seasonalsale/index/id/".$offer->id;
+               if(file_exists(Yii::getPathOfAlias('webroot').$offer->img)){
+                   $result .= '<li><a href="'.$link.'"><img src="'.$offer->img.'" alt="'.$offer->name.'"></a></li>';
+               }
+            }
+            $result .= '</ul>'.
+               '<div class="clearfix"></div>'.
+               '<div id="pager" class="pager"></div>'.
+               '</div></div>'
+            ;
+        }
         
-        $this->render('index', array('hitProducts' => $hitProducts, 'bestoffer' => $bestOffer));
+        return $result;
     }
     
     public function actionDescription($url)
