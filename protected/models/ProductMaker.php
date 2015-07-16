@@ -128,7 +128,7 @@ class ProductMaker extends CActiveRecord
             $criteria = new CDbCriteria();
             $criteria->condition = 'logo not null';
             $criteria->addCondition('published');
-            $criteria->limit = 20;
+            $criteria->limit = 12;
             
             //$makers = ProductMaker::model()->findAll($criteria);
             $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product_maker');
