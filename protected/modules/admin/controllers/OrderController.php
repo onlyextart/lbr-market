@@ -29,7 +29,7 @@ class OrderController extends Controller
     
     public function actionEdit($id)
     {
-        $model = Order::model()->with('status','orderProducts','user')->findByPk($id);
+        $model = Order::model()->with('status','orderProducts','user','filials')->findByPk($id);
         $form=new OrderForm;
         $form->attributes=$model->attributes;
         if (!empty($model->user_id)){
@@ -40,7 +40,7 @@ class OrderController extends Controller
         if($model->user->organization_type==User::LEGAL_PERSON){
             $form->user_inn=$model->user->inn;
         }
-        
+        $form->order_filial=$model->filials->name;
         $criteria=new CDbCriteria;
         $criteria->condition='order_id=:order_id';
         $criteria->params=array(':order_id'=>$id);
@@ -66,8 +66,12 @@ class OrderController extends Controller
             if (!empty($_POST['OrderForm'])&&!empty($_POST['OrderProductForm'])) {
                 $valid=true;
                 $model->attributes=$_POST['OrderForm'];
+                
+                // присваивание необходимо для валидации в OrderForm
+                $form->attributes=$_POST['OrderForm'];
+                
                 $model->date_updated = date('Y-m-d H:i:s');
-                $valid=$model->validate()&&$valid;
+                $valid=$model->validate()&&$form->validate();
                 
                 foreach($model_product as $i=>$item)
                 {
@@ -87,12 +91,12 @@ class OrderController extends Controller
                     }
                  }
                        
-                 if(!$model->save()) {
+                 if(!$model->save()||!$valid) {
                     $save=false;
                     $errors_order=$model->getErrors();
                  }
                        
-
+                 
                  if($save){
                     $transaction->commit();
                     Yii::app()->user->setFlash('message', 'Заказ сохранен успешно.');

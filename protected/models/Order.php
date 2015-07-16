@@ -56,7 +56,7 @@ class Order extends CActiveRecord
 		return array(
 			array('user_id, delivery_id, status_id', 'numerical', 'integerOnly'=>true),
 			array('total_price', 'numerical'),
-			array('admin_comment, user_comment, user_name, user_email, user_address, user_phone, date_created, date_updated, secret_key', 'safe'),
+			array('delivery_id,admin_comment, user_comment, user_name, user_email, user_address, user_phone, date_created, date_updated, secret_key', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, delivery_id, status_id, admin_comment, user_comment, user_name, user_email, user_address, user_phone, date_created, date_updated, total_price, secret_key', 'safe', 'on'=>'search'),
@@ -74,11 +74,11 @@ class Order extends CActiveRecord
 			'status' => array(self::BELONGS_TO, 'OrderStatus', 'status_id'),
 			'delivery' => array(self::BELONGS_TO, 'Delivery', 'delivery_id'),
 			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-                        'filial'=>array(self::BELONGS_TO, 'Filial', 'filial'),
+                        'filials'=>array(self::BELONGS_TO, 'Filial', 'filial'),
 			'orderProducts' => array(self::HAS_MANY, 'OrderProduct', 'order_id'),
 		);
 	}
-
+        
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
