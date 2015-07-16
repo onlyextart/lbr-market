@@ -141,9 +141,9 @@ class EquipmentMaker extends CActiveRecord
             $criteria->condition = 'logo not null';
             $criteria->addCondition('published');
             
-            $makers = EquipmentMaker::model()->findAll($criteria);
-            //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
-            //$makers = EquipmentMaker::model()->cache(1000, $dependency)->findAll($criteria);
+            //$makers = EquipmentMaker::model()->findAll($criteria);
+            $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
+            $makers = EquipmentMaker::model()->cache(1000, $dependency)->findAll($criteria);
             
             return $makers;
         }

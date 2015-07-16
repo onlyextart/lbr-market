@@ -574,7 +574,7 @@ class SiteController extends Controller
     public function actionTest()
     {
         set_time_limit(0);
-        $productMaker = ProductMaker::model()->findAll();
+        /*$productMaker = ProductMaker::model()->findAll();
         foreach($productMaker as $maker) {
             $maker->update_time = date('Y-m-d H:i:s');
             $maker->save();
@@ -583,6 +583,6 @@ class SiteController extends Controller
         foreach($equipmentMaker as $maker) {
             $maker->update_time = date('Y-m-d H:i:s');
             $maker->save();
-        }
+        }*/
     }
 }
