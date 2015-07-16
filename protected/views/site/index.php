@@ -1,6 +1,6 @@
 <?php
-    $Msg=Yii::app()->user->getFlash('message');
-    $MsgErr=Yii::app()->user->getFlash('error');
+    $message = Yii::app()->user->getFlash('message');
+    $errorMsg = Yii::app()->user->getFlash('error');
             
     if(!empty($bestoffer)) {
         echo $bestoffer;
@@ -61,10 +61,10 @@
        }*/
        
        //alertify.set({ delay: 6000 });
-        <?php if ($Msg) :?>
-            alertify.success('<?php echo $Msg; ?>');
-        <?php elseif ($MsgErr) :?>
-            alertify.error('<?php echo $MsgErr; ?>');
+        <?php if ($message) :?>
+            alertify.success('<?php echo $message; ?>');
+        <?php elseif ($errorMsg) :?>
+            alertify.error('<?php echo $errorMsg; ?>');
         <?php endif; ?>
     });
 </script>
