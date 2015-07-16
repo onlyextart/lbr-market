@@ -22,6 +22,10 @@
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/default.css" />
         <?php
             Yii::app()->clientScript->registerCoreScript('jquery');
+            Yii::app()->clientScript->registerScriptFile('/js/jquery.jcarousel.min.js');
+            Yii::app()->clientScript->registerScriptFile('/js/jquery.carouFredSel.min.js');
+            Yii::app()->clientScript->registerScriptFile('/js/jquery.mCustomScrollbar.concat.min.js');
+            
             //Yii::app()->clientScript->registerCoreScript('/js/jquery.1.11.3.min.js');
             
             ////Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
@@ -32,11 +36,10 @@
         
             //Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js');
             //Yii::app()->clientScript->registerScriptFile('/js/front/cart.js');
-            //Yii::app()->clientScript->registerScriptFile('/js/jquery.jcarousel.min.js');
-            //Yii::app()->clientScript->registerScriptFile('/js/jquery.carouFredSel.min.js');
+            
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.dcjqaccordion.2.7.min.js');
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.hoverIntent.minified.js');
-            //Yii::app()->clientScript->registerScriptFile('/js/jquery.mCustomScrollbar.concat.min.js');
+            
             //Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.min.js');
             //Yii::app()->clientScript->registerScriptFile('/js/alertify.min.js');
             //Yii::app()->clientScript->registerScriptFile('/js/front/search.js');
@@ -198,9 +201,9 @@
         document.getElementsByTagName( 'head' )[0].appendChild( script );
     }
     loadJs("/js/alertify.min.js");
-    loadJs("/js/jquery.mCustomScrollbar.concat.min.js");
-    loadJs("/js/jquery.carouFredSel.min.js");
-    loadJs("/js/jquery.jcarousel.min.js");
+    //loadJs("/js/jquery.mCustomScrollbar.concat.min.js");
+    //loadJs("/js/jquery.carouFredSel.min.js");
+    //loadJs("/js/jquery.jcarousel.min.js");
     loadJs("/js/jquery.dotdotdot.min.js");
     loadJs("/js/jquery.dcjqaccordion.2.7.min.js");
     loadJs("/js/easyTooltip.js");
