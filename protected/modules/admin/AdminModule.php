@@ -53,5 +53,6 @@ class AdminModule extends CWebModule
             Yii::app()->clientScript->registerScriptFile('/js/alertify.min.js');
             Yii::app()->clientScript->registerScriptFile('/js/back/editUser.js');
             Yii::app()->clientScript->registerScriptFile('/js/back/editDiscount.js');
+            Yii::app()->clientScript->registerScriptFile('/js/back/editOrder.js');
     }
 }
