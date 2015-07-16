@@ -3,7 +3,7 @@
         /*$breadcrumbs['Тест'] = '/';
         $breadcrumbs[] = 'Производитель';
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  */
-        Yii::app()->params['meta_title']="Производители техники";
+        Yii::app()->params['meta_title']=$data->name;
     
         $this->widget('zii.widgets.CBreadcrumbs', array(
             'links' => Yii::app()->params['breadcrumbs'],
