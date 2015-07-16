@@ -49,19 +49,18 @@
                 $path = Yii::getPathOfAlias('webroot'); 
                 $makers=EquipmentMaker::model()->getAllMakers();
                 foreach ($makers as $maker){
-                        $link="/equipmentmaker/index/id/".$maker->id;
-                        if(file_exists($path.$maker->logo)){
-                            echo '<li><a href="'.$link.'"  target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="" /></div></a></li>'; 
-                        }
+                    $link="/equipmentmaker/index/id/".$maker->id;
+                    //if(file_exists($path.$maker->logo)){
+                        echo '<li><a href="'.$link.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="" /></div></a></li>'; 
+                    //}
                  }
                    
                 $makers_product=ProductMaker::model()->getAllMakers();
                 foreach ($makers_product as $maker){
                     $link="/productmaker/index/id/".$maker->id;
-                    if(file_exists($path.$maker->logo)){
-                        echo '<li><a href="'.$link.'"  target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="" /></div></a></li>'; 
-                
-                    }    
+                    //if(file_exists($path.$maker->logo)){
+                        echo '<li><a href="'.$link.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="" /></div></a></li>';
+                    //}    
                 }
 
             ?>
