@@ -1,3 +1,6 @@
+<?php
+    $err = Yii::app()->user->getFlash('error');
+?>
 <style> 
     .disabled{
         disabled: disabled;
@@ -6,49 +9,6 @@
         display:none;
     }
 </style>
-<script type="text/javascript">
-    $(function(){
-        
-         $(".delivery_type select").change(function(){
-             value=$(".delivery_type select").val();
-             if(value==<?= 1?>){            
-             
-                 $(".adress").addClass('hide');
-                 $('.adress *').prop("disabled", true);
-             }
-             else{
-                 $('.adress *').prop("disabled", false);
-                 $(".adress").removeClass('hide');
-             }
-             
-              if(value==<?= 3 ?> || value==<?= 4 ?>){
-                  $('.region *').prop("disabled", true);
-                     $(".region").addClass('hide');
-             }
-             else{
-                 $('.region *').prop("disabled", false);
-                 $(".region").removeClass('hide');
-             }
-             
-             if(value==<?= 0 ?>){
-            
-             
-                 $(".adress, .region").addClass('hide');
-             }
-             
-         });
-        
-    });
-</script>
-<?php
-    $err = Yii::app()->user->getFlash('error');
-?>
-<script>
-     alertify.set({ delay: 6000 });
-        <?php if ($err) :?>
-            alertify.error('<?php echo $err; ?>');
-        <?php endif; ?>   
-</script>
 <div class="quick-wrapper">
     <center>
 <div class='quick-header'>
@@ -149,7 +109,7 @@ array(
     
 <?php $this->endWidget(); ?>
 </div>
-<div class="row">
+<div class="row quick-form-info">
     <p class="text_quickform_info">
         Для составления заявки заполните следующие поля:
    <ol> <li>Укажите Вашу контактную информацию.</li>
@@ -168,6 +128,42 @@ array(
 </div>
         </center>
     </div>
-
+<script type="text/javascript">
+    $(function(){
+         $(".delivery_type select").change(function(){
+             value=$(".delivery_type select").val();
+             if(value==<?= 1?>){            
+             
+                 $(".adress").addClass('hide');
+                 $('.adress *').prop("disabled", true);
+             }
+             else{
+                 $('.adress *').prop("disabled", false);
+                 $(".adress").removeClass('hide');
+             }
+             
+              if(value==<?= 3 ?> || value==<?= 4 ?>){
+                  $('.region *').prop("disabled", true);
+                     $(".region").addClass('hide');
+             }
+             else{
+                 $('.region *').prop("disabled", false);
+                 $(".region").removeClass('hide');
+             }
+             
+             if(value==<?= 0 ?>){
+            
+             
+                 $(".adress, .region").addClass('hide');
+             }
+             
+         });
+         
+        <?php if ($err) :?>
+            alertify.error('<?php echo $err; ?>');
+        <?php endif; ?>
+        
+    });
+</script>
 
 
