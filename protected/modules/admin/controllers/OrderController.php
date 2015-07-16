@@ -29,15 +29,18 @@ class OrderController extends Controller
     
     public function actionEdit($id)
     {
-        $model = Order::model()->with('status','orderProducts','user')->findByPk($id);
+        $model = Order::model()->with('status','orderProducts','user','filials')->findByPk($id);
         $form=new OrderForm;
         $form->attributes=$model->attributes;
         if (!empty($model->user_id)){
-            $form->user_name=$model->user->name;
-            $form->user_email=$model->user->email;
-            $form->user_phone=$model->user->phone;
+            if(empty($model->user_name))$form->user_name=$model->user->name;
+            if(empty($model->user_email))$form->user_email=$model->user->email;
+            if(empty($model->user_phone))$form->user_phone=$model->user->phone;
         }
-        
+        if($model->user->organization_type==User::LEGAL_PERSON){
+            $form->user_inn=$model->user->inn;
+        }
+        $form->order_filial=$model->filials->name;
         $criteria=new CDbCriteria;
         $criteria->condition='order_id=:order_id';
         $criteria->params=array(':order_id'=>$id);
@@ -53,6 +56,7 @@ class OrderController extends Controller
               $form_product[$key]->count=$one_product->count;
               $form_product[$key]->catalog_number=$one_product->product->catalog_number;
               $form_product[$key]->currency=$one_product->currency;
+              $form_product[$key]->path=$one_product->product->path;
               $form_product[$key]->currency_symbol=Currency::model()->findByPk($one_product->currency_code)->symbol;
             }
              
@@ -62,8 +66,12 @@ class OrderController extends Controller
             if (!empty($_POST['OrderForm'])&&!empty($_POST['OrderProductForm'])) {
                 $valid=true;
                 $model->attributes=$_POST['OrderForm'];
+                
+                // присваивание необходимо для валидации в OrderForm
+                $form->attributes=$_POST['OrderForm'];
+                
                 $model->date_updated = date('Y-m-d H:i:s');
-                $valid=$model->validate()&&$valid;
+                $valid=$model->validate()&&$form->validate();
                 
                 foreach($model_product as $i=>$item)
                 {
@@ -83,12 +91,12 @@ class OrderController extends Controller
                     }
                  }
                        
-                 if(!$model->save()) {
+                 if(!$model->save()||!$valid) {
                     $save=false;
                     $errors_order=$model->getErrors();
                  }
                        
-
+                 
                  if($save){
                     $transaction->commit();
                     Yii::app()->user->setFlash('message', 'Заказ сохранен успешно.');

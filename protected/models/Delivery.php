@@ -9,7 +9,10 @@
  */
 class Delivery extends CActiveRecord
 {
-	/**
+	const DELIVERY_PICKUP=1;
+        const DELIVERY_CLIENT_TRANSPORT=3;
+        const DELIVERY_TRANSPORT_INVOICE=4;
+        /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()

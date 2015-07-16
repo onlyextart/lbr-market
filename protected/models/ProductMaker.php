@@ -125,13 +125,19 @@ class ProductMaker extends CActiveRecord
         
         public function getAllMakers()
         {
+            $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product_maker');
+            $max = ProductMaker::model()->cache(1000, $dependency)->count(array(
+               'condition' => 'logo IS NOT NULL',
+            ));
+            $offset = mt_rand(0, $max);
+            
             $criteria = new CDbCriteria();
             $criteria->condition = 'logo not null';
             $criteria->addCondition('published');
-            $criteria->limit = 20;
+            $criteria->offset = $offset;
+            $criteria->limit = 10;
             
             //$makers = ProductMaker::model()->findAll($criteria);
-            $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product_maker');
             $makers = ProductMaker::model()->cache(1000, $dependency)->findAll($criteria);
             
             return $makers;

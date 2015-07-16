@@ -6,7 +6,7 @@ $(document).ready(function($){
         showRegions();
     });
     
-    $('.no-price-label').easyTooltip({content:'Цена будет указана в счет-фактуре'}); 
+    $('.no-price-label').easyTooltip({content:'Цена будет указана в счет-фактуре'});
     
     $('#confirm-region').click(function() {
         var selector = $('#select-region').find(":selected");
@@ -110,6 +110,73 @@ $(document).ready(function($){
         $( this ).find('ul').hide();
     });
     
+    // product page
+    if($('.price_link').length) {
+       $('.price_link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'}); 
+    }
+    // end product page
+    // model page
+    if($('.price-link').length) {
+       $('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
+    }
+    
+    $( ".small-cart-button" ).on('click', function() {
+        var parent = $(this).parent();
+        var cart = parent.find('.cart-quantity');
+        var count = parseInt(cart.val());
+        if(count > 0) {
+            $.ajax({
+                type: 'POST',
+                url: '/cart/add',
+                dataType: 'json',
+                data: {
+                    id: parent.attr('elem'),
+                    count: count,
+                },
+                success: function(response) { 
+                    $('.cart-quantity').val('1');
+                    if(response.count){
+                        var label = ' товаров';
+                        if(response.count == 1) {
+                            label = ' товар';
+                        } else if(response.count == 2 || response.count == 3 || response.count == 4){
+                            label = ' товарa';
+                        }
+                        $('#cart-count').text(response.count+label);
+                    }
+                    alertify.success(response.message);
+                },
+            });
+        } else {
+            alertify.success('<div class="mes-notify"><span></span><div>Введено неправильное количество</div></div>');
+        }
+    });
+    
+    // end model page
+    // main page
+    if($('#carousel ul').length) {
+        $('#carousel ul').carouFredSel({
+            pagination: "#pager",
+            items: 1,
+            scroll: 2000,
+        });
+    }
+    if($('#carousel-logo ul').length) {
+        $('#carousel-logo ul').carouFredSel({
+            next: '#next-logo',
+            prev: '#prev-logo',
+            auto: {
+                items           : 5,
+                fx              :"scroll",
+                easing          : "linear",
+                duration        : 1000,
+                pauseOnHover    : true,
+            },
+           pagination: "#pager-logo",
+           items: 5,
+        });
+    }
+    // end main page
     // seo-text in bottom
     $('.text div *').hide();
     $('.text div *:first-child').show();
@@ -125,8 +192,9 @@ $(document).ready(function($){
             $(this).addClass('show-text').text('Скрыть'); 
         }
     });
+    // end seo-text in bottom
 });
-
+    
 function showRegions(){
     $.ajax({
         url : '/site/getRegions/',

@@ -119,7 +119,8 @@ div.form div.error label:first-child, div.form label.error, div.form span.error 
 .page-not-found-redirect {
     padding-top: 20px;
 }
-.page-not-found-redirect a, .article a, .block_info_seasonalsale a{
+.page-not-found-redirect a, .article a, .block_info_seasonalsale a, .quick-form-info a
+{
     color: #5f5e5e;
     font-weight: bold;
 }
@@ -706,7 +707,7 @@ input#full-search
 
 #login-form .reg-link a:hover, #login-form .restore-link a:hover, .cart-label a:hover, .draft-table a:hover,
 .block_info a:hover, .page-not-found-redirect a:hover, .article a:hover,
-.block_info_seasonalsale a:hover
+.block_info_seasonalsale a:hover, .quick-form-info a:hover
 {
     text-decoration: none;
 }

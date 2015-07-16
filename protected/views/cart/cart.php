@@ -222,7 +222,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 ?>
 <script>
     $(function() {
-       $('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
+       //$('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
 
        $('.order_products .plus').click(function(event) {
           var elem = $(this).parent().find('.count');

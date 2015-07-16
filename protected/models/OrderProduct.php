@@ -19,7 +19,7 @@ class OrderProduct extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
+        public function tableName()
 	{
 		return 'order_product';
 	}

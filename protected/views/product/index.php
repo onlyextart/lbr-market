@@ -196,39 +196,6 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 <script>
 (function($){
     $(".left-menu-wrapper").css('display','block');
-    $('.price_link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'}); 
-    $( ".small-cart-button" ).on('click', function() {
-        var parent = $(this).parent();
-        var cart = parent.find('.cart-quantity');
-        var count = parseInt(cart.val());
-        if(count > 0) {
-            $.ajax({
-                type: 'POST',
-                url: '/cart/add',
-                dataType: 'json',
-                data: {
-                    id: parent.attr('elem'),
-                    count: count,
-                },
-                success: function(response) {
-                    //alertify.set({ delay: 2000000 }); 
-                    $('.cart-quantity').val('1');
-                    if(response.count){
-                        var label = ' товаров';
-                        if(response.count == 1) {
-                            label = ' товар';
-                        } else if(response.count == 2 || response.count == 3 || response.count == 4){
-                            label = ' товарa';
-                        }
-                        $('#cart-count').text(response.count+label);
-                    }
-                    alertify.success(response.message);
-                },
-            });
-        } else {
-            alertify.success('<div class="mes-notify"><span></span><div>Введено неправильное количество</div></div>');
-        }
-    });
     
     //Add product to wish list
     $( ".wish" ).on('click', function() {

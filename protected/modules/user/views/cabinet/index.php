@@ -2,14 +2,6 @@
     $err = Yii::app()->user->getFlash('error');
     $mess = Yii::app()->user->getFlash('message');
 ?>
-<script>
-     alertify.set({ delay: 6000 });
-        <?php if ($mess) :?>
-            alertify.success('<?php echo $mess; ?>');
-        <?php elseif ($err) :?>
-            alertify.error('<?php echo $err; ?>');
-        <?php endif; ?>
-</script>
 <div class='cabinet-wrapper'>
     <div class='cabinet-header'>
         <h1>Личный кабинет</h1>
@@ -103,3 +95,10 @@
         <?php endif; ?>
   </div>
 </div>
+<script>
+        <?php if ($mess) :?>
+            alertify.success('<?php echo $mess; ?>');
+        <?php elseif ($err) :?>
+            alertify.error('<?php echo $err; ?>');
+        <?php endif; ?>
+</script>
