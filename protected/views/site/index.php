@@ -1,7 +1,4 @@
-<?php
-    $message = Yii::app()->user->getFlash('message');
-    $errorMessage = Yii::app()->user->getFlash('error');
-            
+<?php    
     if(!empty($bestoffer)) {
         echo $bestoffer;
     }
@@ -24,47 +21,3 @@
     }
 ?>
 <div class="clearfix"></div>
-<script>
-    $(function() {
-        $('#carousel ul').carouFredSel({
-            pagination: "#pager",
-            items: 1,
-            scroll: 2000,
-        });
-        
-        $('#carousel-logo ul').carouFredSel({
-            next: '#next-logo',
-            prev: '#prev-logo',
-            auto: {
-                items           : 5,
-                fx              :"scroll",
-                easing          : "linear",
-                duration        : 1000,
-                pauseOnHover    : true,
-            },
-           pagination: "#pager-logo",
-           items: 5,
-        });
-        
-        // black and white for makers' photos
-        /*if (navigator.userAgent.search(/Firefox/) > -1){
-           $('.bwWrapper img').addClass('img_filter');
-        }
-        else{
-           $('.bwWrapper').BlackAndWhite({
-            hoverEffect: true,
-            speed: {
-                fadeIn: 50,
-                fadeOut: 50,
-            },
-        });
-       }*/
-       
-       //alertify.set({ delay: 6000 });
-        <?php if ($message) :?>
-            alertify.success('<?php echo $message; ?>');
-        <?php elseif ($errorMessage) :?>
-            alertify.error('<?php echo $errorMessage; ?>');
-        <?php endif; ?>
-    });
-</script>

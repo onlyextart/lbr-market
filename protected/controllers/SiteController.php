@@ -6,8 +6,7 @@ class SiteController extends Controller
         $makers = $this->getMakers();
         $bestOffer = $this->getBestOffer();
         $hitProducts = $this->getHitProducts();
-        
-        
+
         $this->render('index', array('hitProducts' => $hitProducts, 'bestoffer' => $bestOffer, 'makers' => $makers));
     }
     

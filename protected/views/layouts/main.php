@@ -21,32 +21,29 @@
         <link rel="stylesheet" type="text/css" href="/css/front/tip-darkgray/tip-darkgray.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/default.css" />
         <?php
+            Yii::app()->clientScript->registerCoreScript('jquery');
+            //Yii::app()->clientScript->registerCoreScript('/js/jquery.1.11.3.min.js');
+            
             ////Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
             //Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3-min.css');
             //Yii::app()->clientScript->registerCssFile('/css/front/alertify/core.css');
             //Yii::app()->clientScript->registerCssFile('/css/front/tip-darkgray/tip-darkgray.css');
             //Yii::app()->clientScript->registerCssFile('/css/front/alertify/default.css');
         
-        
-            Yii::app()->clientScript->registerCoreScript('jquery');
-            //Yii::app()->clientScript->registerCoreScript('/js/jquery.1.11.3.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js');
-            Yii::app()->clientScript->registerScriptFile('/js/front/cart.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.jcarousel.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.carouFredSel.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.dcjqaccordion.2.7.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.hoverIntent.minified.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.mCustomScrollbar.concat.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/alertify.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/front/search.js');
-            Yii::app()->clientScript->registerScriptFile('/js/jquery.dotdotdot.min.js');
-            Yii::app()->clientScript->registerScriptFile('/js/easyTooltip.js');
-            
-        
+            //Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/front/cart.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/jquery.jcarousel.min.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/jquery.carouFredSel.min.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/jquery.dcjqaccordion.2.7.min.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/jquery.hoverIntent.minified.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/jquery.mCustomScrollbar.concat.min.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.min.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/alertify.min.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/front/search.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/jquery.dotdotdot.min.js');
+            //Yii::app()->clientScript->registerScriptFile('/js/easyTooltip.js');
+            //----------------
             //Yii::app()->clientScript->registerScriptFile('/js/front/jquery.BlackAndWhite.min.js');
-            //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/jquery.inputmask.js');
-            //Yii::app()->clientScript->registerScriptFile('/js/jquery.inputmask-3.x/js/inputmask.js');
             
             if(empty(Yii::app()->request->cookies['lbrfilial'])) {
                 $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
@@ -193,6 +190,27 @@
         </div>
     </body>
 </html>
+<script>
+    function loadJs(url) {
+        var script  = document.createElement( 'script' );
+        script.src  = url;
+        script.type = 'text/javascript';
+        document.getElementsByTagName( 'head' )[0].appendChild( script );
+    }
+    loadJs("/js/jquery.mCustomScrollbar.concat.min.js");
+    loadJs("/js/jquery.carouFredSel.min.js");
+    loadJs("/js/jquery.jcarousel.min.js");
+    loadJs("/js/jquery.dotdotdot.min.js");
+    loadJs("/js/easyTooltip.js");
+    loadJs("/js/alertify.min.js");
+    loadJs("/js/jquery.cookie.min.js");
+    loadJs("/js/jquery.hoverIntent.minified.js");
+    loadJs("/js/jquery.dcjqaccordion.2.7.min.js");
+    
+    loadJs("/js/front/search.js");
+    loadJs("/js/front/cart.js");
+    loadJs("/js/front/frontend.js");
+</script>
 <!----- Universal Analitics ----->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

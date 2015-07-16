@@ -110,6 +110,27 @@ $(document).ready(function($){
         $( this ).find('ul').hide();
     });
     
+    // main page
+    $('#carousel ul').carouFredSel({
+        pagination: "#pager",
+        items: 1,
+        scroll: 2000,
+    });
+
+    $('#carousel-logo ul').carouFredSel({
+        next: '#next-logo',
+        prev: '#prev-logo',
+        auto: {
+            items           : 5,
+            fx              :"scroll",
+            easing          : "linear",
+            duration        : 1000,
+            pauseOnHover    : true,
+        },
+       pagination: "#pager-logo",
+       items: 5,
+    });
+    // end main page
     // seo-text in bottom
     $('.text div *').hide();
     $('.text div *:first-child').show();
@@ -125,8 +146,9 @@ $(document).ready(function($){
             $(this).addClass('show-text').text('Скрыть'); 
         }
     });
+    // end seo-text in bottom
 });
-
+    
 function showRegions(){
     $.ajax({
         url : '/site/getRegions/',
