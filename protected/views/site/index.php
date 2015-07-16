@@ -2,68 +2,7 @@
     $Msg=Yii::app()->user->getFlash('message');
     $MsgErr=Yii::app()->user->getFlash('error')
 ?>
-<script>
-    $(function() {
-        $('#carousel ul').carouFredSel({
-           /* prev: '#prev',
-            next: '#next',*/
-            pagination: "#pager",
-            items: 1,
-            /*scroll: 10000000000,*/
-            scroll: 2000,
-        });
-        
-        $('#carousel-logo ul').carouFredSel({
-            next: '#next-logo',
-            prev: '#prev-logo',
-            //auto: false,
-            auto: {
-                items           : 5,
-                fx              :"scroll",
-                easing          : "linear",
-                duration        : 1000,
-                //timeoutDuration :   1000,
-                pauseOnHover    : true,
-            },
-           pagination: "#pager-logo",
-           items: 5,
-        });
 
-//        $('.jcarousel').jcarousel({
-//            wrap:"circular", 
-//            animation: {'easing': 'linear', 'duration': 10000} 
-//        });
-//        $('.jcarousel').jcarouselAutoscroll({
-//            interval: 0,
-//            //target: '+=1',
-//            autostart: true
-//        });
-
-        
-        // black and white for makers' photos
-        /*if (navigator.userAgent.search(/Firefox/) > -1){
-           $('.bwWrapper img').addClass('img_filter');
-        }
-        else{
-           $('.bwWrapper').BlackAndWhite({
-            hoverEffect: true,
-            speed: {
-                fadeIn: 50,
-                fadeOut: 50,
-            },
-        });
-       }*/
-       
-       alertify.set({ delay: 6000 });
-        <?php if ($Msg) :?>
-            alertify.success('<?php echo $Msg; ?>');
-        <?php elseif ($MsgErr) :?>
-            alertify.error('<?php echo $MsgErr; ?>');
-        <?php endif; ?>
-       
-    });
-   
-</script>
 <?php if(!empty($bestoffer)): ?>
 <div id="carousel-wrapper">
     <div id="carousel">
@@ -153,3 +92,65 @@
     </div>
 </div>
 <div class="clearfix"></div>
+<script>
+    $(function() {
+        $('#carousel ul').carouFredSel({
+           /* prev: '#prev',
+            next: '#next',*/
+            pagination: "#pager",
+            items: 1,
+            /*scroll: 10000000000,*/
+            scroll: 2000,
+        });
+        
+        $('#carousel-logo ul').carouFredSel({
+            next: '#next-logo',
+            prev: '#prev-logo',
+            //auto: false,
+            auto: {
+                items           : 5,
+                fx              :"scroll",
+                easing          : "linear",
+                duration        : 1000,
+                //timeoutDuration :   1000,
+                pauseOnHover    : true,
+            },
+           pagination: "#pager-logo",
+           items: 5,
+        });
+
+//        $('.jcarousel').jcarousel({
+//            wrap:"circular", 
+//            animation: {'easing': 'linear', 'duration': 10000} 
+//        });
+//        $('.jcarousel').jcarouselAutoscroll({
+//            interval: 0,
+//            //target: '+=1',
+//            autostart: true
+//        });
+
+        
+        // black and white for makers' photos
+        /*if (navigator.userAgent.search(/Firefox/) > -1){
+           $('.bwWrapper img').addClass('img_filter');
+        }
+        else{
+           $('.bwWrapper').BlackAndWhite({
+            hoverEffect: true,
+            speed: {
+                fadeIn: 50,
+                fadeOut: 50,
+            },
+        });
+       }*/
+       
+       //alertify.set({ delay: 6000 });
+        <?php if ($Msg) :?>
+            alertify.success('<?php echo $Msg; ?>');
+        <?php elseif ($MsgErr) :?>
+            alertify.error('<?php echo $MsgErr; ?>');
+        <?php endif; ?>
+       
+    });
+   
+</script>
