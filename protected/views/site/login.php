@@ -3,15 +3,8 @@
 /* @var $model LoginForm */
 /* @var $form CActiveForm  */
 
-$this->pageTitle='Магазин - Вход';
-$mess = Yii::app()->user->getFlash('message');
+   $mess = Yii::app()->user->getFlash('message');
 ?>
-<script>
-     alertify.set({ delay: 6000 });
-        <?php if ($mess) :?>
-            alertify.success('<?php echo $mess; ?>');
-        <?php endif; ?>
-</script>
 <div class="login-big-wrapper">
     <div class="login-big-header">
           <h1>Авторизация</h1>
@@ -76,3 +69,10 @@ $mess = Yii::app()->user->getFlash('message');
 </div-->
 
 <?php endif; ?>
+<script>
+    $(document).ready(function($){
+        <?php if ($mess) :?>
+            alertify.success('<?php echo $mess; ?>');
+        <?php endif; ?>
+    });
+</script>

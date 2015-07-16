@@ -201,11 +201,12 @@
     loadJs("/js/jquery.carouFredSel.min.js");
     loadJs("/js/jquery.jcarousel.min.js");
     loadJs("/js/jquery.dotdotdot.min.js");
+    loadJs("/js/jquery.dcjqaccordion.2.7.min.js");
     loadJs("/js/easyTooltip.js");
     loadJs("/js/alertify.min.js");
     loadJs("/js/jquery.cookie.min.js");
     loadJs("/js/jquery.hoverIntent.minified.js");
-    loadJs("/js/jquery.dcjqaccordion.2.7.min.js");
+    
     
     loadJs("/js/front/search.js");
     loadJs("/js/front/cart.js");
