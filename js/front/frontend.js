@@ -116,8 +116,8 @@ $(document).ready(function($){
     }
     // end product page
     // model page
-    if($('.cell.price-link').length) {
-       $('.cell.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
+    if($('.price-link').length) {
+       $('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
     }
     
     $( ".small-cart-button" ).on('click', function() {
