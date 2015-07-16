@@ -67,11 +67,7 @@
             </div>
             <div class="header-main">
                 <ul class="main-top">
-                    <?php $href = 'selskohozyaystvennaya-tehnika'; ?>
-                    <li <?php if (is_numeric(strpos(mb_strtolower(Yii::app()->request->requestUri), $href)) ||
-                            (Yii::app()->request->cookies['rootmenualias']->value == 'selskohozyaystvennaya-tehnika' && Yii::app()->params['currentMenuItem']->level == 5))
-                        echo 'class="active"'
-                        ?> >
+                    <li>
                         <a href="http://www.lbr.ru/selskohozyaystvennaya-tehnika/type/">
                             <img src="/images/mainMenuIcon/toppict1.png" alt="Сельскохозяйственная техника">
                             <span>Сельхоз техника</span>
@@ -197,16 +193,6 @@
         </div>
     </body>
 </html>
-
-<script>
-    /*$(document).ready(function($){
-        var setFilialName = getCookie('lbrfilial');
-        if(!setFilialName){
-            //$("#setRegion").dialog("open");
-            showRegions();
-        }
-    });*/
-</script>
 <!----- Universal Analitics ----->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
