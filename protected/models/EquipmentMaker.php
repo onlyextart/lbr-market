@@ -137,13 +137,20 @@ class EquipmentMaker extends CActiveRecord
         
         public function getAllMakers()
         {
+            $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
+            $max = EquipmentMaker::model()->cache(1000, $dependency)->count(array(
+               'condition' => 'logo IS NOT NULL',
+            ));
+            $offset = mt_rand(0, $max);
+            
             $criteria = new CDbCriteria();
             $criteria->condition = 'logo not null';
             $criteria->addCondition('published');
+            $criteria->offset = $offset;
             $criteria->limit = 12;
             
             //$makers = EquipmentMaker::model()->findAll($criteria);
-            $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
+            
             $makers = EquipmentMaker::model()->cache(1000, $dependency)->findAll($criteria);
             
             return $makers;
