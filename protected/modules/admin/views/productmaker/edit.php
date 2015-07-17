@@ -55,8 +55,12 @@ $errorMsg = Yii::app()->user->getFlash('error');
                             }
                         }'
                     ),
-                ));?>
+                ));
+          
+                echo $form_view->errorSummary($model);
+            ?>
             
+                
                 <div class="row">      
                 <?php  
                     echo $form_view->labelEx($model, 'name');
