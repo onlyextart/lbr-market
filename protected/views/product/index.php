@@ -11,8 +11,9 @@
             ),
         ));
         //echo $data->image; exit;
-        $image = '/images/no-photo.png';
-        if(!empty($data->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$data->image;
+        $path = Yii::getPathOfAlias('webroot'); 
+        $image = Yii::app()->params['imageNoPhoto'];
+        if(!empty($data->image)&&file_exists($path.$data->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$data->image;
     ?>
 </div>
 <div itemtype="http://schema.org/Product" itemscope="">

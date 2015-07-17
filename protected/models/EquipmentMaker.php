@@ -37,7 +37,7 @@ class EquipmentMaker extends CActiveRecord
 		// will receive user inputs.
 		return array(
                         array('name', 'required'),
-                        array('logo', 'file', 'types'=>'jpg, jpeg, JPG, JPEG, gif, png', 'allowEmpty'=>true),
+                        array('logo', 'file', 'types'=>'jpg, jpeg, JPG, JPEG, gif, png', 'allowEmpty'=>true,'maxSize'=>1024*30, 'tooLarge'=>'Файл весит больше 30Кб. Пожалуйста, загрузите файл меньшего размера.'),
 			array('id', 'numerical', 'integerOnly'=>true),
 			array('external_id, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time', 'safe'),
 			// The following rule is used by search().
