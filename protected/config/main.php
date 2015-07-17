@@ -177,6 +177,7 @@ return array(
         'currentMaker' => '',
         'currentSale' => '',
         'searchFlag' => '',
+        'imageNoPhoto'=>'/images/no-photo.png',
         
         'sortOrder' => 'asc',
         'sortCol' => 'col',
