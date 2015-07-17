@@ -148,7 +148,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
             echo $form->error($model, 'img'); 
             echo CHtml::label('Выберите изображение', 'img');
             echo $form->fileField($model, 'img');
-            echo CHtml::label('*размер 770x250', 'img', array('class'=>'note'));
+            echo CHtml::label('*размер 770x250, не больше 1Мб', 'img', array('class'=>'note'));
             echo CHtml::closeTag('div');
 
             // Image
