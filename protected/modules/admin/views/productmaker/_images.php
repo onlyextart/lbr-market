@@ -23,6 +23,7 @@ $this->widget('system.web.widgets.CMultiFileUpload', array(
     'denied'=>'Разрешено загружать файлы с расширением jpg, jpeg, gif или png.',
     'max'=>'1',
 ));
+echo CHtml::label('*не больше 30Кб', 'logo', array('class'=>'note'));
 echo CHtml::closeTag('div');
 
 // Image
