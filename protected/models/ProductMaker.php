@@ -135,7 +135,7 @@ class ProductMaker extends CActiveRecord
             $criteria->condition = 'logo not null';
             $criteria->addCondition('published');
             $criteria->offset = $offset;
-            $criteria->limit = 50;
+            $criteria->limit = 25;
             
             //$makers = ProductMaker::model()->findAll($criteria);
             $makers = ProductMaker::model()->cache(1000, $dependency)->findAll($criteria);
