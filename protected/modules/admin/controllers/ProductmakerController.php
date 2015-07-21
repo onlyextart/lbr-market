@@ -38,6 +38,7 @@ class ProductmakerController extends Controller
             
             if(!empty($_POST['ProductMaker'])) {
                 $model->attributes = $_POST['ProductMaker'];
+                $model->update_time= date('Y-m-d H:i:s');
                 
                 if($model->validate()) {
                     $image = CUploadedFile::getInstance($model,'logo');
@@ -81,7 +82,8 @@ class ProductmakerController extends Controller
             $imgTemp=$model->logo;
             $model->attributes = $_POST['ProductMaker'];
             $model->logo=$imgTemp;
-
+            $model->update_time= date('Y-m-d H:i:s');
+            
            if($model->validate()) {
                 //$images = CUploadedFile::getInstancesByName('Images');
                 $image = CUploadedFile::getInstance($model,'logo');
