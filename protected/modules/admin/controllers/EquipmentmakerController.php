@@ -38,6 +38,7 @@ class EquipmentmakerController extends Controller
             
             if(!empty($_POST['EquipmentMaker'])) {
                 $model->attributes = $_POST['EquipmentMaker'];
+                $model->update_time= date('Y-m-d H:i:s');
                 if($model->validate()) {
                     $image = CUploadedFile::getInstance($model,'logo');
                     //$images = CUploadedFile::getInstancesByName('Images');
@@ -79,6 +80,7 @@ class EquipmentmakerController extends Controller
             $imgTemp=$model->logo;
             $model->attributes = $_POST['EquipmentMaker'];
             $model->logo=$imgTemp;
+            $model->update_time= date('Y-m-d H:i:s');
             
             if($model->validate()) {
                 $image = CUploadedFile::getInstance($model,'logo');
