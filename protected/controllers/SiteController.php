@@ -97,7 +97,7 @@ class SiteController extends Controller
                 $result .= '<h3><a target="_blank" href="'.$product->path.'">'.$product->name.'</a></h3>';
                 $result .= '<div class="img-wrapper">';
                 $result .= '<a target="_blank" href="'.$product->path.'">'.
-                      '<img src="http://api.lbr.ru/images/shop/spareparts/'.$product->image.'" alt="">'.
+                      '<img src="http://api.lbr.ru/images/shop/spareparts/'.$product->image.'" alt="'.$product->name.'">'.
                    '</a>'
                 ;
                 $result .= '</div></div>';
