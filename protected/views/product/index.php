@@ -30,7 +30,7 @@
             <!--img border="0" itemprop="image" alt="Двигатель ВАЗ-2103-01-07 1.5л, 70л.с, Аи-92" src="http://api.lbr.ru/images/shop/SMK-00082297_IMG_0022.jpg"-->
 
             <a href="<?php echo $image; ?>" class="thumbnail" target="_blank">
-               <img border="0" itemprop="image" alt="Двигатель ВАЗ-2103-01-07 1.5л, 70л.с, Аи-92" src="<?php echo $image; ?>">
+               <img border="0" itemprop="image" alt="<?php echo $data->name; ?>" src="<?php echo $image; ?>">
             </a>
         </div>
         <div id="prod-info">
