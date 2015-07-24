@@ -18,7 +18,6 @@
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/default.css" />
         <link rel="stylesheet" type="text/css" href="/css/ui/jquery-ui-1.10.3-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/tip-darkgray/tip-darkgray.css" />
-        <link rel="stylesheet" type="text/css" href="/css/ui/jquery-ui-1.10.3-min.css" />
         <?php
             Yii::app()->clientScript->registerCoreScript('jquery');
             //Yii::app()->clientScript->registerCoreScript('/js/jquery.1.11.3.min.js');

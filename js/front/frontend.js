@@ -1,4 +1,5 @@
 $(document).ready(function($){
+    console.log("test");
     alertify.set({ delay: 5000 }); 
     
     /* choose filial */    
