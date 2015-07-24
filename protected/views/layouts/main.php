@@ -11,9 +11,9 @@
         <meta name="description" content="<?php echo Yii::app()->params['meta_description']; ?>">
         <title><?php echo Yii::app()->params['meta_title']; ?></title>
         <link rel="shortcut icon" type="image/jpg" href="<?php echo Yii::app()->request->baseUrl.'/images/favicon.jpg';?>"/>
-        <link rel="stylesheet" type="text/css" href="/css/front/frontend.css" />
-        <link rel="stylesheet" type="text/css" href="/css/front/accordion.css" />
-        <link rel="stylesheet" type="text/css" href="/css/front/jquery.mCustomScrollbar.css" />
+        <link rel="stylesheet" type="text/css" href="/css/front/frontend-min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/front/accordion-min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/front/jquery.mCustomScrollbar-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/core.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/default.css" />
         <link rel="stylesheet" type="text/css" href="/css/ui/jquery-ui-1.10.3-min.css" />
