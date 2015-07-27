@@ -25,13 +25,13 @@ class SiteController extends Controller
             
             foreach ($equipmentMakers as $maker) {
                 if(file_exists($path.$maker->logo)){
-                    $result .= '<li><a href="/equipmentmaker/index/id/'.$maker->id.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="" /></div></a></li>'; 
+                    $result .= '<li><a href="/equipmentmaker/index/id/'.$maker->id.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="'.$maker->name.'" /></div></a></li>'; 
                 }
             }
             
             foreach ($productMakers as $maker) {
                 if(file_exists($path.$maker->logo)) {
-                    $result .= '<li><a href="/productmaker/index/id/'.$maker->id.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="" /></div></a></li>';
+                    $result .= '<li><a href="/productmaker/index/id/'.$maker->id.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="'.$maker->name.'" /></div></a></li>';
                 }    
             }
             
