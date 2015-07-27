@@ -10,6 +10,8 @@ class ShopUrlRule extends CBaseUrlRule
  
     public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
     {
+        $this->setCookie($_GET);
+        
         $page = false;
         //search for "/catalog/01-traktory/"
         //or "/manufacturer/case/"
@@ -173,5 +175,20 @@ class ShopUrlRule extends CBaseUrlRule
         }        
         
         return false;  // не применяем данное правило
-    }    
+    }
+    
+    public function setCookie($array)
+    {
+        if(isset($array['ct']) && Yii::app()->request->cookies['ct']->value != $array['ct']) {
+            $cookie = new CHttpCookie('ct', $array['ct']);
+            $cookie->expire = time() + 31104000; // save for a year
+            Yii::app()->request->cookies['ct'] = $cookie;
+        }
+        
+        if(isset($array['sb']) && Yii::app()->request->cookies['sb']->value != $array['sb']) {
+            $cookie = new CHttpCookie('sb', $array['sb']);
+            $cookie->expire = time() + 31104000; // save for a year
+            Yii::app()->request->cookies['sb'] = $cookie;
+        }
+    }
 }

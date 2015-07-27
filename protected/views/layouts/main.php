@@ -213,6 +213,18 @@
     //loadJs("/js/front/search.js");
     //loadJs("/js/front/cart.js");
     //loadJs("/js/front/frontend.js");
+    
+    $(function() {
+        <?php 
+        $cookies = Yii::app()->request->cookies;
+        if((Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && Yii::app()->user->isShop)) && (isset($cookies['ct']->value) || isset($cookies['sb']->value))): ?>
+        $('a').each(function(index) {
+            var element = $(this);
+            var href = element.attr('href')+'?sb=<?php echo $cookies['sb']->value ?>&ct=<?php echo $cookies['ct']->value ?>';
+            element.attr('href', href);
+        });
+        <?php endif; ?>
+    });
 </script>
 <!----- Universal Analitics ----->
 <script>

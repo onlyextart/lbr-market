@@ -1,3 +1,14 @@
+var analiticsTimerStartLBR = new Date().getTime();
+var _analiticsSaved = false;
+
+$(window).on('beforeunload', function() {
+    saveAnalitics();
+});
+
+$(window).on('unload', function() {
+    saveAnalitics();
+});
+
 $(document).ready(function($){
     alertify.set({ delay: 5000 }); 
     
@@ -260,3 +271,23 @@ function getCookie(name) {
     return false;
 }
 
+function saveAnalitics(evt)
+{
+    var url = window.location.href;
+    var time = (new Date().getTime() - analiticsTimerStartLBR)/1000; // in seconds
+
+    if(!_analiticsSaved) {
+        $.ajax({
+            url: '/analitics/save/',
+            type: 'POST',
+            dataType: "json",
+            data: {
+                time: time,
+                url: url
+            },
+            success: function() {
+                _analiticsSaved = true;
+            }
+        });
+    }
+}
