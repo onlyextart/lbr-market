@@ -23,7 +23,7 @@
         echo CHtml::openTag('div', array(
             'class' => 'div_logo'
         ));
-            echo CHtml::image($logo,'',array());
+            echo CHtml::image($logo,$data['name'],array());
         echo CHtml::closeTag('div');
         echo CHtml::openTag('div', array(
            'class' => 'div_desc' 

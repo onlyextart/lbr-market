@@ -34,7 +34,7 @@
            <h3><a target="_blank" href="<?php echo $product->path; ?>"><?php echo $product->name; ?></a></h3>
            <div class="spec-img-wrapper">
                <a target="_blank" href="<?php echo $product->path; ?>">
-                   <img src="http://api.lbr.ru/images/shop/spareparts/<?php echo $product->image ?>" alt="">
+                   <img src="http://api.lbr.ru/images/shop/spareparts/<?php echo $product->image ?>" alt="<?php echo $product->name; ?>">
                </a>
            </div>
         </div>

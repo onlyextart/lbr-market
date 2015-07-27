@@ -22,7 +22,7 @@
              <h1 itemprop="name">Сборочный чертеж "<?php echo $model->name?>"</h1>
              <div class="draft-image-wrapper">
                  <a href="http://api.lbr.ru/images/shop/draft/<?php echo $model->image ?>" class="thumbnail" target="_blank">
-                    <img border="0" itemprop="image" alt="Двигатель ВАЗ-2103-01-07 1.5л, 70л.с, Аи-92" src="http://api.lbr.ru/images/shop/draft/<?php echo $model->image ?>">
+                    <img border="0" itemprop="image" alt="<?php echo $model->name?>" src="http://api.lbr.ru/images/shop/draft/<?php echo $model->image ?>">
                  </a>
              </div>
              <div class="clear"></div>
