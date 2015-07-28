@@ -141,8 +141,9 @@ array(
         }
     ?>
     </div>
-    <div class="row submit">
-        <?php echo CHtml::submitButton('Отправить', array('class'=>'btn')); ?>
+    <div class="row submit">        
+        <?php echo CHtml::submitButton('Отправить', array('onsubmit'=>"ga('send', 'event', 'action','zajavka'); yaCounter30254519.reachGoal('zajavka'); return true;", 'class'=>'btn')); ?>
+        
     </div>
 
     
@@ -168,6 +169,5 @@ array(
 </div>
         </center>
     </div>
-
 
 

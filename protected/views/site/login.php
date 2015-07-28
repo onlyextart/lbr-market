@@ -51,7 +51,7 @@ $mess = Yii::app()->user->getFlash('message');
 		<?php echo CHtml::submitButton('Войти', array('class'=>'btn')); ?>
 	</div-->
         <div class="clearfix"></div>
-        <?php echo CHtml::submitButton('Войти', array('class'=>'btn')); ?>
+        <?php echo CHtml::submitButton('Войти', array('onsubmit'=>"ga('send', 'event', 'action','vhod'); yaCounter30254519.reachGoal('vhod'); return true;", 'class'=>'btn')); ?>
 <!--        <div class="reg-link">
             <a href="#">Регистрация</a>
         </div>-->
@@ -76,3 +76,6 @@ $mess = Yii::app()->user->getFlash('message');
 </div-->
 
 <?php endif; ?>
+<script>
+onsubmit="ga('send', 'event', 'action','vhod'); yaCounter30254519.reachGoal('vhod'); return true;"
+</script>

@@ -203,11 +203,11 @@
         <span id="total-price" class="total">
             <?php echo (Yii::app()->params['showPrices']) ? $total : '<h1>'.Yii::app()->params['textHidePrice'].'</h1>'; ?>
         </span>
-        <button class="btn" type="submit" name="create" value="1">Оформить</button>
+        <button class="btn" onsubmit="ga('send', 'event', 'action','order'); yaCounter30254519.reachGoal('order'); return true;" type="submit" name="create" value="1">Оформить</button>
     </div>
     <?php else: ?>
     <div class="confirm_order">
-        <?php echo CHtml::link('Авторизоваться', '/site/login/', array('class' => 'btn guestcart')); ?>
+        <?php echo CHtml::link('Авторизоваться', '/site/login/', array('onsubmit'=>"ga('send', 'event', 'action','avtorization'); yaCounter30254519.reachGoal('avtorization'); return true;", 'class' => 'btn guestcart')); ?>
     </div>
     <?php endif; ?>
     <?php echo CHtml::endForm() ?>
