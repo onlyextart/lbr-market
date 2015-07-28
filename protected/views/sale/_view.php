@@ -9,9 +9,10 @@ if($data->count > 0) {
 } 
 
 $cart = '';
+$intent = "\"ga('send', 'event', 'action','addtocard'); yaCounter30254519.reachGoal('addtocard'); return true;\" ";
 if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
     $cart = '<input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">
-        <input type="button" title="Добавить в корзину" value="" class="small-cart-button">'
+        <input onsubmit='.$intent. ' type="button" title="Добавить в корзину" value="" class="small-cart-button">'
     ;
 
     $cart .= '<button class="wish-small" title="Добавить в блокнот">
