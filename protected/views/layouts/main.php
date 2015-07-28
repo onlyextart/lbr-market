@@ -110,7 +110,7 @@
                <?php endif; ?>
             <?php endif; ?>
             <div class="map">
-                <a href="http://www.lbr.ru/company/contacts/">
+                <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
                     <span>Контакты</span>
                     <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
                 </a>
