@@ -9,8 +9,9 @@ class ModelController extends Controller
         $output = '';
         $data = $hitProducts = array();
 
-        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
-        $model = ModelLine::model()->cache(1000, $dependency)->findByPk($id);
+        //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
+        //$model = ModelLine::model()->cache(1000, $dependency)->findByPk($id);
+        $model = ModelLine::model()->findByPk($id);
         if(!$model)
             throw new CHttpException(404, 'Модель не найдена');
 
@@ -35,9 +36,10 @@ class ModelController extends Controller
 
 
         $productsInModel = ProductInModelLine::model()->findAll($criteria);
-        $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
+        //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
         foreach($productsInModel as $productInModel) {
-            $product = Product::model()->cache(1000, $depend)->findByPk($productInModel['product_id']);
+            //$product = Product::model()->cache(1000, $depend)->findByPk($productInModel['product_id']);
+            $product = Product::model()->findByPk($productInModel['product_id']);
             if(!empty($product->product_group_id)){
                 $group = ProductGroup::model()->findByPk($product->product_group_id);
                 $ancestors = $group->ancestors()->findAll();
@@ -87,7 +89,8 @@ class ModelController extends Controller
 
         // bradcrumbs
         Yii::app()->params['meta_title'] = $title;
-        $category = Category::model()->findByPk($model->category_id);
+        $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
+        $category = Category::model()->cache(1000, $category_dependency)->findByPk($model->category_id);
         $categoryParent = $category->parent()->find();
         preg_match('/\d{2,}\./i', $categoryParent->name, $result);
         $label = trim(substr($categoryParent->name, strlen($result[0])));
@@ -111,8 +114,8 @@ class ModelController extends Controller
         if(!empty(Yii::app()->params['currentMaker'])) {
             $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
         }
-        $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-        $elements = Yii::app()->db->createCommand()
+        //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
+        $elements = Yii::app()->db->cache(1000)->createCommand()
             ->selectDistinct('p.id')
             ->from('model_line m')
             ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
@@ -149,10 +152,12 @@ class ModelController extends Controller
                        $i++;
                     }
                 }
-                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+                //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+                $hitProducts = Product::model()->findAllByAttributes(array('id'=>$temp));
             } else {
                 $offset = mt_rand(0, $max);
-                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
+                //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
+                $hitProducts = Product::model()->findAllByAttributes(
                     array(
                         'id' => $elements,
                     ), 
@@ -166,7 +171,8 @@ class ModelController extends Controller
             foreach($elements as $element) {
                 $temp[] = $element;
             }
-            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+            //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+            $hitProducts = Product::model()->findAllByAttributes(array('id'=>$temp));
         }
         
         return $hitProducts;
@@ -236,8 +242,9 @@ class ModelController extends Controller
     
     public function showProducts($id, $flag)
     {   
-        $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-        $model = Product::model()->cache(1000, $depend)->findByPk($id);
+        //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
+        //$model = Product::model()->cache(1000, $depend)->findByPk($id);
+        $model = Product::model()->findByPk($id);
         $draftLabel = '';
         $price = '';
         

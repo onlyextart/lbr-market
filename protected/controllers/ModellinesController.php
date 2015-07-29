@@ -11,7 +11,8 @@ class ModellinesController extends Controller
         $response = $topText = $bottomText = '';
         $modelline = array();
         
-        $categoryRoot = Category::model()->findByPk($id);
+        $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
+        $categoryRoot = Category::model()->cache(1000, $category_dependency)->findByPk($id);
         if(!$categoryRoot)
             throw new CHttpException(404, 'Модельный ряд не найден');
         
@@ -182,8 +183,8 @@ class ModellinesController extends Controller
         if(!empty(Yii::app()->params['currentMaker'])) {
             $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
         }
-        $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-        $elements = Yii::app()->db->createCommand()
+       // $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
+        $elements = Yii::app()->db->cache(1000)->createCommand()
             ->selectDistinct('p.id')
             ->from('model_line m')
             ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
@@ -221,10 +222,12 @@ class ModellinesController extends Controller
                        $i++;
                     }
                 }
-                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+               // $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+                $hitProducts = Product::model()->findAllByAttributes(array('id'=>$temp));
             } else {
                 $offset = mt_rand(0, $max);
-                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
+               // $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
+                $hitProducts = Product::model()->findAllByAttributes(
                     array(
                         'id' => $elements,
                     ), 
@@ -237,7 +240,8 @@ class ModellinesController extends Controller
             foreach($elements as $element) {
                 $temp[] = $element;
             }
-            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+            //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+            $hitProducts = Product::model()->findAllByAttributes(array('id'=>$temp));
         }
         
         return $hitProducts;
@@ -246,12 +250,13 @@ class ModellinesController extends Controller
     private function setMakerFilter($maker = null, $count = 0, $categoryId = null, $title = null)
     {
         $models = $temp = $result = array();
-        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
+        //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         if(!empty($categoryId) || !empty($maker)) {
             $criteria = new CDbCriteria();
             if(!empty($categoryId)) {
                 $criteria->addCondition('category_id = :category_id');
-                $rootCategory = ModelLine::model()->cache(1000, $dependency)->findByPk($categoryId);
+                //$rootCategory = ModelLine::model()->cache(1000, $dependency)->findByPk($categoryId);
+                $rootCategory = ModelLine::model()->findByPk($categoryId);
             }
             
             if(!empty($maker)) {
@@ -271,8 +276,8 @@ class ModellinesController extends Controller
                 $criteriaForBrand->distinct = true;
                 $criteriaForBrand->select = 'maker_id';
                 
-                $allBrands = ModelLine::model()->cache(1000, $dependency)->findAll($criteriaForBrand);
-                
+                //$allBrands = ModelLine::model()->cache(1000, $dependency)->findAll($criteriaForBrand);
+                $allBrands = ModelLine::model()->findAll($criteriaForBrand);
                 foreach($allBrands as $brand) {
                    $criteria->distinct = false;
                    $criteria->select = '*';
@@ -281,11 +286,13 @@ class ModellinesController extends Controller
                    $criteria->params = array(':maker_id' => $brand->maker_id, ':category_id' => $categoryId);
                    $name = EquipmentMaker::model()->findByPk($brand->maker_id)->name;
                    
-                   $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
+                   //$models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
+                   $models = ModelLine::model()->findAll($criteria);
                    $result[$brand->maker_id] = $this->fillArray($models, $count, $name);
                 }
             } else {
-                $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
+                //$models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
+                $models = ModelLine::model()->findAll($criteria);
                 $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
                 if(!empty($name))
                     $result[Yii::app()->params['currentMaker']] = $this->fillArray($models, $count, $name);
@@ -301,12 +308,14 @@ class ModellinesController extends Controller
     {   
         $modelline = array();
         $label = $title;
-        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
+        //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         foreach($models as $model) {
-           $currentModel = ModelLine::model()->cache(1000, $dependency)->findByPk($model->id);
+           //$currentModel = ModelLine::model()->cache(1000, $dependency)->findByPk($model->id);
+           $currentModel = ModelLine::model()->findByPk($model->id);
            if(!$currentModel->isLeaf()){
                 if(empty($title)) {
-                   $category = Category::model()->findByPk($currentModel->category_id);
+                   $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
+                   $category = Category::model()->cache(1000, $category_dependency)->findByPk($currentModel->category_id);
                    $parent = $category->parent()->find();
                    $label = $parent->name;
                 }
