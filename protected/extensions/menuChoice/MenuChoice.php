@@ -8,6 +8,9 @@ class MenuChoice extends CWidget
         
         $model = new Category;
         $mainRoot = $model->roots()->find();
+        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
+        $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
+        $equipmentMaker_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
         //echo 'type = '.Yii::app()->params['currentType'];
         
         // формируем меню "По типу техники"
@@ -16,14 +19,14 @@ class MenuChoice extends CWidget
             $criteria->distinct = true;
             $criteria->condition = 'maker_id = '.Yii::app()->params['currentMaker'].' and level=3';      
             //$criteria->select = 'category_id';
-            $models = ModelLine::model()->findAll($criteria);
+            $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
             
             $flag = false;
             foreach($models as $model) {
                 if($model->isLeaf()) {
                     //echo '<pre>';
                     //echo $model->id.'<br>';
-                    $parent = Category::model()->findByPk($model['category_id']);
+                    $parent = Category::model()->cache(1000, $category_dependency)->findByPk($model['category_id']);
                     if(!empty($parent)){
                         if($parent->parent()->find()){
                             $parent = $parent->parent()->find();
@@ -92,23 +95,23 @@ class MenuChoice extends CWidget
         
         // формируем меню "По производителю техники"
         if(!empty(Yii::app()->params['currentType'])) {
-            $children = Category::model()->findByPk(Yii::app()->params['currentType'])->children()->findAll();
+            $children = Category::model()->cache(1000, $category_dependency)->findByPk(Yii::app()->params['currentType'])->children()->findAll();
             foreach($children as $child) {
                 $criteria = new CDbCriteria();
                 $criteria->distinct = true;
                 $criteria->condition = 'category_id = '.$child->id;      
                 $criteria->select = 'maker_id';
-                $models = ModelLine::model()->findAll($criteria);
+                $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
                 foreach($models as $model) {
                     $temp[] = $model['maker_id'];
                 }
                 
                 $crit = new CDbCriteria();
                 $crit->addInCondition('id', $temp);
-                $makersAll = EquipmentMaker::model()->findAll($crit);
+                $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMaker_dependency)->findAll($crit);
             }
         } else
-            $makersAll = EquipmentMaker::model()->findAll();
+            $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMaker_dependency)->findAll();
         
         if(!empty($makersAll)){
             foreach($makersAll as $maker) {
@@ -121,7 +124,7 @@ class MenuChoice extends CWidget
         // название выбранных фильтров
         if(!empty(Yii::app()->params['currentType'])) {
             //echo '= '; Yii::app()->params['currentType']; exit;
-           $filterCategoryModel = Category::model()->findByPk(Yii::app()->params['currentType']);
+           $filterCategoryModel = Category::model()->cache(1000, $category_dependency)->findByPk(Yii::app()->params['currentType']);
            $filterCategoryName = $filterCategoryModel->name;
            //preg_match('/\d{2,}\./i', $filterCategoryName, $result);
            $filterCategory['name'] = trim($filterCategoryName);
@@ -130,7 +133,7 @@ class MenuChoice extends CWidget
         }
 
         if(!empty(Yii::app()->params['currentMaker'])){
-            $filterMakerModel = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker']);
+            $filterMakerModel = EquipmentMaker::model()->cache(1000, $equipmentMaker_dependency)->findByPk(Yii::app()->params['currentMaker']);
             $filterMaker['name'] = $filterMakerModel->name;
             $filterMaker['id'] = $filterMakerModel->id;
             $filterMaker['path'] = $filterMakerModel->path;

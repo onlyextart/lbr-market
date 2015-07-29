@@ -7,8 +7,9 @@ class ModellineController extends Controller
         $hitProducts = $modelIds = $ids = array();
         $topText = $bottomText = '';
         
-        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
-        $modelline = ModelLine::model()->cache(1000, $dependency)->findByPk($id);
+        //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
+        //$modelline = ModelLine::model()->cache(1000, $dependency)->findByPk($id);
+        $modelline = ModelLine::model()->findByPk($id);
         if(!$modelline)
             throw new CHttpException(404, 'Модельный ряд не найден');
         
@@ -29,8 +30,8 @@ class ModellineController extends Controller
                $breadcrumbs['Поиск'] = Yii::app()->request->urlReferrer;
             else $breadcrumbs['Поиск'] = $url; //Yii::app()->request->urlReferrer;
         }
-        
-        $category = Category::model()->findByPk($modelline->category_id);
+        $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
+        $category = Category::model()->cache(1000, $category_dependency)->findByPk($modelline->category_id);
         $categoryParent = $category->parent()->find();
         preg_match('/\d{2,}\./i', $categoryParent->name, $result);
         $title = trim(substr($categoryParent->name, strlen($result[0])));
@@ -50,7 +51,7 @@ class ModellineController extends Controller
             $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
             $count = 0;
             $dividend = 3;
-            foreach($models as $model) {
+        foreach($models as $model) {
                 $ids[] = $model['id'];
                 $brand = EquipmentMaker::model()->findByPk($model['maker_id'])->path;
                 
@@ -64,7 +65,7 @@ class ModellineController extends Controller
                 
                 $modelIds[] = $model['id'];
             }
-
+            
             $response .= '</tbody></table>';
         }
         
@@ -81,9 +82,9 @@ class ModellineController extends Controller
             $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
         }
         
-        $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
+        //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
         
-        $elements = Yii::app()->db->createCommand()
+        $elements = Yii::app()->db->cache(1000)->createCommand()
             ->selectDistinct('p.id')
             ->from('model_line m')
             ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
@@ -96,7 +97,7 @@ class ModellineController extends Controller
             )
             ->queryColumn()
         ;
-
+        
         set_time_limit(200);
         $max = count($elements);
         $temp = array();
@@ -115,16 +116,18 @@ class ModellineController extends Controller
                             'limit' => 1,
                         )
                     );
-
+                    
                     if(!in_array($saleProduct[id], $temp) && !empty($saleProduct[id])) {
                        $temp[] = $saleProduct[id];
                        $i++;
                     }
                 }
-                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+                //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+                $hitProducts = Product::model()->findAllByAttributes(array('id'=>$temp));
             } else {
                 $offset = mt_rand(0, $max);
-                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
+                //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
+                $hitProducts = Product::model()->findAllByAttributes(
                     array(
                         'id' => $elements,
                     ), 
@@ -138,7 +141,8 @@ class ModellineController extends Controller
             foreach($elements as $element) {
                 $temp[] = $element;
             }
-            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+            //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+            $hitProducts = Product::model()->findAllByAttributes(array('id'=>$temp));
         }
         
         return $hitProducts;
