@@ -179,16 +179,22 @@ class ShopUrlRule extends CBaseUrlRule
     
     public function setCookie($array)
     {
+        $cookies = Yii::app()->request->cookies;
         if(isset($array['ct']) && Yii::app()->request->cookies['ct']->value != $array['ct']) {
             $cookie = new CHttpCookie('ct', $array['ct']);
             $cookie->expire = time() + 31104000; // save for a year
-            Yii::app()->request->cookies['ct'] = $cookie;
+            $cookies['ct'] = $cookie;
         }
         
         if(isset($array['sb']) && Yii::app()->request->cookies['sb']->value != $array['sb']) {
             $cookie = new CHttpCookie('sb', $array['sb']);
             $cookie->expire = time() + 31104000; // save for a year
-            Yii::app()->request->cookies['sb'] = $cookie;
+            $cookies['sb'] = $cookie;
+        }
+        
+        if(isset($array['lk']) && Yii::app()->request->cookies['lk']->value != $array['lk']) {
+            $cookie = new CHttpCookie('lk', $array['lk']);
+            $cookies['lk'] = $cookie;
         }
     }
 }
