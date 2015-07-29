@@ -6,7 +6,7 @@ class AnaliticsController extends Controller
     {
         $url = Yii::app()->getBaseUrl(true).Yii::app()->request->getPost('url');
         $cookies = Yii::app()->request->cookies;
-        if(Yii::app()->user->isGuest && !strpos($url, '/users/login') && (isset($cookies['ct']) || isset($cookies['sb']))) {
+        if((Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && Yii::app()->user->isShop)) && !strpos($url, '/user/login') && (isset($cookies['ct']) || isset($cookies['sb']))) {
             $model = new Analitics;
             $model->time = Yii::app()->request->getPost('time');
             $model->date_created = date('Y-m-d H:i:s');
@@ -36,7 +36,9 @@ class AnaliticsController extends Controller
     
     public function actionDelAnalitics() 
     {
-        Analitics::model()->deleteAll();
+        // admin
+        if (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))
+           Analitics::model()->deleteAll();
     }
 
     /*public function getLinkId($str) 

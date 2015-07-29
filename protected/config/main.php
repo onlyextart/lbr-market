@@ -21,6 +21,7 @@ return array(
         'application.extensions.*',
         'application.helpers.*',
         'ext.YiiMailer.YiiMailer',
+        'application.controllers.SecurityController',
     ),
 
     'modules' => array(
