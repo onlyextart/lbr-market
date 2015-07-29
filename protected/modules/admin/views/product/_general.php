@@ -2,7 +2,7 @@
         <div class="row">      
             <?php  
                 echo $form_view->labelEx($model, 'name');
-                echo $form_view->textField($model, 'name');
+                echo $form_view->textField($model, 'name', array('disabled'=>'true'));
             ?>
         </div>
 
@@ -17,7 +17,7 @@
             <?php  
                 echo $form_view->error($model, 'published'); 
                 echo $form_view->labelEx($model, 'published');
-                echo $form_view->dropDownList($model, 'published',array('0'=>'Нет','1'=>'Да'));
+                echo $form_view->dropDownList($model, 'published',array('0'=>'Нет','1'=>'Да'),array('disabled'=>'true'));
                 if (!empty($model->id)) {
                     echo CHtml::link('Предварительный просмотр', $model->path, array('class' => 'link_view','target'=>'_blank')); 
                 }
@@ -35,35 +35,35 @@
         <div class="row">      
             <?php   
                 echo $form_view->labelEx($model, 'product_maker_id');
-                echo $form_view->dropDownList($model, 'product_maker_id',$model->getProductMaker());
+                echo $form_view->dropDownList($model, 'product_maker_id',$model->getProductMaker(), array('disabled'=>'true'));
             ?>
         </div>
 
         <div class="row">      
             <?php   
                 echo $form_view->labelEx($model, 'catalog_number');
-                echo $form_view->textField($model, 'catalog_number');
+                echo $form_view->textField($model, 'catalog_number', array('disabled'=>'true'));
             ?>
         </div>
 
         <div class="row">      
             <?php  
                 echo $form_view->labelEx($model, 'count');
-                echo $form_view->textField($model, 'count');
+                echo $form_view->textField($model, 'count', array('disabled'=>'true'));
             ?>
         </div>
 
         <div class="row">      
             <?php  
                 echo $form_view->labelEx($model, 'liquidity');
-                echo $form_view->textField($model, 'liquidity');
+                echo $form_view->textField($model, 'liquidity', array('disabled'=>'true'));
             ?>
         </div>
 
         <div class="row">      
             <?php  
                 echo $form_view->labelEx($model, 'min_quantity');
-                echo $form_view->textField($model, 'min_quantity');
+                echo $form_view->textField($model, 'min_quantity', array('disabled'=>'true'));
             ?>
         </div>
 

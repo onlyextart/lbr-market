@@ -106,7 +106,7 @@ $form=$this->beginWidget('CActiveForm', array(
     
     
     <div class="clearfix"></div>
-    <?php echo CHtml::submitButton('Отправить', array('class'=>'btn')); ?>
+    <?php echo CHtml::submitButton('Отправить', array('onsubmit'=>"ga('send', 'pageview', '/registrationur'); yaCounter30254519.reachGoal('registrationur'); return true;",'class'=>'btn')); ?>
     <div id='reg-link'>
         <?php echo CHtml::link('Авторизация',array('site/login'));?>
         <br>
