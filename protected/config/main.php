@@ -147,9 +147,9 @@ return array(
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
-                /*array(
-                    'class' => 'CWebLogRoute', 'levels' => 'info, error, warning',
-                ),*/
+//                array(
+//                    'class' => 'CWebLogRoute', 'levels' => 'profile, trace, info, error, warning',
+//                ),
                 array(
                     'class' => 'CFileLogRoute', 'levels' => 'info, error, warning',
                 ),
