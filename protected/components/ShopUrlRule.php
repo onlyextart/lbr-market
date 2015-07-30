@@ -14,53 +14,58 @@ class ShopUrlRule extends CBaseUrlRule
         $page = false;
         
         /* 
-         * search for "/catalog/01-traktory/"
-         * or "/manufacturer/case/"
-         * or "/sparepart/15-bolt/"
+         * search for "/catalog/01-traktory/" -> subcategory controller
+         * or "/manufacturer/case/"           -> subcategory controller
+         * or "/sparepart/15-bolt/"           -> product controller
          */        
         if(preg_match('/^[\w,-]+(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $page = $matches[1];
             
             if(strpos($matches[0], 'catalog/') !== false) {
-                $id = Category::model()->find(
+                $category = Category::model()->find(
                     'path=:path',
                     array(':path'=>$page)
-                )->id;
+                );
                 
-                if(!empty($id)){
-                   Yii::app()->params['currentType'] = Yii::app()->params['currentSale'] = $id;
-                   return 'subcategory/index/type/'.$id;
+                if(!empty($category)) {
+                   Yii::app()->params['analiticsMark'] = 'category='.$category->external_id;
+                   Yii::app()->params['currentType'] = Yii::app()->params['currentSale'] = $category->id;
+                   return 'subcategory/index/type/'.$category->id;
                 }
             } else if(strpos($matches[0], 'manufacturer/') !== false) {
-                $id = EquipmentMaker::model()->find(
+                $maker = EquipmentMaker::model()->find(
                     'path=:path',
                     array(':path'=>$page)
-                )->id;
+                );
                 
-                if(!empty($id)){
-                   Yii::app()->params['currentMaker'] = $id;
-                   return 'subcategory/index/maker/'.$id;
+                if(!empty($maker)) {
+                   Yii::app()->params['analiticsMark'] = 'maker='.$maker->external_id;
+                   Yii::app()->params['currentMaker'] = $maker->id;
+                   return 'subcategory/index/maker/'.$maker->id;
                 }
             } else if(strpos($matches[0], 'sparepart/') !== false) {
-                $id = Product::model()->find(
+                $product = Product::model()->find(
                     'path=:path',
                     array(':path'=>'/'.$matches[0].'/')
-                )->id;
-
-                return 'product/index/id/'.$id;
+                );
+                
+                if(!empty($product)) {
+                   Yii::app()->params['analiticsMark'] = 'product='.$product->external_id;
+                   return 'product/index/id/'.$product->id;
+                }
             }
         } 
         /*
-         * search for "/catalog/tractory/case/"
-         * or "/catalog/samohodnye-kombayny/gomsel-mash/"
+         * search for "/catalog/traktornaya-tehnika/traktory/"     -> modellines controller
+         * or "/catalog/traktornaya-tehnika/buhler-versatile-inc/" -> subcategory controller
          */
-        
         else if(preg_match('/^[\w,-]+(\/[\w,-]+)(\/[\w,-]+)$/', $pathInfo, $matches)) { 
             $type = Category::model()->find(
                 'path=:path',
                 array(':path'=>$matches[1].$matches[2])
             );
             if(!empty($type)) {
+                Yii::app()->params['analiticsMark'] = 'category='.$type->external_id;
                 Yii::app()->params['currentSale'] = $type->id;
                 Yii::app()->params['currentType'] = $type->parent()->find()->id;
                 return 'modellines/index/id/'.$type->id;
@@ -69,27 +74,28 @@ class ShopUrlRule extends CBaseUrlRule
                 $maker = $matches[2];
                 $makerId = '';
                 
-                $typeId = Category::model()->find(
+                $type = Category::model()->find(
                     'path=:path',
                     array(':path'=>$type)
-                )->id;
+                );
                 
-                if(!empty($typeId)){
-                    $makerId = EquipmentMaker::model()->find(
+                if(!empty($type)){
+                    $maker = EquipmentMaker::model()->find(
                         'path=:path',
                         array(':path'=>$maker)
-                    )->id;
-                }
-                
-                if(!empty($typeId) && !empty($makerId)) {
-                    Yii::app()->params['currentType'] = Yii::app()->params['currentSale'] = $typeId;
-                    Yii::app()->params['currentMaker'] = $makerId;
-                    return 'subcategory/index/type/'.$typeId.'/maker/'.$makerId;
+                    );
+                    
+                    if(!empty($maker)) {
+                        Yii::app()->params['analiticsMark'] = 'category='.$type->external_id.';'.'maker='.$maker->external_id;
+                        Yii::app()->params['currentType'] = Yii::app()->params['currentSale'] = $type->id;
+                        Yii::app()->params['currentMaker'] = $maker->id;
+                        return 'subcategory/index/type/'.$type->id.'/maker/'.$maker->id;
+                    }
                 }
             }
         }
         /* 
-         * search for "/catalog/samohodnye-kombayny/gomsel-mash/case/"
+         * search for "/catalog/traktornaya-tehnika/traktory/case/" -> modellines controller
          */
         else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $type = Category::model()->find(
@@ -99,21 +105,22 @@ class ShopUrlRule extends CBaseUrlRule
             
             if(!empty($type)) {
                 Yii::app()->params['currentSale'] = $type->id;
-                $makerId = EquipmentMaker::model()->find(
+                $maker = EquipmentMaker::model()->find(
                     'path=:path',
                     array(':path'=>$matches[3])
-                )->id;
+                );
                 
-                if(!empty($makerId)){
+                if(!empty($maker)) {
+                    Yii::app()->params['analiticsMark'] = 'category='.$type->external_id.';'.'maker='.$maker->external_id;
                     Yii::app()->params['currentType'] = $type->parent()->find()->id;
-                    Yii::app()->params['currentMaker'] = $makerId;
+                    Yii::app()->params['currentMaker'] = $maker->id;
                 
                     return 'modellines/index/id/'.$type->id;
                 }
             }
         }
         /*
-         *  search for "/catalog/samohodnye-kombayny/gomsel-mash/case/model-line"
+         *  search for "catalog/traktornaya-tehnika/traktory/case/case-c50-c60-c70-c90/" -> modelline controller
          */
         else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $modelLine = ModelLine::model()->find(
@@ -122,12 +129,12 @@ class ShopUrlRule extends CBaseUrlRule
             );
 
             if(!empty($modelLine)) {
-                $makerId = EquipmentMaker::model()->find(
+                $maker = EquipmentMaker::model()->find(
                     'path=:path',
                     array(':path'=>$matches[3])
-                )->id;
+                );
                 
-                if(!empty($makerId) && $makerId == $modelLine->maker_id) {
+                if(!empty($maker) && $maker->id == $modelLine->maker_id) {
                     $type = Category::model()->find(
                         'path=:path',
                         array(':path'=>$matches[1])
@@ -136,15 +143,15 @@ class ShopUrlRule extends CBaseUrlRule
                     if(!empty($type) && $type->id == $modelLine->category_id) {
                         Yii::app()->params['currentSale'] = $type->id;
                         Yii::app()->params['currentType'] = $type->parent()->find()->id;
-                        Yii::app()->params['currentMaker'] = $makerId;
-
+                        Yii::app()->params['currentMaker'] = $maker->id;
+                        Yii::app()->params['analiticsMark'] = 'modelline='.$modelLine->external_id;
                         return '/modelline/index/id/'.$modelLine->id;
                     }
                 }
             }
         }
         /*
-         *  search for "/catalog/samohodnye-kombayny/gomsel-mash/case/model-line/model"
+         *  search for "/catalog/traktornaya-tehnika/traktory/case/case-c50-c60-c70-c90/c50/" -> model controller
          */
         else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)((\/[\w,-]+){2})$/', $pathInfo, $matches)) {
             $modelLine = ModelLine::model()->find(
@@ -153,12 +160,12 @@ class ShopUrlRule extends CBaseUrlRule
             );
 
             if(!empty($modelLine)) {
-                $makerId = EquipmentMaker::model()->find(
+                $maker = EquipmentMaker::model()->find(
                     'path=:path',
                     array(':path'=>$matches[3])
-                )->id;
+                );
                 
-                if(!empty($makerId) && $makerId == $modelLine->maker_id) {
+                if(!empty($maker) && $maker->id == $modelLine->maker_id) {
                     $type = Category::model()->find(
                         'path=:path',
                         array(':path'=>$matches[1])
@@ -167,13 +174,14 @@ class ShopUrlRule extends CBaseUrlRule
                     if(!empty($type) && $type->id == $modelLine->category_id) {
                         Yii::app()->params['currentSale'] = $type->id;
                         Yii::app()->params['currentType'] = $type->parent()->find()->id;
-                        Yii::app()->params['currentMaker'] = $makerId;
+                        Yii::app()->params['currentMaker'] = $maker->id;
                         
                         $model = ModelLine::model()->find(
                             'path=:path',
                             array(':path'=>$matches[5])
                         );
                         
+                        Yii::app()->params['analiticsMark'] = 'modelline='.$model->external_id;
                         Yii::app()->session['model'] = $modelLine->id;
                         return '/model/show/id/'.$modelLine->id;
                     }

@@ -18,7 +18,6 @@ $(window).on('unload', function() {
     saveAnalitics('u');
 });
 
-
 $(window).on('blur', function() { // run to another tab
     saveAnalitics('blur');
 });
@@ -288,26 +287,4 @@ function getCookie(name) {
         return decodeURIComponent(RegExp["$1"]);
     }
     return false;
-}
-
-function saveAnalitics(p)
-{   
-    if(!_analiticsSaved) {
-        var url = window.location.pathname;
-        var time = (new Date().getTime() - analiticsTimerStartLBR)/1000; // in seconds
-
-        $.ajax({
-            url: '/analitics/save/',
-            type: 'POST',
-            dataType: "json",
-            data: {
-                time: time,
-                url: url
-            },
-            success: function() {
-                if(p == 'blur') _analiticsBlur = true;
-                else _analiticsSaved = true;
-            }
-        });
-    }
 }

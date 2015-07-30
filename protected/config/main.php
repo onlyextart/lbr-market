@@ -172,12 +172,13 @@ return array(
         //'host'=>'lbr.test',
         'host'=>'lbr-market.ru',
         'admin_email'=>'shop@lbr.ru',
-        'maxInCart' => 5, // count of product types
+        'maxInCart' => 5, // count of product types in cart
         'region'=>'',
         'currentType' => '',
         'currentMaker' => '',
         'currentSale' => '',
         'searchFlag' => '',
+        'analiticsMark' => '', // for cookie analitics
         'imageNoPhoto'=>'/images/no-photo.png',
         
         'sortOrder' => 'asc',

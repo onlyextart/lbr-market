@@ -32,7 +32,7 @@
             Yii::app()->clientScript->registerScriptFile('/js/jquery.hoverIntent.minified.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.min.js');
             
-            Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js?1');
+            Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js?2');
             Yii::app()->clientScript->registerScriptFile('/js/front/cart.js');
             Yii::app()->clientScript->registerScriptFile('/js/front/search.js');
             
@@ -267,3 +267,26 @@
 })(document, window, "yandex_metrika_callbacks");
 </script>
 <!-- /Yandex.Metrika counter -->
+<script>
+    function saveAnalitics(p)
+    {   
+        if(!_analiticsSaved) {
+            var url = window.location.pathname;
+            var time = (new Date().getTime() - analiticsTimerStartLBR)/1000; // in seconds
+
+            $.ajax({
+                url: '/analitics/save/',
+                type: 'POST',
+                dataType: "json",
+                data: {
+                    time: time,
+                    url: url
+                },
+                success: function() {
+                    if(p == 'blur') _analiticsBlur = true;
+                    else _analiticsSaved = true;
+                }
+            });
+        }
+    }
+</script>
