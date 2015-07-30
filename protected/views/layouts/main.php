@@ -32,7 +32,7 @@
             Yii::app()->clientScript->registerScriptFile('/js/jquery.hoverIntent.minified.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.min.js');
             
-            Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js');
+            Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js?1');
             Yii::app()->clientScript->registerScriptFile('/js/front/cart.js');
             Yii::app()->clientScript->registerScriptFile('/js/front/search.js');
             
@@ -212,6 +212,22 @@
     //loadJs("/js/front/search.js");
     //loadJs("/js/front/cart.js");
     //loadJs("/js/front/frontend.js");
+    
+//  $(function() {
+        <?php 
+        /* 
+        * Share cookie to another user
+        */
+//        $cookies = Yii::app()->request->cookies;
+//        if((Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && Yii::app()->user->isShop)) && (isset($cookies['ct']->value) || isset($cookies['sb']->value))): 
+        ?>
+//        $('a').each(function(index) {
+//            var element = $(this);
+//            var href = element.attr('href')+'?sb=<?php //echo $cookies['sb']->value ?>&ct=<?php //echo $cookies['ct']->value ?>';
+//            element.attr('href', href);
+//        });
+        <?php //endif; ?>
+//  });
 </script>
 <!----- Universal Analitics ----->
 <script>

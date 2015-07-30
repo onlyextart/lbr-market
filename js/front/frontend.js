@@ -1,3 +1,33 @@
+var analiticsTimerStartLBR = new Date().getTime();
+var _analiticsSaved = false;
+var _analiticsBlur = false;
+
+$(window).on('beforeunload', function() {
+    if ( !$.browser.mozilla ) {
+        $(window).off('unload');
+    }
+    $(window).off('blur');
+    saveAnalitics('bu');  
+});
+
+$(window).on('unload', function() {
+    if ( !$.browser.mozilla ){
+        $(window).off('unload');
+    }
+    $(window).off('blur');
+    saveAnalitics('u');
+});
+
+
+$(window).on('blur', function() { // run to another tab
+    saveAnalitics('blur');
+});
+
+$(window).on('focus', function() { // come back to tab
+   analiticsTimerStartLBR = new Date().getTime();
+   _analiticsBlur = false;
+});
+
 $(document).ready(function($){
     alertify.set({ delay: 5000 }); 
     
@@ -260,3 +290,24 @@ function getCookie(name) {
     return false;
 }
 
+function saveAnalitics(p)
+{   
+    if(!_analiticsSaved) {
+        var url = window.location.pathname;
+        var time = (new Date().getTime() - analiticsTimerStartLBR)/1000; // in seconds
+
+        $.ajax({
+            url: '/analitics/save/',
+            type: 'POST',
+            dataType: "json",
+            data: {
+                time: time,
+                url: url
+            },
+            success: function() {
+                if(p == 'blur') _analiticsBlur = true;
+                else _analiticsSaved = true;
+            }
+        });
+    }
+}
