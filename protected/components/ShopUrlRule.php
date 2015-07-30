@@ -11,12 +11,13 @@ class ShopUrlRule extends CBaseUrlRule
     public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
     {
         $this->setCookie($_GET);
-        
         $page = false;
-        //search for "/catalog/01-traktory/"
-        //or "/manufacturer/case/"
-        //or "/sparepart/15-bolt/"
         
+        /* 
+         * search for "/catalog/01-traktory/"
+         * or "/manufacturer/case/"
+         * or "/sparepart/15-bolt/"
+         */        
         if(preg_match('/^[\w,-]+(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $page = $matches[1];
             
@@ -49,8 +50,11 @@ class ShopUrlRule extends CBaseUrlRule
                 return 'product/index/id/'.$id;
             }
         } 
-        // search for "/catalog/tractory/case/"
-        // or "/catalog/samohodnye-kombayny/gomsel-mash/"
+        /*
+         * search for "/catalog/tractory/case/"
+         * or "/catalog/samohodnye-kombayny/gomsel-mash/"
+         */
+        
         else if(preg_match('/^[\w,-]+(\/[\w,-]+)(\/[\w,-]+)$/', $pathInfo, $matches)) { 
             $type = Category::model()->find(
                 'path=:path',
@@ -84,7 +88,9 @@ class ShopUrlRule extends CBaseUrlRule
                 }
             }
         }
-        // search for "/catalog/samohodnye-kombayny/gomsel-mash/case/"
+        /* 
+         * search for "/catalog/samohodnye-kombayny/gomsel-mash/case/"
+         */
         else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $type = Category::model()->find(
                 'path=:path',
@@ -106,7 +112,9 @@ class ShopUrlRule extends CBaseUrlRule
                 }
             }
         }
-        // search for "/catalog/samohodnye-kombayny/gomsel-mash/case/model-line"
+        /*
+         *  search for "/catalog/samohodnye-kombayny/gomsel-mash/case/model-line"
+         */
         else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $modelLine = ModelLine::model()->find(
                 'path=:path',
@@ -135,11 +143,10 @@ class ShopUrlRule extends CBaseUrlRule
                 }
             }
         }
-        // search for "/catalog/samohodnye-kombayny/gomsel-mash/case/model-line/model"
-        else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)((\/[\w,-]+){2})$/', $pathInfo, $matches)){
-            //echo '<pre>';
-            //var_dump($matches);exit;
-
+        /*
+         *  search for "/catalog/samohodnye-kombayny/gomsel-mash/case/model-line/model"
+         */
+        else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)((\/[\w,-]+){2})$/', $pathInfo, $matches)) {
             $modelLine = ModelLine::model()->find(
                 'path=:path',
                 array(':path'=>$matches[4])
@@ -174,7 +181,7 @@ class ShopUrlRule extends CBaseUrlRule
             }
         }        
         
-        return false;  // не применяем данное правило
+        return false;  // this rule does not apply
     }
     
     public function setCookie($array)
