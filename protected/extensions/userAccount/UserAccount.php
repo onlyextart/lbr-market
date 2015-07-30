@@ -113,72 +113,88 @@ class UserAccount extends CWidget
                 'condition' => 'liquidity = "D" and image not NULL', // price more 500 
             ));*/
             $max = count($elements);
-
-            if($max > $count) {
-                if(Yii::app()->params['randomImages']) {
-                    $temp = array();
-                    for($i=0; $i < $count; ) {
-                        $offset = mt_rand(0, $max);
-                        //$productId = Product::model()->cache(1000, $dependency)->find(array(
-                        //    'condition' => 'liquidity = "D" and image not NULL', // price more 500 
-                        //    'offset' => $offset,
-                        //    'limit' => 1,
-                        //))->id;
-
-                        //$productId = Product::model()->cache(1000, $dependency)->findByAttributes(
-                        $productId = Product::model()->findByAttributes(
-                            array(
-                                'id' => $elements,
-                            ), 
-                            array(
-                                'offset' => $offset,
-                                'limit' => 1,
-                        ))->id;
-
-                        if(!in_array($productId, $temp) && !empty($productId)) {
-                           $temp[] = $productId;
-                           $i++;
-                        }
-                    }
-
-                    //$sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
-                    $sale = Product::model()->findAllByAttributes(array('id'=>$temp));
-                } else {
-                    $offset = mt_rand(0, $max);
-                    //$sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(
-                    $sale = Product::model()->findAllByAttributes(
-                        array(
-                            'id' => $elements,
-                        ), 
-                        array(
-                            'offset' => $offset,
-                            'limit' => $count,
-                    ));
-                }
-            } else if($max > 0) {
-                /*
-                $sale = Product::model()->cache(1000, $dependency)->findAll(array(
-                    'condition' => 'liquidity = "D" and image not NULL', // price more 500
-                    'limit' => $count,
-                ));
-                */
-                
-                //$sale = Product::model()->cache(1000, $dependency)->findByAttributes(
-                $sale = Product::model()->findByAttributes(
-                    array(
-                        'id' => $elements,
-                    ), 
-                    array(
-                        'limit' => 1,
-                ));
+            if($max>=$count){
+                $random_elem=array_rand($elements,$count);
             }
+            else{
+                $random_elem=array_rand($elements,$max);
+            }
+            $random_count=count($random_elem);
+            $query="SELECT * from product where id in (";
+            for($i=0; $i < $random_count;$i++) {
+                if($i!=0){
+                    $query.=',';
+                }
+                $query.=$elements[$random_elem[$i]];
+            }
+            $query.=");";
+            $result = Yii::app()->db->createCommand($query)->query();
+            $sale=$result->readAll();
+//            if($max > $count) {
+//                if(Yii::app()->params['randomImages']) {
+//                    $temp = array();
+//                    for($i=0; $i < $count; ) {
+//                        $offset = mt_rand(0, $max);
+//                        //$productId = Product::model()->cache(1000, $dependency)->find(array(
+//                        //    'condition' => 'liquidity = "D" and image not NULL', // price more 500 
+//                        //    'offset' => $offset,
+//                        //    'limit' => 1,
+//                        //))->id;
+//
+//                        //$productId = Product::model()->cache(1000, $dependency)->findByAttributes(
+//                        $productId = Product::model()->findByAttributes(
+//                            array(
+//                                'id' => $elements,
+//                            ), 
+//                            array(
+//                                'offset' => $offset,
+//                                'limit' => 1,
+//                        ))->id;
+//
+//                        if(!in_array($productId, $temp) && !empty($productId)) {
+//                           $temp[] = $productId;
+//                           $i++;
+//                        }
+//                    }
+//
+//                    //$sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
+//                    $sale = Product::model()->findAllByAttributes(array('id'=>$temp));
+//                } else {
+//                    $offset = mt_rand(0, $max);
+//                    //$sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(
+//                    $sale = Product::model()->findAllByAttributes(
+//                        array(
+//                            'id' => $elements,
+//                        ), 
+//                        array(
+//                            'offset' => $offset,
+//                            'limit' => $count,
+//                    ));
+//                }
+//            } else if($max > 0) {
+//                /*
+//                $sale = Product::model()->cache(1000, $dependency)->findAll(array(
+//                    'condition' => 'liquidity = "D" and image not NULL', // price more 500
+//                    'limit' => $count,
+//                ));
+//                */
+//                
+//                //$sale = Product::model()->cache(1000, $dependency)->findByAttributes(
+//                $sale = Product::model()->findByAttributes(
+//                    array(
+//                        'id' => $elements,
+//                    ), 
+//                    array(
+//                        'limit' => 1,
+//                ));
+//            }
         }
         
-        if(!is_array($sale)){
-            $temp = $sale;
-            $sale = array();
-            $sale[] = $temp->attributes;
-        }
+//        if(!is_array($sale)){
+//            $temp = $sale;
+//            $sale = array();
+//            $sale[] = $temp->attributes;
+//        }
         
         
         return $sale;
