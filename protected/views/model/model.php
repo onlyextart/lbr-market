@@ -13,7 +13,8 @@
                 'xmlns:v' => 'http://rdf.data-vocabulary.org/#',
             ),
         ));
-    ?>
+        $image = Yii::app()->params['imageNoPhoto'];
+         ?>
 </div>
 <div class="model-wrapper">
     <h1><?php echo $title?></h1>
@@ -26,7 +27,8 @@
            <h3><a target="_blank" href="<?php echo $product->path; ?>"><?php echo $product->name; ?></a></h3>
            <div class="spec-img-wrapper">
                <a target="_blank" href="<?php echo $product->path; ?>">
-                   <img src="http://api.lbr.ru/images/shop/spareparts/<?php echo $product->image ?>" alt="">
+                   <?php if(!empty($product->image)&& file_exists("../api/images/shop/spareparts/".$product->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$product->image;?>
+                   <img src="<?php echo $image ?>" alt="<?php echo $product->name; ?>">
                </a>
            </div>
         </div>

@@ -50,12 +50,36 @@ class SiteController extends Controller
     public function getHitProducts()
     {
         $result = '';
+        $count=8;
         
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-        $max = Product::model()->cache(1000, $dependency)->count(array(
-            'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
-        ));
-        $offset = mt_rand(0, $max);
+//        $max = Product::model()->cache(1000, $dependency)->count(array(
+//            'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
+//        ));
+        
+        $query = "SELECT DISTINCT p.id
+                FROM product as p
+                WHERE p.liquidity = 'A' and p.image not NULL;";   
+        $elements = Yii::app()->db->createCommand($query)->queryColumn();
+        $max = count($elements);
+        if($max>=$count){
+                $random_elem=array_rand($elements,$count);
+        }
+        else{
+                $random_elem=array_rand($elements,$max);
+        }
+        $random_count=count($random_elem);
+        $query="SELECT * from product where id in (";
+        for($i=0; $i < $random_count;$i++) {
+            if($i!=0) {
+                $query.=',';         
+            }
+            $query.=$elements[$random_elem[$i]];
+        }
+        $query.=");";
+        $result = Yii::app()->db->createCommand($query)->query();
+        $hitProducts=$result->readAll();
+ //       $offset = mt_rand(0, $max);
         
         /*if(Yii::app()->params['randomImages']) {
             if($max > 8) {
@@ -81,23 +105,28 @@ class SiteController extends Controller
                 ));
             }
         } else {*/
-            $hitProducts = Product::model()->cache(1000, $dependency)->findAll(array(
-                'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500
-                'offset' => $offset,
-                'limit' => 8,
-            ));
+//            $hitProducts = Product::model()->cache(1000, $dependency)->findAll(array(
+//                'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500
+//                'offset' => $offset,
+//                'limit' => 8,
+//            ));
         //}
             
         if(!empty($hitProducts)) {
             $result = '<span class="hit-label-main">Хиты продаж</span>'.
                '<div class="best-sales">'
             ;
+            
+             $image = Yii::app()->params['imageNoPhoto'];
+             
+        
             foreach($hitProducts as $product) {
                 $result .= '<div class="one_banner">';
-                $result .= '<h3><a target="_blank" href="'.$product->path.'">'.$product->name.'</a></h3>';
+                $result .= '<h3><a target="_blank" href="'.$product['path'].'">'.$product['name'].'</a></h3>';
                 $result .= '<div class="img-wrapper">';
-                $result .= '<a target="_blank" href="'.$product->path.'">'.
-                      '<img src="http://api.lbr.ru/images/shop/spareparts/'.$product->image.'" alt="'.$product->name.'">'.
+                if(!empty($product['image'])&& file_exists("../api/images/shop/spareparts/".$product['image'])) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$product['image'];
+                $result .= '<a target="_blank" href="'.$product['path'].'">'.
+                      '<img src="'.$image.'" alt="'.$product['name'].'">'.
                    '</a>'
                 ;
                 $result .= '</div></div>';
