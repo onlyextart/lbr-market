@@ -8,6 +8,7 @@ class AnaliticsController extends Controller
         $cookies = Yii::app()->request->cookies;
         if((Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && Yii::app()->user->isShop)) && !strpos($url, '/user/login') && (isset($cookies['ct']) || isset($cookies['sb']))) {
             $model = new Analitics;
+            $model->push_1C = true;
             $model->time = Yii::app()->request->getPost('time');
             $model->date_created = date('Y-m-d H:i:s');
             
