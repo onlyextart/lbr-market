@@ -75,37 +75,65 @@ class UserAccount extends CWidget
                 }
             }
             
-            if(!empty(Yii::app()->params['currentMaker'])) {
-                $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
+//            if(!empty(Yii::app()->params['currentMaker'])) {
+//                $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
+//            }
+            if(!empty(Yii::app()->params['currentMaker'])||!empty($ids)) {
+                $query = "SELECT DISTINCT p.id
+                    FROM model_line as m
+                    JOIN product_in_model_line as pm ON m.id=pm.model_line_id
+                    JOIN product as p ON p.id=pm.product_id
+                    WHERE p.liquidity = 'D' and p.image not NULL".$sql;
+            }
+            else{
+                $query = "SELECT DISTINCT p.id
+                FROM product as p
+                WHERE p.liquidity = 'D' and p.image not NULL";
             }
 
             //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-            if(!empty($ids)){
-                $elements = Yii::app()->db->cache(1000)->createCommand()
-                    ->selectDistinct('p.id')
-                    ->from('model_line m')
-                    ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
-                    ->join('product p', 'p.id=pm.product_id')
-                    ->where(
-                       array('and', 
-                            'p.liquidity = "D" and p.image not NULL'.$sql,
-                             array('in', 'm.category_id', $ids)
-                       )
-                    )
-                    ->queryColumn()
-                ;
-            } else {
-                $elements = Yii::app()->db->cache(1000)->createCommand()
-                    ->selectDistinct('p.id')
-                    ->from('model_line m')
-                    ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
-                    ->join('product p', 'p.id=pm.product_id')
-                    ->where(
-                       'p.liquidity = "D" and p.image not NULL'.$sql
-                    )
-                    ->queryColumn()
-                ;
-            }
+                if(!empty(Yii::app()->params['currentMaker'])){
+                    $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
+                    $query.=$sql;
+                }
+                if(!empty($ids)){
+//                    $elements = Yii::app()->db->createCommand()
+//                    ->selectDistinct('p.id')
+//                    ->from('model_line m')
+//                    ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
+//                    ->join('product p', 'p.id=pm.product_id')
+//                    ->where(
+//                       array('and', 
+//                            'p.liquidity = "D" and p.image not NULL'.$sql,
+//                             array('in', 'm.category_id', $ids)
+//                       )
+//                    )
+//                    ->queryColumn()
+//                ;
+                $query.=" AND m.category_id in (";
+                $ids_count=count($ids);
+                for($i=0; $i < $ids_count;$i++) {
+                    if($i!=0){
+                        $query.=',';
+                    }
+                    $query.=$ids[$i];
+                }
+                $query.=")";
+            } //else {
+//                $elements = Yii::app()->db->createCommand()
+//                    ->selectDistinct('p.id')
+//                    ->from('model_line m')
+//                    ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
+//                    ->join('product p', 'p.id=pm.product_id')
+//                    ->where(
+//                       'p.liquidity = "D" and p.image not NULL'.$sql
+//                    )
+//                    ->queryColumn()
+//                ;
+//            }
+            
+            $query.=";"; 
+            $elements = Yii::app()->db->createCommand($query)->queryColumn();
             ////////////////////////////////////////
             
             //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
