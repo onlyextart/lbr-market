@@ -51,6 +51,7 @@ class SiteController extends Controller
     {
         $result = '';
         $count=8;
+        $hitProducts='';
         
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
 //        $max = Product::model()->cache(1000, $dependency)->count(array(
@@ -62,24 +63,25 @@ class SiteController extends Controller
                 WHERE p.liquidity = 'A' and p.image not NULL;";   
         $elements = Yii::app()->db->createCommand($query)->queryColumn();
         $max = count($elements);
-        if($max>=$count){
-                $random_elem=array_rand($elements,$count);
-        }
-        else{
-                $random_elem=array_rand($elements,$max);
-        }
-        $random_count=count($random_elem);
-        $query="SELECT * from product where id in (";
-        for($i=0; $i < $random_count;$i++) {
-            if($i!=0) {
-                $query.=',';         
+        if ($max > 0) {
+            if ($max >= $count) {
+                $random_elem = array_rand($elements, $count);
+            } else {
+                $random_elem = array_rand($elements, $max);
             }
-            $query.=$elements[$random_elem[$i]];
+            $random_count = count($random_elem);
+            $query = "SELECT * from product where id in (";
+            for ($i = 0; $i < $random_count; $i++) {
+                if ($i != 0) {
+                    $query.=',';
+                }
+                $query.=$elements[$random_elem[$i]];
+            }
+            $query.=");";
+            $result = Yii::app()->db->createCommand($query)->query();
+            $hitProducts = $result->readAll();
         }
-        $query.=");";
-        $result = Yii::app()->db->createCommand($query)->query();
-        $hitProducts=$result->readAll();
- //       $offset = mt_rand(0, $max);
+        //       $offset = mt_rand(0, $max);
         
         /*if(Yii::app()->params['randomImages']) {
             if($max > 8) {

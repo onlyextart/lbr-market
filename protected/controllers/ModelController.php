@@ -111,6 +111,7 @@ class ModelController extends Controller
     private function setHitProducts($id)
     {
         $sql = '';
+        $hitProducts='';
         if(!empty(Yii::app()->params['currentMaker'])) {
             $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
         }
@@ -132,22 +133,23 @@ class ModelController extends Controller
         $max = count($elements);
 //        $temp = array();
         $count = 4;
-        if($max>=$count){
-                $random_elem=array_rand($elements,$count);
-        }
-        else{
-                $random_elem=array_rand($elements,$max);
-        }
-        $random_count=count($random_elem);
-        $query="SELECT * from product where id in (";
-        for($i=0; $i < $random_count;$i++) {
-            if($i!=0) {
-                $query.=',';         
+        if ($max > 0) {
+            if ($max >= $count) {
+                $random_elem = array_rand($elements, $count);
+            } else {
+                $random_elem = array_rand($elements, $max);
             }
-            $query.=$elements[$random_elem[$i]];
+            $random_count = count($random_elem);
+            $query = "SELECT * from product where id in (";
+            for ($i = 0; $i < $random_count; $i++) {
+                if ($i != 0) {
+                    $query.=',';
+                }
+                $query.=$elements[$random_elem[$i]];
+            }
+            $query.=");";
+            $hitProducts = Product::model()->findAllBySql($query);
         }
-        $query.=");";
-        $hitProducts = Product::model()->findAllBySql($query);
 //        if($max > $count) {
 //            if(Yii::app()->params['randomImages']) {
 //                for($i = 0; $i < $count; ) {
