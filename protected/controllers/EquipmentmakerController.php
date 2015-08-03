@@ -4,7 +4,7 @@ class EquipmentmakerController extends Controller
     public function actionIndex($path)
     {
         if (!empty($path)) {
-            $data = EquipmentMaker::model()->find('path=:path and published=1', array('path'=>'/'.$path.'/'));
+            $data = EquipmentMaker::model()->find('path=:path and published=1', array('path'=>'/'.$path));
             
             $breadcrumbs[] = "Производители техники";
             $breadcrumbs[] = $data->name;

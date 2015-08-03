@@ -25,13 +25,13 @@ class SiteController extends Controller
             
             foreach ($equipmentMakers as $maker) {
                 if(file_exists($path.$maker->logo)){
-                    $result .= '<li><a href="/equipment-maker'.$maker->path.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="'.$maker->name.'" /></div></a></li>'; 
+                    $result .= '<li><a href="/equipment-maker'.$maker->path.'/" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="'.$maker->name.'" /></div></a></li>'; 
                 }
             }
             
             foreach ($productMakers as $maker) {
                 if(file_exists($path.$maker->logo)) {
-                    $result .= '<li><a href="/product-maker'.$maker->path.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="'.$maker->name.'" /></div></a></li>';
+                    $result .= '<li><a href="/product-maker'.$maker->path.'/" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="'.$maker->name.'" /></div></a></li>';
                 }    
             }
             
@@ -606,13 +606,13 @@ class SiteController extends Controller
         set_time_limit(0);
         $productMaker = ProductMaker::model()->findAll();
         foreach($productMaker as $maker) {
-            $maker->path = '/'.Translite::rusencode($maker->name, '-').'/';
+            $maker->path = '/'.Translite::rusencode($maker->name, '-');
             $maker->save();
         }
-        $equipmentMaker = EquipmentMaker::model()->findAll();
+        /*$equipmentMaker = EquipmentMaker::model()->findAll();
         foreach($equipmentMaker as $maker) {
-            $maker->path = '/'.Translite::rusencode($maker->name, '-').'/';
+            $maker->path = '/'.Translite::rusencode($maker->name, '-');
             $maker->save();
-        }
+        }*/
     }
 }
