@@ -100,7 +100,6 @@ class EquipmentMaker extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('external_id',$this->external_id,true);
-		$criteria->compare('name',$this->name,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('logo',$this->logo,true);
 		$criteria->compare('published',$this->published);
