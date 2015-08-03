@@ -35,6 +35,10 @@ class ProductMaker extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+                        array('name', 'required'),
+			array('external_id, name, description, logo, published, country, path, update_time', 'safe'),
+			array('id', 'numerical', 'integerOnly'=>true),
+                        array('logo', 'file', 'maxSize'=>1024*30, 'tooLarge'=>'Файл весит больше 30Кб. Пожалуйста, загрузите файл меньшего размера.'),
 			array('external_id, name, description, logo, published, country, path, update_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
