@@ -75,6 +75,7 @@ return array(
             'rules' => array(
                 '<url:(garantiya|delivery|payment)>' => 'site/description',
                 'product-maker/<id:\d+>' => '/description/maker',
+
                 '<controller:(user)>/<_a:\w+>' => 'user/default/<_a>',
                 '<controller:(site)>/<action:\w+>' => '<controller>/<action>',
                 '<module:(admin)>' => '<module>',
@@ -89,8 +90,11 @@ return array(
                 'model/show/id/<id:\d+>' => 'model/show',
                 'search/show/input/<input:[\w_\/-\d\s]+>'=>'search/show',
                 'seasonalsale/index/id/<id:\d+>' => 'seasonalsale/index',
-                'equipmentmaker/index/id/<id:\d+>' => 'equipmentmaker/index',
+                
+                //'equipmentmaker/index/id/<id:\d+>' => 'equipmentmaker/index',
+                'equipment-maker/<path:[\w_\/-\d]+>' => 'equipmentmaker/index',
                 'productmaker/index/id/<id:\d+>' => 'productmaker/index',
+                
                 'cart/guestremove/<path:[\w_\/-\d]+>' => 'cart/guestremove',
                 'cart/remove/<path:[\w_\/-\d]+>' => 'cart/remove',
                 'wishlist/remove/<path:[\w_\/-\d]+>' => 'wishlist/remove',
