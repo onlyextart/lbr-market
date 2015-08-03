@@ -65,7 +65,7 @@ class UserAccount extends CWidget
             ////////////////////////////////////////
             $sql = '';
             $ids = $elements = array();
-            
+
             if(!empty(Yii::app()->params['currentSale'])) {
                 $ids[] = Yii::app()->params['currentSale'];
                 $category = Category::model()->cache(1000, $category_dependency)->findByPk(Yii::app()->params['currentSale']);
@@ -141,23 +141,25 @@ class UserAccount extends CWidget
                 'condition' => 'liquidity = "D" and image not NULL', // price more 500 
             ));*/
             $max = count($elements);
-            if($max>=$count){
-                $random_elem=array_rand($elements,$count);
-            }
-            else{
-                $random_elem=array_rand($elements,$max);
-            }
-            $random_count=count($random_elem);
-            $query="SELECT * from product where id in (";
-            for($i=0; $i < $random_count;$i++) {
-                if($i!=0){
-                    $query.=',';
+            if($max > 0) {
+                if($max >= $count) {
+                    $random_elem=array_rand($elements,$count);
+                } else {
+                    $random_elem=array_rand($elements,$max);
                 }
-                $query.=$elements[$random_elem[$i]];
+                $random_count=count($random_elem);
+                $query="SELECT * from product where id in (";
+                for($i=0; $i < $random_count;$i++) {
+                    if($i!=0){
+                        $query.=',';
+                    }
+                    $query.=$elements[$random_elem[$i]];
+                }
+                $query.=");";
+                $result = Yii::app()->db->createCommand($query)->query();
+                $sale=$result->readAll();
             }
-            $query.=");";
-            $result = Yii::app()->db->createCommand($query)->query();
-            $sale=$result->readAll();
+            
 //            if($max > $count) {
 //                if(Yii::app()->params['randomImages']) {
 //                    $temp = array();

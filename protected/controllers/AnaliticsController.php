@@ -10,6 +10,7 @@ class AnaliticsController extends Controller
             $model = new Analitics;
             $model->push_1C = true;
             $model->time = Yii::app()->request->getPost('time');
+            $model->url_mark = Yii::app()->request->getPost('url_mark');
             $model->date_created = date('Y-m-d H:i:s');
             
             // set url

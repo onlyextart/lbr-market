@@ -11,6 +11,9 @@
         <meta name="description" content="<?php echo Yii::app()->params['meta_description']; ?>">
         <title><?php echo Yii::app()->params['meta_title']; ?></title>
         <link rel="shortcut icon" type="image/jpg" href="<?php echo Yii::app()->request->baseUrl.'/images/favicon.jpg';?>"/>
+        <script>
+            var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
+        </script>
         <link rel="stylesheet" type="text/css" href="/css/front/frontend-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/accordion-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/jquery.mCustomScrollbar-min.css" />
@@ -18,6 +21,7 @@
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/default.css" />
         <link rel="stylesheet" type="text/css" href="/css/ui/jquery-ui-1.10.3-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/tip-darkgray/tip-darkgray.css" />
+        
         <?php
             Yii::app()->clientScript->registerCoreScript('jquery');
             //Yii::app()->clientScript->registerCoreScript('/js/jquery.1.11.3.min.js');
@@ -267,26 +271,3 @@
 })(document, window, "yandex_metrika_callbacks");
 </script>
 <!-- /Yandex.Metrika counter -->
-<script>
-    function saveAnalitics(p)
-    {   
-        if(!_analiticsSaved) {
-            var url = window.location.pathname;
-            var time = (new Date().getTime() - analiticsTimerStartLBR)/1000; // in seconds
-
-            $.ajax({
-                url: '/analitics/save/',
-                type: 'POST',
-                dataType: "json",
-                data: {
-                    time: time,
-                    url: url
-                },
-                success: function() {
-                    if(p == 'blur') _analiticsBlur = true;
-                    else _analiticsSaved = true;
-                }
-            });
-        }
-    }
-</script>

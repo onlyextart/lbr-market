@@ -37,7 +37,7 @@ class ShopUrlRule extends CBaseUrlRule
                     'path=:path',
                     array(':path'=>$page)
                 );
-                
+                //echo $maker->id; exit;
                 if(!empty($maker)) {
                    Yii::app()->params['analiticsMark'] = 'maker='.$maker->external_id;
                    Yii::app()->params['currentMaker'] = $maker->id;
@@ -176,12 +176,12 @@ class ShopUrlRule extends CBaseUrlRule
                         Yii::app()->params['currentType'] = $type->parent()->find()->id;
                         Yii::app()->params['currentMaker'] = $maker->id;
                         
-                        $model = ModelLine::model()->find(
+                        /*$model = ModelLine::model()->find(
                             'path=:path',
                             array(':path'=>$matches[5])
-                        );
+                        );*/
                         
-                        Yii::app()->params['analiticsMark'] = 'modelline='.$model->external_id;
+                        Yii::app()->params['analiticsMark'] = 'modelline='.$modelLine->external_id;
                         Yii::app()->session['model'] = $modelLine->id;
                         return '/model/show/id/'.$modelLine->id;
                     }

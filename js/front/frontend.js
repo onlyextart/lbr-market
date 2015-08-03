@@ -1,6 +1,6 @@
-var analiticsTimerStartLBR = new Date().getTime();
-var _analiticsSaved = false;
-var _analiticsBlur = false;
+var lbrAnaliticsTimerStart = new Date().getTime();
+var lbrAnaliticsSaved = false;
+var lbrAnaliticsBlur = false;
 
 $(window).on('beforeunload', function() {
     if ( !$.browser.mozilla ) {
@@ -23,8 +23,8 @@ $(window).on('blur', function() { // run to another tab
 });
 
 $(window).on('focus', function() { // come back to tab
-   analiticsTimerStartLBR = new Date().getTime();
-   _analiticsBlur = false;
+   lbrAnaliticsTimerStart = new Date().getTime();
+   lbrAnaliticsBlur = false;
 });
 
 $(document).ready(function($){
@@ -287,4 +287,27 @@ function getCookie(name) {
         return decodeURIComponent(RegExp["$1"]);
     }
     return false;
+}
+
+function saveAnalitics(p)
+{   
+    if(!lbrAnaliticsSaved) {
+        var url = window.location.pathname;
+        var time = (new Date().getTime() - lbrAnaliticsTimerStart)/1000; // in seconds
+
+        $.ajax({
+            url: '/analitics/save/',
+            type: 'POST',
+            dataType: "json",
+            data: {
+                time: time,
+                url: url,
+                url_mark: lbrAnaliticsMark
+            },
+            success: function() {
+                if(p == 'blur') lbrAnaliticsBlur = true;
+                else lbrAnaliticsSaved = true;
+            }
+        });
+    }
 }
