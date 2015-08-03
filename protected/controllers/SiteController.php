@@ -604,12 +604,12 @@ class SiteController extends Controller
     public function actionTest()
     {
         set_time_limit(0);
-        $productMaker = ProductMaker::model()->findAll();
+        /*$productMaker = ProductMaker::model()->findAll();
         foreach($productMaker as $maker) {
             $maker->path = '/'.Translite::rusencode($maker->name, '-');
             $maker->save();
         }
-        /*$equipmentMaker = EquipmentMaker::model()->findAll();
+        $equipmentMaker = EquipmentMaker::model()->findAll();
         foreach($equipmentMaker as $maker) {
             $maker->path = '/'.Translite::rusencode($maker->name, '-');
             $maker->save();
