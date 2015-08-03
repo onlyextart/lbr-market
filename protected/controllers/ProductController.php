@@ -17,7 +17,7 @@ class ProductController extends Controller
             //$modellineId = (int)$result[2][0];
             
             $modelline = ModelLine::model()->findByPk(Yii::app()->session['model']);
-        
+            Yii::app()->session['model'] = null;
             $category = Category::model()->findByPk($modelline->category_id);
             
             $categoryParent = $category->parent()->find();
