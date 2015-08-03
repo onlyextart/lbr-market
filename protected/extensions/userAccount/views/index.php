@@ -71,7 +71,9 @@ if(!Yii::app()->user->isGuest) {
         <div id="sale-block">
             <ul>
                 <?php
-                    foreach($sale as $offer){
+                    foreach($sale as $offer) {
+                        $image = Yii::app()->params['imageNoPhoto'];
+                        if(!empty($offer[image])&& file_exists("../api/images/shop/spareparts/".$offer[image])) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$offer[image];
                         echo '<li>'.
                             '<div class="one_banner">
                                 <h3>
@@ -79,7 +81,7 @@ if(!Yii::app()->user->isGuest) {
                                 </h3>
                                 <div class="img-wrapper">
                                     <a href="'.$offer[path].'" target="_blank">
-                                        <img class="main-img" alt="'.$offer[name].'" src="http://api.lbr.ru/images/shop/spareparts/'.$offer[image].'">
+                                        <img class="main-img" alt="'.$offer[name].'" src="'.$image.'">
                                         <img class="sale-label" alt="Скидка" src="/images/sale-label.png">
                                     </a>
                                 </div>'.
