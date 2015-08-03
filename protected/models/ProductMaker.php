@@ -11,6 +11,8 @@
  * @property string $logo
  * @property boolean $published
  * @property string $country
+ * @property string $path
+ * @property string $update_time
  *
  * The followings are the available model relations:
  * @property Product[] $products
@@ -20,9 +22,7 @@ class ProductMaker extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
-	//public $image;
-        
-        public function tableName()
+	public function tableName()
 	{
 		return 'product_maker';
 	}
@@ -35,13 +35,10 @@ class ProductMaker extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
-			array('id', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, description, logo, published, country, update_time', 'safe'),
-                        array('logo', 'file', 'maxSize'=>1024*30, 'tooLarge'=>'Файл весит больше 30Кб. Пожалуйста, загрузите файл меньшего размера.'),
+			array('external_id, name, description, logo, published, country, path, update_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, description, logo, published, country, update_time', 'safe', 'on'=>'search'),
+			array('id, external_id, name, description, logo, published, country, path, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,7 +67,8 @@ class ProductMaker extends CActiveRecord
 			'logo' => 'Логотип',
 			'published' => 'Опубликовать',
 			'country' => 'Страна',
-                        'update_time' => 'Время обновления'
+			'path' => 'Path',
+			'update_time' => 'Время обновления'
 		);
 	}
 
@@ -98,6 +96,7 @@ class ProductMaker extends CActiveRecord
 		$criteria->compare('logo',$this->logo,true);
 		$criteria->compare('published',$this->published);
 		$criteria->compare('country',$this->country,true);
+		$criteria->compare('path',$this->path,true);
 		$criteria->compare('update_time',$this->update_time,true);
                 
                 if(Yii::app()->search->prepareSqlite()){
@@ -138,7 +137,6 @@ class ProductMaker extends CActiveRecord
             $criteria->offset = $offset;
             $criteria->limit = 25;
             
-            //$makers = ProductMaker::model()->findAll($criteria);
             $makers = ProductMaker::model()->cache(1000, $dependency)->findAll($criteria);
             
             return $makers;

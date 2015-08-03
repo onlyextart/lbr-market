@@ -92,8 +92,9 @@ return array(
                 'seasonalsale/index/id/<id:\d+>' => 'seasonalsale/index',
                 
                 //'equipmentmaker/index/id/<id:\d+>' => 'equipmentmaker/index',
+                //'productmaker/index/id/<id:\d+>' => 'productmaker/index',
                 'equipment-maker/<path:[\w_\/-\d]+>' => 'equipmentmaker/index',
-                'productmaker/index/id/<id:\d+>' => 'productmaker/index',
+                'product-maker/<path:[\w_\/-\d]+>' => 'productmaker/index',
                 
                 'cart/guestremove/<path:[\w_\/-\d]+>' => 'cart/guestremove',
                 'cart/remove/<path:[\w_\/-\d]+>' => 'cart/remove',
