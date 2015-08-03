@@ -30,12 +30,16 @@
     <?php if(!empty($hitProducts)): ?>
     <span class="hit-label">Хиты продаж</span>
     <div id="special-offer">
-        <?php foreach ($hitProducts as $product): ?>
+        <?php 
+        foreach ($hitProducts as $product):
+            $image = Yii::app()->params['imageNoPhoto'];
+            if(!empty($product->image)&& file_exists("../api/images/shop/spareparts/".$product->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$product->image;
+        ?>
         <div class="one-banner-special">
            <h3><a target="_blank" href="<?php echo $product->path; ?>"><?php echo $product->name; ?></a></h3>
            <div class="spec-img-wrapper">
                <a target="_blank" href="<?php echo $product->path; ?>">
-                   <img src="http://api.lbr.ru/images/shop/spareparts/<?php echo $product->image ?>" alt="<?php echo $product->name; ?>">
+                   <img src="<?php echo $image ?>" alt="<?php echo $product->name; ?>">
                </a>
            </div>
         </div>

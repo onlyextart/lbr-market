@@ -119,7 +119,7 @@ class SiteController extends Controller
                '<div class="best-sales">'
             ;
             
-             $image = Yii::app()->params['imageNoPhoto'];
+            $image = Yii::app()->params['imageNoPhoto'];
              
         
             foreach($hitProducts as $product) {
