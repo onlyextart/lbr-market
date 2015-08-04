@@ -52,7 +52,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
             
             array(
                 'name'=>'total_price',
-                'value'=>'$data->total_price',
+                'value'=>'(empty($data->total_price)||(int)$data->total_price==0)?Yii::app()->params["textNoPrice"]:$data->total_price',
             ),
                         
             array(

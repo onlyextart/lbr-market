@@ -511,10 +511,11 @@ class CartController extends Controller
         $this->redirect('/cart/');
     }
     
-    public function actionCount($path)
+    public function actionCount()
     {   
-        $count = 0;
-        if(!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
+        if(Yii::app()->request->isAjaxRequest) {
+            $count = 0;
+            if(!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
            /*$order = Yii::app()->db->createCommand()
                 ->select('o.id')
                 ->from('order o')
@@ -535,12 +536,20 @@ class CartController extends Controller
                 ->queryAll()
            ;
            
-           foreach($order as $order){
+           foreach($orders as $order){
                $count += $order[count];
            }
         }
+        else if(Yii::app()->user->isGuest) {
+            if(!empty(Yii::app()->session['cart'])) {
+                foreach(Yii::app()->session['cart'] as $productId => $product_count){
+                   $count += $product_count;
+                }
+            }
+        }
         
-        echo $count;
+            echo $count;
+        }
     }
 }
 
