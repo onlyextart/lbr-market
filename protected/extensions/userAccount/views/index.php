@@ -98,24 +98,24 @@ if(!Yii::app()->user->isGuest) {
 <?php endif; ?>
 
 <script>
-    /*$(document).ready(function($){
-        var updateCart = function() {
+    var interval = 1000 * 60;// every minute
+    $(document).ready(function(){
+        setInterval(function(){
             $.ajax({
                 type: 'POST',
                 url: '/cart/count',
-                dataType: 'json',
-                data:{
-                    id: selector.val(),
-                },
                 success: function(data) {
-                    console.log(data);
+                    if(data){
+                        var label = ' товаров';
+                        if(data == 1) {
+                            label = ' товар';
+                        } else if(data == 2 || data == 3 || data == 4){
+                            label = ' товарa';
+                        }
+                        $('#cart-count').text(data+label);
+                    }
             }});  
-        };
-
-        var interval = 1000 * 10;//60 * 1; // every minute
-        <?php //if():?>
-                //setInterval(updateCart, interval);
-        <?php //endif; ?>
-        
-    });*/
+        },
+        interval);
+    });
 </script>
