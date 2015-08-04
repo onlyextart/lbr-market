@@ -540,6 +540,13 @@ class CartController extends Controller
                $count += $order[count];
            }
         }
+        else if(Yii::app()->user->isGuest) {
+            if(!empty(Yii::app()->session['cart'])) {
+                foreach(Yii::app()->session['cart'] as $productId => $product_count){
+                   $count += $product_count;
+                }
+            }
+        }
         
             echo $count;
         }
