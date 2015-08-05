@@ -225,19 +225,13 @@ class SiteController extends Controller
             'IND'=>new RegFormInd,
             'LEGAL_PERSON'=>new RegFormLegalPerson,
         );
-        //$model_form_ind=new RegFormInd;
-        //$model_form_LP=new RegFormLegalPerson;
+        
         $model=new User;
         $model->status = User::USER_NOT_ACTIVATED;
         if(!isset($model_form['LEGAL_PERSON']->country_id)){
               $model_form['LEGAL_PERSON']->country_id=UserCountry::RUSSIA;  
         }
-//        if(isset($_POST['ajax']) && $_POST['ajax']==='registration-form')
-//        {
-//            $model->login=$_POST['User']['login'];
-//            echo CActiveForm::validate($model);
-//            Yii::app()->end();
-//        }
+
         if(isset($_POST['RegistrationTypeForm']))
         {
             $model_form_start->attributes=$_POST['RegistrationTypeForm'];
@@ -340,10 +334,7 @@ class SiteController extends Controller
             
            
         }
-        
-//            else{
-//                $this->render('registration',array('model_form'=>$model_form,'model'=>$model));
-//            }
+
         else{
             $this->render('registration_start',array('model_form_start'=>$model_form_start,'model'=>$model)); 
         }
