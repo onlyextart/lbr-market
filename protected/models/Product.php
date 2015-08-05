@@ -244,7 +244,7 @@ class Product extends CActiveRecord
                     case 's': // small
                         $temp = 'http://api.lbr.ru/images/shop/spareparts/small/'.$imgName;
                         break;
-                    default:
+                    default:  // large
                         $temp = 'http://api.lbr.ru/images/shop/spareparts/large/'.$imgName;
                 }
 
