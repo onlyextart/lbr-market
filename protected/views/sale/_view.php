@@ -43,7 +43,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
         </div>
         <div class="cell cell-img">
             <a class="thumbnail" target="_blank" href="<?php echo $image ?>">
-                <img alt="<?php echo $data->name ?>" src="<?php echo $image ?>">
+                <img alt="<?php echo $data->name ?>" src="<?php echo Product::model()->getImage($data->image, 's'); ?>">
             </a>
         </div>
         <div class="cell draft width-35"><?php echo (Yii::app()->params['showDrafts']) ? $draftLabel : '' ?></div>
