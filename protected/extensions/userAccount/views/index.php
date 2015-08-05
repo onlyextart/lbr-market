@@ -72,8 +72,9 @@ if(!Yii::app()->user->isGuest) {
             <ul>
                 <?php
                     foreach($sale as $offer) {
-                        $image = Yii::app()->params['imageNoPhoto'];
-                        if(!empty($offer[image])&& file_exists("../api/images/shop/spareparts/".$offer[image])) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$offer[image];
+                        //$image = Yii::app()->params['imageNoPhoto'];
+                        //if(!empty($offer[image])&& file_exists("../api/images/shop/spareparts/".$offer[image])) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$offer[image];
+                        $image = Product::model()->getImage($offer[image], 'm');
                         echo '<li>'.
                             '<div class="one_banner">
                                 <h3>
