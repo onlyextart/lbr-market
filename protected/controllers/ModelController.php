@@ -275,20 +275,25 @@ class ModelController extends Controller
                 }
             }
         }
-
-        $image = '/images/no-photo.png';
-        if(!empty($model->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$model->image;
+        
         $result = '
             <li><div class="spareparts-wrapper">
                  <div class="row">
                      <div class="cell width-20">
                          <a class="prodInfo" target="_blank" href="'.$model->path.'">'.$model->name.'</a>
                      </div>
-                     <div class="cell cell-img">
-                         <a href="'.$image.'" class="thumbnail" target="_blank">
-                             <img src="'.$image.'" alt="'.$model->name.'"/>
-                         </a>
-                     </div>
+                     <div class="cell cell-img">'
+        ;
+        
+        //$large = Product::model()->getImage($model->image);
+        $small = Product::model()->getImage($model->image, 's');
+        
+        //$result .= '<a href="'.$large.'" class="thumbnail" target="_blank">
+        $result .= '<a href="'.$model->path.'" class="small-img" target="_blank">
+                        <img src="'.$small.'" alt="'.$model->name.'"/>
+                    </a>'
+        ;
+        $result .= '</div>
                      <div class="cell draft width-35">'.$draftLabel.'</div>'
         ;
         
