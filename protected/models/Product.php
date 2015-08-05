@@ -232,4 +232,28 @@ class Product extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public function getImage($imgName, $size = 'large')
+        {
+            $image = Yii::app()->params['imageNoPhoto'];
+            if(!empty($imgName)) {
+                switch ($size) {
+                    case 'm': // medium
+                        $temp = 'http://api.lbr.ru/images/shop/spareparts/medium/'.$imgName;
+                        break;
+                    case 's': // small
+                        $temp = 'http://api.lbr.ru/images/shop/spareparts/small/'.$imgName;
+                        break;
+                    default:
+                        $temp = 'http://api.lbr.ru/images/shop/spareparts/large/'.$imgName;
+                }
+
+                $fileHeaders = @get_headers($temp);
+                if (!stripos($fileHeaders[0], "404 Not Found") && !(stripos($fileHeaders[0], "302 Found") > 0 && stripos($fileHeaders[7], "404 Not Found") > 0)) {
+                    $image = $temp;
+                }
+            }
+            
+            return $image;
+        }
 }

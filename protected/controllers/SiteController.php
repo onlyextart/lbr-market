@@ -119,14 +119,18 @@ class SiteController extends Controller
                '<div class="best-sales">'
             ;
             
-            $image = Yii::app()->params['imageNoPhoto'];
-             
-        
             foreach($hitProducts as $product) {
                 $result .= '<div class="one_banner">';
                 $result .= '<h3><a target="_blank" href="'.$product['path'].'">'.$product['name'].'</a></h3>';
                 $result .= '<div class="img-wrapper">';
-                if(!empty($product['image'])&& file_exists("../api/images/shop/spareparts/".$product['image'])) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$product['image'];
+                
+//                $image = Yii::app()->params['imageNoPhoto'];
+//                if(!empty($product['image'])&& file_exists("../api/images/shop/spareparts/".$product['image'])) {
+//                    $image = Product::model()->getImage($product['image'], 'medium');// 'http://api.lbr.ru/images/shop/spareparts/'.$product['image'];
+//                }
+                
+                $image = Product::model()->getImage($product['image'], 'm');
+                
                 $result .= '<a target="_blank" href="'.$product['path'].'">'.
                       '<img src="'.$image.'" alt="'.$product['name'].'">'.
                    '</a>'
