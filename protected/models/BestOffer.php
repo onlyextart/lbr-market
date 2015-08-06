@@ -44,10 +44,12 @@ class BestOffer extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, name, img, published, level', 'safe', 'on'=>'search'),
-                        array('img','file','maxSize'=>1024*1024*1, 'tooLarge'=>'Файл весит больше 1 MB. Пожалуйста, загрузите файл меньшего размера.'),
                         array('img','EImageValidator','width'=> 770,'height' => 250,
                                                        'types' => 'gif, jpg, png',
                                                        'allowEmpty'=>'true'),
+//                                                       ,'maxsize'=>1024*1024*1, 
+//                                                       'sizeError' =>'Файл весит больше 1 MB. Пожалуйста, загрузите файл меньшего размера.'),
+                      //  array('img','file','maxSize'=>1024*1024*1, 'tooLarge'=>'Файл весит больше 1 MB. Пожалуйста, загрузите файл меньшего размера.'),
 		);
 	}
 

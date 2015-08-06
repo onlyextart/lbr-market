@@ -123,15 +123,14 @@ class ModelController extends Controller
             ->join('product p', 'p.id=pm.product_id')
             ->where(
                array('and', 
-                    'p.liquidity = "A" and p.image not NULL'.$sql,
+                    'p.liquidity = "A" and p.image not NULL and p.published=:flag'.$sql,
                     'pm.model_line_id=:id'
-               ), array(':id'=>$id)
+               ), array(':id'=>$id,':flag'=>true)
             )
             ->queryColumn()
         ;
 
         $max = count($elements);
-//        $temp = array();
         $count = 4;
         if ($max > 0) {
             if ($max >= $count) {
@@ -150,47 +149,6 @@ class ModelController extends Controller
             $query.=");";
             $hitProducts = Product::model()->findAllBySql($query);
         }
-//        if($max > $count) {
-//            if(Yii::app()->params['randomImages']) {
-//                for($i = 0; $i < $count; ) {
-//                    $offset = mt_rand(0, $max);                
-//                    $saleProduct = Product::model()->findByAttributes(
-//                        array(
-//                            'id'=>$elements,
-//                        ), 
-//                        array(
-//                            'offset' => $offset,
-//                            'limit' => 1,
-//                        )
-//                    );
-//
-//                    if(!in_array($saleProduct[id], $temp) && !empty($saleProduct[id])) {
-//                       $temp[] = $saleProduct[id];
-//                       $i++;
-//                    }
-//                }
-//                //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
-//                $hitProducts = Product::model()->findAllByAttributes(array('id'=>$temp));
-//            } else {
-//                $offset = mt_rand(0, $max);
-//                //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
-//                $hitProducts = Product::model()->findAllByAttributes(
-//                    array(
-//                        'id' => $elements,
-//                    ), 
-//                    array(
-//                        'offset' => $offset,
-//                        'limit' => $count,
-//                    )
-//                );
-//            }
-//        } else {
-//            foreach($elements as $element) {
-//                $temp[] = $element;
-//            }
-//            //$hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
-//            $hitProducts = Product::model()->findAllByAttributes(array('id'=>$temp));
-//        }
         
         return $hitProducts;
     }
