@@ -147,7 +147,7 @@
                <h3><a target="_blank" href="<?php echo $related->path; ?>"><?php echo $related->name; ?></a></h3>
                <div class="img-wrapper">
                    <a target="_blank" href="<?php echo $related->path; ?>">
-                      <img src="<?php echo $image = Product::model()->getImage($related->image, 'm'); ?>" alt="">
+                      <img src="<?php echo Product::model()->getImage($related->image, 'm'); ?>" alt="">
                    </a>
                </div>
             </div>
