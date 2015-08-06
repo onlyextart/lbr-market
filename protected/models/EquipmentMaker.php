@@ -136,21 +136,33 @@ class EquipmentMaker extends CActiveRecord
         
         public function getAllMakers()
         {
-            $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
-            $max = EquipmentMaker::model()->cache(1000, $dependency)->count(array(
-               'condition' => 'logo IS NOT NULL',
-            ));
-            $offset = mt_rand(0, $max);
-            
-            $criteria = new CDbCriteria();
-            $criteria->condition = 'logo not null';
-            $criteria->addCondition('published');
-            $criteria->offset = $offset;
-            $criteria->limit = 25;
-            
-            //$makers = EquipmentMaker::model()->findAll($criteria);
-            $makers = EquipmentMaker::model()->cache(1000, $dependency)->findAll($criteria);
-            
+            $makers = array();
+            $count = 10;
+            $query = "SELECT DISTINCT id
+                FROM equipment_maker
+                WHERE logo IS NOT NULL;"
+            ;   
+            $elements = Yii::app()->db->createCommand($query)->queryColumn();
+            $max = count($elements);
+            if ($max > 0) {
+                if ($max >= $count) {
+                    $randomElements = array_rand($elements, $count);
+                } else {
+                    $randomElements = array_rand($elements, $max);
+                }
+                
+                $randomCount = count($randomElements);
+                $query = "SELECT * from equipment_maker where id in (";
+                for ($i = 0; $i < $randomCount; $i++) {
+                    if ($i != 0) {
+                        $query.=',';
+                    }
+                    $query.=$elements[$randomElements[$i]];
+                }
+                $query.=");";
+                $result = Yii::app()->db->createCommand($query)->query();
+                $makers = $result->readAll();
+            }
             return $makers;
         }
 }
