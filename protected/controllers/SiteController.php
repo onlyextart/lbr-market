@@ -52,11 +52,12 @@ class SiteController extends Controller
         $count=8;
         $hitProducts='';
         
-        $query = "SELECT DISTINCT p.id
-                FROM product as p
-                WHERE p.liquidity = 'A' and p.image not NULL;"
-        ;   
-        $elements = Yii::app()->db->createCommand($query)->queryColumn();
+        $elements = Yii::app()->db->createCommand()
+            ->select('id')
+            ->from('product')
+            ->where('published=:flag and image IS NOT NULL and liquidity = "A"', array(':flag'=>true))
+            ->queryColumn()
+        ;
         $max = count($elements);
         if ($max > 0) {
             if ($max >= $count) {
