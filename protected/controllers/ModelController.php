@@ -285,12 +285,12 @@ class ModelController extends Controller
                      <div class="cell cell-img">'
         ;
         
-        //$large = Product::model()->getImage($model->image);
-        $small = Product::model()->getImage($model->image, 's');
+        $largeImg = Product::model()->getImage($model->image);
+        $smallImg = Product::model()->getImage($model->image, 's');
         
-        //$result .= '<a href="'.$large.'" class="thumbnail" target="_blank">
-        $result .= '<a href="'.$model->path.'" class="small-img" target="_blank">
-                        <img src="'.$small.'" alt="'.$model->name.'"/>
+        //$result .= '<a href="'.$model->path.'" class="small-img" target="_blank">
+        $result .= '<a href="'.$largeImg.'" class="thumbnail" target="_blank">
+                        <img src="'.$smallImg.'" alt="'.$model->name.'"/>
                     </a>'
         ;
         $result .= '</div>
