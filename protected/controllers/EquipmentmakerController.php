@@ -1,18 +1,24 @@
 <?php
 class EquipmentmakerController extends Controller
-{
-    public function actionIndex($id)
+{    
+    public function actionIndex($path)
     {
-        if (!empty($id)) {
-            $data = EquipmentMaker::model()->findByPk($id, 'published=1');
+        if (!empty($path)) {
+            $data = EquipmentMaker::model()->find('path=:path and published=1', array('path'=>'/'.$path));
+            
             $breadcrumbs[] = "Производители техники";
             $breadcrumbs[] = $data->name;
             Yii::app()->params['breadcrumbs'] = $breadcrumbs;
-            if(!empty($data)) $this->render('index', array('data'=>$data));
+            
+            if(!empty($data)) {
+                Yii::app()->params['analiticsMark'] = 'maker='.$data->external_id;
+                $this->render('index', array('data'=>$data));
+            }
             else $this->redirect('/');
         }
     }
-
+    
+    /*
     public function actionBestoffer($id)
     { 
         if (!empty($id)) {
@@ -23,6 +29,6 @@ class EquipmentmakerController extends Controller
             if(!empty($data)) $this->render('bestoffer', array('data'=>$data));
             else $this->redirect('/');
         }
-    }
+    }*/
 }
 

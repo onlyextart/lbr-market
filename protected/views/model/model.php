@@ -1,8 +1,5 @@
 <div class="breadcrumbs">
     <?php
-        /*$breadcrumbs['Тест'] = '/';
-        $breadcrumbs[] = 'Производитель';
-        Yii::app()->params['breadcrumbs'] = $breadcrumbs;  */
         $this->widget('zii.widgets.CBreadcrumbs', array(
             'links' => Yii::app()->params['breadcrumbs'],
             'activeLinkTemplate' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="{url}">{label}</a></span>',
@@ -13,13 +10,11 @@
                 'xmlns:v' => 'http://rdf.data-vocabulary.org/#',
             ),
         ));
-        $image = Yii::app()->params['imageNoPhoto'];
-         ?>
+    ?>
 </div>
 <div class="model-wrapper">
     <h1><?php echo $title?></h1>
     <?php if(!empty($hitProducts)): ?>
-    <!--div class="spec-offer"><a href="#">Спецпредложение для "<?php echo $title?>"</a></div-->
     <span class="hit-label-main">Хиты продаж для "<?php echo $title?>"</span>
     <div id="special-offer">
         <?php foreach ($hitProducts as $product): ?>
@@ -27,8 +22,7 @@
            <h3><a target="_blank" href="<?php echo $product->path; ?>"><?php echo $product->name; ?></a></h3>
            <div class="spec-img-wrapper">
                <a target="_blank" href="<?php echo $product->path; ?>">
-                   <?php if(!empty($product->image)&& file_exists("../api/images/shop/spareparts/".$product->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$product->image;?>
-                   <img src="<?php echo $image ?>" alt="<?php echo $product->name; ?>">
+                   <img src="<?php echo Product::model()->getImage($product->image, 'm'); ?>" alt="<?php echo $product->name; ?>">
                </a>
            </div>
         </div>
@@ -39,10 +33,6 @@
     <h2>Запасные части для <?php echo $title?></h2>
     <span class="spareparts-order">
         Сортировать по:
-        <!--a href="/model/sort/id/<?php echo $model->id?>/name/name/" class="<?php if(Yii::app()->params['sortCol'] == 'name') echo Yii::app()->params['sortOrder'] ?>">Названию</a>
-        <a href="/model/sort/id/<?php echo $model->id?>/name/col/" class="<?php if(Yii::app()->params['sortCol'] == 'col') echo Yii::app()->params['sortOrder'] ?>">Наличию</a>
-        <a href="/model/sort/id/<?php echo $model->id?>/name/category/" class="<?php if(Yii::app()->params['sortCol'] == 'category') echo Yii::app()->params['sortOrder'] ?>">Категории</a-->
-        
         <a href="/model/show/id/<?php echo $model->id?>/sort/name/order/<?php echo (Yii::app()->params['sortCol'] == 'name' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'name') echo Yii::app()->params['sortOrder'] ?>">Названию</a>
         <a href="/model/show/id/<?php echo $model->id?>/sort/col/order/<?php echo (Yii::app()->params['sortCol'] == 'col' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'col') echo Yii::app()->params['sortOrder'] ?>">Наличию</a>
         <a href="/model/show/id/<?php echo $model->id?>/sort/category/order/<?php echo (Yii::app()->params['sortCol'] == 'category' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'category') echo Yii::app()->params['sortOrder'] ?>">Категории</a>

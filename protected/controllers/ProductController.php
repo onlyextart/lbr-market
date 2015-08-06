@@ -7,6 +7,7 @@ class ProductController extends Controller
         if(!$data)
             throw new CHttpException(404, 'Товар не найден');
         
+        $image = Product::model()->getImage($data->image);
         $maker = ProductMaker::model()->findByPk($data->product_maker_id);
               
         Yii::app()->params['meta_title'] = $data->name;
@@ -17,7 +18,7 @@ class ProductController extends Controller
             //$modellineId = (int)$result[2][0];
             
             $modelline = ModelLine::model()->findByPk(Yii::app()->session['model']);
-        
+            Yii::app()->session['model'] = null;
             $category = Category::model()->findByPk($modelline->category_id);
             
             $categoryParent = $category->parent()->find();
@@ -48,6 +49,7 @@ class ProductController extends Controller
 
         $this->render('index', array(
             'data' => $data, 
+            'image' => $image,
             'price' => $mainProduct[0], 
             'update' => $mainProduct[1], 
             'filial' => $mainProduct[2], 
@@ -145,9 +147,6 @@ class ProductController extends Controller
                 $countLabel = '<span class="stock in-stock">'.Product::IN_STOCK_SHORT.'</span>';
             }
         
-            $image = '/images/no-photo.png';
-            if(!empty($analog->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$analog->image;
-            
             $drafts = $this->getDraftsLabel($analog->id);
 
             $analogProducts .= '<li>'.
@@ -156,14 +155,20 @@ class ProductController extends Controller
                                              '<div class="cell width-20">'.
                                                  '<a target="_blank" class="prodInfo" href="'.$analog->path.'">'.$analog->name.'</a>'.
                                              '</div>'.
-                                             '<div class="cell cell-img">'.
-                                                 '<a href="'.$image.'" class="thumbnail" target="_blank">'.
-                                                     '<img src="'.$image.'" alt="'.$analog->name.'"/>'.
-                                                 '</a>'.
-                                             '</div>'.
-                                             '<div class="cell draft width-35">'.
-                                                $drafts.
-                                             '</div>'
+                                             '<div class="cell cell-img">'
+            ;
+            $largeImg = Product::model()->getImage($analog->image);
+            $smallImg = Product::model()->getImage($analog->image, 's');
+
+            $analogProducts .= '<a href="'.$largeImg.'" class="thumbnail" target="_blank">'.
+            //$analogProducts .= '<a href="'.$analog->path.'" class="small-img" target="_blank">'.
+                                  '<img src="'.$smallImg.'" alt="'.$analog->name.'"/>'.
+                               '</a>'
+            ;
+            $analogProducts .= '</div>'.
+                            '<div class="cell draft width-35">'.
+                               $drafts.
+                            '</div>'
              ;
              
              if(!Yii::app()->user->isGuest || ($analog->liquidity == 'D' && $analog->count > 0)) {

@@ -16,7 +16,7 @@
     $host = Yii::app()->getRequest()->getHostInfo();
     foreach($data as $one_sale){
         $img[]=$host.$one_sale['img'];
-        $link[]=$host.'/seasonalsale/index/id/'.$one_sale['id'];
+        $link[]=$host.'/seasonalsale/index/id/'.$one_sale['id'].'/';
         $alt[]=$one_sale['name'];
     }
     

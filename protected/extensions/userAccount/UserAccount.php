@@ -65,7 +65,7 @@ class UserAccount extends CWidget
             ////////////////////////////////////////
             $sql = '';
             $ids = $elements = array();
-            
+
             if(!empty(Yii::app()->params['currentSale'])) {
                 $ids[] = Yii::app()->params['currentSale'];
                 $category = Category::model()->cache(1000, $category_dependency)->findByPk(Yii::app()->params['currentSale']);

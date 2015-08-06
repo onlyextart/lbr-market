@@ -13,25 +13,24 @@ class SiteController extends Controller
     public function getMakers()
     {
         $result = '';
-        
         $equipmentMakers = EquipmentMaker::model()->getAllMakers();
         $productMakers = ProductMaker::model()->getAllMakers();
+        
         if(!empty($equipmentMakers) || !empty($productMakers)) {
-            $path = Yii::getPathOfAlias('webroot'); 
             $result = '<div id="carousel-logo-wrapper">'.
                '<div id="carousel-logo" class="jcarousel">'.
                   '<ul>'
             ;
             
+            $path = Yii::getPathOfAlias('webroot');
             foreach ($equipmentMakers as $maker) {
-                if(file_exists($path.$maker->logo)){
-                    $result .= '<li><a href="/equipmentmaker/index/id/'.$maker->id.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="'.$maker->name.'" /></div></a></li>'; 
+                if(file_exists($path.$maker[logo])){
+                    $result .= '<li><a href="/equipment-maker'.$maker[path].'/" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker[logo].'" alt="'.$maker[name].'" /></div></a></li>'; 
                 }
             }
-            
             foreach ($productMakers as $maker) {
-                if(file_exists($path.$maker->logo)) {
-                    $result .= '<li><a href="/productmaker/index/id/'.$maker->id.'" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker->logo.'" alt="'.$maker->name.'" /></div></a></li>';
+                if(file_exists($path.$maker[logo])) {
+                    $result .= '<li><a href="/product-maker'.$maker[path].'/" target="_blank"><div class="img-container bwWrapper"><img src="'.$maker[logo].'" alt="'.$maker[name].'" /></div></a></li>';
                 }    
             }
             
@@ -53,15 +52,12 @@ class SiteController extends Controller
         $count=8;
         $hitProducts='';
         
-        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-//        $max = Product::model()->cache(1000, $dependency)->count(array(
-//            'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
-//        ));
-        
-        $query = "SELECT DISTINCT p.id
-                FROM product as p
-                WHERE p.liquidity = 'A' and p.image not NULL;";   
-        $elements = Yii::app()->db->createCommand($query)->queryColumn();
+        $elements = Yii::app()->db->createCommand()
+            ->select('id')
+            ->from('product')
+            ->where('published=:flag and image IS NOT NULL and liquidity = "A"', array(':flag'=>true))
+            ->queryColumn()
+        ;
         $max = count($elements);
         if ($max > 0) {
             if ($max >= $count) {
@@ -81,52 +77,19 @@ class SiteController extends Controller
             $result = Yii::app()->db->createCommand($query)->query();
             $hitProducts = $result->readAll();
         }
-        //       $offset = mt_rand(0, $max);
-        
-        /*if(Yii::app()->params['randomImages']) {
-            if($max > 8) {
-                $temp = array();
-                for($i=0; $i<8; ) {
-                    $hitProductId = Product::model()->cache(1000, $dependency)->find(array(
-                        'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500 
-                        'offset' => $offset,
-                        'limit' => 1,
-                    ))->id;
-
-                    if(!in_array($hitProductId, $temp)) {
-                       $temp[] = $hitProductId;
-                       $i++;
-                    }
-                }
-
-                $hitProducts = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
-            } else {
-                $hitProducts = Product::model()->cache(1000, $dependency)->findAll(array(
-                    'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500
-                    'limit' => 8,
-                ));
-            }
-        } else {*/
-//            $hitProducts = Product::model()->cache(1000, $dependency)->findAll(array(
-//                'condition' => 'liquidity = "A" and image IS NOT NULL', // price more 500
-//                'offset' => $offset,
-//                'limit' => 8,
-//            ));
-        //}
             
         if(!empty($hitProducts)) {
             $result = '<span class="hit-label-main">Хиты продаж</span>'.
                '<div class="best-sales">'
             ;
             
-             $image = Yii::app()->params['imageNoPhoto'];
-             
-        
             foreach($hitProducts as $product) {
                 $result .= '<div class="one_banner">';
                 $result .= '<h3><a target="_blank" href="'.$product['path'].'">'.$product['name'].'</a></h3>';
                 $result .= '<div class="img-wrapper">';
-                if(!empty($product['image'])&& file_exists("../api/images/shop/spareparts/".$product['image'])) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$product['image'];
+                
+                $image = Product::model()->getImage($product['image'], 'm');
+                
                 $result .= '<a target="_blank" href="'.$product['path'].'">'.
                       '<img src="'.$image.'" alt="'.$product['name'].'">'.
                    '</a>'
@@ -597,12 +560,12 @@ class SiteController extends Controller
         set_time_limit(0);
         /*$productMaker = ProductMaker::model()->findAll();
         foreach($productMaker as $maker) {
-            $maker->update_time = date('Y-m-d H:i:s');
+            $maker->path = '/'.Translite::rusencode($maker->name, '-');
             $maker->save();
         }
         $equipmentMaker = EquipmentMaker::model()->findAll();
         foreach($equipmentMaker as $maker) {
-            $maker->update_time = date('Y-m-d H:i:s');
+            $maker->path = '/'.Translite::rusencode($maker->name, '-');
             $maker->save();
         }*/
     }

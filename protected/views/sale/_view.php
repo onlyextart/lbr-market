@@ -1,8 +1,4 @@
 <?php
-
-$image = '/images/no-photo.png';
-if(!empty($data->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$data->image;
-
 $count = '<span class="stock">'.Product::NO_IN_STOCK.'</span>';
 if($data->count > 0) {
     $count = '<span class="stock in-stock">'.Product::IN_STOCK_SHORT.'</span>';
@@ -42,8 +38,8 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
             <a target="_blank" href="<?php echo $data->path ?>"><?php echo $data->name ?></a>
         </div>
         <div class="cell cell-img">
-            <a class="thumbnail" target="_blank" href="<?php echo $image ?>">
-                <img alt="<?php echo $data->name ?>" src="<?php echo $image ?>">
+            <a class="thumbnail" target="_blank" href="<?php echo Product::model()->getImage($data->image); ?>">
+                <img alt="<?php echo $data->name ?>" src="<?php echo Product::model()->getImage($data->image, 's'); ?>">
             </a>
         </div>
         <div class="cell draft width-35"><?php echo (Yii::app()->params['showDrafts']) ? $draftLabel : '' ?></div>

@@ -26,12 +26,12 @@ return array(
 
     'modules' => array(
         // uncomment the following to enable the Gii tool
-        'gii' => array(
-            'class' => 'system.gii.GiiModule',
-            'password' => 'admin',
-            // If removed, Gii defaults to localhost only. Edit carefully to taste.
-            'ipFilters' => array('127.0.0.1', '::1'),
-        ),
+//        'gii' => array(
+//            'class' => 'system.gii.GiiModule',
+//            'password' => 'admin',
+//            // If removed, Gii defaults to localhost only. Edit carefully to taste.
+//            'ipFilters' => array('127.0.0.1', '::1'),
+//        ),
         'user',
         'admin',
     ),
@@ -75,6 +75,7 @@ return array(
             'rules' => array(
                 '<url:(garantiya|delivery|payment)>' => 'site/description',
                 'product-maker/<id:\d+>' => '/description/maker',
+
                 '<controller:(user)>/<_a:\w+>' => 'user/default/<_a>',
                 '<controller:(site)>/<action:\w+>' => '<controller>/<action>',
                 '<module:(admin)>' => '<module>',
@@ -89,8 +90,12 @@ return array(
                 'model/show/id/<id:\d+>' => 'model/show',
                 'search/show/input/<input:[\w_\/-\d\s]+>'=>'search/show',
                 'seasonalsale/index/id/<id:\d+>' => 'seasonalsale/index',
-                'equipmentmaker/index/id/<id:\d+>' => 'equipmentmaker/index',
-                'productmaker/index/id/<id:\d+>' => 'productmaker/index',
+                
+                //'equipmentmaker/index/id/<id:\d+>' => 'equipmentmaker/index',
+                //'productmaker/index/id/<id:\d+>' => 'productmaker/index',
+                'equipment-maker/<path:[\w_\/-\d]+>' => 'equipmentmaker/index',
+                'product-maker/<path:[\w_\/-\d]+>' => 'productmaker/index',
+                
                 'cart/guestremove/<path:[\w_\/-\d]+>' => 'cart/guestremove',
                 'cart/remove/<path:[\w_\/-\d]+>' => 'cart/remove',
                 'wishlist/remove/<path:[\w_\/-\d]+>' => 'wishlist/remove',
@@ -172,12 +177,13 @@ return array(
         //'host'=>'lbr.test',
         'host'=>'lbr-market.ru',
         'admin_email'=>'shop@lbr.ru',
-        'maxInCart' => 5, // count of product types
+        'maxInCart' => 5, // count of product types in cart
         'region'=>'',
         'currentType' => '',
         'currentMaker' => '',
         'currentSale' => '',
         'searchFlag' => '',
+        'analiticsMark' => '', // for cookie analitics
         'imageNoPhoto'=>'/images/no-photo.png',
         
         'sortOrder' => 'asc',

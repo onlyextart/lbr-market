@@ -11,6 +11,9 @@
         <meta name="description" content="<?php echo Yii::app()->params['meta_description']; ?>">
         <title><?php echo Yii::app()->params['meta_title']; ?></title>
         <link rel="shortcut icon" type="image/jpg" href="<?php echo Yii::app()->request->baseUrl.'/images/favicon.jpg';?>"/>
+        <script>
+            var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
+        </script>
         <link rel="stylesheet" type="text/css" href="/css/front/frontend-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/accordion-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/jquery.mCustomScrollbar-min.css" />
@@ -18,6 +21,7 @@
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/default.css" />
         <link rel="stylesheet" type="text/css" href="/css/ui/jquery-ui-1.10.3-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/tip-darkgray/tip-darkgray.css" />
+        
         <?php
             Yii::app()->clientScript->registerCoreScript('jquery');
             //Yii::app()->clientScript->registerCoreScript('/js/jquery.1.11.3.min.js');
@@ -32,7 +36,7 @@
             Yii::app()->clientScript->registerScriptFile('/js/jquery.hoverIntent.minified.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.min.js');
             
-            Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js?1');
+            Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js?2');
             Yii::app()->clientScript->registerScriptFile('/js/front/cart.js');
             Yii::app()->clientScript->registerScriptFile('/js/front/search.js');
             
