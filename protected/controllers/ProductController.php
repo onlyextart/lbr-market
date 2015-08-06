@@ -157,12 +157,12 @@ class ProductController extends Controller
                                              '</div>'.
                                              '<div class="cell cell-img">'
             ;
-            //$large = Product::model()->getImage($analog->image);
-            $small = Product::model()->getImage($analog->image, 's');
+            $largeImg = Product::model()->getImage($analog->image);
+            $smallImg = Product::model()->getImage($analog->image, 's');
 
-            //$analogProducts .= '<a href="'.$image.'" class="thumbnail" target="_blank">'.
-            $analogProducts .= '<a href="'.$analog->path.'" class="small-img" target="_blank">'.
-                                  '<img src="'.$small.'" alt="'.$analog->name.'"/>'.
+            $analogProducts .= '<a href="'.$largeImg.'" class="thumbnail" target="_blank">'.
+            //$analogProducts .= '<a href="'.$analog->path.'" class="small-img" target="_blank">'.
+                                  '<img src="'.$smallImg.'" alt="'.$analog->name.'"/>'.
                                '</a>'
             ;
             $analogProducts .= '</div>'.
