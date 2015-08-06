@@ -133,7 +133,7 @@ class ProductMaker extends CActiveRecord
             $count = 10;
             $query = "SELECT DISTINCT id
                 FROM product_maker
-                WHERE logo IS NOT NULL and published = true"
+                WHERE logo IS NOT NULL"
             ;   
             $elements = Yii::app()->db->createCommand($query)->queryColumn();
             $max = count($elements);
