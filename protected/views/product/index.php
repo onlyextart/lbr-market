@@ -10,25 +10,12 @@
                 'xmlns:v' => 'http://rdf.data-vocabulary.org/#',
             ),
         ));
-        //echo $data->image; exit;
-        $image = Yii::app()->params['imageNoPhoto'];
-        if(!empty($data->image)&& file_exists("../api/images/shop/spareparts/".$data->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$data->image;
     ?>
 </div>
 <div itemtype="http://schema.org/Product" itemscope="">
-   <!--div>
-    <?php
-        /*echo CHtml::link(
-            'Назад',
-            empty(Yii::app()->request->urlReferrer)?'http://lbr-market.ru':Yii::app()->request->urlReferrer
-        );*/
-    ?>
-   </div-->
    <div class="product-wrapper">
         <h1 itemprop="name"><?php echo $data->name; ?></h1>
         <div class="product-image-wrapper">
-            <!--img border="0" itemprop="image" alt="Двигатель ВАЗ-2103-01-07 1.5л, 70л.с, Аи-92" src="http://api.lbr.ru/images/shop/SMK-00082297_IMG_0022.jpg"-->
-
             <a href="<?php echo $image; ?>" class="thumbnail" target="_blank">
                <img border="0" itemprop="image" alt="<?php echo $data->name; ?>" src="<?php echo $image; ?>">
             </a>
@@ -160,7 +147,7 @@
                <h3><a target="_blank" href="<?php echo $related->path; ?>"><?php echo $related->name; ?></a></h3>
                <div class="img-wrapper">
                    <a target="_blank" href="<?php echo $related->path; ?>">
-                      <img src="http://api.lbr.ru/images/shop/spareparts/<?php echo $related->image; ?>" alt="">
+                      <img src="<?php echo $image = Product::model()->getImage($related->image, 'm'); ?>" alt="">
                    </a>
                </div>
             </div>

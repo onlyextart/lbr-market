@@ -7,6 +7,7 @@ class ProductController extends Controller
         if(!$data)
             throw new CHttpException(404, 'Товар не найден');
         
+        $image = Product::model()->getImage($data->image);
         $maker = ProductMaker::model()->findByPk($data->product_maker_id);
               
         Yii::app()->params['meta_title'] = $data->name;
@@ -48,6 +49,7 @@ class ProductController extends Controller
 
         $this->render('index', array(
             'data' => $data, 
+            'image' => $image,
             'price' => $mainProduct[0], 
             'update' => $mainProduct[1], 
             'filial' => $mainProduct[2], 
