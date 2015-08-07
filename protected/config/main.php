@@ -192,7 +192,6 @@ return array(
         'showPrices' => 1,
         'showPricesForAdmin' => 1, // will run if showPrices == 0,
         'showDrafts' => 0,
-        'randomImages' => 1,
         'footerLabel' => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
         'breadcrumbs' => array(),
         'textHidePrice' => 'Информация о ценах временно недоступна',

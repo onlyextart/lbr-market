@@ -78,17 +78,18 @@ class UserAccount extends CWidget
 //            if(!empty(Yii::app()->params['currentMaker'])) {
 //                $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
 //            }
+            $flag=true;
             if(!empty(Yii::app()->params['currentMaker'])||!empty($ids)) {
                 $query = "SELECT DISTINCT p.id
                     FROM model_line as m
                     JOIN product_in_model_line as pm ON m.id=pm.model_line_id
                     JOIN product as p ON p.id=pm.product_id
-                    WHERE p.liquidity = 'D' and p.image not NULL".$sql;
+                    WHERE p.liquidity = 'D' and p.image not NULL and p.published=".$flag.$sql;
             }
             else{
                 $query = "SELECT DISTINCT p.id
                 FROM product as p
-                WHERE p.liquidity = 'D' and p.image not NULL";
+                WHERE p.liquidity = 'D' and p.image not NULL and p.published=".$flag;
             }
 
             //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
@@ -97,19 +98,6 @@ class UserAccount extends CWidget
                     $query.=$sql;
                 }
                 if(!empty($ids)){
-//                    $elements = Yii::app()->db->createCommand()
-//                    ->selectDistinct('p.id')
-//                    ->from('model_line m')
-//                    ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
-//                    ->join('product p', 'p.id=pm.product_id')
-//                    ->where(
-//                       array('and', 
-//                            'p.liquidity = "D" and p.image not NULL'.$sql,
-//                             array('in', 'm.category_id', $ids)
-//                       )
-//                    )
-//                    ->queryColumn()
-//                ;
                 $query.=" AND m.category_id in (";
                 $ids_count=count($ids);
                 for($i=0; $i < $ids_count;$i++) {
@@ -119,27 +107,13 @@ class UserAccount extends CWidget
                     $query.=$ids[$i];
                 }
                 $query.=")";
-            } //else {
-//                $elements = Yii::app()->db->createCommand()
-//                    ->selectDistinct('p.id')
-//                    ->from('model_line m')
-//                    ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
-//                    ->join('product p', 'p.id=pm.product_id')
-//                    ->where(
-//                       'p.liquidity = "D" and p.image not NULL'.$sql
-//                    )
-//                    ->queryColumn()
-//                ;
-//            }
-            
+            } 
             $query.=";"; 
             $elements = Yii::app()->db->createCommand($query)->queryColumn();
             ////////////////////////////////////////
             
             //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-            /*$max = Product::model()->cache(1000, $dependency)->count(array(
-                'condition' => 'liquidity = "D" and image not NULL', // price more 500 
-            ));*/
+            
             $max = count($elements);
             if ($max > 0) {
                 if ($max >= $count) {
@@ -159,71 +133,10 @@ class UserAccount extends CWidget
                 $result = Yii::app()->db->createCommand($query)->query();
                 $sale = $result->readAll();
             }
-//            if($max > $count) {
-//                if(Yii::app()->params['randomImages']) {
-//                    $temp = array();
-//                    for($i=0; $i < $count; ) {
-//                        $offset = mt_rand(0, $max);
-//                        //$productId = Product::model()->cache(1000, $dependency)->find(array(
-//                        //    'condition' => 'liquidity = "D" and image not NULL', // price more 500 
-//                        //    'offset' => $offset,
-//                        //    'limit' => 1,
-//                        //))->id;
-//
-//                        //$productId = Product::model()->cache(1000, $dependency)->findByAttributes(
-//                        $productId = Product::model()->findByAttributes(
-//                            array(
-//                                'id' => $elements,
-//                            ), 
-//                            array(
-//                                'offset' => $offset,
-//                                'limit' => 1,
-//                        ))->id;
-//
-//                        if(!in_array($productId, $temp) && !empty($productId)) {
-//                           $temp[] = $productId;
-//                           $i++;
-//                        }
-//                    }
-//
-//                    //$sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(array('id'=>$temp));
-//                    $sale = Product::model()->findAllByAttributes(array('id'=>$temp));
-//                } else {
-//                    $offset = mt_rand(0, $max);
-//                    //$sale = Product::model()->cache(1000, $dependency)->findAllByAttributes(
-//                    $sale = Product::model()->findAllByAttributes(
-//                        array(
-//                            'id' => $elements,
-//                        ), 
-//                        array(
-//                            'offset' => $offset,
-//                            'limit' => $count,
-//                    ));
-//                }
-//            } else if($max > 0) {
-//                /*
-//                $sale = Product::model()->cache(1000, $dependency)->findAll(array(
-//                    'condition' => 'liquidity = "D" and image not NULL', // price more 500
-//                    'limit' => $count,
-//                ));
-//                */
-//                
-//                //$sale = Product::model()->cache(1000, $dependency)->findByAttributes(
-//                $sale = Product::model()->findByAttributes(
-//                    array(
-//                        'id' => $elements,
-//                    ), 
-//                    array(
-//                        'limit' => 1,
-//                ));
-//            }
+
         }
         
-//        if(!is_array($sale)){
-//            $temp = $sale;
-//            $sale = array();
-//            $sale[] = $temp->attributes;
-//        }
+
         
         
         return $sale;
