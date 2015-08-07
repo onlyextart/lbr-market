@@ -47,9 +47,7 @@ class BestOffer extends CActiveRecord
                         array('img','EImageValidator','width'=> 770,'height' => 250,
                                                        'types' => 'gif, jpg, png',
                                                        'allowEmpty'=>'true'),
-//                                                       ,'maxsize'=>1024*1024*1, 
-//                                                       'sizeError' =>'Файл весит больше 1 MB. Пожалуйста, загрузите файл меньшего размера.'),
-                      //  array('img','file','maxSize'=>1024*1024*1, 'tooLarge'=>'Файл весит больше 1 MB. Пожалуйста, загрузите файл меньшего размера.'),
+                        array('img','file','maxSize'=>1024*1024*1, 'tooLarge'=>'Файл весит больше 1 MB. Пожалуйста, загрузите файл меньшего размера.','allowEmpty'=>'true'),
 		);
 	}
 

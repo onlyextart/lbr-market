@@ -38,7 +38,7 @@ class ProductMaker extends CActiveRecord
                         array('name', 'required'),
 			array('external_id, name, description, logo, published, country, path, update_time', 'safe'),
 			array('id', 'numerical', 'integerOnly'=>true),
-                        //array('logo', 'file', 'maxSize'=>1024*30, 'tooLarge'=>'Файл весит больше 30Кб. Пожалуйста, загрузите файл меньшего размера.'),
+                        array('logo', 'file', 'maxSize'=>1024*30, 'tooLarge'=>'Файл весит больше 30Кб. Пожалуйста, загрузите файл меньшего размера.','allowEmpty'=>'true'),
 			array('external_id, name, description, logo, published, country, path, update_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
