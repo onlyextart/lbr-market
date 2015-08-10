@@ -93,7 +93,8 @@
                     <tr>
                         <td width="110px" align="center">
                             <?php
-                            echo CHtml::link(CHtml::image($item['img'], '', array('class'=>'thumbnail')), $item['img'], array('class'=>'thumbnail'));
+                            $image = Product::model()->getImage($item['img']);
+                            echo CHtml::link(CHtml::image($image, '', array('class'=>'thumbnail')), $image, array('class'=>'thumbnail'));
                             ?>
                         </td>
                         <td width="220px" >

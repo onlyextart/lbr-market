@@ -64,7 +64,7 @@ class CartController extends Controller
                 foreach(Yii::app()->session['cart'] as $productId => $count) {
                     $product = Product::model()->findByPk($productId);
                     $prodImage = '/images/no-photo.png';
-                    if(!empty($product->image)) $prodImage = 'http://api.lbr.ru/images/shop/spareparts/'.$product->image;
+                    if(!empty($product->image)) $prodImage = $product->image;
                     $items[] = array(
                         'path' => $product->path,
                         'id' => $productId,
@@ -325,8 +325,9 @@ class CartController extends Controller
             if(!empty($price)) {
                $currency = Currency::model()->findByPk($price->currency_code);
                if($currency->exchange_rate) {
-                  $priceLabel = ($price->price*$currency->exchange_rate);
-                  $totalPriceLabel = ($price->price*$count*$currency->exchange_rate);
+                  $oneProductPrice = $price->price*$currency->exchange_rate;
+                  $priceLabel = $this->setPriceFormat($oneProductPrice);                
+                  $totalPriceLabel = ($oneProductPrice*$count);
                }
             }   
         }
@@ -334,6 +335,13 @@ class CartController extends Controller
         return array('one'=>$priceLabel, 'total'=>$totalPriceLabel);
     }
     
+    public function setPriceFormat($price)
+    {
+        if((int)$price < 100) $price = round($price, 1);
+        else $price = number_format(round($price), 0, ',', ' ');
+        
+        return $price;
+    }
     public function actionView()
     {
         Yii::app()->params['meta_title'] = 'Просмотр заказа';
