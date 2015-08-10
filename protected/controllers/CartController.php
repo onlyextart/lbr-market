@@ -237,7 +237,7 @@ class CartController extends Controller {
             }
 
             if (is_numeric($totalPrice))
-                $totalLabel = $totalPrice . ' руб.';
+                $totalLabel = Price::model()->setPriceFormat($totalPrice) . ' руб.';
             else
                 $totalLabel = 'стоимость будет указана в счет-фактуре.';
         }
