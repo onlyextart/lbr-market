@@ -145,16 +145,19 @@ class Price extends CActiveRecord {
         $priceInFilial = PriceInFilial::model()->find('product_id = :id and filial_id = :filial', array('id' => $productId, 'filial' => $filialId));
         if (!empty($priceInFilial)) {
             $currency = Currency::model()->findByPk($priceInFilial->currency_code);
-            if (!empty($currency)) {
-                $price = $priceInFilial->price * $currency->exchange_rate;
-                
-                if((int)$price < 100) $price = round($price, 1);
-                else $price = number_format(round($price), 0, ',', ' ');
-                
-                $priceLabel = $price.' руб.';
+            if (!empty($currency)) {            
+                $priceLabel = $this->setPriceFormat($priceInFilial->price * $currency->exchange_rate).' руб.';
             }
         }
 
         return $priceLabel;
+    }
+    
+    public function setPriceFormat($price)
+    {
+        if((int)$price < 100) $price = round($price, 1);
+        else $price = number_format(round($price), 0, ',', ' ');
+        
+        return $price;
     }
 }
