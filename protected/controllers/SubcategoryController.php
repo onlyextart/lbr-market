@@ -209,9 +209,9 @@ class SubcategoryController extends Controller
             ->join('product p', 'p.id=pm.product_id')
             ->where(
                array('and', 
-                    'p.liquidity = "A" and p.image not NULL'.$sql,
+                    'p.liquidity = "A" and p.image not NULL and p.published=:flag'.$sql,
                      array('in', 'm.category_id', $ids)
-               )
+               ), array(':flag'=>true)
             )
             ->queryColumn()
         ;
@@ -221,43 +221,24 @@ class SubcategoryController extends Controller
         $temp = array();
         $count = 8;
         
-        if($max > $count) {
-            if(Yii::app()->params['randomImages']) {
-                for($i = 0; $i < 8; ) {
-                    $offset = mt_rand(0, $max);                
-                    $saleProduct = Product::model()->findByAttributes(
-                        array(
-                            'id'=>$elements,
-                        ), 
-                        array(
-                            'offset' => $offset,
-                            'limit' => 1,
-                        )
-                    );
-
-                    if(!in_array($saleProduct[id], $temp) && !empty($saleProduct[id])) {
-                       $temp[] = $saleProduct[id];
-                       $i++;
-                    }
-                }
-                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+         if ($max > 0) {
+            if ($max >= $count) {
+                $random_elem = array_rand($elements, $count);
             } else {
-                $offset = mt_rand(0, $max);
-                $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(
-                    array(
-                        'id' => $elements,
-                    ), 
-                    array(
-                        'offset' => $offset,
-                        'limit' => $count,
-                ));
+                $random_elem = array_rand($elements, $max);
             }
-        } else {
-            foreach($elements as $element) {
-                $temp[] = $element;
+            $random_count = count($random_elem);
+            $query = "SELECT * from product where id in (";
+            for ($i = 0; $i < $random_count; $i++) {
+                if ($i != 0) {
+                    $query.=',';
+                }
+                $query.=$elements[$random_elem[$i]];
             }
-            $hitProducts = Product::model()->cache(1000, $depend)->findAllByAttributes(array('id'=>$temp));
+            $query.=");";
+            $hitProducts = Product::model()->findAllBySql($query);
         }
+        
         
         return $hitProducts;
     }

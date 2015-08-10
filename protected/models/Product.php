@@ -169,7 +169,7 @@ class Product extends CActiveRecord
                 $criteria->with=array('productMaker','productGroup');
                 $criteria->together = true;
 		$criteria->compare('t.id',$this->id);
-		$criteria->compare('external_id',$this->external_id,true);
+		$criteria->compare('t.external_id',$this->external_id,true);
 		//$criteria->compare('price.value',$this->price_value);
                 //$criteria->compare('currency.iso',$this->price_value,true,'OR');
 		$criteria->compare('catalog_number',$this->catalog_number,true);

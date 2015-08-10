@@ -57,7 +57,7 @@ class GroupController extends Controller
             //$model->attributes = $_POST['ProductGroup'];
             //$model->name = $_POST['ProductGroup']['name'];
             if($model->name != $_POST['ProductGroup']['name']) {
-                $message = 'Редакирование группы товаров "'.$model->name.'" изменены следующие поля: 1) поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['ProductGroup']['name'].'"';
+                $message = 'Редактирование группы товаров "'.$model->name.'", изменены следующие поля: 1) поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['ProductGroup']['name'].'"';
                 $model->name = $_POST['ProductGroup']['name'];
                 if($model->validate()) {
                     $model->saveNode();
