@@ -155,8 +155,8 @@ class Price extends CActiveRecord {
     
     public function setPriceFormat($price)
     {
-        if((int)$price < 100) $price = round($price, 1);
-        else $price = number_format(round($price), 0, ',', ' ');
+        if((int)$price < 100) $price = number_format(round($price, 1), 1, '.', ' ');
+        else $price = number_format(round($price), 0, '.', ' ');
         
         return $price;
     }
