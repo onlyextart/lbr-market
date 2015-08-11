@@ -196,6 +196,7 @@ return array(
         'breadcrumbs' => array(),
         'textHidePrice' => 'Информация о ценах временно недоступна',
         'textNoPrice' => 'запросить цену',
+        'boolLabel'=>array('0'=>'Нет','1'=>'Да'),
         'meta_title' => 'Запчасти ЛБР-Агромаркет',
         'meta_description' => 'Магазин запчастей, запчасти ЛБР',
         'menu_admin' => array(

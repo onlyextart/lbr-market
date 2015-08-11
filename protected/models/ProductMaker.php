@@ -160,4 +160,11 @@ class ProductMaker extends CActiveRecord
             
             return $makers;
         }
+        
+         protected function afterSave() {
+            parent::afterSave();
+            //скрытие/отображение товаров производителя
+            $query="UPDATE product SET published_maker=".$this->published." WHERE product_maker_id=".$this->id;
+            $result = Yii::app()->db->createCommand($query)->query();
+        }
 }
