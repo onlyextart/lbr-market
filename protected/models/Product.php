@@ -257,4 +257,25 @@ class Product extends CActiveRecord
             
             return $image;
         }
+        
+        public function getDraftImage($imgName, $size = 'large')
+        {
+            $image = Yii::app()->params['imageNoPhoto'];
+            if(!empty($imgName)) {
+                switch ($size) {
+                    case 'm': // medium
+                        $temp = 'http://api.lbr.ru/images/shop/drafts/medium/'.$imgName;
+                        break;
+                    default:  // large
+                        $temp = 'http://api.lbr.ru/images/shop/drafts/large/'.$imgName;
+                }
+
+                $fileHeaders = @get_headers($temp);
+                if (!stripos($fileHeaders[0], "404 Not Found") && !(stripos($fileHeaders[0], "302 Found") > 0 && stripos($fileHeaders[7], "404 Not Found") > 0)) {
+                    $image = $temp;
+                }
+            }
+            
+            return $image;
+        }
 }
