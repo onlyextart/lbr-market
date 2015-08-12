@@ -26,14 +26,6 @@
 
         <div class="row">      
             <?php  
-                echo $form_view->error($model, 'published_maker'); 
-                echo $form_view->labelEx($model, 'published_maker');
-                echo $form_view->dropDownList($model, 'published_maker',array('0'=>'Нет','1'=>'Да'), array('disabled'=>'true'));
-            ?>
-        </div>
-
-        <div class="row">      
-            <?php  
                 echo $form_view->labelEx($model, 'group');
                 echo $form_view->textField($model, 'group', array('disabled'=>'true'));
                 echo $form_view->hiddenField($model, 'product_group_id');

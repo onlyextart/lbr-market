@@ -72,7 +72,7 @@ class Product extends CActiveRecord
                         array('name, catalog_number, count', 'required'),
 			array('min_quantity', 'numerical', 'integerOnly'=>true, 'message'=>'Поле должно содержать целое число'),
                         array('liquidity','match','pattern'=>'/^[ABCD ]$/','message'=>'Значением поля "Ликвидность" может быть только латинская буква A, B, C или D'),
-                        array('external_id, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published, published_maker', 'safe'),
+                        array('external_id, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published', 'safe'),
                         
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -146,7 +146,6 @@ class Product extends CActiveRecord
                         'update_time' => 'Дата обновления',
                         'weight' => 'Вес',
                         'price' => 'Цена',
-                        'published_maker'=>'Публикация производителя',
 		);
 	}
 
