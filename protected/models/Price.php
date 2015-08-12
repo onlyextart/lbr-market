@@ -132,9 +132,14 @@ class Price extends CActiveRecord {
         if(empty($priceLabel)) $priceLabel = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
         
         $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$productId, 'filial_id'=>$filialId));
-        $currency = Currency::model()->findByPk($price->currency_code);
-        $updateTime = date('d.m.Y H:i', strtotime($currency->update_time));
-        if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $updateTime = date('d.m.Y H:i', strtotime($price->update_time));
+        if(!empty($price)){
+            $currency = Currency::model()->findByPk($price->currency_code);
+            $updateTime = date('d.m.Y H:i', strtotime($currency->update_time));
+            if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $updateTime = date('d.m.Y H:i', strtotime($price->update_time));
+        } else {
+            $product = Product::model()->findByPk($productId);
+            $updateTime = date('d.m.Y H:i', strtotime($product->update_time));
+        }
         
         return array($priceLabel, $updateTime, $filial);
     }
