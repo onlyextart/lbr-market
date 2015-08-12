@@ -1,6 +1,6 @@
 {
   "name": "lbr-market",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "node.js",
   "scripts": {
@@ -10,13 +10,17 @@
     "type": "git",
     "url": "git://github.com/devlbr/lbr-market.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "LBR",
+  "license": "LBR",
   "bugs": {
     "url": "https://github.com/devlbr/lbr-market/issues"
   },
   "homepage": "https://github.com/devlbr/lbr-market",
   "dependencies": {
     "grunt": "~0.4.5"
+  },
+  "devDependencies": {
+    "grunt-contrib-concat": "~0.5.1",
+    "grunt-contrib-watch": "~0.6.1"
   }
 }
