@@ -1,26 +1,27 @@
 {
-  "name": "lbr-market",
-  "version": "0.0.1",
-  "description": "",
-  "main": "node.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/devlbr/lbr-market.git"
-  },
-  "author": "LBR",
-  "license": "LBR",
-  "bugs": {
-    "url": "https://github.com/devlbr/lbr-market/issues"
-  },
-  "homepage": "https://github.com/devlbr/lbr-market",
-  "dependencies": {
-    "grunt": "~0.4.5"
-  },
-  "devDependencies": {
-    "grunt-contrib-concat": "~0.5.1",
-    "grunt-contrib-watch": "~0.6.1"
-  }
+    "name": "lbr-market",
+    "version": "1.0.0",
+    "description": "",
+    "main": "node.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/devlbr/lbr-market.git"
+    },
+    "author": "LBR",
+    "license": "LBR",
+    "bugs": {
+        "url": "https://github.com/devlbr/lbr-market/issues"
+    },
+    "homepage": "https://github.com/devlbr/lbr-market",
+    "dependencies": {
+        "grunt": "~0.4.5"
+    },
+    "devDependencies": {
+        "grunt-contrib-concat": "~0.5.1",
+        "grunt-contrib-uglify": "~0.9.1",
+        "grunt-contrib-cssmin": "~0.13.0"
+    }
 }

@@ -14,13 +14,15 @@
         <script>
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
+        
         <link rel="stylesheet" type="text/css" href="/css/front/frontend-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/accordion-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/jquery.mCustomScrollbar-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/core.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/default.css" />
-        <link rel="stylesheet" type="text/css" href="/css/ui/jquery-ui-1.10.3-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/tip-darkgray/tip-darkgray.css" />
+        <link rel="stylesheet" type="text/css" href="/css/ui/jquery-ui-1.10.3-min.css" />
+        
         
         <?php
             Yii::app()->clientScript->registerCoreScript('jquery');
