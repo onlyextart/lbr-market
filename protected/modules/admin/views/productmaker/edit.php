@@ -64,7 +64,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
                 <div class="row">      
                 <?php  
                     echo $form_view->labelEx($model, 'name');
-                    echo $form_view->textField($model, 'name');
+                    echo $form_view->textField($model, 'name', array('disabled'=>'true'));
                 ?>
                 </div>
             
@@ -72,7 +72,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
                 <?php
                     echo $form_view->error($model, 'country');
                     echo $form_view->labelEx($model, 'country');
-                    echo $form_view->textField($model, 'country');
+                    echo $form_view->textField($model, 'country', array('disabled'=>'true'));
                 ?>
                 </div>
             

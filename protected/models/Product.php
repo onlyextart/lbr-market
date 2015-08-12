@@ -145,7 +145,7 @@ class Product extends CActiveRecord
 			'published' => 'Опубликовать',
                         'update_time' => 'Дата обновления',
                         'weight' => 'Вес',
-                        'price' => 'Цена'
+                        'price' => 'Цена',
 		);
 	}
 
