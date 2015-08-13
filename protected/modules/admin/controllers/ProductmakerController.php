@@ -40,15 +40,13 @@ class ProductmakerController extends Controller
                 $model->attributes = $_POST['ProductMaker'];
                 $model->update_time= date('Y-m-d H:i:s');
                 
-                if($model->validate()) {
-                    $image = CUploadedFile::getInstance($model,'logo');
+                if($model->validate()) {                    
+                    $image = CUploadedFile::getInstance($model, 'logo');
                     if(isset($image)) {
-                        //foreach($images as $image) {
-                             $filePath = '/images/productmaker/'.$image->name;
-                             $image->saveAs(Yii::getPathOfAlias('webroot').$filePath);
-                             $model->logo = $filePath;
-                         //}
+                        $uploadedImage = ImageController::saveImage($image, '/images/productmaker/');
+                        if(!empty($uploadedImage)) $model->logo = $uploadedImage;
                     }
+                    
                     if($model->save()) {
                         $message = 'Создан производитель запчастей "'.$model->name.'"';
                         Changes::saveChange($message);
@@ -81,49 +79,46 @@ class ProductmakerController extends Controller
         //);
 
         if(!empty($_POST['ProductMaker'])) {
-            if ($model->attributes != $_POST['ProductMaker']){
-                $message.= 'Редактирование производителя запчастей "'.$model->name.'" (id='.$model->id;
-                if(!empty($model->external_id)) $message .= ', external_id = "'.$model->external_id;
-                $message .='"), изменены следующие поля:';
-                if($model->name != $_POST['ProductMaker']['name']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['ProductMaker']['name'].'"';
-                }
-                if($model->description != $_POST['ProductMaker']['description']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('description').'"';
-                }
-                if($model->logo != $_POST['ProductMaker']['logo']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('logo').'"';
-                }
-                if($model->published != $_POST['ProductMaker']['published']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('published').'" c "'.Yii::app()->params['boolLabel'][$model->published].'" на "'.Yii::app()->params['boolLabel'][$_POST['ProductMaker']['published']].'"';
-                }
-                if($model->country != $_POST['ProductMaker']['country']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('country').'" c "'.$model->country.'" на "'.$_POST['ProductMaker']['country'].'"';
-                }
-            }
-            
+//            if ($model->attributes != $_POST['ProductMaker']){
+//                $message.= 'Редактирование производителя запчастей "'.$model->name.'" (id='.$model->id;
+//                if(!empty($model->external_id)) $message .= ', external_id = "'.$model->external_id;
+//                $message .='"), изменены следующие поля:';
+//                if($model->name != $_POST['ProductMaker']['name']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['ProductMaker']['name'].'"';
+//                }
+//                if($model->description != $_POST['ProductMaker']['description']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('description').'"';
+//                }
+//                if($model->logo != $_POST['ProductMaker']['logo']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('logo').'"';
+//                }
+//                if($model->published != $_POST['ProductMaker']['published']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('published').'" c "'.Yii::app()->params['boolLabel'][$model->published].'" на "'.Yii::app()->params['boolLabel'][$_POST['ProductMaker']['published']].'"';
+//                }
+//                if($model->country != $_POST['ProductMaker']['country']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('country').'" c "'.$model->country.'" на "'.$_POST['ProductMaker']['country'].'"';
+//                }
+//            }
+//            
             $imgTemp=$model->logo;
             $model->attributes = $_POST['ProductMaker'];
             $model->logo=$imgTemp;
             $model->update_time= date('Y-m-d H:i:s');
             
            if($model->validate()) {
-                //$images = CUploadedFile::getInstancesByName('Images');
-                $image = CUploadedFile::getInstance($model,'logo');
-                if(isset($image)) {
-                    //foreach($images as $image) {
-                         $filePath = '/images/productmaker/'.$image->name;
-                         $image->saveAs(Yii::getPathOfAlias('webroot').$filePath);
-                         $model->logo = $filePath;
-                     //}
-               }
+                $image = CUploadedFile::getInstance($model, 'logo');
+                if (isset($image)) {
+                    $uploadedImage = ImageController::saveImage($image, '/images/productmaker/');
+                    if (!empty($uploadedImage))
+                        $model->logo = $uploadedImage;
+                }
                 if($model->save()) {
-                    if(!empty($message)) Changes::saveChange($message);
+                    //if(!empty($message)) Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Производитель сохранен успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {

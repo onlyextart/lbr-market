@@ -1,7 +1,7 @@
 <div class="row">      
     <?php  
         echo $form_view->labelEx($model, 'name');
-        echo $form_view->textField($model, 'name');
+        echo $form_view->textField($model, 'name', array('disabled'=>'true'));
     ?>
 </div>
 

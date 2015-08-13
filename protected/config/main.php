@@ -22,6 +22,7 @@ return array(
         'application.helpers.*',
         'ext.YiiMailer.YiiMailer',
         'application.controllers.SecurityController',
+        'application.controllers.ImageController',
     ),
 
     'modules' => array(
