@@ -2,12 +2,12 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
-            options: {
+            /*options: {
                 separator: ';\n',
-            },
+            },*/
             js: {
                 src: [
-                    'js/jquery.jcarousel.min.js',
+                    /*'js/jquery.jcarousel.min.js',
                     'js/jquery.carouFredSel.min.js',
                     'js/jquery.mCustomScrollbar.concat.min.js',
                     'js/alertify.min.js',
@@ -18,16 +18,29 @@ module.exports = function (grunt) {
                     'js/jquery.cookie.min.js',
                     'js/front/frontend.js',
                     'js/front/search.js',
-                    'js/front/cart.js'
+                    'js/front/cart.js'*/
+                    
+                    'js/front/jquery.jcarousel.js',
+                    'js/front/alertify.js',
+                    'js/front/jquery.dotdotdot.js',
+                    'js/front/jquery.dcjqaccordion.2.7.js',
+                    'js/front/frontend.js',
+                    'js/front/search.js',
+                    'js/front/cart.js',
+                    'js/front/jquery.cookie.js',
+                    'js/easyTooltip.js',
+                    'js/jquery.hoverIntent.minified.js',
+                    'js/jquery.mCustomScrollbar.concat.min.js',
+                    'js/jquery.carouFredSel.min.js'
                 ],
                 dest: 'distribution/js/scripts.js',
             },
             css: {
                 src: [
                     'css/ui/jquery-ui-1.10.3-min.css',
-                    'css/front/frontend-min.css',
-                    'css/front/accordion-min.css',
-                    'css/front/jquery.mCustomScrollbar-min.css',
+                    'css/front/orig/frontend.css',
+                    'css/front/orig/accordion.css',
+                    'css/front/orig/jquery.mCustomScrollbar.css',
                     'css/front/alertify/core.css',
                     'css/front/alertify/default.css',
                     'css/front/tip-darkgray/tip-darkgray.css'

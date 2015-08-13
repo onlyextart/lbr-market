@@ -1,4 +1,4 @@
-var lbrAnaliticsTimerStart = new Date().getTime();
+;var lbrAnaliticsTimerStart = new Date().getTime();
 var lbrAnaliticsSaved = false;
 var lbrAnaliticsBlur = false;
 
@@ -310,4 +310,4 @@ function saveAnalitics(p)
             }
         });
     }
-}
+};

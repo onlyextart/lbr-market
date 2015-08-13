@@ -1,4 +1,4 @@
-var cart = {
+;var cart = {
     init : function(){
         $('.cart-quantity').focus(function() {
             var list = $(this).parent().find('.shop-cart-quantity');

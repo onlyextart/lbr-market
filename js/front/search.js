@@ -1,4 +1,4 @@
-function AjaxQuickSearch(type){
+;function AjaxQuickSearch(type){
     var _self = this;
     if(type == 'full'){
         this.Option = {
@@ -53,4 +53,4 @@ function AjaxQuickSearch(type){
     this.AjaxSuccess = function(html){
          $(_self.Option.container).html(html);
     };
-}
+};
