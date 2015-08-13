@@ -2,7 +2,7 @@
     <div class="row">      
         <?php  
             echo $form->labelEx($model, 'name');
-            echo $form->textField($model, 'name');
+            echo $form->textField($model, 'name', array('disabled'=>'true'));
         ?>
     </div>
 
