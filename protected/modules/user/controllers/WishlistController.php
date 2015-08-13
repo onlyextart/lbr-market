@@ -12,6 +12,7 @@ class WishlistController extends Controller
         }
         $criteria = new CDbCriteria();
         $criteria->addInCondition("id", $temp);
+        $criteria->order = 'name';
         
         $dataProvider = new CActiveDataProvider('Product',
             array(

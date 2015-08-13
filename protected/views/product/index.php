@@ -163,7 +163,7 @@
                <h3><a target="_blank" href="/draft/index/id/<?php echo $draft[id]; ?>/"><?php echo $draft[name]; ?></a></h3>
                <div class="img-wrapper">
                    <a target="_blank" href="/draft/index/id/<?php echo $draft[id]; ?>/">
-                      <img src="http://api.lbr.ru/images/shop/draft/<?php echo $draft[image]; ?>" alt="Нет изображения">
+                      <img src="<?php echo Product::model()->getDraftImage($draft[image], 'm'); ?>" alt="Сборочный чертеж">
                    </a>
                </div>
             </div>

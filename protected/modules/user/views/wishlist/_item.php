@@ -1,6 +1,5 @@
 <?php
-     $image = '/images/no-photo.png';
-     if(!empty($data->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$data->image;
+     $image = Product::model()->getImage($data->image);
 ?>
 <div class="wish-item">
     <div style="width: 115px; float: left;">

@@ -79,43 +79,22 @@ class ProductController extends Controller
     
     public function getMainProductInfo($productId)
     {
-        $priceLabel = $update = $filial = '';
+        $priceLabel = $updateTime = $filial = '';
         // logged user
         if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
-            $user = User::model()->findByPk(Yii::app()->user->_id);
-            $filial = Filial::model()->findByPk($user->filial)->name;
-            
-            if(!empty($user->filial)) {
-                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$productId, 'filial_id'=>$user->filial));
-                if(!empty($price)) {
-                    $currency = Currency::model()->findByPk($price->currency_code);
-                    if($currency->exchange_rate) {
-                        $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
-                    
-                        $update = date('d.m.Y H:i', strtotime($currency->update_time));
-                        if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
-                    }
-                } else $priceLabel = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
-            }
+            $filialId = User::model()->findByPk(Yii::app()->user->_id)->filial;
         } else if(!empty(Yii::app()->request->cookies['lbrfilial']->value)) {
-            $filialId = Yii::app()->request->cookies['lbrfilial']->value;
-            $filial = Filial::model()->findByPk($filialId)->name;
-            
-            if(!empty($filialId)) {
-                $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$productId, 'filial_id'=>$filialId));
-                if(!empty($price)) {
-                    $currency = Currency::model()->findByPk($price->currency_code);
-                    if($currency->exchange_rate) {
-                        $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
-                    
-                        $update = date('d.m.Y H:i', strtotime($currency->update_time));
-                        if(!empty($price->update_time) && (strtotime($currency->update_time) < strtotime($price->update_time))) $update = date('d.m.Y H:i', strtotime($price->update_time));
-                    }
-                } else $priceLabel = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
-            }
+            $filialId = Yii::app()->request->cookies['lbrfilial']->value; 
         }
         
-        return array($priceLabel, $update, $filial);
+        if(!empty($filialId)) {
+            $priceInfo = Price::model()->getPriceFilalAndUpdateTime($productId, $filialId);
+            $priceLabel = $priceInfo[0];
+            $updateTime = $priceInfo[1];
+            $filial = $priceInfo[2];
+        }
+        
+        return array($priceLabel, $updateTime, $filial);
     }
         
     public function getAnalogProducts($id)
