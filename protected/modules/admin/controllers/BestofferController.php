@@ -101,7 +101,6 @@ class BestofferController extends Controller {
             $model->img = $imgTemp;
             if(empty($model->level)) $model->level = 1;
             if($model->validate()) {
-                
                 $image = CUploadedFile::getInstance($model, 'img');
                 if(isset($image)) {
                     $uploadedImage = ImageController::saveImage($image, '/images/bestoffer/');
