@@ -1175,7 +1175,7 @@ input#full-search
     margin: 0 auto;*/
     position: absolute;
     top: 90%;
-    left: 90%;
+    right: 0;
 }
 #carousel .pager a, #carousel-logo .pager a {
     background: transparent url(/images/carousel/carousel_control.png) no-repeat -2px -32px;
