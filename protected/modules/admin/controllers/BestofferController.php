@@ -73,29 +73,29 @@ class BestofferController extends Controller {
         $i = 0; //номер изменения
         $model = BestOffer::model()->findByPk($id);
         if(!empty($_POST['BestOffer'])) {
-            if ($model->attributes != $_POST['BestOffer']){
-                $message.= 'Редактирование спецпредложения "'.$model->name.'", изменены следующие поля:';
-                if($model->name != $_POST['BestOffer']['name']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['BestOffer']['name'].'"';
-                }
-                if($model->img != $_POST['BestOffer']['img']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('img').'"';
-                }
-                if($model->published != $_POST['BestOffer']['published']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('published').'" c "'.$model->published.'" на "'.$_POST['BestOffer']['published'].'"';
-                }
-                if($model->level != $_POST['BestOffer']['level']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('level').'" c "'.$model->level.'" на "'.$_POST['BestOffer']['level'].'"';
-                }
-                if($model->description != $_POST['BestOffer']['description']){
-                    $i++;
-                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('description').'"';
-                }
-            }
+//            if ($model->attributes != $_POST['BestOffer']){
+//                $message.= 'Редактирование спецпредложения "'.$model->name.'", изменены следующие поля:';
+//                if($model->name != $_POST['BestOffer']['name']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['BestOffer']['name'].'"';
+//                }
+//                if($model->img != $_POST['BestOffer']['img']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('img').'"';
+//                }
+//                if($model->published != $_POST['BestOffer']['published']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('published').'" c "'.$model->published.'" на "'.$_POST['BestOffer']['published'].'"';
+//                }
+//                if($model->level != $_POST['BestOffer']['level']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('level').'" c "'.$model->level.'" на "'.$_POST['BestOffer']['level'].'"';
+//                }
+//                if($model->description != $_POST['BestOffer']['description']){
+//                    $i++;
+//                    $message.=' '.$i.') поле "'.$model->getAttributeLabel('description').'"';
+//                }
+//            }
             $imgTemp = $model->img;
             $model->attributes = $_POST['BestOffer'];
             $model->img = $imgTemp;
@@ -107,7 +107,7 @@ class BestofferController extends Controller {
                     if(!empty($uploadedImage)) $model->img = $uploadedImage;
                 }
                 if($model->save()) {
-                    if(!empty($message)) Changes::saveChange($message);
+                    //if(!empty($message)) Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Спецпредложение сохранено успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {
