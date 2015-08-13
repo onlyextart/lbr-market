@@ -37,8 +37,8 @@ class AdminModule extends CWebModule
         $controller->layout = 'main';
             Yii::app()->clientScript->registerCssFile('/css/back/backend.css?'.time());
             Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
-            Yii::app()->clientScript->registerCssFile('/css/back/alertify/core.css');
-            Yii::app()->clientScript->registerCssFile('/css/back/alertify/default.css');
+            Yii::app()->clientScript->registerCssFile('/css/alertify/core.css');
+            Yii::app()->clientScript->registerCssFile('/css/alertify/default.css');
             
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/js/ui/jquery-ui-1.10.3.js');
