@@ -72,6 +72,15 @@ class ProductController extends Controller
                         $i++;
                         $message.=' '.$i.') поле "'.$model->getAttributeLabel('additional_info').'"';
                     }
+                    if($model->count != $_POST['Product']['count']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('count').'" c "'.$model->count.'" на "'.$_POST['Product']['count'].'"';
+                    }
+                    if($model->liqiudity != $_POST['Product']['liqiudity']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('liqiudity').'" c "'.$model->liqiudity.'" на "'.$_POST['Product']['liqiudity'].'"';
+                    }
+                    
                 }
                 $model->attributes = $_POST['Product'];
                 if ($model->product_group_id===""){
