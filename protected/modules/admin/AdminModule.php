@@ -17,13 +17,6 @@ class AdminModule extends CWebModule
     public function beforeControllerAction($controller, $action)
     {
         if(parent::beforeControllerAction($controller, $action)) {
-           /* $controller->layout = 'main';
-            Yii::app()->clientScript->registerCssFile('/css/back/backend.css?'.time());
-            Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
-            Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerScriptFile('/js/ui/jquery-ui-1.10.3.js');
-            Yii::app()->clientScript->registerScriptFile('/js/back/backend.js');
-*/
             if(Yii::app()->user->isGuest) {
                $this->addStyle($controller);
                Yii::app()->user->returnUrl = Yii::app()->request->requestUri;
@@ -46,13 +39,14 @@ class AdminModule extends CWebModule
             Yii::app()->clientScript->registerCssFile('/css/ui/jquery-ui-1.10.3.css');
             Yii::app()->clientScript->registerCssFile('/css/back/alertify/core.css');
             Yii::app()->clientScript->registerCssFile('/css/back/alertify/default.css');
+            
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/js/ui/jquery-ui-1.10.3.js');
             Yii::app()->clientScript->registerScriptFile('/js/ui/timepicker.js'); 
             Yii::app()->clientScript->registerScriptFile('/js/back/backend.js');
-            Yii::app()->clientScript->registerScriptFile('/js/alertify.min.js');
             Yii::app()->clientScript->registerScriptFile('/js/back/editUser.js');
             Yii::app()->clientScript->registerScriptFile('/js/back/editDiscount.js');
             Yii::app()->clientScript->registerScriptFile('/js/back/editOrder.js');
+            Yii::app()->clientScript->registerScriptFile('/js/alertify.js');
     }
 }

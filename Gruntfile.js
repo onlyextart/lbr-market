@@ -2,36 +2,20 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
-            /*options: {
-                separator: ';\n',
-            },*/
             js: {
                 src: [
-                    /*'js/jquery.jcarousel.min.js',
-                    'js/jquery.carouFredSel.min.js',
-                    'js/jquery.mCustomScrollbar.concat.min.js',
-                    'js/alertify.min.js',
-                    'js/jquery.dotdotdot.min.js',
-                    'js/jquery.dcjqaccordion.2.7.min.js',
-                    'js/easyTooltip.js',
-                    'js/jquery.hoverIntent.minified.js',
-                    'js/jquery.cookie.min.js',
-                    'js/front/frontend.js',
-                    'js/front/search.js',
-                    'js/front/cart.js'*/
-                    
                     'js/front/jquery.jcarousel.js',
-                    'js/front/alertify.js',
                     'js/front/jquery.dotdotdot.js',
                     'js/front/jquery.dcjqaccordion.2.7.js',
                     'js/front/frontend.js',
                     'js/front/search.js',
                     'js/front/cart.js',
                     'js/front/jquery.cookie.js',
-                    'js/easyTooltip.js',
-                    'js/jquery.hoverIntent.minified.js',
-                    'js/jquery.mCustomScrollbar.concat.min.js',
-                    'js/jquery.carouFredSel.min.js'
+                    'js/front/easyTooltip.js',
+                    'js/front/jquery.hoverIntent.minified.js',
+                    'js/front/jquery.mCustomScrollbar.concat.min.js',
+                    'js/front/jquery.carouFredSel.min.js',
+                    'js/alertify.js'
                 ],
                 dest: 'distribution/js/scripts.js',
             },
@@ -67,7 +51,6 @@ module.exports = function (grunt) {
             }
         },
     });
-
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
