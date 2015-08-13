@@ -113,9 +113,39 @@ class ModellineController extends Controller
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
         if(!empty($_POST['ModelLine'])) {
+            if ($model->attributes != $_POST['ModelLine']){
+                    $message.= 'Редактирование модельного ряда "'.$model->name.'"';
+                    $message.=', изменены следующие поля:';
+                    if($model->name != $_POST['ModelLine']['name']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['ModelLine']['name'].'"';
+                    }
+                    if($model->published != $_POST['ModelLine']['published']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('published').'" c "'.Yii::app()->params['boolLabel'][$model->published].'" на "'.Yii::app()->params['boolLabel'][$_POST['ModelLine']['published']].'"';
+                    }
+                    if($model->meta_title != $_POST['ModelLine']['meta_title']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('meta_title').'" c "'.$model->meta_title.'" на "'.$_POST['ModelLine']['meta_title'].'"';
+                    }
+                    if($model->meta_description != $_POST['ModelLine']['meta_description']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('meta_description').'" c "'.$model->meta_description.'" на "'.$_POST['ModelLine']['meta_description'].'"';
+                    }
+                    if($model->top_text != $_POST['ModelLine']['top_text']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('top_text').'"';
+                    }
+                    if($model->bottom_text != $_POST['ModelLine']['bottom_text']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('bottom_text').'"';
+                    }
+                    
+                }
             $model->attributes = $_POST['ModelLine'];
             if($model->validate()) {
                 $model->saveNode();
+                if(!empty($message)) Changes::saveChange($message);
                 Yii::app()->user->setFlash('message', 'Модельный ряд сохранен.');
             }
         }
@@ -155,10 +185,12 @@ class ModellineController extends Controller
     public function actionDelete($id)
     {
         $model = ModelLine::model()->findByPk($id);
+        $message = 'Удален модельный ряд "'.$model->name;
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Модельный ряд не найден.'));
         
         $model->deleteNode();
+        Changes::saveChange($message);
         Yii::app()->user->setFlash('message', 'Модельный ряд удален.');
         $this->redirect(array('index'));        
     }

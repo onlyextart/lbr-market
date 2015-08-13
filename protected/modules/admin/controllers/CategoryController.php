@@ -50,6 +50,35 @@ class CategoryController extends Controller
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
         if(!empty($_POST['Category'])) {
+            if ($model->attributes != $_POST['Category']){
+                    $message.= 'Редактирование категории "'.$model->name.'"';
+                    $message.=', изменены следующие поля:';
+                    if($model->name != $_POST['Category']['name']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['Category']['name'].'"';
+                    }
+                    if($model->published != $_POST['Category']['published']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('published').'" c "'.Yii::app()->params['boolLabel'][$model->published].'" на "'.Yii::app()->params['boolLabel'][$_POST['Category']['published']].'"';
+                    }
+                    if($model->meta_title != $_POST['Category']['meta_title']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('meta_title').'" c "'.$model->meta_title.'" на "'.$_POST['Category']['meta_title'].'"';
+                    }
+                    if($model->meta_description != $_POST['Category']['meta_description']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('meta_description').'" c "'.$model->meta_description.'" на "'.$_POST['Category']['meta_description'].'"';
+                    }
+                    if($model->top_text != $_POST['Category']['top_text']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('top_text').'"';
+                    }
+                    if($model->bottom_text != $_POST['Category']['bottom_text']){
+                        $i++;
+                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('bottom_text').'"';
+                    }
+                    
+                }
             $model->attributes = $_POST['Category'];
             if($model->validate()) {
                 $model->saveNode();
@@ -63,7 +92,7 @@ class CategoryController extends Controller
                     $model->saveNode();
                     $this->updateChildPath($model);
                 }
-
+                if(!empty($message)) Changes::saveChange($message);
                 Yii::app()->user->setFlash('message', 'Категория сохранена.');
             }
         }
@@ -182,10 +211,12 @@ class CategoryController extends Controller
     public function actionDelete($id)
     {
         $model = Category::model()->findByPk($id);
+        $message = 'Удалена категория "'.$model->name;
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
         
         $model->deleteNode();
+        Changes::saveChange($message);
         Yii::app()->user->setFlash('message', 'Категория удалена.');
         $this->redirect(array('index'));        
     }
