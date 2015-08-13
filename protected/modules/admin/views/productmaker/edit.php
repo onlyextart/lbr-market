@@ -60,33 +60,18 @@ $errorMsg = Yii::app()->user->getFlash('error');
 
             echo $form_view->errorSummary($model);
             ?>
-<<<<<<< HEAD
-            
-                
                 <div class="row">      
                 <?php  
                     echo $form_view->labelEx($model, 'name');
                     echo $form_view->textField($model, 'name', array('disabled'=>'true'));
-=======
-            <div class="row">      
-                <?php
-                echo $form_view->labelEx($model, 'name');
-                echo $form_view->textField($model, 'name');
->>>>>>> draft
                 ?>
             </div>
 
             <div class="row">      
                 <?php
-<<<<<<< HEAD
                     echo $form_view->error($model, 'country');
                     echo $form_view->labelEx($model, 'country');
                     echo $form_view->textField($model, 'country', array('disabled'=>'true'));
-=======
-                echo $form_view->error($model, 'country');
-                echo $form_view->labelEx($model, 'country');
-                echo $form_view->textField($model, 'country');
->>>>>>> draft
                 ?>
             </div>
 
