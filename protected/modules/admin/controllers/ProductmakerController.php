@@ -40,15 +40,13 @@ class ProductmakerController extends Controller
                 $model->attributes = $_POST['ProductMaker'];
                 $model->update_time= date('Y-m-d H:i:s');
                 
-                if($model->validate()) {
-                    $image = CUploadedFile::getInstance($model,'logo');
+                if($model->validate()) {                    
+                    $image = CUploadedFile::getInstance($model, 'logo');
                     if(isset($image)) {
-                        //foreach($images as $image) {
-                             $filePath = '/images/productmaker/'.$image->name;
-                             $image->saveAs(Yii::getPathOfAlias('webroot').$filePath);
-                             $model->logo = $filePath;
-                         //}
+                        $uploadedImage = ImageController::saveImage($image, '/images/productmaker/');
+                        if(!empty($uploadedImage)) $model->logo = $uploadedImage;
                     }
+                    
                     if($model->save()) {
                         Yii::app()->user->setFlash('message', 'Производитель создан успешно.');
                         $this->redirect(array('edit', 'id'=>$model->id));
@@ -85,15 +83,12 @@ class ProductmakerController extends Controller
             $model->update_time= date('Y-m-d H:i:s');
             
            if($model->validate()) {
-                //$images = CUploadedFile::getInstancesByName('Images');
-                $image = CUploadedFile::getInstance($model,'logo');
-                if(isset($image)) {
-                    //foreach($images as $image) {
-                         $filePath = '/images/productmaker/'.$image->name;
-                         $image->saveAs(Yii::getPathOfAlias('webroot').$filePath);
-                         $model->logo = $filePath;
-                     //}
-               }
+                $image = CUploadedFile::getInstance($model, 'logo');
+                if (isset($image)) {
+                    $uploadedImage = ImageController::saveImage($image, '/images/productmaker/');
+                    if (!empty($uploadedImage))
+                        $model->logo = $uploadedImage;
+                }
                 if($model->save()) {
                     Yii::app()->user->setFlash('message', 'Производитель сохранен успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));

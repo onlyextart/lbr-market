@@ -39,8 +39,11 @@ class BestofferController extends Controller {
             if (empty($model->level))
                 $model->level = 1;
             if ($model->validate()) {
-                $uploadedImage = $this->saveImage($model);
-                if(!empty($uploadedImage))$model->img = $uploadedImage;
+                $image = CUploadedFile::getInstance($model, 'img');
+                if(isset($image)) {
+                    $uploadedImage = ImageController::saveImage($image, '/images/bestoffer/');
+                    if(!empty($uploadedImage)) $model->img = $uploadedImage;
+                }
                 
                 if ($model->save()) {
                     $message = 'Создано спецпредложение "' . $model->name . '"';
@@ -84,8 +87,11 @@ class BestofferController extends Controller {
                 $model->level = 1;
 
             if ($model->validate()) {
-                $uploadedImage = $this->saveImage($model);
-                if(!empty($uploadedImage)) $model->img = $uploadedImage;
+                $image = CUploadedFile::getInstance($model, 'img');
+                if(isset($image)) {
+                    $uploadedImage = ImageController::saveImage($image, '/images/bestoffer/');
+                    if(!empty($uploadedImage)) $model->img = $uploadedImage;
+                }
 
                 if ($model->save()) {
                     if (!empty($message))
@@ -116,19 +122,5 @@ class BestofferController extends Controller {
                 $this->redirect(array('index'));
             }
         }
-    }
-
-    public function saveImage($model) 
-    {
-        $filePath = '';
-        $image = CUploadedFile::getInstance($model, 'img');
-        if (isset($image)) {
-            $filePath = '/images/bestoffer/' . $image->name;
-            $model->img = $filePath;
-            // save and adapt image size
-            $image->saveAs(Yii::getPathOfAlias('webroot') . $filePath);
-            ImageController::adapt($filePath);
-        }
-        return $filePath;
     }
 }
