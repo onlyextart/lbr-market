@@ -10,10 +10,8 @@
                 'xmlns:v' => 'http://rdf.data-vocabulary.org/#',
             ),
         ));
-        //echo $data->image; exit;
-        $image = '/images/no-photo.png';
-        if(!empty($data->image)) $image = 'http://api.lbr.ru/images/shop/spareparts/'.$data->image;
        */
+       $image = Product::model()->getDraftImage($model->image);
     ?>
 </div>
 <div>
@@ -21,8 +19,8 @@
         <div class="draft-wrapper">
              <h1 itemprop="name">Сборочный чертеж "<?php echo $model->name?>"</h1>
              <div class="draft-image-wrapper">
-                 <a href="http://api.lbr.ru/images/shop/draft/<?php echo $model->image ?>" class="thumbnail" target="_blank">
-                    <img border="0" itemprop="image" alt="<?php echo $model->name?>" src="http://api.lbr.ru/images/shop/draft/<?php echo $model->image ?>">
+                 <a href="<?php echo $image ?>" class="thumbnail" target="_blank">
+                    <img border="0" itemprop="image" alt="<?php echo $model->name?>" src="<?php echo $image ?>">
                  </a>
              </div>
              <div class="clear"></div>
@@ -70,10 +68,4 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 	'config'=>array(),
 ));
 ?>
-
-<script>
-/*(function($){
-    
-})(jQuery);*/
-</script>
 
