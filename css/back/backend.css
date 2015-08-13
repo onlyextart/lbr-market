@@ -692,7 +692,9 @@ div.form .errorMessage {
     color: red;
     font-size: 0.9em;
 }
-
+.form table.imagesList {
+    float: none;
+}
 .form input{
     width: auto;
 }
