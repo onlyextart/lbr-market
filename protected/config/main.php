@@ -190,6 +190,7 @@ return array(
         'sortOrder' => 'asc',
         'sortCol' => 'col',
         
+        'showSeoTexts' => 0,
         'showPrices' => 1,
         'showPricesForAdmin' => 1, // will run if showPrices == 0,
         'showDrafts' => 0,
