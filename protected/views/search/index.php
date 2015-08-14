@@ -131,6 +131,14 @@
                document.location.href = "/search/show/input/" + input;
         });
         
+        $("#full-search").keypress(function(e){
+            if(e.keyCode==13){
+                var input = $.trim($('#full-search').val());
+                if(input.length > 0)
+                    document.location.href = "/search/show/input/" + input;
+            }
+	});
+        
         /*$('.pager').pagination({
             items: 100,
             itemsOnPage: 10,

@@ -121,6 +121,17 @@
             if(input.length > 0)
                document.location.href = "/search/show/input/" + input;
         });
+        
+        var search=document.querySelector("#search");
+        search.addEventListener("keypress",function(e){
+            if(e.keyCode===13){
+                e.stopPropagation();
+                var input = $.trim($('#search').val());
+                if(input.length > 0){
+                   document.location.href = "/search/show/input/" + input;
+               }
+            }
+	});
     });
 })(jQuery);
 </script>
