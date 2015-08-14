@@ -123,7 +123,7 @@ class CartController extends Controller {
                                       );
 
                                       if($countProductsInOrder) { */
-                                    $order->total_price = $this->setTotalPriceForOrder($order);
+                                    $order->total_price = $this->setTotalPriceForOrder($order->id);
                                     $order->save();
 
                                     Order::model()->deleteAll(
@@ -265,14 +265,14 @@ class CartController extends Controller {
         // end send mail
     }
 
-    public function setTotalPriceForOrder($order) {
+    public function setTotalPriceForOrder($orderId) {
         $totalPrice = 0;
         $allProducts = OrderProduct::model()->findAll(
-                'order_id=:order_id', array(':order_id' => $order->id)
+                'order_id=:order_id', array(':order_id' => $orderId)
         );
         foreach ($allProducts as $product) {
             $result = $this->getPrice($product->product_id, $product->count);
-            $totalPrice += $result['total'];
+            $totalPrice += (int)$result['total'];
         }
         return $totalPrice;
     }
@@ -302,9 +302,9 @@ class CartController extends Controller {
         $priceLabel = $totalPriceLabel = Yii::app()->params['textNoPrice'];
         $result = $this->getPrice($id, $count);
         if (!empty($result['one']))
-            $priceLabel = $result['one'] . ' руб.';
+            $priceLabel = Price::model()->setPriceFormat($result['one']) . ' руб.';
         if (!empty($result['total']))
-            $totalPriceLabel = $result['total'] . ' руб.';
+            $totalPriceLabel = Price::model()->setPriceFormat($result['total']) . ' руб.';
         return array('one' => $priceLabel, 'total' => $totalPriceLabel);
     }
 
@@ -323,8 +323,8 @@ class CartController extends Controller {
                 $currency = Currency::model()->findByPk($price->currency_code);
                 if ($currency->exchange_rate) {
                     $oneProductPrice = $price->price * $currency->exchange_rate;
-                    $priceLabel = Price::model()->setPriceFormat($oneProductPrice);
-                    $totalPriceLabel = Price::model()->setPriceFormat($oneProductPrice * $count);
+                    $priceLabel = $oneProductPrice;
+                    $totalPriceLabel = $oneProductPrice * $count;
                 }
             }
         }
