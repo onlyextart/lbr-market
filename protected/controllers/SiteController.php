@@ -554,19 +554,4 @@ class SiteController extends Controller
         
         echo json_encode($filials);
     }
-    
-    public function actionTest()
-    {
-        set_time_limit(0);
-        /*$productMaker = ProductMaker::model()->findAll();
-        foreach($productMaker as $maker) {
-            $maker->path = '/'.Translite::rusencode($maker->name, '-');
-            $maker->save();
-        }
-        $equipmentMaker = EquipmentMaker::model()->findAll();
-        foreach($equipmentMaker as $maker) {
-            $maker->path = '/'.Translite::rusencode($maker->name, '-');
-            $maker->save();
-        }*/
-    }
 }
