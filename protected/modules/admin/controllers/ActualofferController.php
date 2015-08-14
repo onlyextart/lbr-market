@@ -115,10 +115,18 @@ class ActualofferController extends Controller
     {
         Yii::import('application.controllers.CartController');
         set_time_limit(0);
-        $array = array(202, 193, 196, 196, 187, 181);
+        $array = array(202, 193, 196, 187, 181);
+        
+        $price = OrderProduct::model()->findByPk(196);
+        $price->total_price = 1770;
+        $price->save();
+        
         foreach($array as $id) {
             $order = Order::model()->findByPk($id);
-            $order->total_price = $this->setTotalPriceForOrder($id)['total'];            
+            
+            $result = $this->setTotalPriceForOrder($id);      
+            if(!empty($result))$order->total_price = $result;
+            
             $order->save();
         }
     }
