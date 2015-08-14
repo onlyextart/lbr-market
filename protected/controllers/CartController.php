@@ -544,5 +544,4 @@ class CartController extends Controller {
             echo $count;
         }
     }
-
 }
