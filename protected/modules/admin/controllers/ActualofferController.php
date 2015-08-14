@@ -111,7 +111,7 @@ class ActualofferController extends Controller
         }
     }
     ///////////////////////////////////////////////////////////////
-    public function actionTest()
+    /*public function actionTest()
     {
         Yii::import('application.controllers.CartController');
         set_time_limit(0);
@@ -142,6 +142,6 @@ class ActualofferController extends Controller
             }
         }
         return $totalPrice;
-    }
+    }*/
 }
 
