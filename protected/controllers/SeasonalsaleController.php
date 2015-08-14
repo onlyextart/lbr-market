@@ -12,7 +12,7 @@ class SeasonalsaleController extends Controller
             else $this->redirect('/');
         }
         else{
-            $data = BestOffer::model()->findAllByAttributes(array('published'=>1));
+            $data = BestOffer::model()->findAll(array('condition'=>'published=1', 'order'=>'IFNULL(level, 1000000000)'));
             $breadcrumbs[] = "Спецпредложения";
             Yii::app()->params['breadcrumbs'] = $breadcrumbs;
             if(!empty($data)) $this->render('view_all', array('data'=>$data));
