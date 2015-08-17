@@ -8,6 +8,7 @@ if (!empty($model->id)) {
 $this->breadcrumbs = array(
     'Home'=>$this->createUrl('/admin/'),
     'Каталог'=>Yii::app()->createUrl(''),
+    'Модельные ряды'=>Yii::app()->createUrl('/admin/modelline/'),
     $name
 );
 

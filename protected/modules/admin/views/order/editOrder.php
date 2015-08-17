@@ -5,8 +5,8 @@ $submit_text = 'Сохранить';
 $action = '/admin/order/edit/id/'.$model->id;
 $this->breadcrumbs = array(
         'Home'=>$this->createUrl('/admin/'),
-        'Заказы'=>Yii::app()->createUrl('/admin/order/'),
-        'Все заказы'=>'',
+        'Заказы'=>'',
+        'Все заказы'=>Yii::app()->createUrl('/admin/order/'),
         $name
  );
 
