@@ -54,3 +54,34 @@ function AjaxQuickSearch(type){
          $(_self.Option.container).html(html);
     };
 }
+
+function QuickSearchEnter(type){
+    var _self = this;
+    if(type == 'full'){
+        this.Option = {
+            input: '#full-search',
+            form: '#form_full_search'
+        };
+    }
+    else{
+        this.Option = {
+            input: '#search',
+            form: '#form_search'
+        };
+    }
+    
+       var search=document.querySelector(_self.Option.input);
+       search.addEventListener("keypress",function(e){
+        if(e.keyCode===13){
+            var input = $.trim($(_self.Option.input).val());
+            if(input.length > 0){
+                var form_search=document.querySelector(_self.Option.form);
+                var path="/search/show/input/" + input;
+                form_search.setAttribute("action", path);
+                form_search.submit();
+                    
+            }
+        }
+       }); 
+    
+}

@@ -1,9 +1,9 @@
 <div class="left-menu-wrapper grey">
     <div class="search-input">
         <p>Поиск по сайту</p>
-        <form action="#">
+        <form id="form_search" method="post">
             <input id="search" type="text" name="q" placeholder="Найти" autocomplete="off"/>
-            <ul class="quick-result"></ul>
+            <ul class="quick-result"></ul> 
             <input class="search-button" type="button" value=""/>
         </form>
     </div>
@@ -116,11 +116,14 @@
             var ajax = new AjaxQuickSearch();
         });
         
+        var search_enter=new QuickSearchEnter();
+        
         $('.search-button').click(function() {
             var input = $.trim($('#search').val());
             if(input.length > 0)
                document.location.href = "/search/show/input/" + input;
         });
+        
     });
 })(jQuery);
 </script>

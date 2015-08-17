@@ -19,14 +19,14 @@
     ?>
 </div>
 <div class="search-form">
-    <form action="#">
+    <form id="form_full_search" method="post">
         <div class="search-metod">
             <h1>ПОИСК ПО РАЗДЕЛАМ</h1>
         </div>
         <div class="query-field">
-            <input id="full-search" type="text" name="q" value="<?php echo $input ?>" placeholder="Найти" autocomplete="off"/>
-            <ul class="full-quick-result"></ul>
-            <input class="btn full-search-button" type="button" value="Найти">
+                <input id="full-search" type="text" name="q" value="<?php echo $input ?>" placeholder="Найти" autocomplete="off"/>
+                <ul class="full-quick-result"></ul>
+                <input class="btn full-search-button" type="button" value="Найти">
         </div>
     </form>
 </div>
@@ -125,11 +125,14 @@
             var ajax = new AjaxQuickSearch('full');
         });
         
+        var search_enter=new QuickSearchEnter('full');
+        
         $('.full-search-button').click(function() {
             var input = $.trim($('#full-search').val());
             if(input.length > 0)
                document.location.href = "/search/show/input/" + input;
         });
+        
         
         /*$('.pager').pagination({
             items: 100,

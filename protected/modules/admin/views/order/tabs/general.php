@@ -186,7 +186,7 @@
                         foreach ($form_product as $num => $product_order) {
                             echo '<tr data-price>';
                             echo '<td>'.CHtml::link($product_order->name,$product_order->path,array('target'=>'_blank','class'=>'product_name')).'</td>';
-                            echo '<td>'.CHtml::activeTextField($product_order, "[$num]count").'</td>';
+                            echo '<td>'.CHtml::activeTextField($product_order, "[$num]count", array('disabled'=>'true')).'</td>';
                             
                             echo '<td>';
                                 if($product_order->price){
