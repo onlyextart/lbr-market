@@ -36,7 +36,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 'validateOnSubmit'=>true,
                 'validateOnChange'=>true,
         ),
-        'htmlOptions'=>array('autocomplete'=>'off'),
+        'htmlOptions'=>array('autocomplete'=>'off','onsubmit'=>"yaCounter30254519.reachGoal('registrationur'); ga('send','pageview','/registrationur'); return true;"),
     )); ?>
     <?php echo CHtml::errorSummary($model_form); ?>
     
@@ -106,7 +106,7 @@ $form=$this->beginWidget('CActiveForm', array(
     
     
     <div class="clearfix"></div>
-    <?php echo CHtml::submitButton('Отправить', array('onsubmit'=>"ga('send', 'pageview', '/registrationur'); yaCounter30254519.reachGoal('registrationur'); return true;",'class'=>'btn')); ?>
+    <?php echo CHtml::submitButton('Отправить', array('class'=>'btn')); ?>
     <div id='reg-link'>
         <?php echo CHtml::link('Авторизация',array('site/login'));?>
         <br>

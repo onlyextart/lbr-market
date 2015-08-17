@@ -105,7 +105,7 @@
                         <div class="cart-form" elem="<?php echo $data->id ?>">
                              <?php //if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && $price): ?>
                              <input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="7" size="7" autocomplete="off" product="1" class="cart-quantity">
-                             <input onsubmit="ga('send', 'event', 'action','addtocard'); yaCounter30254519.reachGoal('addtocard'); return true;" type="button" title="Добавить в корзину" value="" class="small-cart-button">
+                             <input onclick="yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;" type="submit" title="Добавить в корзину" value="" class="small-cart-button">
                              <?php //endif; ?>
                              <button class="wish" title="Добавить в блокнот">
                                  <span class="wish-icon"></span>
