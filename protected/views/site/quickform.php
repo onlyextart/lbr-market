@@ -23,7 +23,7 @@
     'id'=>'quick-form',
     'enableAjaxValidation'=>true,
     
-    'htmlOptions'=>array('enctype' => 'multipart/form-data'),
+    'htmlOptions'=>array('enctype' => 'multipart/form-data','onsubmit'=>"yaCounter30254519.reachGoal('zajavka'); ga('send', 'event', 'action','zajavka'); return true;"),
     'clientOptions'=>array(
                         'validateOnSubmit'=>true,),
     )); ?>
@@ -102,7 +102,7 @@ array(
     ?>
     </div>
     <div class="row submit">        
-        <?php echo CHtml::submitButton('Отправить', array('onsubmit'=>"ga('send', 'event', 'action','zajavka'); yaCounter30254519.reachGoal('zajavka'); return true;", 'class'=>'btn')); ?>
+        <?php echo CHtml::submitButton('Отправить', array('class'=>'btn')); ?>
         
     </div>
 
