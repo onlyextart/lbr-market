@@ -125,25 +125,14 @@
             var ajax = new AjaxQuickSearch('full');
         });
         
+        var search_enter=new QuickSearchEnter('full');
+        
         $('.full-search-button').click(function() {
             var input = $.trim($('#full-search').val());
             if(input.length > 0)
                document.location.href = "/search/show/input/" + input;
         });
         
-        var search=document.querySelector("#full-search");
-        search.addEventListener("keypress",function(e){
-            if(e.keyCode===13){
-                var input = $.trim($('#full-search').val());
-                if(input.length > 0){
-                    var form_full_search=document.querySelector("#form_full_search");
-                    var path="/search/show/input/" + input;
-                    form_full_search.setAttribute("action", path);
-                    form_full_search.submit();
-                    
-               }
-            }
-	});
         
         /*$('.pager').pagination({
             items: 100,

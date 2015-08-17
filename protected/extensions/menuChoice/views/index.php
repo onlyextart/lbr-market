@@ -116,25 +116,14 @@
             var ajax = new AjaxQuickSearch();
         });
         
+        var search_enter=new QuickSearchEnter();
+        
         $('.search-button').click(function() {
             var input = $.trim($('#search').val());
             if(input.length > 0)
                document.location.href = "/search/show/input/" + input;
         });
         
-        var search=document.querySelector("#search");
-        search.addEventListener("keypress",function(e){
-            if(e.keyCode===13){
-                var input = $.trim($('#search').val());
-                if(input.length > 0){
-                    var form_search=document.querySelector("#form_search");
-                    var path="/search/show/input/" + input;
-                    form_search.setAttribute("action", path);
-                    form_search.submit();
-                    
-               }
-            }
-	});
     });
 })(jQuery);
 </script>
