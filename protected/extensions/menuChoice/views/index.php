@@ -1,9 +1,9 @@
 <div class="left-menu-wrapper grey">
     <div class="search-input">
         <p>Поиск по сайту</p>
-        <form action="#">
+        <form id="form_search" method="post">
             <input id="search" type="text" name="q" placeholder="Найти" autocomplete="off"/>
-            <ul class="quick-result"></ul>
+            <ul class="quick-result"></ul> 
             <input class="search-button" type="button" value=""/>
         </form>
     </div>
@@ -125,10 +125,13 @@
         var search=document.querySelector("#search");
         search.addEventListener("keypress",function(e){
             if(e.keyCode===13){
-                e.stopPropagation();
                 var input = $.trim($('#search').val());
                 if(input.length > 0){
-                   document.location.href = "/search/show/input/" + input;
+                    var form_search=document.querySelector("#form_search");
+                    var path="/search/show/input/" + input;
+                    form_search.setAttribute("action", path);
+                    form_search.submit();
+                    
                }
             }
 	});
