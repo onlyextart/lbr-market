@@ -79,7 +79,7 @@ class SiteController extends Controller
         }
             
         if(!empty($hitProducts)) {
-            $result = '<span class="hit-label-main">Хиты продаж</span>'.
+            $result = '<span class="hit-label-main">Рекомендуем</span>'.
                '<div class="best-sales">'
             ;
             

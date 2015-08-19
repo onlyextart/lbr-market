@@ -27,7 +27,7 @@
         <?php endif; ?>
     </div>
     <?php if(!empty($hitProducts)): ?>
-    <span class="hit-label">Хиты продаж</span>
+    <span class="hit-label">Рекомендуем</span>
     <div id="special-offer">
         <?php foreach ($hitProducts as $product): ?>
         <div class="one-banner-special">
