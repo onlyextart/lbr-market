@@ -108,4 +108,20 @@ class Changes extends CActiveRecord
             $change->save();
             return;
         }
+        
+        public static function getEditMessage($model,$post_data,$fields_short_info=array())
+        {
+            $message='изменены следующие поля:';
+            $number=0;
+            foreach($model as $field=>$value){
+                if ($value!=$post_data[$field]){
+                    $number++;
+                    $message.=' '.$number.') поле "'.$model->getAttributeLabel($field).'"';
+                    if(!in_array($field,$fields_short_info)){
+                       $message.=' c "'.$value.'" на "'.$_POST['Category'][$field].'"'; 
+                    }
+                }
+            }
+            return $message;
+        }
 }

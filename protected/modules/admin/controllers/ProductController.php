@@ -56,9 +56,10 @@ class ProductController extends Controller
         if(!empty($model->product_group_id)) $id = $model->product_group_id;
         
         if(!empty($_POST['Product'])) {
-//                if ($model->attributes != $_POST['Product']){
-//                    $message.= 'Редактирование запчасти "'.$model->name.'"';
-//                    if(!empty($model->external_id)) $message .= ' (external_id = "'.$model->external_id.'")';
+                if ($model->attributes != $_POST['Product']){
+                    $message.= 'Редактирование запчасти "'.$model->name.'"';
+                    if(!empty($model->external_id)) $message .= ' (external_id = "'.$model->external_id.'")';
+                    $message.=Changes::getEditMessage($model, $_POST['Product'], $fields_short_info);
 //                    $message .=', изменены следующие поля:';
 //                    if($model->published != $_POST['Product']['published']){
 //                        $i++;
@@ -72,7 +73,7 @@ class ProductController extends Controller
 //                        $i++;
 //                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('additional_info').'"';
 //                    }
-//                }
+                }
                 $model->attributes = $_POST['Product'];
                 if ($model->product_group_id===""){
                     $model->product_group_id=null;
