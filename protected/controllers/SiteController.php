@@ -275,18 +275,21 @@ class SiteController extends Controller
                 $model_user= User::model()->findAll($criteria);
                 
                 $activation = md5($model_user[0]->id);
-                $email = new TEmail;
-                $email->from_email = Yii::app()->params['admin_email'];
-                $email->from_name = 'Интернет-магазин ЛБР АгроМаркет';
-                $email->to_email = $model_user[0]->email;
-                $email->to_name = $model_user[0]->name;
-                $email->subject = 'Подтверждение регистрации';
-                $email->type = 'text/html';
-                $email->body = '<p>Здравствуйте! Спасибо за регистрацию в Интернет-магазине компании ЛБР-АгроМаркет '.Yii::app()->params['host'].'.</p><br>'
-                .'<p>Ваш логин: '.$model_user[0]->login.'</p><p>Чтобы завершить регистрацию, нужно активировать созданную учетную запись. Для этого перейдите по <a href="http://'.Yii::app()->params['host'].'/site/activation?login='.$model_user[0]->login.'&act='.$activation.'">ссылке.</a></p><br><br><p>С уважением, Администрация сайта '.Yii::app()->params['host'].'</p>';
+                //отправка письма
+                $address=Yii::app()->params['admin_email'];
+                $name='Интернет-магазин ЛБР АгроМаркет';
                 
-                $email->sendMail();
-                Yii::app()->user->setFlash('message','На Ваш E-mail выслана cсылка для активации созданной учетной записи');
+                $mail = new YiiMailer ('reg_user',
+                array(
+                    'login' => $model_user[0]->login,
+                    'activation'=>$activation)); 
+                
+                $mail->setFrom($address, $name);
+                $mail->setSubject('Подтверждение регистрации');
+                $mail->setTo($model_user[0]->email);
+                if($mail->send()){
+                    Yii::app()->user->setFlash('message','На Ваш E-mail выслана cсылка для активации созданной учетной записи');
+                };
                 $this->redirect('/');
              } else {
                 $errors = "Ошибка при сохранении";
@@ -315,15 +318,18 @@ class SiteController extends Controller
                 if(md5($model_user[0]->id)==$_GET['act']){
                     $model_user[0]->status = User::USER_NOT_CONFIRMED;
                     if ($model_user[0]->save()){
-                        $email = new TEmail;
-                        $email->from_email = 'webmaster@lbr.ru';
-                        $email->from_name = 'Интернет-магазин ЛБР АгроМаркет';
-                        $email->to_email = Yii::app()->params['admin_email'];
-                        $email->to_name = 'Администрация интернет-магазина ЛБР АгроМаркет';
-                        $email->subject = 'Подтверждение регистрации';
-                        $email->type = 'text/html';
-                        $email->body = '<p>Здравствуйте! Зарегистрировался новый пользователь: login '.$model_user[0]->login.', email '.$model_user[0]->email.'</p>';
-                        $email->sendMail();
+                        //отправка письма
+                        $address='webmaster@lbr.ru';
+                        $name='Интернет-магазин ЛБР АгроМаркет';
+                        
+                        $mail = new YiiMailer('reg_admin', array(
+                            'login' => $model_user[0]->login,
+                            'email' => $model_user[0]->email));
+
+                        $mail->setFrom($address, $name);
+                        $mail->setSubject('Регистрация нового пользователя');
+                        $mail->setTo(Yii::app()->params['admin_email']);
+                        $mail->send();
                         Yii::app()->user->setFlash('message','Спасибо за регистрацию! Ваша учетная запись будет доступна после ее подтверждения модератором');
                         
                     }    
@@ -363,16 +369,17 @@ class SiteController extends Controller
                     $restore_key = md5($model_user[0]->id);
                     $restore_email="http://".Yii::app()->params['host']."/site/restore?login=".$model_user[0]->login."&key=".$restore_key;
                     
-                    $email = new TEmail;
-                    $email->from_email = Yii::app()->params['admin_email'];
-                    $email->from_name = 'Интернет-магазин ЛБР АгроМаркет';
-                    $email->to_email = $model_user[0]->email;
-                    $email->to_name = $model_user[0]->name;
-                    $email->subject = 'Восстановление доступа';
-                    $email->type = 'text/html';
-                    $email->body = '<p>Для восстановления доступа к сайту перейдите по <a href="'.$restore_email.'">ссылке</a>.</p><br><br><p>С уважением, Администрация сайта '.Yii::app()->params['host'].'</p>';
-                   
-                    $email->sendMail();
+                    //отправка письма
+                    $address = Yii::app()->params['admin_email'];
+                    $name = 'Интернет-магазин ЛБР АгроМаркет';
+
+                    $mail = new YiiMailer('restore_user', array(
+                        'restore_email' => $restore_email));
+
+                    $mail->setFrom($address, $name);
+                    $mail->setSubject('Восстановление доступа');
+                    $mail->setTo($model_user[0]->email);
+                    $mail->send();
                     Yii::app()->user->setFlash('message','На Ваш E-mail выслана cсылка для восстановления учетной записи');
                     $this->redirect('/');
                 }

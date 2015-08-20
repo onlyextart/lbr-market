@@ -104,7 +104,7 @@ class UserController extends Controller
                 $old_status=$model->status;
                 $new_status=$_POST[$model_name]['status'];
                 if($new_status!==$old_status){
-                    $text_email="<p>Здравствуйте, ".$model->name."! Статус Вашей учетной записи был изменен на: <b>".User::$userStatus[$new_status]."</b>.</p> ";
+                    $text_email="Статус Вашей учетной записи был изменен на: <b>".User::$userStatus[$new_status]."</b>.<br> ";
                     switch($new_status){
                         case User::USER_TEMPORARY_BLOCKED:
                             $text_email.="Причина блокировки: ".$_POST[$model_name]['block_reason']."<br>";
@@ -117,9 +117,7 @@ class UserController extends Controller
                             $text_email.="Причина: ".$_POST[$model_name]['block_reason'];
                             break;
                     }
-                    
-                    $text_email.="<br><br><p>С уважением, Администрация сайта <a href='http://".Yii::app()->params['host']."'>".Yii::app()->params['host']."</a></p>";
-                   
+                  
                 }
                 $model->attributes = $_POST[$model_name];
                 if($model->status == User::USER_ACTIVE|| $model->status == User::USER_NOT_CONFIRMED) $model->block_reason = null;
@@ -131,15 +129,17 @@ class UserController extends Controller
                     if($model->save()) {
                         Yii::app()->user->setFlash('message', 'Пользователь сохранен успешно.');
                         if(!empty($text_email)) {
-                             $email = new TEmail;
-                             $email->from_email = Yii::app()->params['admin_email'];
-                             $email->from_name = 'Интернет-магазин ЛБР АгроМаркет';
-                             $email->to_email = $model->email;
-                             $email->to_name = $model->name;
-                             $email->subject = 'Изменение статуса учетной записи';
-                             $email->type = 'text/html';
-                             $email->body = $text_email;
-                             $email->sendMail();
+                            //отправка письма
+                            $address = Yii::app()->params['admin_email'];
+                            $name = 'Интернет-магазин ЛБР АгроМаркет';
+
+                            $mail = new YiiMailer('status_user', array(
+                                'text_email' => $text_email));
+
+                            $mail->setFrom($address, $name);
+                            $mail->setSubject('Изменение статуса учетной записи');
+                            $mail->setTo($model->email);
+                            $mail->send();
                         }
                     } else {
                         $errors = $model->getErrors();

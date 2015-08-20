@@ -62,14 +62,9 @@
                 
                 <tr><td style="width: 400px; padding: 10px 50px; word-wrap: break-word;">
                         <p style="width: 400px; margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: grey; ">
-                            Появился новый заказ со следующими данными:<br />
-                            ID Заявки: <b><?php echo $id ?></b><br />
-                            ФИО: <b><?php echo $name ?> </b><br />
-                            Телефон: <b><?php echo $phone ?> </b><br /> 
-                            Примечание: <b><?php echo $body ?> </b><br />
-                        </p>    
+                           <?php echo $text_email; ?>
+                        </p>  
                     </td></tr>
-                
                                 
                 <tr><td style="padding: 50px 50px 30px 50px;">
                         <p style="margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: grey; ">
