@@ -109,39 +109,17 @@ class ModellineController extends Controller
     
     public function actionEdit($id)
     {
+        $message = '';
+        $fieldsShortInfo=array('top_text','bottom_text');
         $model = ModelLine::model()->findByPk($id);
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
         if(!empty($_POST['ModelLine'])) {
-            if ($model->attributes != $_POST['ModelLine']){
-                    $message.= 'Редактирование модельного ряда "'.$model->name.'"';
-                    $message.=', изменены следующие поля:';
-                    if($model->name != $_POST['ModelLine']['name']){
-                        $i++;
-                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['ModelLine']['name'].'"';
-                    }
-                    if($model->published != $_POST['ModelLine']['published']){
-                        $i++;
-                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('published').'" c "'.Yii::app()->params['boolLabel'][$model->published].'" на "'.Yii::app()->params['boolLabel'][$_POST['ModelLine']['published']].'"';
-                    }
-                    if($model->meta_title != $_POST['ModelLine']['meta_title']){
-                        $i++;
-                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('meta_title').'" c "'.$model->meta_title.'" на "'.$_POST['ModelLine']['meta_title'].'"';
-                    }
-                    if($model->meta_description != $_POST['ModelLine']['meta_description']){
-                        $i++;
-                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('meta_description').'" c "'.$model->meta_description.'" на "'.$_POST['ModelLine']['meta_description'].'"';
-                    }
-                    if($model->top_text != $_POST['ModelLine']['top_text']){
-                        $i++;
-                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('top_text').'"';
-                    }
-                    if($model->bottom_text != $_POST['ModelLine']['bottom_text']){
-                        $i++;
-                        $message.=' '.$i.') поле "'.$model->getAttributeLabel('bottom_text').'"';
-                    }
-                    
-                }
+            $editFieldsMessage=Changes::getEditMessage($model,$_POST['ModelLine'],$fieldsShortInfo);
+            if (!empty($editFieldsMessage)){
+                $message.= 'Редактирование модельного ряда "'.$model->name.'", ';
+                $message.= $editFieldsMessage;
+            }
             $model->attributes = $_POST['ModelLine'];
             if($model->validate()) {
                 $model->saveNode();

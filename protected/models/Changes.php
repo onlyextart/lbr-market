@@ -109,19 +109,49 @@ class Changes extends CActiveRecord
             return;
         }
         
-        public static function getEditMessage($model,$post_data,$fields_short_info=array())
+        public static function getEditMessage($model,$post_data,$fields_short_info=array(),$file=array(),$foreign_keys=array())
         {
-            $message='изменены следующие поля:';
             $number=0;
             foreach($model as $field=>$value){
-                if ($value!=$post_data[$field]){
+                // если передается файл
+                if(in_array($field,$file)){
+                    if(!is_null(CUploadedFile::getInstance($model, $field))){
+                        $number++;
+                        $message.=' '.$number.') поле "'.$model->getAttributeLabel($field).'"';
+                    }
+                    else{
+                        continue;
+                    }
+                }
+                // если значение изменилось
+                elseif ($value!=$post_data[$field]&&!is_null($post_data[$field])){
                     $number++;
                     $message.=' '.$number.') поле "'.$model->getAttributeLabel($field).'"';
                     if(!in_array($field,$fields_short_info)){
-                       $message.=' c "'.$value.'" на "'.$_POST['Category'][$field].'"'; 
+                        if(!array_key_exists($field, $foreign_keys)){
+                            $message.=' c "'.$value.'" на "'.$post_data[$field].'"'; 
+                        }
+                        else{
+                            $values=Changes::getNamesById($foreign_keys[$field], $value, $post_data[$field]);;
+                            $message.=' c "'.$values['old'].'" на "'.$values['new'].'"'; 
+                        }
                     }
                 }
             }
+            if(!empty($message)){
+                $message='изменены следующие поля:'.$message;
+            }
             return $message;
         }
+        
+        public static function getNamesById($table,$id_old,$id_new){
+            $result=array();
+            $query_old="SELECT name FROM ".$table." WHERE id=".$id_old;
+            $result['old'] = Yii::app()->db->createCommand($query_old)->query()->readColumn();
+            $query_new="SELECT name FROM ".$table." WHERE id=".$id_new;
+            $result['new'] = Yii::app()->db->createCommand($query_new)->query()->readColumn();
+            
+            return $result;
+        }
+        
 }

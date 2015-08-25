@@ -47,6 +47,8 @@ class EquipmentmakerController extends Controller {
                         $model->logo = $uploadedImage;
                 }
                 if ($model->save()) {
+                    $message = 'Создан производитель запчастей "'.$model->name.'"';
+                    Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Производитель создан успешно.');
                     $this->redirect(array('edit', 'id' => $model->id));
                 } else {
@@ -69,12 +71,21 @@ class EquipmentmakerController extends Controller {
 
     public function actionEdit($id) {
         $model = EquipmentMaker::model()->findByPk($id);
+        $message = '';
+        $fieldsShortInfo=array('descripion','logo','meta_title','meta_description','top_text','bottom_text');
+        $file=array('logo');
 //        $form = new STabbedForm('application.modules.admin.views.equipmentmaker.form', $model);
 //        $form->additionalTabs = array(
 //            'Изображение' => $this->renderPartial('_images', array('model'=>$model), true),
 //        );
 
         if (!empty($_POST['EquipmentMaker'])) {
+            $editFieldsMessage=Changes::getEditMessage($model,$_POST['EquipmentMaker'],$fieldsShortInfo,$file);
+            if (!empty($editFieldsMessage)){
+                $message.= 'Редактирование производителя техники "'.$model->name.'" (id='.$model->id;
+                if(!empty($model->external_id)) $message .= ', external_id = "'.$model->external_id.'"), ';
+                $message.= $editFieldsMessage;
+            }
             $imgTemp = $model->logo;
             $model->attributes = $_POST['EquipmentMaker'];
             $model->logo = $imgTemp;
@@ -88,6 +99,7 @@ class EquipmentmakerController extends Controller {
                         $model->logo = $uploadedImage;
                 }
                 if ($model->save()) {
+                    if(!empty($message)) Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Производитель сохранен успешно.');
                     $this->redirect(array('edit', 'id' => $model->id));
                 } else {
@@ -108,8 +120,10 @@ class EquipmentmakerController extends Controller {
     public function actionDelete($id) {
         if (!empty($id)) {
             $page = EquipmentMaker::model()->findByPk($id);
+            $message = 'Удален производитель техники "'.$page->name.'" (external_id = "'.$page->external_id.'")';
             if (!empty($page)) {
                 $page->delete();
+                Changes::saveChange($message);
                 Yii::app()->user->setFlash('message', 'Производитель удален.');
                 $this->redirect(array('index'));
             }

@@ -56,14 +56,16 @@ class GroupController extends Controller
         if(!empty($_POST['ProductGroup'])) {
             //$model->attributes = $_POST['ProductGroup'];
             //$model->name = $_POST['ProductGroup']['name'];
-            if($model->name != $_POST['ProductGroup']['name']) {
-                $message = 'Редактирование группы товаров "'.$model->name.'", изменены следующие поля: 1) поле "'.$model->getAttributeLabel('name').'" c "'.$model->name.'" на "'.$_POST['ProductGroup']['name'].'"';
-                $model->name = $_POST['ProductGroup']['name'];
-                if($model->validate()) {
-                    $model->saveNode();
-                    if(!empty($message)) Changes::saveChange($message);
-                    Yii::app()->user->setFlash('message', 'Группа сохранена.');
-                }
+            $editFieldsMessage=Changes::getEditMessage($model,$_POST['ProductGroup']);
+            if (!empty($editFieldsMessage)){
+                $message.= 'Редактирование группы товаров "'.$model->name.'", ';
+                $message.= $editFieldsMessage;
+            }
+            $model->name = $_POST['ProductGroup']['name'];
+            if($model->validate()) {
+                $model->saveNode();
+                if(!empty($message)) Changes::saveChange($message);
+                Yii::app()->user->setFlash('message', 'Группа сохранена.');
             }
         }
         $form = new STabbedForm('application.modules.admin.views.group.form', $model);
