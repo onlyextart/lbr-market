@@ -60,6 +60,8 @@ class UserController extends Controller
                 
                     if($form->validate()) {
                         if($model->save()) {
+                            $message = 'Создан пользователь "' . $model->name . '"';
+                            Changes::saveChange($message);
                             Yii::app()->user->setFlash('message', 'Пользователь создан успешно.');
                             $this->redirect(array('edit', 'id'=>$model->id));
                         } else {
@@ -78,6 +80,7 @@ class UserController extends Controller
     public function actionEdit($id)
     {
         $model = User::model()->findByPk($id);
+        $message = '';
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Пользователь не найден.'));
         
@@ -101,6 +104,11 @@ class UserController extends Controller
         
         if(Yii::app()->user->checkAccess('shopEditUser')) {
             if (!empty($_POST[$model_name])) {
+                $editFieldsMessage=Changes::getEditMessage($model,$_POST[$model_name]);
+                if (!empty($editFieldsMessage)){
+                    $message.= 'Редактирование пользователя "'.$model->name.'", ';
+                    $message.= $editFieldsMessage;
+                }
                 $old_status=$model->status;
                 $new_status=$_POST[$model_name]['status'];
                 if($new_status!==$old_status){
@@ -129,6 +137,7 @@ class UserController extends Controller
                 
                 if($form->validate()) {
                     if($model->save()) {
+                        if(!empty($message)) Changes::saveChange($message);
                         Yii::app()->user->setFlash('message', 'Пользователь сохранен успешно.');
                         if(!empty($text_email)) {
                              $email = new TEmail;
@@ -180,10 +189,12 @@ class UserController extends Controller
     public function actionDelete($id)
     {
         $user = User::model()->findByPk($id);
+        $message = 'Удален пользователь "' . $user->name . '"';
         if (!$user)
             $this->render('application.modules.admin.views.default.error', array('error' => 'Пользователь не найден.'));
 
         $user->delete();
+        Changes::saveChange($message);
         Yii::app()->user->setFlash('message', 'Пользователь удален.');
         $this->redirect(array('index'));
     }
