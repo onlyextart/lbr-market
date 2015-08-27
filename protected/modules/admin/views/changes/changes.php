@@ -17,23 +17,31 @@ $errorMsg = Yii::app()->user->getFlash('error');
     $this->widget('zii.widgets.grid.CGridView', array(
         'id'=>'changesListGrid',
         'emptyText'=>'Нет изменений',
-        //'filter'=>$model,
+        'filter'=>$model,
         'dataProvider'=>$data,
         'template'=>'{items}{pager}{summary}',
         'summaryText'=>'Элементы {start}—{end} из {count}.',
         'pager' => array(
             'class' => 'LinkPager',
-            //'header' => false,
         ),
         'columns' => array(
-            /*array(
-                'value'=>'$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1',
+            array(
+                'name'=>'id',
+                'filter'=>false,
+             ),
+            'date',
+            array(
+                'name'=>'description',
+                'filter'=>false,
             ),
-            array( 
-                'name'=>'name',
-                'type'=>'raw',
-                'value'=>'CHtml::link(CHtml::encode($data->user_id), array("edit","id"=>$data->user_id))',
-            ),*/
+            array(
+                'name'=>'user_id',
+            ),
+            array(
+                'name'=>'user_name',
+                'filter'=>false,
+                'value'=>'Changes::getAuthUser($data->user_id)',
+            ),
         ),
     ));
    

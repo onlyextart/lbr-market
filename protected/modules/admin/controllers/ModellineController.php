@@ -109,13 +109,21 @@ class ModellineController extends Controller
     
     public function actionEdit($id)
     {
+        $message = '';
+        $fieldsShortInfo=array('top_text','bottom_text');
         $model = ModelLine::model()->findByPk($id);
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
         if(!empty($_POST['ModelLine'])) {
+            $editFieldsMessage=Changes::getEditMessage($model,$_POST['ModelLine'],$fieldsShortInfo);
+            if (!empty($editFieldsMessage)){
+                $message.= 'Редактирование модельного ряда "'.$model->name.'", ';
+                $message.= $editFieldsMessage;
+            }
             $model->attributes = $_POST['ModelLine'];
             if($model->validate()) {
                 $model->saveNode();
+                if(!empty($message)) Changes::saveChange($message);
                 Yii::app()->user->setFlash('message', 'Модельный ряд сохранен.');
             }
         }
@@ -155,10 +163,12 @@ class ModellineController extends Controller
     public function actionDelete($id)
     {
         $model = ModelLine::model()->findByPk($id);
+        $message = 'Удален модельный ряд "'.$model->name;
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Модельный ряд не найден.'));
         
         $model->deleteNode();
+        Changes::saveChange($message);
         Yii::app()->user->setFlash('message', 'Модельный ряд удален.');
         $this->redirect(array('index'));        
     }
