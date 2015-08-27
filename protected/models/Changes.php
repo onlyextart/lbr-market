@@ -14,12 +14,15 @@ class Changes extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
+    
+        public $user_name;
+        
+        public function tableName()
 	{
 		return 'changes';
 	}
-
-	/**
+        
+    /**
 	 * @return array validation rules for model attributes.
 	 */
 	public function rules()
@@ -31,7 +34,7 @@ class Changes extends CActiveRecord
 			array('date, description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, date, description, user_id', 'safe', 'on'=>'search'),
+			array('id, date, description, user_id, user_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +58,8 @@ class Changes extends CActiveRecord
 			'id' => 'ID',
 			'date' => 'Время изменения',
 			'description' => 'Описание изменений',
-			'user_id' => 'User',
+			'user_id' => 'ID пользователя',
+                        'user_name'=>'Логин пользователя'
 		);
 	}
 
@@ -76,7 +80,6 @@ class Changes extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('description',$this->description,true);
@@ -84,6 +87,9 @@ class Changes extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'sort' => array(
+                            'defaultOrder' => 'date DESC',
+                        ),
 		));
 	}
 
@@ -98,6 +104,19 @@ class Changes extends CActiveRecord
 		return parent::model($className);
 	}
         
+        public static function getAuthUser($id){
+            if (isset($id)){
+                $sql="SELECT login FROM user WHERE id=".$id.";";
+                $command=Yii::app()->db_auth->createCommand($sql);
+                $user_name=$command->query()->readColumn();
+                return $user_name;
+            }
+            else{
+                return false;
+            }
+        }
+
+
         public static function saveChange($message)
         {//Changes::saveChange($message);
             $change = new Changes();

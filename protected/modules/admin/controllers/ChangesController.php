@@ -6,32 +6,50 @@ class ChangesController extends Controller
     {
         //if(Yii::app()->user->checkAccess('readChanges'))
         //{
-            $criteria = new CDbCriteria();
-            $criteria->distinct = true;
-            $criteria->group='user_id';
-            $criteria->select = '*, max(date) as last_edit';
-           
-            $sort = new CSort();
-            $sort->sortVar = 'sort';
-            $sort->defaultOrder = 'last_edit DESC';
-            $sort->attributes = array(
-                'last_edit' => array(
-                    'asc' => 'last_edit ASC',
-                    'desc' => 'last_edit DESC',
-                    'default' => 'asc',
-                )
-            );
+//            $criteria = new CDbCriteria();
+//            $criteria->distinct = true;
+//            $criteria->group='user_id';
+//            $criteria->select = '*, max(date) as last_edit';
+//           
+//            $sort = new CSort();
+//            $sort->sortVar = 'sort';
+//            $sort->defaultOrder = 'last_edit DESC';
+//            $sort->attributes = array(
+//                'last_edit' => array(
+//                    'asc' => 'last_edit ASC',
+//                    'desc' => 'last_edit DESC',
+//                    'default' => 'asc',
+//                )
+//            );
+//            
+//            $dataProvider = new CActiveDataProvider('Changes', 
+//                array(
+//                    'criteria'=>$criteria,
+//                    'sort'=>$sort,
+//                    'pagination'=>array(
+//                        'pageSize'=>'8'
+//                    )
+//                )
+//            );
+//        
+//        
+//            $this->render('changes', array('data'=>$dataProvider));
+        
+            $model = new Changes('search');
             
-            $dataProvider = new CActiveDataProvider('Changes', 
-                array(
-                    'criteria'=>$criteria,
-                    'sort'=>$sort,
-                    'pagination'=>array(
-                        'pageSize'=>'8'
-                    )
-                )
-            );
-            $this->render('changes', array('data'=>$dataProvider));
+            $model->unsetAttributes();
+
+            if (!empty($_GET['Changes']))
+                $model->attributes = $_GET['Changes'];
+                    
+            $dataProvider = $model->search();
+            
+            $dataProvider->pagination->pageSize = 12;
+
+            $this->render('changes', array(
+                    'model'=>$model,
+                    'data'=>$dataProvider,
+            ));
         /*} else {
             throw new CHttpException(403,Yii::t('yii','У Вас недостаточно прав доступа.'));
         }*/

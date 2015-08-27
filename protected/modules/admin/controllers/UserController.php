@@ -81,6 +81,10 @@ class UserController extends Controller
     {
         $model = User::model()->findByPk($id);
         $message = '';
+        $fieldsShortInfo = array();
+        $file = array();
+        // $foreignKeys=('foreign_key'=>'related_table');
+        $foreignKeys=array('status'=>'user_status','country_id'=>'user_country','filial'=>'filial');
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Пользователь не найден.'));
         
@@ -104,7 +108,7 @@ class UserController extends Controller
         
         if(Yii::app()->user->checkAccess('shopEditUser')) {
             if (!empty($_POST[$model_name])) {
-                $editFieldsMessage=Changes::getEditMessage($model,$_POST[$model_name]);
+                $editFieldsMessage=Changes::getEditMessage($model,$_POST[$model_name],$fieldsShortInfo,$file,$foreignKeys);
                 if (!empty($editFieldsMessage)){
                     $message.= 'Редактирование пользователя "'.$model->name.'", ';
                     $message.= $editFieldsMessage;

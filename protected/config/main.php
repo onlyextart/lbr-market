@@ -212,7 +212,7 @@ return array(
                 'Производители техники в категории'=>'/admin/categoryseo/',
                 'Филиалы и зоны'=>'/admin/filial/',
             ),
-            'Скидки'=>'/admin/discount/',
+            //'Скидки'=>'/admin/discount/',
             'Заказы'=>array(
                 'Все заказы'=>'/admin/order/',
                 'Статусы заказов'=>'/admin/orderstatus/',
@@ -221,7 +221,7 @@ return array(
             ),
             'Сайт'=>array(
                 //'Актуальные предложения'=>'/admin/actualoffer/',
-                //'Журнал редактирования'=>'/admin/changes/',
+                'Журнал редактирования'=>'/admin/changes/',
                 'Спецпредложения'=>'/admin/bestoffer/',
                 'Страницы'=>'/admin/page/',
                 'Структура'=>'/admin/structure/',
