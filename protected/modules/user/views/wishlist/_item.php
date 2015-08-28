@@ -26,7 +26,7 @@
     <div class="width-5" elem="<?php echo $data->id ?>">
         <input onclick="yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;" type="submit" title="Добавить в корзину" value="" class="small-cart-button-wishlist">
     </div>
-    <div class="width-5 remove-wrap" style="padding:4px 7px 0px 0px;">
+    <div class="width-5 remove-wrap">
         <a class="remove" href="/wishlist/remove<?php echo $data->path ?>"></a>
     </div>
     <div style="clear: both;"></div>

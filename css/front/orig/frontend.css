@@ -2563,7 +2563,9 @@ ul.yiiPager .selected a {
 .wishlist-wrapper .wish-item div {
     margin-right: 5px;
 }
-
+.wishlist-wrapper .wish-item .remove-wrap{
+    padding:4px 7px 0px 0px;
+}
 /*----- end List style ------------------*/
 /*----- start BestOffer page ------------*/
 .best-spareparts-wrapper .row
