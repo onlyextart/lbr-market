@@ -1906,7 +1906,7 @@ input#full-search{
     height: 23px;
 }
 */
-input.small-cart-button{
+input.small-cart-button,input.small-cart-button-wishlist{
     background: url("/images/cart-small.png") no-repeat scroll 0 0 transparent;
     height: 25px;
     width: 32px;
@@ -2245,7 +2245,14 @@ input.small-cart-button{
     height: 15px;
     text-decoration: none;
     width: 14px;
+}
+
+.cart-wrapper a.remove{
     margin-left: 20px;
+}
+
+.wishlist-wrapper a.remove {
+   margin-left: 10px; 
 }
 
 .order-data .delivery-type, .order-data .guest-data{

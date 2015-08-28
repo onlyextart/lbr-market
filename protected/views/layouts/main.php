@@ -14,7 +14,8 @@
         <script>
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
-        <link rel="stylesheet" type="text/css" href="/css/front/frontend-min.css?1" />
+        <!--<link rel="stylesheet" type="text/css" href="/css/front/frontend-min.css?1" />-->
+        <link rel="stylesheet" type="text/css" href="/css/front/orig/frontend.css?1" />
         <link rel="stylesheet" type="text/css" href="/css/front/accordion-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/jquery.mCustomScrollbar-min.css" />
         <link rel="stylesheet" type="text/css" href="/css/front/alertify/core.css" />
@@ -36,7 +37,7 @@
             Yii::app()->clientScript->registerScriptFile('/js/jquery.hoverIntent.minified.js');
             Yii::app()->clientScript->registerScriptFile('/js/jquery.cookie.min.js');
             
-            Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js?2');
+            Yii::app()->clientScript->registerScriptFile('/js/front/frontend.js?3');
             Yii::app()->clientScript->registerScriptFile('/js/front/cart.js');
             Yii::app()->clientScript->registerScriptFile('/js/front/search.js');
             
