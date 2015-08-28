@@ -167,10 +167,10 @@ class ProductController extends Controller
              $analogProducts .=      '<div class="cell width-20">'.
                                          '<div class="cart-form" elem="'.$analog->id.'">'.
                                             $countLabel;
-                                            
+             $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";                               
              if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
                 $analogProducts .= '<input type="number" min="1" pattern="[0-9]*" name="quantity" value="1" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">'.
-                    '<input type="button" title="Добавить в корзину" value="" class="small-cart-button">'.
+                    '<input onclick='.$intent.' type="submit" title="Добавить в корзину" value="" class="small-cart-button">'.
                     '<button class="wish-small" title="Добавить в блокнот">'.
                     '<span class="wish-icon"></span>'.
                     '</button>'
