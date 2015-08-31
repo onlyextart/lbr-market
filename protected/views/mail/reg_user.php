@@ -60,16 +60,23 @@
                         </p>    
                     </td></tr>
                 
-                <tr><td style="width: 400px; padding: 10px 50px; word-wrap: break-word;">
+                <tr><td style="width: 400px; padding: 40px 50px 10px 50px; word-wrap: break-word;">
                         <p style="width: 400px; margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: grey; ">
-                            Появился новый заказ со следующими данными:<br />
-                            ID Заявки: <b><?php echo $id ?></b><br />
-                            ФИО: <b><?php echo $name ?> </b><br />
-                            Телефон: <b><?php echo $phone ?> </b><br /> 
-                            Примечание: <b><?php echo $body ?> </b><br />
-                        </p>    
+                            Спасибо за регистрацию в Интернет-магазине компании ЛБР-АгроМаркет.
+                        </p>  
                     </td></tr>
                 
+                <tr><td style="width: 400px; padding: 10px 50px; word-wrap: break-word;">
+                        <p style="width: 400px; margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: grey; ">
+                            Ваш логин: <b><?php echo $login ?></b>
+                        </p>  
+                    </td></tr>
+                
+                <tr><td style="width: 400px; padding: 10px 50px; word-wrap: break-word;">
+                        <p style="width: 400px; margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: grey; ">
+                            Чтобы завершить регистрацию, нужно активировать созданную учетную запись. Для этого перейдите по <a href="http://lbr-market.ru/site/activation?login=<?php echo $login?>&act=<?php echo $activation?>">ссылке.</a>
+                        </p>  
+                    </td></tr>
                                 
                 <tr><td style="padding: 50px 50px 30px 50px;">
                         <p style="margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: grey; ">

@@ -21,6 +21,7 @@
                     'clientOptions'=>array(
                         'validateOnSubmit'=>true,
                     ),
+                    'htmlOptions'=>array('onsubmit'=>"yaCounter30254519.reachGoal('vhod'); ga('send','event','action','vhod'); return true;")
                 ));
     
 //            if ($mess = Yii::app()->user->getFlash('message')){
@@ -44,7 +45,7 @@
 		<?php echo CHtml::submitButton('Войти', array('class'=>'btn')); ?>
 	</div-->
         <div class="clearfix"></div>
-        <?php echo CHtml::submitButton('Войти', array('onsubmit'=>"ga('send', 'event', 'action','vhod'); yaCounter30254519.reachGoal('vhod'); return true;", 'class'=>'btn')); ?>
+        <?php echo CHtml::submitButton('Войти', array('class'=>'btn')); ?>
 <!--        <div class="reg-link">
             <a href="#">Регистрация</a>
         </div>-->

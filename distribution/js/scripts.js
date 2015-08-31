@@ -2684,10 +2684,17 @@ $(document).ready(function($){
        $('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
     }
     
-    $( ".small-cart-button" ).on('click', function() {
+    function addToCart(event){
         var parent = $(this).parent();
-        var cart = parent.find('.cart-quantity');
-        var count = parseInt(cart.val());
+        var target=event.target||event.srcElement;
+        var classname=target.className;
+        if (classname==="small-cart-button-wishlist"){
+           var count=1;
+        }
+        else if(classname==="small-cart-button"){
+           var cart = parent.find('.cart-quantity');
+           var count = parseInt(cart.val()); 
+        }
         if(count > 0) {
             $.ajax({
                 type: 'POST',
@@ -2695,7 +2702,7 @@ $(document).ready(function($){
                 dataType: 'json',
                 data: {
                     id: parent.attr('elem'),
-                    count: count,
+                    count: count
                 },
                 success: function(response) { 
                     $('.cart-quantity').val('1');
@@ -2714,8 +2721,11 @@ $(document).ready(function($){
         } else {
             alertify.success('<div class="mes-notify"><span></span><div>Введено неправильное количество</div></div>');
         }
-    });
+    }
     
+    $( ".small-cart-button" ).on('click', addToCart);
+    $( ".small-cart-button-wishlist" ).on('click',addToCart);
+
     // end model page
     // main page
     if($('#carousel ul').length) {
@@ -2903,6 +2913,38 @@ function saveAnalitics(p)
          $(_self.Option.container).html(html);
     };
 };
+
+function QuickSearchEnter(type){
+    var _self = this;
+    if(type == 'full'){
+        this.Option = {
+            input: '#full-search',
+            form: '#form_full_search'
+        };
+    }
+    else{
+        this.Option = {
+            input: '#search',
+            form: '#form_search'
+        };
+    }
+    
+       var search=document.querySelector(_self.Option.input);
+       search.addEventListener("keypress",function(e){
+        if(e.keyCode===13){
+            var input = $.trim($(_self.Option.input).val());
+            if(input.length > 0){
+                var form_search=document.querySelector(_self.Option.form);
+                var path="/search/show/input/" + input;
+                form_search.setAttribute("action", path);
+                form_search.submit();
+                    
+            }
+        }
+       }); 
+    
+};
+
 ;var cart = {
     init : function(){
         $('.cart-quantity').focus(function() {

@@ -22,6 +22,7 @@ return array(
         'application.helpers.*',
         'ext.YiiMailer.YiiMailer',
         'application.controllers.SecurityController',
+        'application.controllers.ImageController',
     ),
 
     'modules' => array(
@@ -173,33 +174,39 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName'] 
     'params' => array(
-        // this is used in contact page
-        //'host'=>'lbr.test',
-        'host'=>'lbr-market.ru',
-        'admin_email'=>'shop@lbr.ru',
-        'maxInCart' => 5, // count of product types in cart
-        'region'=>'',
-        'currentType' => '',
-        'currentMaker' => '',
-        'currentSale' => '',
-        'searchFlag' => '',
-        'analiticsMark' => '', // for cookie analitics
-        'imageNoPhoto'=>'/images/no-photo.png',
-        
-        'sortOrder' => 'asc',
-        'sortCol' => 'col',
-        
+        'host' => 'lbr-market.ru',
+        'admin_email' =>'shop@lbr.ru',
+        'meta_title'  => 'Запчасти ЛБР-Агромаркет',
+        'meta_description' => 'Магазин запчастей, запчасти ЛБР',
+        'footerLabel'  => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
+        'imageNoPhoto' => '/images/no-photo.png',
+        'maxInCart'    => 5, // count of product types in cart
+        'showSeoTexts' => 0,
+        'showDrafts'   => 0,
+        /**
+         * Prices
+         */
         'showPrices' => 1,
         'showPricesForAdmin' => 1, // will run if showPrices == 0,
-        'showDrafts' => 0,
-        'footerLabel' => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
-        'breadcrumbs' => array(),
         'textHidePrice' => 'Информация о ценах временно недоступна',
         'textNoPrice' => 'запросить цену',
-        'meta_title' => 'Запчасти ЛБР-Агромаркет',
-        'meta_description' => 'Магазин запчастей, запчасти ЛБР',
+        /**
+         * end Prices
+         */
+        'region'        => '',
+        'currentType'   => '',
+        'currentMaker'  => '',
+        'currentSale'   => '',
+        'searchFlag'    => '',
+        'analiticsMark' => '', // for cookie analitics
+        
+        'sortOrder'     => 'asc',
+        'sortCol'       => 'col',
+        
+        'breadcrumbs' => array(),
+        'boolLabel' => array('0'=>'Нет','1'=>'Да'),
         'menu_admin' => array(
-            'Каталог'=>array(
+            'Каталог' => array(
                 'Группы товаров'=>'/admin/group/',
                 'Запчасти'=>'/admin/product/',
                 'Запчасти, на которые нет цен'=>'/admin/noprice/',
@@ -210,7 +217,7 @@ return array(
                 'Производители техники в категории'=>'/admin/categoryseo/',
                 'Филиалы и зоны'=>'/admin/filial/',
             ),
-            'Скидки'=>'/admin/discount/',
+            //'Скидки'=>'/admin/discount/',
             'Заказы'=>array(
                 'Все заказы'=>'/admin/order/',
                 'Статусы заказов'=>'/admin/orderstatus/',
@@ -219,7 +226,7 @@ return array(
             ),
             'Сайт'=>array(
                 //'Актуальные предложения'=>'/admin/actualoffer/',
-                //'Журнал редактирования'=>'/admin/changes/',
+                'Журнал редактирования'=>'/admin/changes/',
                 'Спецпредложения'=>'/admin/bestoffer/',
                 'Страницы'=>'/admin/page/',
                 'Структура'=>'/admin/structure/',

@@ -107,6 +107,45 @@ $errorMsg = Yii::app()->user->getFlash('error');
             echo CHtml::closeTag('div');
             
             echo CHtml::openTag('div', array('class'=>'row'));
+            echo $form->labelEx($model, 'level');
+            echo $form->textField($model, 'level');
+            echo $form->error($model, 'level'); 
+            echo CHtml::closeTag('div');
+            
+            // Upload button
+            echo CHtml::openTag('div', array('class'=>'row'));
+            echo $form->error($model, 'img'); 
+            echo CHtml::label('Выберите изображение', 'img');
+            echo $form->fileField($model, 'img');
+            echo CHtml::label('*размер 770x250, не больше 1Мб', 'img', array('class'=>'note'));
+            echo CHtml::closeTag('div');
+
+            // Image
+            if(!empty($model->img)) {   
+                $this->widget('zii.widgets.CDetailView', array(
+                    'data'=>$model,
+                    'htmlOptions'=>array(
+                        'class'=>'detail-view imagesList',
+                    ),
+                    'attributes'=>array(
+                        array(
+                            'label'=>'Изображение',
+                            'type'=>'raw',
+                            'value'=>CHtml::link(
+                                CHtml::image(
+                                    $model->img,
+                                    CHtml::encode('Изображение не найдено'),
+                                    array('style'=>'max-height: 150px')
+                                ),
+                                $model->img,
+                                array('target'=>'_blank', 'class'=>'pretty')
+                            ),
+                        ),
+                    ),
+                ));
+            }
+            
+            echo CHtml::openTag('div', array('class'=>'row'));
             echo $form->labelEx($model, 'description');
             $this->widget('ext.elrtef.elRTE', array( 
                     'model' => $model,
@@ -136,45 +175,6 @@ $errorMsg = Yii::app()->user->getFlash('error');
             );
             
            echo CHtml::closeTag('div');
-            
-            echo CHtml::openTag('div', array('class'=>'row'));
-            echo $form->labelEx($model, 'level');
-            echo $form->textField($model, 'level');
-            echo $form->error($model, 'level'); 
-            echo CHtml::closeTag('div');
-            
-            // Upload button
-            echo CHtml::openTag('div', array('class'=>'row'));
-            echo $form->error($model, 'img'); 
-            echo CHtml::label('Выберите изображение', 'img');
-            echo $form->fileField($model, 'img');
-            echo CHtml::label('*размер 770x250, не больше 1Мб', 'img', array('class'=>'note'));
-            echo CHtml::closeTag('div');
-
-            // Image
-            if(!empty($model->img)) {   
-                $this->widget('zii.widgets.CDetailView', array(
-                    'data'=>$model,
-                    'htmlOptions'=>array(
-                        'class'=>'detail-view imagesList',
-                    ),
-                    'attributes'=>array(
-                        array(
-                            'label'=>'Изображение',
-                            'type'=>'raw',
-                            'value'=>CHtml::link(
-                                CHtml::image(
-                                    $model->img,
-                                    CHtml::encode('test'),
-                                    array('style'=>'max-height: 150px')
-                                ),
-                                $model->img,
-                                array('target'=>'_blank', 'class'=>'pretty')
-                            ),
-                        ),
-                    ),
-                ));
-            }
 
             // Fancybox ext
             $this->widget('application.extensions.fancybox.EFancyBox', array(

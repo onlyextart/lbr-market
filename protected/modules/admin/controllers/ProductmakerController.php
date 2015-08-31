@@ -40,17 +40,17 @@ class ProductmakerController extends Controller
                 $model->attributes = $_POST['ProductMaker'];
                 $model->update_time= date('Y-m-d H:i:s');
                 
-                if($model->validate()) {
-                    $image = CUploadedFile::getInstance($model,'logo');
+                if($model->validate()) {                    
+                    $image = CUploadedFile::getInstance($model, 'logo');
                     if(isset($image)) {
-                        //foreach($images as $image) {
-                             $filePath = '/images/productmaker/'.$image->name;
-                             $image->saveAs(Yii::getPathOfAlias('webroot').$filePath);
-                             $model->logo = $filePath;
-                         //}
+                        $uploadedImage = ImageController::saveImage($image, '/images/productmaker/');
+                        if(!empty($uploadedImage)) $model->logo = $uploadedImage;
                     }
+                    
                     if($model->save()) {
-                        Yii::app()->user->setFlash('message', 'Производитель создан успешно.');
+                        $message = 'Создан производитель запчастей "'.$model->name.'"';
+                        Changes::saveChange($message);
+                        Yii::app()->user->setFlash('message', $message);
                         $this->redirect(array('edit', 'id'=>$model->id));
                     } else {
                         $errors = $model->getErrors();
@@ -73,28 +73,36 @@ class ProductmakerController extends Controller
     public function actionEdit($id)
     {
         $model = ProductMaker::model()->findByPk($id);
+        $message = '';
+        $fieldsShortInfo=array('descripion','logo');
+        $file=array('logo');
         //$form = new STabbedForm('application.modules.admin.views.productmaker.form', $model);
         //$form->additionalTabs = array(
         //    'Изображение' => $this->renderPartial('_images', array('model'=>$model), true),
         //);
 
         if(!empty($_POST['ProductMaker'])) {
+            $editFieldsMessage=Changes::getEditMessage($model,$_POST['ProductMaker'],$fieldsShortInfo,$file);
+            if (!empty($editFieldsMessage)){
+                $message.= 'Редактирование производителя запчастей "'.$model->name.'" (id='.$model->id;
+                if(!empty($model->external_id)) $message .= ', external_id = "'.$model->external_id.'"), ';
+                $message.= $editFieldsMessage;
+            }
+
             $imgTemp=$model->logo;
             $model->attributes = $_POST['ProductMaker'];
             $model->logo=$imgTemp;
             $model->update_time= date('Y-m-d H:i:s');
             
            if($model->validate()) {
-                //$images = CUploadedFile::getInstancesByName('Images');
-                $image = CUploadedFile::getInstance($model,'logo');
-                if(isset($image)) {
-                    //foreach($images as $image) {
-                         $filePath = '/images/productmaker/'.$image->name;
-                         $image->saveAs(Yii::getPathOfAlias('webroot').$filePath);
-                         $model->logo = $filePath;
-                     //}
-               }
+                $image = CUploadedFile::getInstance($model, 'logo');
+                if (isset($image)) {
+                    $uploadedImage = ImageController::saveImage($image, '/images/productmaker/');
+                    if (!empty($uploadedImage))
+                        $model->logo = $uploadedImage;
+                }
                 if($model->save()) {
+                    if(!empty($message)) Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Производитель сохранен успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {
@@ -115,8 +123,10 @@ class ProductmakerController extends Controller
     {
         if(!empty($id)){
             $page = ProductMaker::model()->findByPk($id);
+            $message = 'Удален производитель запчасти "'.$page->name.'" (external_id = "'.$page->external_id.'")';
             if(!empty($page)) {
                 $page->delete();
+                Changes::saveChange($message);
                 Yii::app()->user->setFlash('message', 'Производитель удален.');
                 $this->redirect(array('index'));
             }

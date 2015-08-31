@@ -110,5 +110,38 @@ class ActualofferController extends Controller
             }
         }
     }
+    ///////////////////////////////////////////////////////////////
+    /*public function actionTest()
+    {
+        Yii::import('application.controllers.CartController');
+        set_time_limit(0);
+        $array = array(202, 193, 196, 187, 181);
+        
+        $price = OrderProduct::model()->findByPk(196);
+        $price->total_price = 1770;
+        $price->save();
+        
+        foreach($array as $id) {
+            $order = Order::model()->findByPk($id);
+            
+            $result = $this->setTotalPriceForOrder($id);      
+            if(!empty($result))$order->total_price = $result;
+            
+            $order->save();
+        }
+    }
+    public function setTotalPriceForOrder($orderId) {
+        $totalPrice = 0;
+        $allProducts = OrderProduct::model()->findAll(
+                'order_id=:order_id', array(':order_id' => $orderId)
+        );
+        
+        foreach ($allProducts as $product) {
+            if(!empty($product->price)) {
+                $totalPrice += $product->total_price;
+            }
+        }
+        return $totalPrice;
+    }*/
 }
 

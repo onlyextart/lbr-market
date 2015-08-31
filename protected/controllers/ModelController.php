@@ -281,11 +281,11 @@ class ModelController extends Controller
         } else {
             $result .= '<span class="stock">'.Product::NO_IN_STOCK.'</span>';
         }
-$intent = "\"ga('send', 'event', 'action','addtocard'); yaCounter30254519.reachGoal('addtocard'); return true;\" ";
+$intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";
         if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))) {
             //if($price) {
                 $result .= '<input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">
-                    <input onsubmit='.$intent. ' type="button"  title="Добавить в корзину" value="" class="small-cart-button">'
+                    <input onclick='.$intent.' type="submit"  title="Добавить в корзину" value="" class="small-cart-button">'
                 ;
             //}
 

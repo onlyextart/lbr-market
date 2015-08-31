@@ -29,16 +29,24 @@ class CategoryseoController extends Controller
     public function actionEdit($id)
     {
         $model = CategorySeo::model()->findByPk($id);
+        $message = '';
+        $fieldsShortInfo=array('meta_title','meta_description','top_text','bottom_text');
 //        $form = new STabbedForm('application.modules.admin.views.equipmentmaker.form', $model);
 //        $form->additionalTabs = array(
 //            'Изображение' => $this->renderPartial('_images', array('model'=>$model), true),
 //        );
-
+       
         if(!empty($_POST['CategorySeo'])) {
+            $editFieldsMessage=Changes::getEditMessage($model,$_POST['CategorySeo'],$fieldsShortInfo);
+            if (!empty($editFieldsMessage)){
+                $message.= 'Редактирование производителя техники "'.$model->equipmentMaker->name.'" в катогории "'.$model->category->name.'", ';
+                $message.= $editFieldsMessage;
+            }
             $model->attributes = $_POST['CategorySeo'];
             
             if($model->validate()) {
                 if($model->save()) {
+                    if(!empty($message)) Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Сохранение прошло успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {

@@ -311,7 +311,7 @@ header div.main-menu li {
     vertical-align: bottom;
     width: auto;
 }
-s
+
 header div.main-menu li:first-child {
     padding: 0;
 }
@@ -1175,7 +1175,7 @@ input#full-search
     margin: 0 auto;*/
     position: absolute;
     top: 90%;
-    left: 90%;
+    right: 0;
 }
 #carousel .pager a, #carousel-logo .pager a {
     background: transparent url(/images/carousel/carousel_control.png) no-repeat -2px -32px;
@@ -1906,7 +1906,7 @@ input#full-search{
     height: 23px;
 }
 */
-input.small-cart-button{
+input.small-cart-button,input.small-cart-button-wishlist{
     background: url("/images/cart-small.png") no-repeat scroll 0 0 transparent;
     height: 25px;
     width: 32px;
@@ -2245,7 +2245,14 @@ input.small-cart-button{
     height: 15px;
     text-decoration: none;
     width: 14px;
+}
+
+.cart-wrapper a.remove{
     margin-left: 20px;
+}
+
+.wishlist-wrapper a.remove {
+   margin-left: 10px; 
 }
 
 .order-data .delivery-type, .order-data .guest-data{
@@ -2556,7 +2563,9 @@ ul.yiiPager .selected a {
 .wishlist-wrapper .wish-item div {
     margin-right: 5px;
 }
-
+.wishlist-wrapper .wish-item .remove-wrap{
+    padding:4px 7px 0px 0px;
+}
 /*----- end List style ------------------*/
 /*----- start BestOffer page ------------*/
 .best-spareparts-wrapper .row

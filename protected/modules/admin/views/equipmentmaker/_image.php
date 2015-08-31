@@ -2,7 +2,7 @@
     <?php
         echo $form_view->labelEx($model, 'logo');
         echo $form_view->fileField($model, 'logo');
-        echo CHtml::label('*не больше 30Кб', 'logo', array('class'=>'note'));
+        echo CHtml::label('*не более 300Кб', 'logo', array('class'=>'note'));
         echo $form_view->error($model, 'logo'); 
     ?>
 </div>

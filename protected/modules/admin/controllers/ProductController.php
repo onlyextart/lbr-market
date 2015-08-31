@@ -31,14 +31,15 @@ class ProductController extends Controller
     
     public function actionEdit($id)
     {
+        $message='';
+        $fieldsShortInfo=array('image','additional_info');
+        $file=array('image');
         $model = Product::model()->findByPk($id);
         if (isset($model->price_id)){
             $model->price_value=(int)$model->price->value;
             //$model->currency_iso=$model->price->currency->iso;
         }
-        
-        
-        
+         
         $model->productMaker_name=$model->productMaker->name;
         $model->group=$model->productGroup->name;
         
@@ -55,6 +56,12 @@ class ProductController extends Controller
         if(!empty($model->product_group_id)) $id = $model->product_group_id;
         
         if(!empty($_POST['Product'])) {
+                $editFieldsMessage=Changes::getEditMessage($model, $_POST['Product'], $fieldsShortInfo, $file);
+                if (!empty($editFieldsMessage)){
+                    $message.= 'Редактирование запчасти "'.$model->name.'"';
+                    if(!empty($model->external_id)) $message .= ' (external_id = "'.$model->external_id.'"), ';
+                    $message.=$editFieldsMessage;
+                } 
                 $model->attributes = $_POST['Product'];
                 if ($model->product_group_id===""){
                     $model->product_group_id=null;
@@ -73,6 +80,7 @@ class ProductController extends Controller
                 }
                 
                 if($model->save()) {
+                    if(!empty($message)) Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Запчасть сохранена успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {
@@ -95,8 +103,10 @@ class ProductController extends Controller
     {
         if(!empty($id)){
             $product = Product::model()->findByPk($id);
+            $message = 'Удалена запчасть "'.$product->name.'" (external_id = "'.$product->external_id.'")';
             if(!empty($product)) {
                 $product->delete();
+                Changes::saveChange($message);
                 Yii::app()->user->setFlash('message', 'Продукт удален.');
                 $this->redirect(array('/admin/product/'));
             }

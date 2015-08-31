@@ -84,8 +84,10 @@ class SubcategoryController extends Controller
             Yii::app()->params['meta_title'] = $title;
             if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;            
             if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
-            if(!empty($categoryRoot->top_text)) $topText = $categoryRoot->top_text;
-            if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
+            if(Yii::app()->params['showSeoTexts']) {
+                if(!empty($categoryRoot->top_text)) $topText = $categoryRoot->top_text;
+                if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
+            }
             
         } else if(!empty($maker)) {
             /*$result = $this->setMakerFilter($maker);
@@ -178,8 +180,10 @@ class SubcategoryController extends Controller
             Yii::app()->params['meta_title'] = $name;
             if(!empty($equipmentMaker->meta_title)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_title;
             if(!empty($equipmentMaker->meta_description)) Yii::app()->params['meta_description'] = $equipmentMaker->meta_description;
-            if(!empty($equipmentMaker->top_text)) $topText = $equipmentMaker->top_text;
-            if(!empty($equipmentMaker->bottom_text)) $bottomText = $equipmentMaker->bottom_text;
+            if(Yii::app()->params['showSeoTexts']) {
+                if(!empty($equipmentMaker->top_text)) $topText = $equipmentMaker->top_text;
+                if(!empty($equipmentMaker->bottom_text)) $bottomText = $equipmentMaker->bottom_text;
+            }
         }
         
         // random products for hit products

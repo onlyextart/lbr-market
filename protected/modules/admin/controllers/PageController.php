@@ -26,11 +26,19 @@ class PageController extends Controller
         //if(Yii::app()->user->checkAccess('shReadUserStatus'))
         //{
             $model = Page::model()->findByPk($id);
+            $message = '';
+            $fieldsShortInfo=array('short_description','full_descripion');
             if(!empty($_POST['Page'])) {
+                $editFieldsMessage=Changes::getEditMessage($model,$_POST['Page'],$fieldsShortInfo);
+                if (!empty($editFieldsMessage)){
+                    $message.= 'Редактирование страницы "'.$model->title.'", ';
+                    $message.= $editFieldsMessage;
+                }
                 $model->attributes = $_POST['Page'];
                 $model->date_edit = date('Y-m-d H:i:s');
                 //$model->url = trim($model->url);
                 if($model->save()) {
+                    if(!empty($message)) Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Страница сохранена успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {
@@ -63,6 +71,8 @@ class PageController extends Controller
                 
                 if($form->validate()) {
                     if($model->save()) {
+                        $message = 'Создана страница "' . $model->title . '"';
+                        Changes::saveChange($message);
                         Yii::app()->user->setFlash('message', 'Страница создана успешно.');
                         $this->redirect(array('edit', 'id'=>$model->id));
                     } else {
@@ -82,8 +92,10 @@ class PageController extends Controller
     {
         if(!empty($id)){
             $page = Page::model()->findByPk($id);
+            $message = 'Удалена страница "' . $page->title . '"';
             if(!empty($page)) {
                 $page->delete();
+                Changes::saveChange($message);
                 Yii::app()->user->setFlash('message', 'Страница удалена.');
                 $this->redirect(array('index'));
             }

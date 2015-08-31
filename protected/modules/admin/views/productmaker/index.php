@@ -44,6 +44,12 @@ $errorMsg = Yii::app()->user->getFlash('error');
                    . '$data->logo, '
                    . 'array("target"=>"_blank", "class"=>"pretty")) : "Нет изображения"',
             ),
+            array( 
+                'name'=>'description',
+                'type'=>'raw',
+                'filter'=>false,
+                'value'=>'(!empty($data->description)) ? "Есть":"Нет"',
+            ),
             array(
                 'class'=>'CButtonColumn',
                 'template'=>'{update}',//'{update}{delete}',

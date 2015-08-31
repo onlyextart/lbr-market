@@ -30,6 +30,12 @@ class OrderController extends Controller
     public function actionEdit($id)
     {
         $model = Order::model()->with('status','orderProducts','user','filials')->findByPk($id);
+        $message = '';
+        $fieldsShortInfo = array();
+        $file = array();
+        // $foreignKeys=('foreign_key'=>'related_table');
+        $foreignKeys=array('status_id'=>'order_status','delivery_id'=>'delivery','filial'=>'filial');
+        
         $form=new OrderForm;
         $form->attributes=$model->attributes;
         if (!empty($model->user_id)){
@@ -65,6 +71,11 @@ class OrderController extends Controller
 //        if(Yii::app()->user->checkAccess('shopEditOrder')) {
             if (!empty($_POST['OrderForm'])&&!empty($_POST['OrderProductForm'])) {
                 $valid=true;
+                $editFieldsMessage=Changes::getEditMessage($model,$_POST['OrderForm'],$fieldsShortInfo,$file,$foreignKeys);
+                if (!empty($editFieldsMessage)){
+                    $message.= 'Редактирование заказа с id='.$model->id.', ';
+                    $message.= $editFieldsMessage;
+                }
                 $model->attributes=$_POST['OrderForm'];
                 
                 // присваивание необходимо для валидации в OrderForm
@@ -76,6 +87,10 @@ class OrderController extends Controller
                 foreach($model_product as $i=>$item)
                 {
                     if(isset($_POST['OrderProductForm'][$i])){
+                        if($model_product[$i]->count!=$_POST['OrderProductForm'][$i]['count']&&!is_null($_POST['OrderProductForm'][$i]['count'])){
+                            if (empty($message)) $message='Редактирование заказа с id='.$model->id;
+                            $message.= ', изменено количество товара "'.$model_product[$i]->product->name.'" c "'.$model_product[$i]->count.'" на "'.$_POST['OrderProductForm'][$i]['count'].'"';
+                        }
                         $model_product[$i]->attributes=$_POST['OrderProductForm'][$i];
                     }
                 }
@@ -99,6 +114,7 @@ class OrderController extends Controller
                  
                  if($save){
                     $transaction->commit();
+                    if(!empty($message)) Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Заказ сохранен успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id)); 
                  }
@@ -129,8 +145,10 @@ class OrderController extends Controller
     {
         if(!empty($id)){
             $order = Order::model()->findByPk($id);
+            $message = 'Удален заказ с id "'.$order->id.'"';
             if(!empty($order)) {
                 $order->delete();
+                Changes::saveChange($message);
                 Yii::app()->user->setFlash('message', 'Заказ удален.');
                 $this->redirect(array('/admin/order/'));
             }

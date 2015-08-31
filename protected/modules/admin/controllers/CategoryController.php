@@ -46,10 +46,17 @@ class CategoryController extends Controller
     
     public function actionEdit($id)
     {
+        $message='';
+        $fieldsShortInfo=array('top_text','bottom_text');
         $model = Category::model()->findByPk($id);
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
         if(!empty($_POST['Category'])) {
+            $editFieldsMessage=Changes::getEditMessage($model,$_POST['Category'],$fieldsShortInfo);
+            if (!empty($editFieldsMessage)){
+                $message.= 'Редактирование категории "'.$model->name.'", ';
+                $message.= $editFieldsMessage;
+            }
             $model->attributes = $_POST['Category'];
             if($model->validate()) {
                 $model->saveNode();
@@ -63,7 +70,7 @@ class CategoryController extends Controller
                     $model->saveNode();
                     $this->updateChildPath($model);
                 }
-
+                if(!empty($message)) Changes::saveChange($message);
                 Yii::app()->user->setFlash('message', 'Категория сохранена.');
             }
         }
@@ -182,10 +189,12 @@ class CategoryController extends Controller
     public function actionDelete($id)
     {
         $model = Category::model()->findByPk($id);
+        $message = 'Удалена категория "'.$model->name;
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
         
         $model->deleteNode();
+        Changes::saveChange($message);
         Yii::app()->user->setFlash('message', 'Категория удалена.');
         $this->redirect(array('index'));        
     }

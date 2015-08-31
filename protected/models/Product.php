@@ -145,7 +145,7 @@ class Product extends CActiveRecord
 			'published' => 'Опубликовать',
                         'update_time' => 'Дата обновления',
                         'weight' => 'Вес',
-                        'price' => 'Цена'
+                        'price' => 'Цена',
 		);
 	}
 
@@ -173,13 +173,13 @@ class Product extends CActiveRecord
 		//$criteria->compare('price.value',$this->price_value);
                 //$criteria->compare('currency.iso',$this->price_value,true,'OR');
 		$criteria->compare('catalog_number',$this->catalog_number,true);
-                $criteria->compare('image',$this->image,true);
+                $criteria->compare('t.image',$this->image,true);
 		$criteria->compare('count',$this->count);
 		$criteria->compare('liquidity',$this->liquidity,true);
                 $criteria->compare('min_quantity',$this->min_quantity);
-		$criteria->compare('published',$this->published);
+		$criteria->compare('t.published',$this->published);
                 $criteria->compare('additional_info',$this->additional_info,true);
-                $criteria->compare('update_time',$this->update_time,true);
+                $criteria->compare('t.update_time',$this->update_time,true);
                 
                 if(Yii::app()->search->prepareSqlite()){
                     $condition_name='lower(t.name) like lower("%'.$this->name.'%")';    
