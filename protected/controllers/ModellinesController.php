@@ -29,7 +29,12 @@ class ModellinesController extends Controller
         $title = trim(substr($categoryParent->name, strlen($result[0])));
         $currentBrand = '';
         $breadcrumbs[$title] = '/catalog'.$categoryParent->path.$currentBrand.'/';
-        $breadcrumbs[] = $categoryRoot->name;
+        if(!empty($maker)) {
+           $breadcrumbs[$categoryRoot->name] = '/catalog'.$categoryRoot->path.'/';
+           $breadcrumbs[] = EquipmentMaker::model()->findByPk($maker)->name;
+        } else {
+           $breadcrumbs[] = $categoryRoot->name;
+        }
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
         

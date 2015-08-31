@@ -5,9 +5,9 @@ class SubcategoryController extends Controller
     {
         $ids = array();
         $category = $type;
-        $maker = $maker;
         $title = $response = $topText = $bottomText = '';
         $modelline = array();
+        $makerName = '';
         
         if(!empty(Yii::app()->params['searchFlag'])) {
             $url = '/search/show/';
@@ -20,9 +20,11 @@ class SubcategoryController extends Controller
             $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
             $categoryRoot = Category::model()->cache(1000, $dependency)->findByPk($category);
             if(!empty($categoryRoot)) {
-                if(empty($maker))
+                if(empty($maker)) {
                     $subcategories = $categoryRoot->children()->findAll(array('order'=>'name', 'condition'=>'published=:published', 'params'=>array(':published' => true)));
-                else {
+                } else {
+                    $makerName = ' '.EquipmentMaker::model()->findByPk($maker)->name;
+                    
                     $criteria = new CDbCriteria;
                     $criteria->select = 'category_id';
                     $criteria->distinct = true;
@@ -78,7 +80,7 @@ class SubcategoryController extends Controller
             // bradcrumbs
             //preg_match('/\d{2,}\./i', $categoryRoot->name, $result);
             //$title = trim(substr($categoryRoot->name, strlen($result[0])));
-            $title = $categoryRoot->name;
+            $title = $categoryRoot->name.$makerName;
             $breadcrumbs[] = $title;
             
             Yii::app()->params['meta_title'] = $title;
