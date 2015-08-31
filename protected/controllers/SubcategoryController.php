@@ -134,7 +134,7 @@ class SubcategoryController extends Controller
             
             if(!empty($modelline)) {
                 foreach($modelline as $categoryName=>$models) {
-                    $response .= '<h1>'.$categoryName.'</h1>
+                    $response .= '<div class="sub-title">'.$categoryName.'</div>
                        <table cellspacing="0" cellpadding="0" border="0"><tbody>'
                     ;
                     $count = 0;

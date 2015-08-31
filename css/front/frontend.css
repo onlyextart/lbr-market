@@ -2006,23 +2006,29 @@ input.small-cart-button,input.small-cart-button-wishlist{
     max-width: 270px;
     vertical-align: middle;
 }
-.product-wrapper h1, .modellines-wrapper h1, .subcategory-wrapper h1{
+.product-wrapper h1, .modellines-wrapper h1, .subcategory-wrapper h1, .subcategory-wrapper .sub-title{
     color: #5f5e5e;
     font-size: 18px;
     margin-bottom: 10px;
     padding: 0;
 }
-.modellines-wrapper h1, .subcategory-wrapper h1{
+.modellines-wrapper h1, .subcategory-wrapper h1, .subcategory-wrapper .sub-title{
     margin-bottom: 5px;
     margin-top: 5px;
 }
 /*.product-wrapper h1, */.product-info h2:first-letter, 
-.subcategory-wrapper .hit-label:first-letter, .subcategory-wrapper h1:first-letter,
+.subcategory-wrapper .hit-label:first-letter, .subcategory-wrapper h1:first-letter, .subcategory-wrapper .sub-title:first-letter,
 .modelline-wrapper .hit-label:first-letter, 
 .modellines-wrapper .hit-label:first-letter, .modellines-wrapper h1:first-letter
 {
     color: #EF801B;
 }
+
+.subcategory-wrapper .sub-title{
+   font-weight: bold;
+   margin-left: 5px;
+}
+
 .subcategory-wrapper .hit-label, 
 .modellines-wrapper .hit-label,
 .modelline-wrapper .hit-label,
