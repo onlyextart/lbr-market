@@ -41,8 +41,6 @@ class ModellinesController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
         
-        
-                
         if(!empty($maker)) {
             $seoText = CategorySeo::model()->find('category_id=:category and equipment_id=:maker', array('category'=>$categoryRoot->id, 'maker'=>$maker));
             if(!empty($seoText)) {

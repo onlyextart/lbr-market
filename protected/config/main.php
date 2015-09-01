@@ -177,7 +177,7 @@ return array(
         'host' => 'lbr-market.ru',
         'admin_email' =>'shop@lbr.ru',
         'meta_title'  => 'Запчасти ЛБР-Агромаркет',
-        'meta_description' => 'Магазин запчастей, запчасти ЛБР',
+        'meta_description' => '',
         'footerLabel'  => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
         'imageNoPhoto' => '/images/no-photo.png',
         'maxInCart'    => 5, // count of product types in cart

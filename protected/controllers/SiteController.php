@@ -130,6 +130,7 @@ class SiteController extends Controller
     public function actionDescription($url)
     {
         $model = Page::model()->findByAttributes(array('url'=>$url));
+        Yii::app()->params['meta_description'] = $model->title;
         $this->render('staticPage', array('data'=>$model), false, true);
     }
     
