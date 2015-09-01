@@ -6,7 +6,7 @@ class SiteController extends Controller
         $makers = $this->getMakers();
         $bestOffer = $this->getBestOffer();
         $hitProducts = $this->getHitProducts();
-
+        Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'];
         $this->render('index', array('hitProducts' => $hitProducts, 'bestoffer' => $bestOffer, 'makers' => $makers));
     }
     

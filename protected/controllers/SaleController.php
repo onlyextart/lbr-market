@@ -53,7 +53,7 @@ class SaleController extends Controller
             )
         );
         
-        Yii::app()->params['meta_title'] = 'Распродажа';
+        Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'] = 'Распродажа';
         $breadcrumbs[] = 'Распродажа';
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
 
