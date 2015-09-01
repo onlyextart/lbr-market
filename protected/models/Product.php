@@ -72,11 +72,11 @@ class Product extends CActiveRecord
                         array('name, catalog_number, count', 'required'),
 			array('min_quantity', 'numerical', 'integerOnly'=>true, 'message'=>'Поле должно содержать целое число'),
                         array('liquidity','match','pattern'=>'/^[ABCD ]$/','message'=>'Значением поля "Ликвидность" может быть только латинская буква A, B, C или D'),
-                        array('external_id, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published', 'safe'),
+                        array('external_id, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published, problem, units, multiplicity, material, size, date_sale_off', 'safe'),
                         
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name', 'safe', 'on'=>'search'),
+			array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name, problem, units, multiplicity, material, size, date_sale_off', 'safe', 'on'=>'search'),
                         array('image','EImageValidator','types' => 'gif, jpg, png','allowEmpty'=>'true'),
                 );
 	}
@@ -146,6 +146,12 @@ class Product extends CActiveRecord
                         'update_time' => 'Дата обновления',
                         'weight' => 'Вес',
                         'price' => 'Цена',
+                        'problem' => 'Проблемный', 
+                        'units' => 'Единицы измерения', 
+                        'multiplicity' => 'Кратность', 
+                        'material' => 'Материал изделия', 
+                        'size' => 'Размер изделия', 
+                        'date_sale_off' => 'Дата снятия с продажи'
 		);
 	}
 
