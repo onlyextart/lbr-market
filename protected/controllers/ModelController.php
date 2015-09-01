@@ -98,8 +98,9 @@ class ModelController extends Controller
         $breadcrumbs[$category->name] = '/catalog'.$category->path.'/';
 
         $parent = $model->parent()->find();
-        $brand = EquipmentMaker::model()->findByPk($model->maker_id)->path;
-        $breadcrumbs[$parent->name] = '/catalog'.$category->path.$brand.$parent->path.'/';
+        $brand = EquipmentMaker::model()->findByPk($model->maker_id);
+        $breadcrumbs[$brand->name] = '/catalog'.$category->path.$brand->path.'/';
+        $breadcrumbs[$parent->name] = '/catalog'.$category->path.$brand->path.$parent->path.'/';
         $breadcrumbs[] = $title;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
 

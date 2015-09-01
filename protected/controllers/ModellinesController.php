@@ -31,14 +31,17 @@ class ModellinesController extends Controller
         $breadcrumbs[$title] = '/catalog'.$categoryParent->path.$currentBrand.'/';
         if(!empty($maker)) {
            $breadcrumbs[$categoryRoot->name] = '/catalog'.$categoryRoot->path.'/';
-           $breadcrumbs[] = EquipmentMaker::model()->findByPk($maker)->name;
+           $equipmentMakerName = EquipmentMaker::model()->findByPk($maker)->name;
+           $breadcrumbs[] = $equipmentMakerName;
+           Yii::app()->params['meta_title'] = $categoryRoot->name.' '.$equipmentMakerName;
         } else {
            $breadcrumbs[] = $categoryRoot->name;
+           Yii::app()->params['meta_title'] = $categoryRoot->name;
         }
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
         
-        Yii::app()->params['meta_title'] = $categoryRoot->name;
+        
                 
         if(!empty($maker)) {
             $seoText = CategorySeo::model()->find('category_id=:category and equipment_id=:maker', array('category'=>$categoryRoot->id, 'maker'=>$maker));

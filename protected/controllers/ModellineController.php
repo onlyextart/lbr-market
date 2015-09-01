@@ -36,13 +36,12 @@ class ModellineController extends Controller
         preg_match('/\d{2,}\./i', $categoryParent->name, $result);
         $title = trim(substr($categoryParent->name, strlen($result[0])));
         //$breadcrumbs[$title] = '/subcategory/index/id/'.$categoryParent->id;
-        $currentBrand = '';
-        if(!empty(Yii::app()->params['currentMaker'])) $currentBrand = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->path;
-        //$breadcrumbs[$title] = '/subcategory/index/id/'.$categoryParent->id;
-        $breadcrumbs[$title] = '/catalog'.$categoryParent->path.$currentBrand.'/';
-        
-        //$breadcrumbs[$title] = '/catalog'.$categoryParent->path.'/';
+        $breadcrumbs[$title] = '/catalog'.$categoryParent->path.'/';
         $breadcrumbs[$category->name] = '/catalog'.$category->path.'/';
+        if(!empty(Yii::app()->params['currentMaker'])) {
+            $brand = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker']);
+            $breadcrumbs[$brand->name] = '/catalog'.$category->path.$brand->path.'/';
+        }
         $breadcrumbs[] = $modelline->name;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
