@@ -28,6 +28,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
             'class' => 'LinkPager',
             //'header' => false,
         ),
+        'afterAjaxUpdate'=>"function(id,data){ $('a.pretty').fancybox(); }",
         'columns' => array('id', 
             array( 
                 'name'=>'name',
@@ -77,6 +78,9 @@ $(function(){
     <?php elseif ($errorMsg): ?>
         alertify.error('<?php echo $errorMsg; ?>');
     <?php endif; ?>
+     
+
+    
 });
 </script>
 <?php
