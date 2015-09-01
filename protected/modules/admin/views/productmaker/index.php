@@ -24,6 +24,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
         'dataProvider'=>$data,
         'template'=>'{items}{pager}{summary}',
         'summaryText'=>'Элементы {start}—{end} из {count}.',
+        'afterAjaxUpdate'=>"function(id,data){ $('a.pretty').fancybox(); }",
         'pager' => array(
             'class' => 'LinkPager',
             //'header' => false,
