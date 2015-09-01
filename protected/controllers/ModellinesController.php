@@ -33,10 +33,10 @@ class ModellinesController extends Controller
            $breadcrumbs[$categoryRoot->name] = '/catalog'.$categoryRoot->path.'/';
            $equipmentMakerName = EquipmentMaker::model()->findByPk($maker)->name;
            $breadcrumbs[] = $equipmentMakerName;
-           Yii::app()->params['meta_title'] = $categoryRoot->name.' '.$equipmentMakerName;
+           Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name.' '.$equipmentMakerName;
         } else {
            $breadcrumbs[] = $categoryRoot->name;
-           Yii::app()->params['meta_title'] = $categoryRoot->name;
+           Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name;
         }
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs

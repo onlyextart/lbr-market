@@ -88,7 +88,7 @@ class ModelController extends Controller
         $hitProducts = $this->setHitProducts($id);
 
         // bradcrumbs
-        Yii::app()->params['meta_title'] = $title;
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
         $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
         $category = Category::model()->cache(1000, $category_dependency)->findByPk($model->category_id);
         $categoryParent = $category->parent()->find();

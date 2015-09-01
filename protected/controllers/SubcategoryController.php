@@ -83,7 +83,7 @@ class SubcategoryController extends Controller
             $title = $categoryRoot->name.$makerName;
             $breadcrumbs[] = $title;
             
-            Yii::app()->params['meta_title'] = $title;
+            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
             if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;            
             if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
             if(Yii::app()->params['showSeoTexts']) {

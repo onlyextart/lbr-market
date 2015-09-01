@@ -14,7 +14,7 @@ class ModellineController extends Controller
             throw new CHttpException(404, 'Модельный ряд не найден');
         
         $headTitle = 'Модельный ряд "'.$modelline->name.'"';
-        Yii::app()->params['meta_title'] = $headTitle;
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $headTitle;
         if(!empty($modelline->meta_title))Yii::app()->params['meta_title'] = $modelline->meta_title;
         if(!empty($modelline->meta_description))Yii::app()->params['meta_description'] = $modelline->meta_description;
         if(!empty($modelline->top_text)) $topText = $modelline->top_text;
