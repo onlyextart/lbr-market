@@ -74,7 +74,7 @@ class ProductmakerController extends Controller
     {
         $model = ProductMaker::model()->findByPk($id);
         $message = '';
-        $fieldsShortInfo=array('descripion','logo');
+        $fieldsShortInfo=array('description','logo');
         $file=array('logo');
         //$form = new STabbedForm('application.modules.admin.views.productmaker.form', $model);
         //$form->additionalTabs = array(
