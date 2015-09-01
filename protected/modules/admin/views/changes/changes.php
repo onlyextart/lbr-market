@@ -25,10 +25,10 @@ $errorMsg = Yii::app()->user->getFlash('error');
             'class' => 'LinkPager',
         ),
         'columns' => array(
-            array(
-                'name'=>'id',
-                'filter'=>false,
-             ),
+//            array(
+//                'name'=>'id',
+//                'filter'=>false,
+//             ),
             'date',
             array(
                 'name'=>'description',

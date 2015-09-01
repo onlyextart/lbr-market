@@ -56,7 +56,7 @@ class Changes extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'date' => 'Время изменения',
+			'date' => 'Дата и время изменения',
 			'description' => 'Описание изменений',
 			'user_id' => 'ID пользователя',
                         'user_name'=>'Логин пользователя'
