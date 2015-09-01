@@ -179,7 +179,7 @@ class SubcategoryController extends Controller
             $name = $equipmentMaker->name;
             $breadcrumbs[] = $name;
             
-            Yii::app()->params['meta_title'] = $name;
+            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $name;
             if(!empty($equipmentMaker->meta_title)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_title;
             if(!empty($equipmentMaker->meta_description)) Yii::app()->params['meta_description'] = $equipmentMaker->meta_description;
             if(Yii::app()->params['showSeoTexts']) {
