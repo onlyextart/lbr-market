@@ -92,13 +92,9 @@ class ModellinesController extends Controller
     private function setModelline($modelline, $dependency, $categoryRoot)
     {
         $response = '';
-        /*echo '<pre>';
-        var_dump($modelline);
-        exit;*/
         if(!empty($modelline) && empty(Yii::app()->params['currentMaker'])) {
             foreach($modelline as $categoryName=>$models) {
-                $response .= '<h1>'.$categoryName.'</h1>';
-                //$response .= '<h2>бренд</h2>';
+                $response .= '<div class="sub-title">'.$categoryName.'</div>';
                 $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
                 $count = 0;
                 $dividend = 3;
