@@ -190,6 +190,7 @@ return array(
         'showPricesForAdmin' => 1, // will run if showPrices == 0,
         'textHidePrice' => 'Информация о ценах временно недоступна',
         'textNoPrice' => 'запросить цену',
+        'textSaleOff' => 'снято с продажи',
         /**
          * end Prices
          */
