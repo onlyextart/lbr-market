@@ -263,39 +263,50 @@ class ModelController extends Controller
             } else $price = Yii::app()->params['textHidePrice'];
         }
         
-        if(!Yii::app()->user->isGuest || ($model->liquidity == 'D' && $model->count > 0)) {
-            $result .= '<div class="cell width-15">'.
-                '<span>'.$price.'</span>'.
-            '</div>';
+        if(empty($model->date_sale_off)) {
+            if(!Yii::app()->user->isGuest || ($model->liquidity == 'D' && $model->count > 0)) {
+                $result .= '<div class="cell width-15">'.
+                    '<span>'.$price.'</span>'.
+                '</div>';
+            } else {
+                $result .= '<div class="cell width-15 price-link">'.
+                    '<a href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a>'.
+                '</div>';
+            }
         } else {
-            $result .= '<div class="cell width-15 price-link">'.
-                '<a href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a>'.
+            $result .= '<div class="cell width-15">'.
+                'аналоги'.
             '</div>';
         }
 
         $result .= '<div class="cell width-20">
                        <div class="cart-form" elem="'.$model->id.'">'
         ;
+        
+        if(empty($model->date_sale_off)) {
+            if($model->count > 0) {
+                $result .= '<span class="stock in-stock">'.Product::IN_STOCK_SHORT.'</span>';
+            } else {
+                $result .= '<span class="stock">'.Product::NO_IN_STOCK.'</span>';
+            }
+            
+            $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";
+            if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))) {
+                //if($price) {
+                    $result .= '<input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">
+                        <input onclick='.$intent.' type="submit"  title="Добавить в корзину" value="" class="small-cart-button">'
+                    ;
+                //}
 
-        if($model->count > 0) {
-            $result .= '<span class="stock in-stock">'.Product::IN_STOCK_SHORT.'</span>';
-        } else {
-            $result .= '<span class="stock">'.Product::NO_IN_STOCK.'</span>';
-        }
-$intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";
-        if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))) {
-            //if($price) {
-                $result .= '<input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">
-                    <input onclick='.$intent.' type="submit"  title="Добавить в корзину" value="" class="small-cart-button">'
+                $result .= '<button class="wish-small" title="Добавить в блокнот">
+                               <span class="wish-icon"></span>
+                            </button>'
                 ;
-            //}
-
-            $result .= '<button class="wish-small" title="Добавить в блокнот">
-                           <span class="wish-icon"></span>
-                        </button>'
-            ;
+            }
+        } else {
+            $result .= '<span>'.Yii::app()->params['textSaleOff'].'</span>';
         }
-
+        
         $result .= '</div></div>';
         $result .= '</div></div></li>';
         return $result;
