@@ -274,9 +274,12 @@ class ModelController extends Controller
                 '</div>';
             }
         } else {
-            $result .= '<div class="cell width-15">'.
-                '<a class="prodInfo" target="_blank" href="'.$model->path.'">аналоги</a>'.
-            '</div>';
+            $countAnalogs = Analog::model()->count("product_id=:id", array("id"=>$model->id));
+            if($countAnalogs) {
+                $result .= '<div class="cell width-15">'.
+                    '<a class="prodInfo" target="_blank" href="'.$model->path.'">аналоги</a>'.
+                '</div>';
+            }
         }
 
         $result .= '<div class="cell width-20">
