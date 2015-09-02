@@ -18,6 +18,7 @@ class ProductController extends Controller
             //$modellineId = (int)$result[2][0];
             
             $modelline = ModelLine::model()->findByPk(Yii::app()->session['model']);
+            $brand = EquipmentMaker::model()->findByPk($modelline->maker_id);
             Yii::app()->session['model'] = null;
             $category = Category::model()->findByPk($modelline->category_id);
             
@@ -27,9 +28,12 @@ class ProductController extends Controller
             $label = trim(substr($categoryParent->name, strlen($result[0])));
             //$breadcrumbs[$label] = '/subcategory/index/id/'.$categoryParent->id;
             $breadcrumbs[$label] = '/catalog'.$categoryParent->path.'/';
-            $breadcrumbs[$category->name] = '/catalog'.$category->path;
+            $breadcrumbs[$category->name] = '/catalog'.$category->path.'/';
             $parent = $modelline->parent()->find();
-            $breadcrumbs[$parent->name] = '/modelline/index/id/'.$parent->id;
+            //$breadcrumbs[$parent->name] = '/modelline/index/id/'.$parent->id;
+            
+            $breadcrumbs[$brand->name] = '/catalog'.$category->path.$brand->path.'/';
+            $breadcrumbs[$parent->name] = '/catalog'.$category->path.$brand->path.$parent->path.'/';
         
             $breadcrumbs[" $modelline->name"] = Yii::app()->request->urlReferrer;            
         } else if(!empty(Yii::app()->params['searchFlag'])) {

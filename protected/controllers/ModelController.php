@@ -275,7 +275,7 @@ class ModelController extends Controller
             }
         } else {
             $result .= '<div class="cell width-15">'.
-                '<a class="prodInfo" target="_blank" href="'.$model->path.'">посмотреть аналоги</a>'.
+                '<a class="prodInfo" target="_blank" href="'.$model->path.'">аналоги</a>'.
             '</div>';
         }
 
