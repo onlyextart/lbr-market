@@ -152,35 +152,50 @@ class ProductController extends Controller
                             '<div class="cell draft width-35">'.
                                $drafts.
                             '</div>'
-             ;
-             
-             if(!Yii::app()->user->isGuest || ($analog->liquidity == 'D' && $analog->count > 0)) {
-                $price = '';
-                if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
-                    $price = Price::model()->getPrice($analog->id);
-                    if(empty($price)) $price = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
-                } else $price = Yii::app()->params['textHidePrice'];
-                
-                $analogProducts .= '<div class="cell width-15">'.$price.'</div>';
-             } else {
-                $analogProducts .= '<div class="cell width-15 price_link">'.
-                   '<a href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a>'.
-                '</div>';
-             }
+            ;
+            
+            if(empty($analog->date_sale_off)) { 
+                if(!Yii::app()->user->isGuest || ($analog->liquidity == 'D' && $analog->count > 0)) {
+                   $price = '';
+                   if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
+                       $price = Price::model()->getPrice($analog->id);
+                       if(empty($price)) $price = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
+                   } else $price = Yii::app()->params['textHidePrice'];
+
+                   $analogProducts .= '<div class="cell width-15">'.$price.'</div>';
+                } else {
+                   $analogProducts .= '<div class="cell width-15 price_link">'.
+                      '<a href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a>'.
+                   '</div>';
+                }
+            } else {
+                $countAnalogs = Analog::model()->count("product_id=:id", array("id"=>$analog->id));
+                if($countAnalogs) {
+                    $analogProducts .= '<div class="cell width-15">'.
+                        '<a class="prodInfo" target="_blank" href="'.$analog->path.'">аналоги</a>'.
+                    '</div>';
+                }
+            }
              
              $analogProducts .=      '<div class="cell width-20">'.
-                                         '<div class="cart-form" elem="'.$analog->id.'">'.
-                                            $countLabel;
-             $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";                               
-             if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
-                $analogProducts .= '<input type="number" min="1" pattern="[0-9]*" name="quantity" value="1" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">'.
-                    '<input onclick='.$intent.' type="submit" title="Добавить в корзину" value="" class="small-cart-button">'.
-                    '<button class="wish-small" title="Добавить в блокнот">'.
-                    '<span class="wish-icon"></span>'.
-                    '</button>'
-                ;
+                                         '<div class="cart-form" elem="'.$analog->id.'">'
+             ;
+             
+             if(empty($analog->date_sale_off)) { 
+                $analogProducts .= $countLabel;
+                $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";                               
+                if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
+                   $analogProducts .= '<input type="number" min="1" pattern="[0-9]*" name="quantity" value="1" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">'.
+                       '<input onclick='.$intent.' type="submit" title="Добавить в корзину" value="" class="small-cart-button">'.
+                       '<button class="wish-small" title="Добавить в блокнот">'.
+                       '<span class="wish-icon"></span>'.
+                       '</button>'
+                   ;
+                }
+             } else {
+                $analogProducts .= '<span>'.Yii::app()->params['textSaleOff'].'</span>'; 
              }
-
+             
              $analogProducts .=           '</div>'.
                                      '</div>'.
                                  '</div>'.
