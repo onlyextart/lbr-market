@@ -14,7 +14,7 @@
 </div>
 <div class="bestoffer-wrapper">
     <div class="elements">
-        <h1>Распродажа</h1><img class="spec-label" src="/images/sale-label.png">
+        <h1>Распродажа</h1><img width="30" height="30" class="spec-label" src="/images/sale-label.png">
         <?php if(count($data->getData())): 
             $this->widget('zii.widgets.CListView', array(
                 'dataProvider' => $data,
