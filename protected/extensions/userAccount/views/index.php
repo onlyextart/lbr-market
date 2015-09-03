@@ -81,7 +81,7 @@ if(!Yii::app()->user->isGuest) {
                                 <div class="img-wrapper">
                                     <a href="'.$offer[path].'" target="_blank">
                                         <img class="main-img" alt="'.$offer[name].'" src="'.$image.'">
-                                        <img class="sale-label" alt="Скидка" src="/images/sale-label.png">
+                                        <img width="30" height="30" class="sale-label" alt="Скидка" src="/images/sale-label.png">
                                     </a>
                                 </div>'.
                             '</div>'
