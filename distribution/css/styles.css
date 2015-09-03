@@ -2595,6 +2595,7 @@ ul.yiiPager .selected a {
 
 .bestoffer-wrapper .spec-label{
     margin-left: 10px;
+    margin-top: 10px;
     position: absolute;
 }
 .bestoffer-wrapper .sorter{
