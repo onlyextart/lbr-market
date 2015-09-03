@@ -72,7 +72,7 @@ class EquipmentmakerController extends Controller {
     public function actionEdit($id) {
         $model = EquipmentMaker::model()->findByPk($id);
         $message = '';
-        $fieldsShortInfo=array('descripion','logo','meta_title','meta_description','top_text','bottom_text');
+        $fieldsShortInfo=array('description','logo','meta_title','meta_description','top_text','bottom_text');
         $file=array('logo');
 //        $form = new STabbedForm('application.modules.admin.views.equipmentmaker.form', $model);
 //        $form->additionalTabs = array(

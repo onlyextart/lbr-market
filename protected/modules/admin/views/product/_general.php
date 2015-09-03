@@ -67,6 +67,49 @@
             ?>
         </div>
 
+        <div class="row">      
+            <?php  
+                echo $form_view->labelEx($model, 'problem');
+                echo $form_view->textField($model, 'problem', array('disabled'=>'true'));
+            ?>
+        </div>
+
+        <div class="row">      
+            <?php  
+                echo $form_view->labelEx($model, 'units');
+                echo $form_view->textField($model, 'units', array('disabled'=>'true'));
+            ?>
+        </div>
+
+        <div class="row">      
+            <?php  
+                echo $form_view->labelEx($model, 'multiplicity');
+                echo $form_view->textField($model, 'multiplicity', array('disabled'=>'true'));
+            ?>
+        </div>
+
+        <div class="row">      
+            <?php  
+                echo $form_view->labelEx($model, 'material');
+                echo $form_view->textField($model, 'material', array('disabled'=>'true'));
+            ?>
+        </div>
+        
+        <div class="row">      
+            <?php  
+                echo $form_view->labelEx($model, 'size');
+                echo $form_view->textField($model, 'size', array('disabled'=>'true'));
+            ?>
+        </div>
+
+        <div class="row">      
+            <?php  
+                echo $form_view->labelEx($model, 'date_sale_off');
+                if(!empty($model->date_sale_off)) $model->date_sale_off = date("Y-m-d H:i:s", strtotime($model->date_sale_off));
+                echo $form_view->textField($model, 'date_sale_off', array('disabled'=>'true'));
+            ?>
+        </div>
+
 <!--        <div class="row">      
             <?php  
 //                echo $form_view->error($model, 'price_value'); 
