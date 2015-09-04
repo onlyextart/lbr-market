@@ -39,6 +39,11 @@
             echo $form->textArea($model, 'description', array('disabled'=>'true','class'=>'description'));
             echo CHtml::closeTag('div');
             
+            echo CHtml::openTag('div', array('class'=>'row'));
+            echo $form->labelEx($model, 'user_name');
+            echo CHtml::textField('user_name', Changes::getAuthUser($model->user_id), array('disabled'=>true));
+            echo CHtml::closeTag('div');
+            
             $this->endWidget();
             ?>
         </div>
@@ -47,38 +52,3 @@
        
     </div>
 </div>
-<script>
-$(function(){
-    alertify.set({ delay: 6000 });
-    <?php if ($alertMsg) :?>
-        alertify.success('<?php echo $alertMsg; ?>');
-    <?php elseif ($errorMsg): ?>
-        alertify.error('<?php echo $errorMsg; ?>');
-    <?php endif; ?>
-    
-    editUser.data = {
-        userNotActivated:'<?php echo User::USER_NOT_ACTIVATED?>',
-        userNotConfirmed: '<?php echo User::USER_NOT_CONFIRMED?>',
-        userActive : '<?php echo User::USER_ACTIVE?>',
-        userWarning : '<?php echo User::USER_WARNING?>',
-        userTemporaryBlocked : '<?php echo User::USER_TEMPORARY_BLOCKED?>',
-        userBlocked : '<?php echo User::USER_BLOCKED?>',
-    };
-    editUser.initCalendar();
-    editUser.editStatus();
-    
-    $('#close-user').click(function() {
-        document.location.href = "<?php echo Yii::app()->getBaseUrl(true) ?>/admin/user/";
-    });
-    
-    $( "#save-btn" ).click(function() {
-        $('form').submit();
-    });
-    
-    var labels=<?php echo json_encode(UserCountry::model()->getAllLabels());?>;
-     $("#country_user").change(function(){
-        country_id=$('#country_user').val();
-        $("#label_inn").text(labels[country_id]+" ");
-    });
-});
-</script>
