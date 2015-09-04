@@ -44,6 +44,7 @@ class AdminModule extends CWebModule
             Yii::app()->clientScript->registerScriptFile('/js/ui/jquery-ui-1.10.3.js');
             Yii::app()->clientScript->registerScriptFile('/js/ui/timepicker.js'); 
             Yii::app()->clientScript->registerScriptFile('/js/back/backend.js');
+            Yii::app()->clientScript->registerScriptFile('/js/back/jquery.dotdotdot.js');
             Yii::app()->clientScript->registerScriptFile('/js/back/editUser.js');
             Yii::app()->clientScript->registerScriptFile('/js/back/editDiscount.js');
             Yii::app()->clientScript->registerScriptFile('/js/back/editOrder.js');

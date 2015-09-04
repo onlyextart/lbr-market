@@ -6,34 +6,6 @@ class ChangesController extends Controller
     {
         //if(Yii::app()->user->checkAccess('readChanges'))
         //{
-//            $criteria = new CDbCriteria();
-//            $criteria->distinct = true;
-//            $criteria->group='user_id';
-//            $criteria->select = '*, max(date) as last_edit';
-//           
-//            $sort = new CSort();
-//            $sort->sortVar = 'sort';
-//            $sort->defaultOrder = 'last_edit DESC';
-//            $sort->attributes = array(
-//                'last_edit' => array(
-//                    'asc' => 'last_edit ASC',
-//                    'desc' => 'last_edit DESC',
-//                    'default' => 'asc',
-//                )
-//            );
-//            
-//            $dataProvider = new CActiveDataProvider('Changes', 
-//                array(
-//                    'criteria'=>$criteria,
-//                    'sort'=>$sort,
-//                    'pagination'=>array(
-//                        'pageSize'=>'8'
-//                    )
-//                )
-//            );
-//        
-//        
-//            $this->render('changes', array('data'=>$dataProvider));
         
             $model = new Changes('search');
             
@@ -53,5 +25,22 @@ class ChangesController extends Controller
         /*} else {
             throw new CHttpException(403,Yii::t('yii','У Вас недостаточно прав доступа.'));
         }*/
+    }
+    
+    public function actionDetail($id)
+    {
+        $model = Changes::model()->findByPk($id);
+        
+        if (!$model)
+	    $this->render('application.modules.admin.views.default.error', array('error' => 'Запись не найдена.'));
+       
+        
+        if(Yii::app()->user->checkAccess('shopEditUser')) {
+           $this->render('detail', array(
+                    'model'=>$model,
+            )); 
+        } else {
+            $this->render('application.modules.admin.views.default.error', array('error' => 'Для редактирования недостаточно прав доступа.'));
+        }
     }
 }
