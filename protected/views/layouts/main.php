@@ -15,7 +15,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?3');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?4');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js');
 
