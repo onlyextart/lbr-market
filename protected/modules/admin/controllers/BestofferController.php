@@ -70,7 +70,7 @@ class BestofferController extends Controller {
 
     public function actionEdit($id) {
         $message = '';
-        $fieldsShortInfo=array('img','descripion');
+        $fieldsShortInfo=array('img','description');
         $file=array('img');
         $model = BestOffer::model()->findByPk($id);
         if(!empty($_POST['BestOffer'])) {
