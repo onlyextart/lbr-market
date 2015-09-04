@@ -2847,7 +2847,7 @@ ul.yiiPager .selected a {
 /*----- end My order grid style ------------------*/
 /*-------------alertify-------------------------*/
 .alertify-log-success,.alertify-log-error {
-    bottom:0px;
+    bottom:-10px;
 }
 /*---------------end alertify-----------------*/
 /*------- begin Tooltip ------------------------------*/
