@@ -852,4 +852,19 @@ body .alertify-log-error{
      width: 180px;
 }
 /*----- end Product ----------------------------*/
+/*----- start Changes --------------------------*/
+#changesListGrid div.description{
+    height:25px; 
+    padding-bottom:3px; 
+    overflow:hidden;
+}
+
+#changesListGrid #id-change{
+    padding-right:15px;
+}
+
+#change-form textarea{
+    min-height: 250px;
+}
+/*----- end Changes ----------------------------*/
 

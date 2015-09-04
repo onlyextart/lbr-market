@@ -24,15 +24,29 @@ $errorMsg = Yii::app()->user->getFlash('error');
         'pager' => array(
             'class' => 'LinkPager',
         ),
+        'afterAjaxUpdate'=>"function(id,data){ $('.description').dotdotdot({
+                                                    ellipsis	: '... ',
+                                                    wrap	: 'letter',
+                                                });
+                                              }",
         'columns' => array(
-//            array(
-//                'name'=>'id',
-//                'filter'=>false,
-//             ),
+            array(
+                'name'=>'id',
+                'type'=>'raw',
+                'filter'=>false,
+                'value'=>'CHtml::link(CHtml::encode($data->id), array("detail","id"=>$data->id))',
+                'htmlOptions'=>array(
+                    'id'=>'id-change',
+                ),
+             ),
             'date',
             array(
                 'name'=>'description',
+                'type'=>'raw',
                 'filter'=>false,
+                'value'=>function($data){
+                    return '<div class="description">'.htmlspecialchars($data->description).'</div>';
+                },
             ),
             array(
                 'name'=>'user_id',
@@ -44,42 +58,14 @@ $errorMsg = Yii::app()->user->getFlash('error');
             ),
         ),
     ));
-   
-     
-    /*$this->widget('zii.widgets.CListView', array(
-                'dataProvider'=>$data,
-                'itemView'=>'/changes/_item', // представление для одной записи
-                'ajaxUpdate'=>false, // отключаем ajax поведение
-                'emptyText'=>'Нет изменений',
-                'template'=>'{summary} {sorter} {items} {pager}',
-                'summaryText'=>'Показано {start}-{end} из {count}',
-                'sorterHeader'=>'',
-                'itemsTagName'=>'ul',
-                'sortableAttributes'=>array(
-                    'surname'=>'Фамилия',
-                    'name'=>'Имя',
-                    'secondname'=>'Отчество',
-                    'last_edit'=>'Последнее редактирование'
-                ),
-                'pager'=>array(
-                    'class'=>'LinkPager',
-                    'header'=>false,
-                    'prevPageLabel'=>'<',
-                    'nextPageLabel'=>'>', //'<img src="images/pagination/left.png">',
-                    'lastPageLabel'=>'В конец >>',
-                    'firstPageLabel'=>'<< В начало',
-                    'maxButtonCount' => '5'
-                ),
-            ));*/
+
 ?>
 </div>
 <script>
-$(function(){
-    alertify.set({ delay: 6000 });
-    <?php if ($alertMsg) :?>
-        alertify.success('<?php echo $alertMsg; ?>');
-    <?php elseif ($errorMsg): ?>
-        alertify.error('<?php echo $errorMsg; ?>');
-    <?php endif; ?>
+$(document).ready(function(){
+    $('.description').dotdotdot({
+        ellipsis	: '... ',
+        wrap		: 'letter',
+    });
 });
 </script>
