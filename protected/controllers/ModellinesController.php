@@ -25,8 +25,11 @@ class ModellinesController extends Controller
         }
         
         $categoryParent = $categoryRoot->parent()->find();
-        preg_match('/\d{2,}\./i', $categoryParent->name, $result);
-        $title = trim(substr($categoryParent->name, strlen($result[0])));
+        
+        //preg_match('/\d{2,}\./i', $categoryParent->name, $result);
+        //$title = trim(substr($categoryParent->name, strlen($result[0])));
+        $title = $categoryParent->name;
+        
         $currentBrand = '';
         $breadcrumbs[$title] = '/catalog'.$categoryParent->path.$currentBrand.'/';
         if(!empty($maker)) {
@@ -302,8 +305,9 @@ class ModellinesController extends Controller
                    $label = $parent->name;
                 }
                 
-                preg_match('/\d{2,}\./i', $label, $result);
-                $label = trim(substr($label, strlen($result[0])));
+                //preg_match('/\d{2,}\./i', $label, $result);
+                //$label = trim(substr($label, strlen($result[0])));
+                $label = $label;
                 
                 $modelline[$label][$count]['name'] = $currentModel->name;
                 $modelline[$label][$count]['id'] = $currentModel->id;

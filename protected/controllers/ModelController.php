@@ -1,7 +1,6 @@
 <?php
 class ModelController extends Controller
 {
-    public $flag = false;
     public function actionShow($id, $sort = '', $order = '')
     {     
         set_time_limit(0);
@@ -92,8 +91,12 @@ class ModelController extends Controller
         $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
         $category = Category::model()->cache(1000, $category_dependency)->findByPk($model->category_id);
         $categoryParent = $category->parent()->find();
-        preg_match('/\d{2,}\./i', $categoryParent->name, $result);
-        $label = trim(substr($categoryParent->name, strlen($result[0])));
+        
+        //preg_match('/\d{2,}\./i', $categoryParent->name, $result);
+        //$label = trim(substr($categoryParent->name, strlen($result[0])));
+        
+        $label = $categoryParent->name;
+        
         $breadcrumbs[$label] = '/catalog'.$categoryParent->path.'/';
         $breadcrumbs[$category->name] = '/catalog'.$category->path.'/';
 
@@ -167,7 +170,7 @@ class ModelController extends Controller
                     $result .= '<li><a href="#">'.$subChild['name'].'</a><ul>';
                     if(!empty($subChild['products'])) {
                         foreach($subChild['products'] as $productId) {
-                            $result .= $this->showProducts($productId, $flag);
+                            $result .= $this->showProducts($productId);
                         }
                     } else if(!empty($subChild['children'])) {
                         usort($subChild['children'], array($this, 'sortByName'));
@@ -175,7 +178,7 @@ class ModelController extends Controller
                             $result .= '<li><a href="#">'.$subSubChild['name'].'</a><ul>';
                             if(!empty($subSubChild['products'])) {
                                 foreach($subSubChild['products'] as $productId) {
-                                    $result .= $this->showProducts($productId, $flag);
+                                    $result .= $this->showProducts($productId);
                                 }
                             }
                             $result .= '</ul></li>';
@@ -186,7 +189,7 @@ class ModelController extends Controller
             }
             if(!empty($child['products'])) {
                 foreach($child['products'] as $productId) {
-                    $result .= $this->showProducts($productId, $flag);
+                    $result .= $this->showProducts($productId);
                 }
             }
             $result .= '</ul></li>';
@@ -216,7 +219,7 @@ class ModelController extends Controller
         return $priceLabel;
     }*/
     
-    public function showProducts($id, $flag)
+    public function showProducts($id)
     {   
         //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
         //$model = Product::model()->cache(1000, $depend)->findByPk($id);

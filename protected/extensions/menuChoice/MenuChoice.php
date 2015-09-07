@@ -108,16 +108,21 @@ class MenuChoice extends CWidget
                 
                 $crit = new CDbCriteria();
                 $crit->addInCondition('id', $temp);
-                $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMaker_dependency)->findAll($crit);
+                
+                $tableSchema = EquipmentMaker::model()->getTableSchema();
+                $command = EquipmentMaker::model()->getCommandBuilder()->createFindCommand($tableSchema, $crit);
+                $makersAll = $command->queryAll();
+                //$makersAll = EquipmentMaker::model()->cache(1000, $equipmentMaker_dependency)->findAll($crit);
             }
-        } else
+        } else {
             $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMaker_dependency)->findAll();
+        }
         
         if(!empty($makersAll)){
             foreach($makersAll as $maker) {
-                $makers[$maker->id]['name'] = $maker->name;
-                $makers[$maker->id]['path'] = $maker->path;
-                $makers[$maker->id]['id'] = $maker->id;
+                $makers[$maker->id]['name'] = $maker['name'];
+                $makers[$maker->id]['path'] = $maker['path'];
+                $makers[$maker->id]['id'] = $maker['id'];
             }
         }
         

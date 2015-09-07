@@ -23,13 +23,13 @@ class SiteController extends Controller {
 
             $path = Yii::getPathOfAlias('webroot');
             foreach ($equipmentMakers as $maker) {
-                if (file_exists($path . $maker[logo])) {
-                    $result .= '<li><a href="/equipment-maker' . $maker[path] . '/" target="_blank"><div class="img-container bwWrapper"><img src="' . $maker[logo] . '" alt="' . $maker[name] . '" /></div></a></li>';
+                if (file_exists($path . $maker['logo'])) {
+                    $result .= '<li><a href="/equipment-maker' . $maker['path'] . '/" target="_blank"><div class="img-container bwWrapper"><img src="' . $maker['logo'] . '" alt="' . $maker['name'] . '" /></div></a></li>';
                 }
             }
             foreach ($productMakers as $maker) {
-                if (file_exists($path . $maker[logo])) {
-                    $result .= '<li><a href="/product-maker' . $maker[path] . '/" target="_blank"><div class="img-container bwWrapper"><img src="' . $maker[logo] . '" alt="' . $maker[name] . '" /></div></a></li>';
+                if (file_exists($path . $maker['logo'])) {
+                    $result .= '<li><a href="/product-maker' . $maker['path'] . '/" target="_blank"><div class="img-container bwWrapper"><img src="' . $maker['logo'] . '" alt="' . $maker['name'] . '" /></div></a></li>';
                 }
             }
 
