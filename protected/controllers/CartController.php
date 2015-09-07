@@ -1,10 +1,11 @@
 <?php
 
-class CartController extends Controller {
-
+class CartController extends Controller 
+{
     public $form;
 
-    public function actionIndex() {
+    public function actionIndex() 
+    {
         $items = $temp = array();
         $showLabelForNoPrice = false;
         $this->form = new OrderCreateForm;
@@ -409,7 +410,7 @@ class CartController extends Controller {
                                 foreach ($allOrdersInCart as $orderInCart) {
                                     $cartCount += OrderProduct::model()->find('order_id=:order', array(':order' => $orderInCart->id))->count;
                                 }
-                                $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: orange'>Перейти к оформлению товара</a>", 'count' => $cartCount);
+                                $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
                             } else {
                                 Order::model()->deleteAll('id = :id', array(':id' => $order->id));
                                 $array = array('message' => 'Произошла ошибка');
@@ -426,7 +427,7 @@ class CartController extends Controller {
                             foreach ($allOrdersInCart as $orderInCart) {
                                 $cartCount += OrderProduct::model()->find('order_id=:order', array(':order' => $orderInCart->id))->count;
                             }
-                            $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: orange'>Перейти к оформлению товара</a>", 'count' => $cartCount);
+                            $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
                         } else {
                             Order::model()->deleteAll('id = :id', array(':id' => $order->id));
                             $array = array('message' => 'Произошла ошибка');
@@ -446,7 +447,7 @@ class CartController extends Controller {
                 foreach (Yii::app()->session['cart'] as $item) {
                     $cartCount += $item;
                 }
-                $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: orange'>Перейти к оформлению товара</a>", 'count' => $cartCount);
+                $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
                 echo json_encode($array);
             }
         }

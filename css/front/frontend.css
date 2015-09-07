@@ -478,6 +478,9 @@ header ul.dropdown ul ul {
 #sale-block .one_banner a:hover, #sale-block-wrapper span a:hover{
     text-decoration: none;
 }
+.breadcrumbs div{
+    display: inline-block;
+}
 /*----- End Breadcrumbs -----------------*/
 /*----- Begin Content -------------------*/
 .left-sidebar, .right-sidebar, .content{

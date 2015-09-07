@@ -1,21 +1,18 @@
+<?php 
+    $action = '/cart/index/';
+?>
 <div class="cart-wrapper">
-    <div class="breadcrumbs">
-        <?php
-            $breadcrumbs[] = 'Корзина';
-            Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
-            $this->widget('zii.widgets.CBreadcrumbs', array(
-                'links' => Yii::app()->params['breadcrumbs'],
-                'activeLinkTemplate' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="{url}">{label}</a></span>',
-                'inactiveLinkTemplate' => '{label}',
-                'homeLink' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="/">Главная</a></span>',
-                'tagName' => 'span',
-                'htmlOptions' => array(
-                    'xmlns:v' => 'http://rdf.data-vocabulary.org/#',
-                ),
-            ));
-            $action = '/cart/index/';
-        ?>
-    </div>
+    <?php
+        $breadcrumbs[] = 'Корзина';
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs; 
+
+        $this->widget('zii.widgets.CBreadcrumbs', array(
+            'links' => Yii::app()->params['breadcrumbs'],
+            'homeLink' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'/" itemprop="url"><span itemprop="title">Главная</span></a></div>',
+            'activeLinkTemplate' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'{url}" itemprop="url"><span itemprop="title">{label}</span></a></div>',
+            'inactiveLinkTemplate' => '{label}',
+        )); 
+    ?>
     <?php if($mess = Yii::app()->user->getFlash('error')): ?>
     <div class="flash_error">
         <?php echo $mess; ?>

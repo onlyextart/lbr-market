@@ -9,6 +9,7 @@ class EquipmentmakerController extends Controller
             $breadcrumbs[] = "Производители техники";
             $breadcrumbs[] = $data->name;
             Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+            Yii::app()->params['meta_title'] = $data->name;
             
             if(!empty($data)) {
                 Yii::app()->params['analiticsMark'] = 'maker='.$data->external_id;

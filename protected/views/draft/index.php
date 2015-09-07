@@ -1,19 +1,13 @@
-<div class="breadcrumbs">
-    <?php
-       /* $this->widget('zii.widgets.CBreadcrumbs', array(
-            'links' => Yii::app()->params['breadcrumbs'],
-            'activeLinkTemplate' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="{url}">{label}</a></span>',
-            'inactiveLinkTemplate' => '{label}',
-            'homeLink' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="/">Главная</a></span>',
-            'tagName' => 'span',
-            'htmlOptions' => array(
-                'xmlns:v' => 'http://rdf.data-vocabulary.org/#',
-            ),
-        ));
-       */
-       $image = Product::model()->getDraftImage($model->image);
-    ?>
-</div>
+<?php
+    $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links' => Yii::app()->params['breadcrumbs'],
+        'homeLink' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'/" itemprop="url"><span itemprop="title">Главная</span></a></div>',
+        'activeLinkTemplate' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'{url}" itemprop="url"><span itemprop="title">{label}</span></a></div>',
+        'inactiveLinkTemplate' => '{label}',
+    ));
+    
+    $image = Product::model()->getDraftImage($model->image);
+?>
 <div>
    <?php if(!empty($model->image)): ?>
         <div class="draft-wrapper">
