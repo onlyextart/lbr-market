@@ -108,7 +108,7 @@ class ModelController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
 
         if(!empty($data)) $output = $this->showInnerGroups($data);
-        $this->render('model', array('model' => $model, 'data' => $data, 'title' => $title, 'result'=>$output, 'hitProducts'=>$hitProducts));
+        $this->render('model', array('model' => $model, 'data' => $data, 'title' => $title, 'result'=>$output, 'hitProducts'=>$hitProducts, 'url'=>ModelLine::model()->getUrl($model->id) ));
 
     }
     

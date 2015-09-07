@@ -27,9 +27,10 @@
     <h2>Запасные части для <?php echo $title?></h2>
     <span class="spareparts-order">
         Сортировать по:
-        <a href="/model/show/id/<?php echo $model->id?>/sort/name/order/<?php echo (Yii::app()->params['sortCol'] == 'name' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'name') echo Yii::app()->params['sortOrder'] ?>">Названию</a>
-        <a href="/model/show/id/<?php echo $model->id?>/sort/col/order/<?php echo (Yii::app()->params['sortCol'] == 'col' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'col') echo Yii::app()->params['sortOrder'] ?>">Наличию</a>
-        <a href="/model/show/id/<?php echo $model->id?>/sort/category/order/<?php echo (Yii::app()->params['sortCol'] == 'category' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'category') echo Yii::app()->params['sortOrder'] ?>">Категории</a>
+        <!--a href="/model/show/id/<?php echo $model->id?>/sort/name/order/<?php echo (Yii::app()->params['sortCol'] == 'name' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'name') echo Yii::app()->params['sortOrder'] ?>">Названию</a-->
+        <a href="<?php echo $url ?>sort/name/order/<?php echo (Yii::app()->params['sortCol'] == 'name' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'name') echo Yii::app()->params['sortOrder'] ?>">Названию</a>
+        <a href="<?php echo $url ?>sort/col/order/<?php echo (Yii::app()->params['sortCol'] == 'col' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'col') echo Yii::app()->params['sortOrder'] ?>">Наличию</a>
+        <a href="<?php echo $url ?>sort/category/order/<?php echo (Yii::app()->params['sortCol'] == 'category' && Yii::app()->params['sortOrder'] == 'asc')?'desc':'asc' ?>/" class="<?php if(Yii::app()->params['sortCol'] == 'category') echo Yii::app()->params['sortOrder'] ?>">Категории</a>
     </span>
     <div style='clear: both'></div>
     <?php echo $result; ?>

@@ -188,6 +188,49 @@ class ShopUrlRule extends CBaseUrlRule
                 }
             }
         }        
+        /*
+         *  search for "/catalog/traktornaya-tehnika/traktory/case/case-c50-c60-c70-c90/c50/sort/name/order/asc/" -> model controller
+         */
+        else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)((\/[\w,-]+){2})(\/(sort)\/(col|category|name)\/(order)\/(asc|desc))$/', $pathInfo, $matches)) {
+            $modelLine = ModelLine::model()->find(
+                'path=:path',
+                array(':path'=>$matches[4])
+            );
+            
+            if(!empty($modelLine)) {
+                $maker = EquipmentMaker::model()->find(
+                    'path=:path',
+                    array(':path'=>$matches[3])
+                );
+                
+                if(!empty($maker) && $maker->id == $modelLine->maker_id) {
+                    $type = Category::model()->find(
+                        'path=:path',
+                        array(':path'=>$matches[1])
+                    );
+
+                    if(!empty($type) && $type->id == $modelLine->category_id) {
+                        Yii::app()->params['currentSale'] = $type->id;
+                        Yii::app()->params['currentType'] = $type->parent()->find()->id;
+                        Yii::app()->params['currentMaker'] = $maker->id;
+                        
+                        /*$model = ModelLine::model()->find(
+                            'path=:path',
+                            array(':path'=>$matches[5])
+                        );*/
+                        
+                        Yii::app()->params['analiticsMark'] = 'modelline='.$modelLine->external_id;
+                        Yii::app()->session['model'] = $modelLine->id;
+                        return '/model/show/id/'.$modelLine->id.'/sort/'.$matches[8].'/order/'.$matches[10];
+                    }
+                }
+            }
+        } 
+        /*else {
+            preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)((\/[\w,-]+){2})(\/(sort)\/(col|category|name)\/(order)\/(asc|desc))$/', $pathInfo, $matches);
+            echo '<pre>';
+            var_dump($matches);exit;
+        } */   
         
         return false;  // this rule does not apply
     }
