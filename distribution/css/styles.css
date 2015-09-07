@@ -2850,8 +2850,7 @@ ul.yiiPager .selected a {
 /*----- end My order grid style ------------------*/
 /*-------------alertify-------------------------*/
 .alertify-log-success,.alertify-log-error {
-    bottom:100px;
-    right:0px;
+    bottom:-10px;
 }
 /*---------------end alertify-----------------*/
 /*------- begin Tooltip ------------------------------*/
