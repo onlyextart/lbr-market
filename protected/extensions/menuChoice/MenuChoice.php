@@ -3,14 +3,14 @@ class MenuChoice extends CWidget
 {
     public function init()
     {
-        $types = $makers = $temp = array();
+        $types = $makers = $temp = $makersAll = array();
         $filterCategory = $filterMaker = null;
         
         $model = new Category;
         $mainRoot = $model->roots()->find();
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
-        $equipmentMaker_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
+        $equipmentMakerDependency = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
         //echo 'type = '.Yii::app()->params['currentType'];
         
         // формируем меню "По типу техники"
@@ -102,27 +102,24 @@ class MenuChoice extends CWidget
                 $criteria->condition = 'category_id = '.$child->id;      
                 $criteria->select = 'maker_id';
                 $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
+                
                 foreach($models as $model) {
-                    $temp[] = $model['maker_id'];
+                    $t[] = $model['maker_id'];
                 }
                 
                 $crit = new CDbCriteria();
-                $crit->addInCondition('id', $temp);
-                
-                $tableSchema = EquipmentMaker::model()->getTableSchema();
-                $command = EquipmentMaker::model()->getCommandBuilder()->createFindCommand($tableSchema, $crit);
-                $makersAll = $command->queryAll();
-                //$makersAll = EquipmentMaker::model()->cache(1000, $equipmentMaker_dependency)->findAll($crit);
+                $crit->addInCondition('id', $t);
+                $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($crit);
             }
         } else {
-            $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMaker_dependency)->findAll();
+            $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll();
         }
-        
-        if(!empty($makersAll)){
+
+        if(count($makersAll)){
             foreach($makersAll as $maker) {
-                $makers[$maker->id]['name'] = $maker['name'];
-                $makers[$maker->id]['path'] = $maker['path'];
-                $makers[$maker->id]['id'] = $maker['id'];
+                $makers[$maker->id]['name'] = $maker->name;
+                $makers[$maker->id]['path'] = $maker->path;
+                $makers[$maker->id]['id'] = $maker->id;
             }
         }
         
@@ -138,7 +135,7 @@ class MenuChoice extends CWidget
         }
 
         if(!empty(Yii::app()->params['currentMaker'])){
-            $filterMakerModel = EquipmentMaker::model()->cache(1000, $equipmentMaker_dependency)->findByPk(Yii::app()->params['currentMaker']);
+            $filterMakerModel = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findByPk(Yii::app()->params['currentMaker']);
             $filterMaker['name'] = $filterMakerModel->name;
             $filterMaker['id'] = $filterMakerModel->id;
             $filterMaker['path'] = $filterMakerModel->path;
