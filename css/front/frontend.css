@@ -2024,6 +2024,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
     border-collapse: collapse;
     font-size: 12px;
     font-style: italic;
+    width: 450px;
 }
 
 .product-params > div{
