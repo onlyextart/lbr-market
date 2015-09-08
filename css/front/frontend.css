@@ -1992,39 +1992,37 @@ input.small-cart-button,input.small-cart-button-wishlist{
 }
 /*----- end Pages about products ------*/
 /*----- start Product -----------------*/
+.product-wrapper .prod-name{
+    font-size: 18px;
+    color: #5f5e5e;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
 .product-image-wrapper{
     border-radius: 4px;
     box-shadow: 0 0 4px 1px rgba(50, 50, 50, 0.5);
     float: left;
     height: auto;
     width: auto;
-    /*margin: 5px 25px 10px 5px;*/
-    margin: 0;
+    margin: 5px 0 0;
     padding: 5px;
     position: relative;
     text-align: center;
     display: inline-block;
 }
 
-/*.product-params > div > span:last-child > div:last-child{
-    margin-left: 150px;
-}*/
-
-
 .product-params > div > span:first-child{
     width: 150px;
-    /*display: inline-block;*/
 }
 
 .product-params{
     float: left;
-    /*margin-top: 10px;*/
-    /*padding-left: 10px;*/
+    margin-left: 20px;
     display: table;
     border-collapse: collapse;
-    /*border-spacing: 5px;*/
-    
-    font-size: 0.9em;
+    font-size: 12px;
     font-style: italic;
 }
 
@@ -2032,11 +2030,11 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin: 0 0 10px;
     display: table-row;
     border-bottom: 1px solid #f39314;
-    /*padding: 5px 5px 5px 0;*/
 }
 
 .product-params > div > span {
     display: table-cell;
+    padding: 5px;
 }
 
 .product-image-wrapper img{
@@ -2058,7 +2056,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin-top: 5px;
 }
 
-/*.product-wrapper h1, */.product-info h2:first-letter, 
+.product-info h2:first-letter, 
 .subcategory-wrapper .hit-label:first-letter, .subcategory-wrapper h1:first-letter, .subcategory-wrapper .sub-title:first-letter, .modellines-wrapper .sub-title:first-letter,
 .modelline-wrapper .hit-label:first-letter, 
 .modellines-wrapper .hit-label:first-letter, .modellines-wrapper h1:first-letter
@@ -2098,10 +2096,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin-left: 0;
     margin-right: 10px;
 }
-#prod-info .product-params > div{
-    /*border-bottom: 1px solid #f39314;*/
-    
-}
+
 #prod-info .product-params .date-label{
     text-align: right;
 }

@@ -8,7 +8,7 @@
 ?>
 <div itemtype="http://schema.org/Product" itemscope="">
    <div class="product-wrapper">
-        <h1 itemprop="name"><?php echo $data->name; ?></h1>
+        <div class="prod-name"><?php echo $data->name; ?></div>
         <div id="prod-info">
             <div class="product-image-wrapper">
                 <a href="<?php echo $image; ?>" class="thumbnail" target="_blank">
