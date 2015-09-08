@@ -6,10 +6,10 @@
         'inactiveLinkTemplate' => '{label}',
     ));        
 ?>
-<div itemtype="http://schema.org/Product" itemscope="">
-   <div class="product-wrapper">
-        <?php if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)): ?>
-        <div class="prod-name"><?php echo $data->name; ?></div>
+<div>
+    <?php if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)): // logged user ?>
+    <div class="product-wrapper" itemscope itemtype="http://schema.org/Product">    
+        <div class="prod-name" itemprop="name"><?php echo $data->name; ?></div>
         <div id="prod-info">
             <div class="product-image-wrapper">
                 <a href="<?php echo $image; ?>" class="thumbnail" target="_blank">
@@ -43,12 +43,12 @@
                 <?php endif; ?>
                 <?php if(empty($data->date_sale_off)): ?>
                     <?php if(Yii::app()->params['showPrices']): ?>
-                    <div>
+                    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                         <span>Цена:</span>
                         <span>
                             <?php
                                 if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
-                                    echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
+                                    echo '<span itemprop="price">'.$price.'</span><div class="price-info">(на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
                                 } else if(!Yii::app()->user->isGuest) {
                                     echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: '.$filial.')</div>';
                                 } else if($data->liquidity == 'D' && $data->count > 0){
@@ -103,7 +103,9 @@
                 <?php endif; ?>
             </div>
         </div>
-        <?php else: ?>
+    </div>
+    <?php else: // guest or admin?>
+    <div class="product-wrapper">
         <div class="prod-name"><?php echo $data->name; ?></div>
         <div id="prod-info">
             <div class="product-image-wrapper">
@@ -198,15 +200,15 @@
                 <?php endif; ?>
             </div>
         </div>
-        <?php endif; ?>
-        <div class="clearfix"></div>
-        <?php if(!empty($data->additional_info)): ?>
-        <div class="product-add-info">
-            <?php echo $data->additional_info; ?>
-        </div>
-        <?php endif; ?>
-        <div class="clearfix"></div>
     </div>
+    <?php endif; ?>
+    <div class="clearfix"></div>
+    <?php if(!empty($data->additional_info)): ?>
+    <div class="product-add-info">
+        <?php echo $data->additional_info; ?>
+    </div>
+    <?php endif; ?>
+    <div class="clearfix"></div>
     <div class="product-info">
         <?php if(!empty($analogProducts)): ?>
         <div class="left-menu-wrapper grey" style="display: none">
