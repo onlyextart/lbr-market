@@ -8,6 +8,7 @@
 ?>
 <div itemtype="http://schema.org/Product" itemscope="">
    <div class="product-wrapper">
+        <?php if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)): ?>
         <div class="prod-name"><?php echo $data->name; ?></div>
         <div id="prod-info">
             <div class="product-image-wrapper">
@@ -102,8 +103,105 @@
                 <?php endif; ?>
             </div>
         </div>
+        <?php else: ?>
+        <div class="prod-name"><?php echo $data->name; ?></div>
+        <div id="prod-info">
+            <div class="product-image-wrapper">
+                <a href="<?php echo $image; ?>" class="thumbnail" target="_blank">
+                   <img border="0" itemprop="image" alt="<?php echo $data->name; ?>" src="<?php echo $image; ?>">
+                </a>
+            </div>
+            <div class="product-params">
+                <?php if(!empty($update)): ?>
+                <div>
+                      <span></span>
+                      <span class="date-label">Обновлено: <?php echo $update ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($maker)): ?>
+                <div>
+                    <span>Производитель:</span>
+                    <span title="Производитель"><?php echo $maker->name ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($maker->country)): ?>
+                <div>
+                    <span>Страна производителя:</span>
+                    <span title="Страна производитель"><?php echo $maker->country ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($data->weight)): ?>
+                <div>
+                    <span>Вес, кг:</span>
+                    <span title="Вес"><?php echo $data->weight ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if(empty($data->date_sale_off)): ?>
+                    <?php if(Yii::app()->params['showPrices']): ?>
+                    <div>
+                        <span>Цена:</span>
+                        <span>
+                            <?php
+                                if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) {
+                                    echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: <a href="/user/cabinet/index/">'.$filial.'</a>)</div>';
+                                } else if(!Yii::app()->user->isGuest) {
+                                    echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: '.$filial.')</div>';
+                                } else if($data->liquidity == 'D' && $data->count > 0){
+                                    echo '<span>'.$price.'</span><div class="price-info">(на условии самовывоза со склада: '.$filial.')</div>';
+                                } else {
+                                    echo '<span class="price_link"><a href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a></span>';
+                                }
+                             ?>
+                        </span>
+                    </div>
+                    <?php elseif(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin']): ?>
+                    <div>
+                        <span>Цена:</span>
+                        <span>
+                            <?php
+                               echo '<span>'.$price.'</span><div class="price-info">(цена указана на условии самовывоза со склада: '.$filial.')</div>';
+                            ?>
+                        </span>
+                    </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+                <div>
+                    <span>Наличие:</span>
+                    <span>
+                        <?php if(empty($data->date_sale_off)): ?>
+                            <?php if((int)$data->count > 0): ?>
+                            <span class="in-stock"><?php echo Product::IN_STOCK ?></span>
+                            <?php else: ?>
+                            <span><?php echo Product::NO_IN_STOCK ?></span>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <span><?php echo Yii::app()->params['textSaleOff'] ?></span>
+                        <?php endif; ?>
+                    </span>
+                </div>
+                <?php if(empty($data->date_sale_off) && (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)))): ?>
+                <div>
+                    <span>Корзина</span>
+                    <span class="price">
+                        <div class="cart-form" elem="<?php echo $data->id ?>">
+                             <?php //if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && $price): ?>
+                             <input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="7" size="7" autocomplete="off" product="1" class="cart-quantity">
+                             <input onclick="yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;" type="submit" title="Добавить в корзину" value="" class="small-cart-button">
+                             <?php //endif; ?>
+                             <button class="wish" title="Добавить в блокнот">
+                                 <span class="wish-icon"></span>
+                                 В блокнот
+                             </button>
+                         </div>
+                     </span>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="clearfix"></div>
         <?php if(!empty($data->additional_info)): ?>
-        <div itemprop="description">
+        <div class="product-add-info">
             <?php echo $data->additional_info; ?>
         </div>
         <?php endif; ?>

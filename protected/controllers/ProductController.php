@@ -157,7 +157,7 @@ class ProductController extends Controller
             if(empty($analog->date_sale_off)) { 
                 if(!Yii::app()->user->isGuest || ($analog->liquidity == 'D' && $analog->count > 0)) {
                    $price = '';
-                   if(Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
+                   if(Yii::app()->params['showPrices'] || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                        $price = Price::model()->getPrice($analog->id);
                        if(empty($price)) $price = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
                    } else $price = Yii::app()->params['textHidePrice'];

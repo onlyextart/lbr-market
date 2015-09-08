@@ -2038,6 +2038,16 @@ input.small-cart-button,input.small-cart-button-wishlist{
     vertical-align: middle;
 }
 
+.product-add-info:first-letter {
+    text-transform: uppercase;
+}
+
+.product-add-info {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-indent: 1.5em;
+}
+
 .product-image-wrapper img{
     margin: 0 auto;
     max-height: 270px;
