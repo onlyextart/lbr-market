@@ -2,14 +2,11 @@
 class SaleController extends Controller
 {
     public function actionIndex()
-    {   
-        
-        
+    {
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');     
         $criteria = new CDbCriteria();
         
         /*
-        
         $sql = '';
         if(!empty(Yii::app()->session['maker'])) {
             $sql = 'and m.maker_id = '.Yii::app()->session['maker'];
@@ -39,6 +36,7 @@ class SaleController extends Controller
                    'pageVar' => 'page',
                 ),
                 'sort'=>array(
+                    'sortVar' => 'sort',
                     'attributes'=>array(
                         'name'=>array(
                             'asc'=>'t.name ASC',
