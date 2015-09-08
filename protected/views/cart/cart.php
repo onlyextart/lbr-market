@@ -85,7 +85,7 @@
                <?php else: ?>
                     <?php 
                     foreach($items as $item): 
-                        $price = $this->getProductPrice($item[id], $item[count]);
+                        $price = $this->getProductPrice($item['id'], $item['count']);
                     ?>
                     <tr>
                         <td width="110px" align="center">
@@ -96,8 +96,8 @@
                         </td>
                         <td width="220px" >
                             <?php
-                            echo CHtml::link($item[name], $item[path], array('target'=>'_blank'));
-                            if($item[liquidity] == 'D' && $item[count] > 0) {
+                            echo CHtml::link($item['name'], $item['path'], array('target'=>'_blank'));
+                            if($item['liquidity'] == 'D' && $item['count'] > 0) {
                                 echo CHtml::openTag('span', array('class'=>'price'));
                                 echo (Yii::app()->params['showPrices'])? $price['one']:'';
                                 echo CHtml::closeTag('span');
@@ -106,12 +106,12 @@
                         </td>
                         <td width="120px">
                             <div class="minus">&minus;</div>
-                            <?php echo CHtml::textField("products[$item[id]]", $item[count], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
+                            <?php echo CHtml::textField("products[$item[id]]", $item['count'], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
                             <div class="plus">&plus;</div>
                         </td>
                         <td>
                             <?php
-                            if($item[liquidity] == 'D' && $item[count] > 0) {
+                            if($item['liquidity'] == 'D' && $item['count'] > 0) {
                                 echo CHtml::openTag('span', array('class'=>'price'));
                                 echo (Yii::app()->params['showPrices']) ? $price['total'] : Yii::app()->params['textHidePrice'];
                                 echo CHtml::closeTag('span');
@@ -123,7 +123,7 @@
                             ?>
                         </td>
                         <td width="20px">
-                            <a class="remove" href="/cart/guestremove<?php echo $item[path] ?>"></a>
+                            <a class="remove" href="/cart/guestremove<?php echo $item['path'] ?>"></a>
                         </td>
                     </tr>
                     <?php endforeach ?>

@@ -186,7 +186,7 @@ return array(
         /**
          * Prices
          */
-        'showPrices' => 0,
+        'showPrices' => 1,
         'showPricesForAdmin' => 1, // will run if showPrices == 0,
         'textHidePrice' => 'Информация о ценах временно недоступна',
         'textNoPrice' => 'запросить цену',
