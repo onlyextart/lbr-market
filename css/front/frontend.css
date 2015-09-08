@@ -2014,7 +2014,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 }
 
 .product-params > div > span:first-child{
-    width: 150px;
+    width: 130px;
 }
 
 .product-params{
@@ -2035,6 +2035,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 .product-params > div > span {
     display: table-cell;
     padding: 5px;
+    vertical-align: middle;
 }
 
 .product-image-wrapper img{
