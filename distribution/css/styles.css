@@ -1998,10 +1998,42 @@ input.small-cart-button,input.small-cart-button-wishlist{
     float: left;
     height: auto;
     width: auto;
-    margin: 5px 25px 10px 5px;
+    /*margin: 5px 25px 10px 5px;*/
+    margin: 0;
     padding: 5px;
     position: relative;
     text-align: center;
+    display: inline-block;
+}
+
+/*.product-params > div > span:last-child > div:last-child{
+    margin-left: 150px;
+}*/
+
+.product-params > div > span {
+    display: table-cell;
+}
+.product-params > div > span:first-child{
+    width: 150px;
+    /*display: inline-block;*/
+}
+
+.product-params > div{
+    margin: 0 0 10px;
+    display: table-row;
+    border-bottom: 1px solid #f39314;
+    /*padding: 5px 5px 5px 0;*/
+}
+.product-params{
+    float: left;
+    /*margin-top: 10px;*/
+    /*padding-left: 10px;*/
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 5px;
+    
+    font-size: 0.9em;
+    font-style: italic;
 }
 .product-image-wrapper img{
     margin: 0 auto;
@@ -2059,13 +2091,11 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin-left: 0;
     margin-right: 10px;
 }
-#prod-info td{
-    font-size: 0.9em;
-    font-style: italic;
-    border-bottom: 1px solid #f39314;
-    padding: 5px 5px 5px 0;
+#prod-info .product-params > div{
+    /*border-bottom: 1px solid #f39314;*/
+    
 }
-#prod-info td.date-label{
+#prod-info .product-params .date-label{
     text-align: right;
 }
 #prod-info .in-stock{
