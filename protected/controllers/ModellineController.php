@@ -33,8 +33,9 @@ class ModellineController extends Controller
         $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
         $category = Category::model()->cache(1000, $category_dependency)->findByPk($modelline->category_id);
         $categoryParent = $category->parent()->find();
-        preg_match('/\d{2,}\./i', $categoryParent->name, $result);
-        $title = trim(substr($categoryParent->name, strlen($result[0])));
+        //preg_match('/\d{2,}\./i', $categoryParent->name, $result);
+        //$title = trim(substr($categoryParent->name, strlen($result[0])));
+        $title = $categoryParent->name;
         //$breadcrumbs[$title] = '/subcategory/index/id/'.$categoryParent->id;
         $breadcrumbs[$title] = '/catalog'.$categoryParent->path.'/';
         $breadcrumbs[$category->name] = '/catalog'.$category->path.'/';

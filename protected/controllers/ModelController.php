@@ -35,9 +35,8 @@ class ModelController extends Controller
 
 
         $productsInModel = ProductInModelLine::model()->findAll($criteria);
-        //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
+        
         foreach($productsInModel as $productInModel) {
-            //$product = Product::model()->cache(1000, $depend)->findByPk($productInModel['product_id']);
             $product = Product::model()->findByPk($productInModel['product_id']);
             if(!empty($product->product_group_id)){
                 $group = ProductGroup::model()->findByPk($product->product_group_id);
@@ -82,7 +81,7 @@ class ModelController extends Controller
                 }
             }
         }
-
+        exit;
         // random products for hit products            
         $hitProducts = $this->setHitProducts($id);
 
@@ -91,9 +90,6 @@ class ModelController extends Controller
         $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
         $category = Category::model()->cache(1000, $category_dependency)->findByPk($model->category_id);
         $categoryParent = $category->parent()->find();
-        
-        //preg_match('/\d{2,}\./i', $categoryParent->name, $result);
-        //$label = trim(substr($categoryParent->name, strlen($result[0])));
         
         $label = $categoryParent->name;
         
@@ -119,7 +115,7 @@ class ModelController extends Controller
         if(!empty(Yii::app()->params['currentMaker'])) {
             $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
         }
-        //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
+
         $elements = Yii::app()->db->cache(1000)->createCommand()
             ->selectDistinct('p.id')
             ->from('model_line m')
@@ -199,26 +195,6 @@ class ModelController extends Controller
         return $result;
     }
     
-    /*public function getPrice($id)
-    {
-        $priceLabel = '';
-        
-        // logged user
-        if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop) && Yii::app()->params['showPrices']) {
-            $user = User::model()->findByPk(Yii::app()->user->_id);   
-            $price = PriceInFilial::model()->findByAttributes(array('product_id'=>$id, 'filial_id'=>$user->filial));
-            
-            if(!empty($price)) {
-               $currency = Currency::model()->findByPk($price->currency_code);
-               if($currency->exchange_rate) {
-                  $priceLabel = ($price->price*$currency->exchange_rate).' руб.';
-               }
-            }   
-        }
-        
-        return $priceLabel;
-    }*/
-    
     public function showProducts($id)
     {   
         //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
@@ -250,7 +226,6 @@ class ModelController extends Controller
         $largeImg = Product::model()->getImage($model->image);
         $smallImg = Product::model()->getImage($model->image, 's');
         
-        //$result .= '<a href="'.$model->path.'" class="small-img" target="_blank">
         $result .= '<a href="'.$largeImg.'" class="thumbnail" target="_blank">
                         <img src="'.$smallImg.'" alt="'.$model->name.'"/>
                     </a>'
@@ -323,8 +298,8 @@ class ModelController extends Controller
         return strcmp(strtolower($a["name"]), strtolower($b["name"]));
     }
         
-    public function actionSort($id, $name)
-    {
+    //public function actionSort($id, $name)
+    //{
         /*if(Yii::app()->session['sort'] == $name) {
             if(Yii::app()->session['order'] == 'asc') Yii::app()->session['order'] = 'desc';
             else Yii::app()->session['order'] = 'asc';
@@ -338,6 +313,6 @@ class ModelController extends Controller
         } else Yii::app()->params['sortOrder'] = 'asc';
         Yii::app()->params['sortCol'] = $name;
         */
-        $this->redirect(Yii::app()->createUrl('model/show', array('id'=>$id, 'sort'=>$name)));
-    } 
+        //$this->redirect(Yii::app()->createUrl('model/show', array('id'=>$id, 'sort'=>$name)));
+    //} 
 }
