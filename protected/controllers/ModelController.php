@@ -2,7 +2,8 @@
 class ModelController extends Controller
 {
     public function actionShow($id, $sort = '', $order = '')
-    {     
+    {   
+        ini_set('memory_limit','2048M');
         set_time_limit(0);
         
         $output = '';
