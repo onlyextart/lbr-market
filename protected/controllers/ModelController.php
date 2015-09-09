@@ -81,7 +81,7 @@ class ModelController extends Controller
                 }
             }
         }
-        exit;
+        
         // random products for hit products            
         $hitProducts = $this->setHitProducts($id);
 
