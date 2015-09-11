@@ -2068,6 +2068,11 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin-top: 5px;
 }
 
+.modellines-wrapper h1, .subcategory-wrapper h1
+{
+    margin-bottom: 15px;
+}
+
 .product-info h2:first-letter, 
 .subcategory-wrapper .hit-label:first-letter, .subcategory-wrapper h1:first-letter, .subcategory-wrapper .sub-title:first-letter, .modellines-wrapper .sub-title:first-letter,
 .modelline-wrapper .hit-label:first-letter, 
