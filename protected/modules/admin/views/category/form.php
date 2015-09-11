@@ -8,6 +8,13 @@
 
     <div class="row">      
         <?php  
+            echo $form->labelEx($model, 'h1');
+            echo $form->textField($model, 'h1');
+        ?>
+    </div>
+
+    <div class="row">      
+        <?php  
             echo $form->labelEx($model, 'path');
             echo $form->textField($model, 'path');
         ?>

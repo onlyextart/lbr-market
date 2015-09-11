@@ -6,9 +6,12 @@
         'inactiveLinkTemplate' => '{label}',
     ));        
 ?>
-<div class="modellines-wrapper">   
+<div class="modellines-wrapper">
     <?php if(!empty($topText)): ?>
     <div class="text"><?php echo $topText?></div>
+    <?php endif; ?>
+    <?php if(!empty($title)): ?>
+    <h1><?php echo $title ?></h1>
     <?php endif; ?>
     <div class="elements">
         <?php if(!empty($response)): ?>
