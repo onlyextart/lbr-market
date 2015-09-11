@@ -111,8 +111,8 @@ class ModellinesController extends Controller
                 
                 usort($models, array($this, 'sortByName'));
                 
-                foreach($models as $modelline) {
-                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($modelline['id']);
+                foreach($models as $model) {
+                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
                     $children = $category->children()->findAll();
 
                     $count++;
@@ -122,7 +122,7 @@ class ModellinesController extends Controller
                           '<div class="grey">'.
                             '<ul class="accordion modelline">'.
                               '<li>'.
-                                 '<a href="#">'.$modelline['name'].'</a>'.
+                                 '<a href="#">'.$model['name'].'</a>'.
                                  '<ul>'
                     ;
 
@@ -147,16 +147,22 @@ class ModellinesController extends Controller
             }
         } else if(!empty($modelline)){
             foreach($modelline as $categoryName=>$models) {
-                $response .= '<h1>'.$categoryName.'</h1>
+                $makerH1 = EquipmentMaker::model()->find('name=:name', array(':name'=>$categoryName))->h1;
+                
+                $title = $categoryName;
+                if(!empty($makerH1)) $title = $makerH1;
+                
+                $response .= '<h1>'.$title.'</h1>
                    <table cellspacing="0" cellpadding="0" border="0"><tbody>'
                 ;
+                
                 $count = 0;
                 $dividend = 3;
                 
                 usort($models, array($this, 'sortByName'));
                 
-                foreach($models as $modelline) {
-                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($modelline['id']);
+                foreach($models as $model) {
+                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
                     $children = $category->children()->findAll();
 
                     $count++;
@@ -166,7 +172,7 @@ class ModellinesController extends Controller
                           '<div class="grey">'.
                             '<ul class="accordion modelline">'.
                               '<li>'.
-                                 '<a href="#">'.$modelline['name'].'</a>'.
+                                 '<a href="#">'.$model['name'].'</a>'.
                                  '<ul>'
                     ;
 
