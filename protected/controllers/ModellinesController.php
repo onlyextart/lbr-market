@@ -37,14 +37,16 @@ class ModellinesController extends Controller
            $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
            $equipmentMakerName = $equipmentMaker->name;
            $breadcrumbs[] = $equipmentMakerName;
-           $h1Title = $equipmentMakerName;
-           if(!empty($equipmentMaker->h1)) $h1Title = $equipmentMaker->h1;
            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name.' '.$equipmentMakerName;
+           if(!empty($equipmentMaker->meta_title)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_title;
+           if(!empty($equipmentMaker->meta_description)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_description;
         } else {
            $breadcrumbs[] = $categoryRoot->name;
            $h1Title = $categoryRoot->name;
            if(!empty($categoryRoot->h1)) $h1Title = $categoryRoot->h1;
            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name;
+           if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
+           if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_title'] = $categoryRoot->meta_description;
         }
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
