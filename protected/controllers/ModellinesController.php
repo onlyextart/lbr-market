@@ -147,10 +147,10 @@ class ModellinesController extends Controller
             }
         } else if(!empty($modelline)){
             foreach($modelline as $categoryName=>$models) {
-                $makerH1 = EquipmentMaker::model()->find('name=:name', array(':name'=>$categoryName))->h1;
+                //$makerH1 = EquipmentMaker::model()->find('name=:name', array(':name'=>$categoryName))->h1;
                 
                 $title = $categoryName;
-                if(!empty($makerH1)) $title = $makerH1;
+                //if(!empty($makerH1)) $title = $makerH1;
                 
                 $response .= '<h1>'.$title.'</h1>
                    <table cellspacing="0" cellpadding="0" border="0"><tbody>'
