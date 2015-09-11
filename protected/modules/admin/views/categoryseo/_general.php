@@ -1,6 +1,13 @@
 <?php if(!empty($model->id)): ?>
     <div class="row">      
         <?php  
+            echo $form->labelEx($model, 'h1');
+            echo $form->textField($model, 'h1');
+        ?>
+    </div>
+
+    <div class="row">      
+        <?php  
             echo $form->labelEx($model, 'meta_title');
             echo $form->textField($model, 'meta_title');
         ?>

@@ -39,10 +39,10 @@ class EquipmentMaker extends CActiveRecord
                         array('name', 'required'),
                         array('logo', 'file', 'types'=>'jpg, jpeg, JPG, JPEG, gif, png', 'allowEmpty'=>true,'maxSize'=>1024*300, 'tooLarge'=>'Файл весит больше 30Кб. Пожалуйста, загрузите файл меньшего размера.','allowEmpty'=>'true'),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time', 'safe'),
+			array('external_id, h1, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time', 'safe', 'on'=>'search'),
+			array('id, external_id, h1, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,7 +76,8 @@ class EquipmentMaker extends CActiveRecord
 			'meta_description' => 'meta-description',
                         'top_text' => 'Верхний блок',
                         'bottom_text' => 'Нижний блок',
-                        'update_time' => 'Время обновления'
+                        'update_time' => 'Время обновления',
+                        'h1' => 'Заголовок h1',
 		);
 	}
 
@@ -109,6 +110,7 @@ class EquipmentMaker extends CActiveRecord
                 $criteria->compare('top_text',$this->top_text,true);
 		$criteria->compare('bottom_text',$this->bottom_text,true);
 		$criteria->compare('update_time',$this->update_time,true);
+		$criteria->compare('h1',$this->h1,true);
 
                 if(Yii::app()->search->prepareSqlite()){
                     $condition_name='lower(name) like lower("%'.$this->name.'%")';    

@@ -8,7 +8,7 @@ class ModellinesController extends Controller
         $maker = Yii::app()->params['currentMaker'];
         $hitProducts = $modelIds = array();
         $count = 0;
-        $response = $topText = $bottomText = '';
+        $response = $topText = $bottomText = $h1Title = '';
         $modelline = array();
         
         $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
@@ -34,11 +34,16 @@ class ModellinesController extends Controller
         $breadcrumbs[$title] = '/catalog'.$categoryParent->path.$currentBrand.'/';
         if(!empty($maker)) {
            $breadcrumbs[$categoryRoot->name] = '/catalog'.$categoryRoot->path.'/';
-           $equipmentMakerName = EquipmentMaker::model()->findByPk($maker)->name;
+           $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
+           $equipmentMakerName = $equipmentMaker->name;
            $breadcrumbs[] = $equipmentMakerName;
+           $h1Title = $equipmentMakerName;
+           if(!empty($equipmentMaker->h1)) $h1Title = $equipmentMaker->h1;
            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name.' '.$equipmentMakerName;
         } else {
            $breadcrumbs[] = $categoryRoot->name;
+           $h1Title = $categoryRoot->name;
+           if(!empty($categoryRoot->h1)) $h1Title = $categoryRoot->h1;
            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name;
         }
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
@@ -89,7 +94,7 @@ class ModellinesController extends Controller
         // random products for hit products
         $hitProducts = $this->setHitProducts($id);
         
-        $this->render('modellines', array('response' => $response, 'hitProducts'=>$hitProducts, 'topText'=>$topText, 'bottomText'=>$bottomText));
+        $this->render('modellines', array('response' => $response, 'title' => $h1Title, 'hitProducts'=>$hitProducts, 'topText'=>$topText, 'bottomText'=>$bottomText));
     }
     
     private function setModelline($modelline, $dependency, $categoryRoot)
