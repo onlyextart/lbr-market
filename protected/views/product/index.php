@@ -37,7 +37,7 @@
                 <?php endif; ?>
                 <?php if(!empty($data->weight)): ?>
                 <div>
-                    <span>Вес, кг:</span>
+                    <span>Ориентировочный вес, кг:</span>
                     <span title="Вес" itemprop="weight"><?php echo $data->weight ?></span>
                 </div>
                 <?php endif; ?>
