@@ -291,7 +291,9 @@ class ModellinesController extends Controller
             } else {
                 //$models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
                 $models = ModelLine::model()->findAll($criteria);
-                $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name. '-111-'.Yii::app()->params['currentMaker'].'='.$categoryId;
+                $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
+                $nameForCategoryInBrand = CategorySeo::model()->find('category_id=:category and equipment_id=:equipment', array('category'=>$categoryId, 'equipment'=>Yii::app()->params['currentMaker']))->h1;
+                if(!empty($nameForCategoryInBrand)) $name = $nameForCategoryInBrand;
                 if(!empty($name))
                     $result[Yii::app()->params['currentMaker']] = $this->fillArray($models, $count, $name);
                     //$result[Yii::app()->params['currentMaker']] = $this->fillArray($models, $count, $title);
