@@ -144,7 +144,7 @@ class Product extends CActiveRecord
                         //'currency_iso'=>'Валюта',
 			'published' => 'Опубликовать',
                         'update_time' => 'Дата обновления',
-                        'weight' => 'Вес',
+                        'weight' => 'Ориентировочный вес',
                         'price' => 'Цена',
                         'problem' => 'Проблемный', 
                         'units' => 'Единицы измерения', 
