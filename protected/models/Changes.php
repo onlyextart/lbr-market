@@ -8,6 +8,7 @@
  * @property string $date
  * @property string $description
  * @property integer $user_id
+ * @property string $user
  */
 class Changes extends CActiveRecord
 {
@@ -34,7 +35,7 @@ class Changes extends CActiveRecord
 			array('date, description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, date, description, user_id, user_name', 'safe', 'on'=>'search'),
+			array('id, date, description, user_id, user, user_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,7 +60,8 @@ class Changes extends CActiveRecord
 			'date' => 'Дата и время изменения',
 			'description' => 'Описание изменений',
 			'user_id' => 'ID пользователя',
-                        'user_name'=>'Логин пользователя'
+                        'user_name'=>'Логин пользователя',
+                        'user' => 'ID пользователя',
 		);
 	}
 
@@ -84,6 +86,7 @@ class Changes extends CActiveRecord
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('user',$this->user);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -122,6 +125,7 @@ class Changes extends CActiveRecord
             $change = new Changes();
             //AuthUser
             $change['user_id'] = Yii::app()->user->_id;
+            $change['user'] = Yii::app()->user->_id;
             $change['date'] = date('Y-m-d H:i:s');
             $change['description'] = $message;
             $change->save();
