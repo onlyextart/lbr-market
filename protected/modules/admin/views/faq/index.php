@@ -3,14 +3,14 @@
     <p>Список разделов:</p>
     <div class="faq-menu">
         <ol>
-           <li><a href="#meta">Добавление/редактирование meta-title, meta-description, seo-тексты (верхиний/нижний)</a></li>
+           <li><a href="#meta">Добавление/редактирование meta-title, meta-description, h1, seo-тексты (верхиний/нижний)</a></li>
         </ol>
     </div>
     <p>Разделы:</p>
     <div class="faq-sections">
-        <h4><a name="meta">1. Добавление/редактирование meta-title, meta-description, seo-тексты (верхиний/нижний)</a></h4>
+        <h4><a name="meta">1. Добавление/редактирование meta-title, meta-description, h1, seo-тексты (верхиний/нижний)</a></h4>
         <div class="info">
-            <p>Meta-title и meta-description, seo-тексты (верхиний/нижний) указываются разделах:</p>
+            <p>Meta-title и meta-description, h1, seo-тексты (верхиний/нижний) указываются разделах:</p>
             <ul class="list-of-items">
                 <li>
                     <a href="/admin/category/" target="_blank">Категории</a>

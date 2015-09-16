@@ -4,6 +4,7 @@ class TestController extends Controller
 {
     public function actionIndex()
     {
+        set_time_limit(0);
         $models = Category::model()->findAll();
         foreach($models as $model){
             $model->top_text = null;
@@ -11,15 +12,15 @@ class TestController extends Controller
             $model->saveNode();
         }
         
-        $models = CategorySeo::model()->findAll();
-        foreach($models as $model){
+        $categorySeo = CategorySeo::model()->findAll();
+        foreach($categorySeo as $model){
             $model->top_text = null;
             $model->bottom_text = null;
             $model->save();
         }
         
-        $models = EquipmentMaker::model()->findAll();
-        foreach($models as $model){
+        $equipmentMakers = EquipmentMaker::model()->findAll();
+        foreach($equipmentMakers as $model){
             $model->top_text = null;
             $model->bottom_text = null;
             $model->save();
@@ -29,8 +30,8 @@ class TestController extends Controller
         $prod->date_sale_off = null;
         $prod->save();
         
-        $prod = Product::model()->findByPk(68983);
-        $prod->date_sale_off = null;
-        $prod->save();
+        $prod2 = Product::model()->findByPk(68983);
+        $prod2->date_sale_off = null;
+        $prod2->save();
     }
 }
