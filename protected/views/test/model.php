@@ -12,12 +12,12 @@
     <?php
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'ajaxListView',
-        'filter' => $prods,
+        'filter' => $products,
         'dataProvider' => $dataProvider,
         'loadingCssClass' => '',
         //'itemsCssClass'=>'item-class',
 
-        /* 'beforeAjaxUpdate' => 'function(id, data) { '
+        /*'beforeAjaxUpdate' => 'function(id, data) { '
           . 'var container = $(".spareparts-wrapper");'
           . 'var height = container.height()+22;'
           . 'var width = container.width();'
@@ -33,9 +33,7 @@
           . '$("a.thumbnail").fancybox();'
           . '$(".price-link").easyTooltip({content:"Авторизуйтесь, чтобы узнать цену"});'
           . '$(".grid-overlay").hide();'
-          . '}', 
-        */
-        
+          . '}',*/         
         'template' => '{summary}{items}{pager}',
         'summaryText' => 'Элементы {start} — {end} из {count}.',
         'pager' => array(
@@ -139,7 +137,7 @@
                     return $result;
                 },
                 'filter' => array(
-                    '-1' => Product::IN_STOCK_SHORT,
+                    '1' => Product::IN_STOCK_SHORT,
                     '0' => Product::NO_IN_STOCK
                 )
             ),

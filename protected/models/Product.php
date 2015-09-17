@@ -75,6 +75,7 @@ class Product extends CActiveRecord {
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name, problem, units, multiplicity, material, size, date_sale_off', 'safe', 'on' => 'search'),
+            array('name, product_group_id, count, model_line_id', 'safe', 'on'=>'searchEvent'),
             array('image', 'EImageValidator', 'types' => 'gif, jpg, png', 'allowEmpty' => 'true'),
         );
     }
@@ -221,6 +222,13 @@ class Product extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
         $criteria->condition = 'product_in_model_line.model_line_id = :model_id';
+        
+        if(!empty($this->count)) {
+            if($this->count > 0) { // for model view filter
+                $criteria->addCondition('count > 0');
+            } else $criteria->addCondition('count = '.$this->count);//$criteria->addCondition('count = 0');
+        }
+        
         $criteria->params = array(":model_id" => $this->modelLineId);
         
         /*
@@ -245,9 +253,7 @@ class Product extends CActiveRecord {
             $criteria->addInCondition('product_group_id', $groups);
         }
 
-        if($this->count < 0) { // for model view filter
-            $criteria->addCondition('t.count > 0');
-        } else $criteria->compare('count',$this->count);
+        
 
         if(Yii::app()->search->prepareSqlite()){
             $condition_name='lower(t.name) like lower("%'.$this->name.'%")';    
@@ -261,6 +267,16 @@ class Product extends CActiveRecord {
             'criteria' => $criteria,
             'sort' => array(
                 'defaultOrder' => 'name ASC',
+                'attributes'=>array(
+                    'count'=>array(
+                        'asc' => 'count ASC',
+                        'desc' => 'count DESC',
+                    ),
+                    'name'=>array(
+                        'asc' => 'name ASC',
+                        'desc' => 'name DESC',
+                    ),
+                ),
             ),
             'pagination' => array(
                 'pageSize' => 10,

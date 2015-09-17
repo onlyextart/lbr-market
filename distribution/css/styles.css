@@ -2228,7 +2228,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 .model-wrapper .grid-view table.items a:hover{
     text-decoration: none;
 }
-.model-wrapper .grid-view table.items a, .model-wrapper .grid-view table.items a:hover
+.model-wrapper .grid-view table.items a, .model-wrapper .grid-view table.items a:hover, .model-wrapper .grid-view table.items th
 {
     color: #5f5e5e;
 }
