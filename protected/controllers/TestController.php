@@ -5,7 +5,7 @@ class TestController extends Controller
     public function actionShow($id = 760) 
     {
         set_time_limit(0);
-        $model = new Product('search');
+        $model = new Product;//('search');
         $model->unsetAttributes();
         
         if (isset($_GET['Product']))

@@ -222,7 +222,7 @@ class Product extends CActiveRecord {
         $criteria->with = array('productInModelLines');
         $criteria->together = true;
         //$criteria->compare('name', $this->name, true);
-        $criteria->compare('productInModelLines.model_line_id', $this->modelLineId);
+        //$criteria->compare('productInModelLines.model_line_id', $this->modelLineId);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
