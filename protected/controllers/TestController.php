@@ -11,7 +11,7 @@ class TestController extends Controller
         if (isset($_GET['Product']))
             $model->attributes = $_GET['Product'];
         
-        //$model->modelLineId = $id;
+        $model->modelLineId = $id;
         
         $dataProvider = $model->searchEvent();
         $dataProvider->pagination = array(

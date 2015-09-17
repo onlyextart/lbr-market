@@ -219,9 +219,9 @@ class Product extends CActiveRecord {
     public function searchEvent() 
     {
         $criteria = new CDbCriteria;
-        //$criteria->with = array('productInModelLines');
-        //$criteria->together = true;
-        //$criteria->compare('name', $this->name, true);
+        $criteria->with = array('productInModelLines');
+        $criteria->together = true;
+        $criteria->compare('name', $this->name, true);
         //$criteria->compare('productInModelLines.model_line_id', $this->modelLineId);
 
         return new CActiveDataProvider($this, array(
