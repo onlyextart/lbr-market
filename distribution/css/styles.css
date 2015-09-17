@@ -2263,10 +2263,16 @@ input.small-cart-button,input.small-cart-button-wishlist{
     font-weight: bold;
 }
 
-.spareparts-wrapper .grid-view
+.model-wrapper .grid-view
 {
     padding: 0;
     position: relative;
+}
+.model-wrapper .summary
+{
+    position: absolute;
+    right: 0;
+    top: -30px;
 }
 /*----- end Model Grid ----------------*/
 /*----- start Cart --------------------*/
