@@ -221,14 +221,14 @@ class Product extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->with = array('productInModelLines');
         $criteria->together = true;
-        $criteria->compare('name', $this->name, true);
-        //$criteria->compare('productInModelLines.model_line_id', $this->modelLineId);
+        //$criteria->compare('name', $this->name, true);
+        $criteria->compare('productInModelLines.model_line_id', $this->modelLineId);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-            'sort' => array(
+            /*'sort' => array(
                 'defaultOrder' => 'name ASC',
-            ),
+            ),*/
             /*'pagination' => array(
                 'pageSize' => 5,
                 'pageVar' => 'page',
