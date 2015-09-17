@@ -2181,7 +2181,94 @@ input.small-cart-button,input.small-cart-button-wishlist{
 .draft-table a{
     color: #5f5e5e;
 }
-/*----- end Draft -------------------*/
+/*----- end Draft ---------------------*/
+/*----- start Model Grid --------------*/
+.model-wrapper .grid-view table.items td, .model-wrapper .grid-view table.items th{
+    border: none;
+}
+.model-wrapper .grid-view table.items tr.odd, .model-wrapper .grid-view table.items tr.even, 
+.model-wrapper .grid-view table.items tr.selected, .model-wrapper .grid-view table.items tbody tr:hover
+{   
+    background-color: #dfdfdf;
+    border-bottom: 1px solid #ccc;
+}
+.model-wrapper .grid-view table.items{
+    border-spacing: 0 1px;
+    border-collapse: separate;
+}
+.model-wrapper .grid-view table.items td{
+    font-size: 13px;
+    color: #333;
+}
+.model-wrapper .grid-view table.items th{
+    background: #ccc url("/images/main_menu_bg.png") repeat-x scroll 0 -1px;
+}
+.model-wrapper .grid-view table.items tbody td:first-child a
+{
+    margin-left: 10px;
+    display: block;
+}
+.model-wrapper .loader
+{
+    /*display: none;*/
+    background: rgba(0, 0, 0, 0) url("/images/loading.gif") no-repeat scroll 0 0;
+    padding-left: 25px;
+    display: inline-block;
+    height: 17px;
+    width: 200px;
+}
+
+.model-wrapper .grid-view table.items{
+    border: none;
+}
+.model-wrapper .grid-view table.items th a
+{
+    text-decoration: underline;
+}
+.model-wrapper .grid-view table.items a:hover{
+    text-decoration: none;
+}
+.model-wrapper .grid-view table.items a, .model-wrapper .grid-view table.items a:hover
+{
+    color: #5f5e5e;
+}
+.grid-overlay span {
+    display: inline-block;
+}
+.grid-overlay > div {
+    background-color: #fff;
+    margin: auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border: 2px #5f5e5e solid;
+    width: 220px;
+    height: 40px;
+    text-align: center;
+    opacity: 1;
+}
+
+.grid-overlay
+{
+    background-color: #d1d0d0;
+    /*cursor: pointer;*/
+    display: block;
+    /*height: 1197px;*/
+    opacity: 0.7;
+    /*display: none;*/
+    /*left: 0;*/
+    position: absolute;
+    /*top: 0;*/
+    /*width: 100%;*/
+    z-index: 1100; 
+    font-weight: bold;
+}
+
+.spareparts-wrapper .grid-view
+{
+    padding: 0;
+    position: relative;
+}
+/*----- end Model Grid ----------------*/
 /*----- start Cart --------------------*/
 .cart-wrapper, .order-wrapper, .wishlist-wrapper, .orders-wrapper {
     margin-top: 20px;
@@ -2569,6 +2656,11 @@ footer
 }
 ul.yiiPager li {
     display: inline;
+}
+
+ul.yiiPager .last
+{
+   display: inline !important; 
 }
 
 ul.yiiPager {

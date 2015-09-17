@@ -33,7 +33,9 @@
           . '$("a.thumbnail").fancybox();'
           . '$(".price-link").easyTooltip({content:"Авторизуйтесь, чтобы узнать цену"});'
           . '$(".grid-overlay").hide();'
-          . '}', */
+          . '}', 
+        */
+        
         'template' => '{summary}{items}{pager}',
         'summaryText' => 'Элементы {start} — {end} из {count}.',
         'pager' => array(
@@ -154,3 +156,10 @@
     ));
     ?> 
 </div>
+<?php
+// Fancybox ext
+$this->widget('application.extensions.fancybox.EFancyBox', array(
+	'target'=>'a.thumbnail',
+	'config'=>array(),
+));
+?>

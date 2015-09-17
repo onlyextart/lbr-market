@@ -223,6 +223,40 @@ class Product extends CActiveRecord {
         $criteria->condition = 'product_in_model_line.model_line_id = :model_id';
         $criteria->params = array(":model_id" => $this->modelLineId);
         
+        /*
+        if(!empty($this->product_group_id)) {
+            $groups = array();
+            $groups[] = $this->product_group_id;
+            $model = ProductGroup::model()->findByPk($this->product_group_id);
+
+            if(!$model->isLeaf()) {
+                $children = $model->children()->findAll();
+                foreach($children as $child) {
+                    $groups[] = $child->id;
+                    if(!$child->isLeaf()) {
+                        $subChildren = $child->children()->findAll();
+                        foreach($subChildren as $subChild) {
+                             $groups[] = $subChild->id;
+                        }
+                    }
+                }
+            }
+
+            $criteria->addInCondition('product_group_id', $groups);
+        }
+
+        if($this->count < 0) { // for model view filter
+            $criteria->addCondition('t.count > 0');
+        } else $criteria->compare('count',$this->count);
+
+        if(Yii::app()->search->prepareSqlite()){
+            $condition_name='lower(t.name) like lower("%'.$this->name.'%")';    
+            $criteria->addCondition($condition_name);
+        } else{
+            $criteria->compare('t.name',$this->name,true);
+        }
+        */
+        
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'sort' => array(
