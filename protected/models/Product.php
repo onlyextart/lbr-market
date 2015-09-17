@@ -219,11 +219,15 @@ class Product extends CActiveRecord {
     public function searchEvent() 
     {
         $criteria = new CDbCriteria;
-        $criteria->with = array('productInModelLines');
-        $criteria->together = true;
+        //$criteria->with = array('productInModelLines');
+        //$criteria->together = true;
         //$criteria->compare('name', $this->name, true);
         //$criteria->compare('productInModelLines.model_line_id', $this->modelLineId);
 
+        $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
+        $criteria->condition = 'product_in_model_line.model_line_id = :model_id';
+        $criteria->params = array(":model_id" => $this->modelLineId);
+        
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             /*'sort' => array(
