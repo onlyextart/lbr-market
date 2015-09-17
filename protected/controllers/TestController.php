@@ -32,13 +32,29 @@ class TestController extends Controller
             'pageVar' => 'page',
             'pageSize' => 10,
         );
+        
+        // breadcrumbs
+        $categoryDependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
+        $category = Category::model()->cache(1000, $categoryDependency)->findByPk($model->category_id);
+        $categoryParent = $category->parent()->find();
+        $parent = $model->parent()->find();
+        $brand = EquipmentMaker::model()->findByPk($model->maker_id);
+        
+        $breadcrumbs[$categoryParent->name] = '/catalog'.$categoryParent->path.'/';
+        $breadcrumbs[$category->name] = '/catalog'.$category->path.'/';
+        $breadcrumbs[$brand->name] = '/catalog'.$category->path.$brand->path.'/';
+        $breadcrumbs[$parent->name] = '/catalog'.$category->path.$brand->path.$parent->path.'/';
+        $breadcrumbs[] = $title;
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
+        // end breadcrumbs
 
         $params = array(
             'products' => $products,
             'dataProvider' => $dataProvider,
             'title' => $title,
             'filter' => $filter,
-            'hitProducts' => $hitProducts
+            'hitProducts' => $hitProducts,
+            'breadcrumbs' => $breadcrumbs
         );
 
         if (!isset($_GET['ajax']))
