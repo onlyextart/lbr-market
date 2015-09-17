@@ -223,7 +223,7 @@ class Product extends CActiveRecord {
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
         $criteria->condition = 'product_in_model_line.model_line_id = :model_id';
         
-        if(!empty($this->count)) {
+        if(isset($this->count)) {
             if($this->count > 0) { // for model view filter
                 $criteria->addCondition('count > 0');
             } else $criteria->addCondition('count = '.$this->count);//$criteria->addCondition('count = 0');
