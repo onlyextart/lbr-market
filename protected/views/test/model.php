@@ -25,31 +25,30 @@
     <?php endif; ?>
     <h2>Запасные части для <?php echo $title?></h2>
     <div class="grid-overlay" style="display: none"><div><span>Выполняется загрузка...</span><span class="loader"></span></div></div>
+    <div class="spareparts-wrapper">
     <?php
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'model-grid-products',
         'filter' => $products,
         'dataProvider' => $dataProvider,
         'loadingCssClass' => '',
-        //'itemsCssClass'=>'item-class',
-
-        /*'beforeAjaxUpdate' => 'function(id, data) { '
-          . 'var container = $(".spareparts-wrapper");'
-          . 'var height = container.height()+22;'
-          . 'var width = container.width();'
-          . 'var offset = container.offset();'
-          . 'var element = $(".grid-overlay");'
-          . 'element.height(height);'
-          . '$(".grid-overlay > div").css({margin: (height/2 - 50)});'
-          . 'element.width(width);'
-          . 'element.css({top: (offset.top - 10), left: offset.left});'
-          . 'element.show();'
-          . '}',
-          'afterAjaxUpdate'=>'function(id, data){ '
-          . '$("a.thumbnail").fancybox();'
-          . '$(".price-link").easyTooltip({content:"Авторизуйтесь, чтобы узнать цену"});'
-          . '$(".grid-overlay").hide();'
-          . '}',*/         
+        'beforeAjaxUpdate' => 'function(id, data) { '
+            . 'var container = $(".spareparts-wrapper");'
+            . 'var height = container.height()+22;'
+            . 'var width = container.width();'
+            . 'var offset = container.offset();'
+            . 'var element = $(".grid-overlay");'
+            . 'element.height(height);'
+            . '$(".grid-overlay > div").css({margin: (height/2 - 50)});'
+            . 'element.width(width);'
+            . 'element.css({top: (offset.top - 10), left: offset.left});'
+            . 'element.show();'
+        . '}',
+        'afterAjaxUpdate'=>'function(id, data){ '
+            . '$("a.thumbnail").fancybox();'
+            . '$(".price-link").easyTooltip({content:"Авторизуйтесь, чтобы узнать цену"});'
+            . '$(".grid-overlay").hide();'
+        . '}',         
         'template' => '{summary}{items}{pager}',
         'summaryText' => 'Элементы {start} — {end} из {count}.',
         'pager' => array(
@@ -169,6 +168,7 @@
         ),
     ));
     ?> 
+    </div>
 </div>
 <?php
 // Fancybox ext
