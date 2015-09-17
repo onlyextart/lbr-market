@@ -7,11 +7,27 @@
   )); */
 ?>
 <div class="model-wrapper">
+    <h1><?php echo $title?></h1>
+    <?php if(!empty($hitProducts)): ?>
+    <span class="hit-label-main">Рекомендуем для "<?php echo $title?>"</span>
+    <div id="special-offer">
+        <?php foreach ($hitProducts as $product): ?>
+        <div class="one-banner-special">
+           <h3><a target="_blank" href="<?php echo $product->path; ?>"><?php echo $product->name; ?></a></h3>
+           <div class="spec-img-wrapper">
+               <a target="_blank" href="<?php echo $product->path; ?>">
+                   <img src="<?php echo Product::model()->getImage($product->image, 'm'); ?>" alt="<?php echo $product->name; ?>">
+               </a>
+           </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
     <h2>Запасные части для <?php echo $title?></h2>
     <div class="grid-overlay" style="display: none"><div><span>Выполняется загрузка...</span><span class="loader"></span></div></div>
     <?php
     $this->widget('zii.widgets.grid.CGridView', array(
-        'id' => 'ajaxListView',
+        //'id' => 'model-grid-products',
         'filter' => $products,
         'dataProvider' => $dataProvider,
         'loadingCssClass' => '',

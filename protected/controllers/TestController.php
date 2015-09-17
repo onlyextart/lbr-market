@@ -37,7 +37,8 @@ class TestController extends Controller
             'products' => $products,
             'dataProvider' => $dataProvider,
             'title' => $title,
-            'filter' => $filter
+            'filter' => $filter,
+            'hitProducts' => $hitProducts
         );
 
         if (!isset($_GET['ajax']))
