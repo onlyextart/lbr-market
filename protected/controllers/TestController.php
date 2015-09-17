@@ -2,7 +2,7 @@
 
 class TestController extends Controller 
 {
-    public function actionShow($id = 760) 
+    public function actionShow($id = 920) 
     {
         set_time_limit(0);
         $model = new Product;//('search');
