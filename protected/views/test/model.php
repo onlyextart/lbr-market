@@ -27,7 +27,7 @@
     <div class="grid-overlay" style="display: none"><div><span>Выполняется загрузка...</span><span class="loader"></span></div></div>
     <?php
     $this->widget('zii.widgets.grid.CGridView', array(
-        //'id' => 'model-grid-products',
+        'id' => 'model-grid-products',
         'filter' => $products,
         'dataProvider' => $dataProvider,
         'loadingCssClass' => '',
