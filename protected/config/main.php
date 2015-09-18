@@ -181,7 +181,7 @@ return array(
         'footerLabel'  => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
         'imageNoPhoto' => '/images/no-photo.png',
         'maxInCart'    => 5, // count of product types in cart
-        'showSeoTexts' => 0,
+        'showSeoTexts' => 1,
         'showDrafts'   => 0,
         /**
          * Prices
