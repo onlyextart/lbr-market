@@ -272,11 +272,12 @@ class Product extends CActiveRecord {
                     'count'=>array(
                         'asc' => 'count ASC',
                         'desc' => 'count DESC',
+                        'default' => 'desc'
                     ),
                     'name'=>array(
                         'asc' => 'name ASC',
                         'desc' => 'name DESC',
-                        //'default' => 'asc'
+                        'default' => 'desc'
                     ),
                 ),
             ),
