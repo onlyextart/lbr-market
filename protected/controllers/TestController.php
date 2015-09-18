@@ -56,7 +56,9 @@ class TestController extends Controller
             'hitProducts' => $hitProducts,
             'breadcrumbs' => $breadcrumbs
         );
-
+        
+//920
+        
         if (!isset($_GET['ajax']))
             $this->render('model', $params);
         else

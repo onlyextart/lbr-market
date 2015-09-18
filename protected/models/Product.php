@@ -221,23 +221,26 @@ class Product extends CActiveRecord {
     {
         $criteria = new CDbCriteria;
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
-        $criteria->condition = 'product_in_model_line.model_line_id = :model_id';
+        $criteria->condition = 'product_in_model_line.model_line_id=:model_id';
+        $criteria->params = array(":model_id" => $this->modelLineId);
         
-        if(isset($this->count)) { // for model-view filter
+        //if(isset($this->count)) { // for model-view filter
             if($this->count > 0) { 
                 $criteria->addCondition('count > 0');
-            } else $criteria->addCondition('count = '.$this->count);
-        }
-        /*
-        if(isset($this->name)) {
+            } else if($this->count === '0') $criteria->addCondition('count = 0 or count is null');
+        //}
+        
+        
+        /*if(isset($this->name)) {
             if(Yii::app()->search->prepareSqlite()){ 
                 $criteria->addCondition('lower(name) like lower("%:name%")');
                 $criteria->params[':name'] = $this->name;
             }
         }*/
         
-        /*if(isset($this->product_group_id)) {
+        if(!empty($this->product_group_id)) {
             $groups = array();
+            //$groups[] = 651;
             $groups[] = $this->product_group_id;
             $model = ProductGroup::model()->findByPk($this->product_group_id);
 
@@ -255,14 +258,14 @@ class Product extends CActiveRecord {
             }
 
             $criteria->addInCondition('product_group_id', $groups);
-        }*/
+        }
         
-        $criteria->params = array(":model_id" => $this->modelLineId);
         
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'sort' => array(
                 'defaultOrder' => 'name ASC',
+                'sortVar'  => 'sort',
                 'attributes'=>array(
                     'count'=>array(
                         'asc' => 'count ASC',
@@ -271,7 +274,7 @@ class Product extends CActiveRecord {
                     'name'=>array(
                         'asc' => 'name ASC',
                         'desc' => 'name DESC',
-                        'default' => 'asc'
+                        //'default' => 'asc'
                     ),
                 ),
             ),
