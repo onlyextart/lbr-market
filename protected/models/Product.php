@@ -266,6 +266,7 @@ class Product extends CActiveRecord {
             'criteria' => $criteria,
             'sort' => array(
                 'defaultOrder' => 'name ASC',
+                'multiSort' => true,
                 'sortVar'  => 'sort',
                 'attributes'=>array(
                     'count'=>array(
