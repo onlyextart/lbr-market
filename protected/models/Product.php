@@ -224,19 +224,20 @@ class Product extends CActiveRecord {
         $criteria->condition = 'product_in_model_line.model_line_id=:model_id';
         $criteria->params = array(":model_id" => $this->modelLineId);
         
-        //if(isset($this->count)) { // for model-view filter
-            if($this->count > 0) { 
+        if(!empty($this->count)) { // for model-view filter
+            if($this->count == 1) { 
                 $criteria->addCondition('count > 0');
-            } else if($this->count === '0') $criteria->addCondition('count = 0 or count is null');
-        //}
+            } else $criteria->addCondition('count = 0 or count is null');
+        }
         
         
-        /*if(isset($this->name)) {
+        if(!empty($this->name)) {
             if(Yii::app()->search->prepareSqlite()){ 
-                $criteria->addCondition('lower(name) like lower("%:name%")');
-                $criteria->params[':name'] = $this->name;
+                $match = addcslashes($this->name, '%_');
+                $criteria->addCondition('lower(name) like lower(:name)');
+                $criteria->params[':name'] = "%$match%";
             }
-        }*/
+        }
         
         if(!empty($this->product_group_id)) {
             $groups = array();

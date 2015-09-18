@@ -154,7 +154,7 @@
                 },
                 'filter' => array(
                     '1' => Product::IN_STOCK_SHORT,
-                    '0' => Product::NO_IN_STOCK
+                    '2' => Product::NO_IN_STOCK
                 )
             ),
             array(
