@@ -57,9 +57,7 @@ class TestController extends Controller
             'breadcrumbs' => $breadcrumbs
         );
         
-//        echo '<pre>';
-//        var_dump($dataProvider->criteria->condition);
-//        exit;
+//920
         
         if (!isset($_GET['ajax']))
             $this->render('model', $params);

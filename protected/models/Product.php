@@ -224,11 +224,11 @@ class Product extends CActiveRecord {
         $criteria->condition = 'product_in_model_line.model_line_id=:model_id';
         $criteria->params = array(":model_id" => $this->modelLineId);
         
-        if(isset($this->count) && !empty($this->count)) { // for model-view filter
+        //if(isset($this->count)) { // for model-view filter
             if($this->count > 0) { 
                 $criteria->addCondition('count > 0');
-            } else $criteria->addCondition('count = '.$this->count);
-        }
+            } else if($this->count === '0') $criteria->addCondition('count = 0 or count is null');
+        //}
         
         
         /*if(isset($this->name)) {
@@ -238,8 +238,9 @@ class Product extends CActiveRecord {
             }
         }*/
         
-        /*if(isset($this->product_group_id)) {
+        if(!empty($this->product_group_id)) {
             $groups = array();
+            //$groups[] = 651;
             $groups[] = $this->product_group_id;
             $model = ProductGroup::model()->findByPk($this->product_group_id);
 
@@ -257,7 +258,7 @@ class Product extends CActiveRecord {
             }
 
             $criteria->addInCondition('product_group_id', $groups);
-        }*/
+        }
         
         
         return new CActiveDataProvider($this, array(
@@ -273,7 +274,7 @@ class Product extends CActiveRecord {
                     'name'=>array(
                         'asc' => 'name ASC',
                         'desc' => 'name DESC',
-                        'default' => 'asc'
+                        //'default' => 'asc'
                     ),
                 ),
             ),

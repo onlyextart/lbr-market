@@ -1376,7 +1376,7 @@ input#full-search
 /*----- end Sale-block-logo ----------------*/
 /*----- start Bestsale --------------*/
 #special-offer{
-    margin-left: 10px;
+    margin-left: 5px;
 }
 #special-offer .one-banner-special{
     margin-right: 15px !important;
@@ -2242,7 +2242,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 }
 .grid-overlay > div {
     background-color: #fff;
-    margin: auto;
+    margin-top: auto;
     margin-left: auto !important;
     margin-right: auto !important;
     border: 2px #5f5e5e solid;
