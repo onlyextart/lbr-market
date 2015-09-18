@@ -132,7 +132,7 @@
                     <span title="Страна производитель"><?php echo $maker->country ?></span>
                 </div>
                 <?php endif; ?>
-                <?php if(!empty($data->weight)): ?>
+                <?php if(!Yii::app()->user->isGuest && !empty($data->weight)): ?>
                 <div>
                     <span>Ориентировочный вес, кг:</span>
                     <span title="Вес"><?php echo $data->weight ?></span>
