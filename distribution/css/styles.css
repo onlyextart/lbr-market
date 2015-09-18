@@ -2098,11 +2098,16 @@ input.small-cart-button,input.small-cart-button-wishlist{
     font-size: 22px;
     display: block;
     font-weight: bold;
+    margin-left: 10px;
 }
 
 .model-wrapper h1
 {
     color: #F39314;
+}
+.model-wrapper h1, .model-wrapper h2
+{
+    margin-left: 10px;
 }
 .product-info h2{
     margin-top: 10px;
