@@ -2,7 +2,8 @@
 
 class TestController extends Controller 
 {
-    public function actionShow($id = 920) 
+    //public function actionShow($id = 920) 
+    public function actionDescription($id = 920) 
     {
         //set_time_limit(0);
         $hitProducts = array();
