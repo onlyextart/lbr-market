@@ -2626,7 +2626,24 @@ $(document).ready(function($){
     });
     
     //Add product to wish list
-    $( ".wish-small" ).on('click', function() {
+    /*$( ".wish-small" ).on('click', function() {
+        $.ajax({
+            type: 'POST',
+            url: '/wishlist/add/',
+            dataType: 'json',
+            data: {
+                id: $(this).parent().attr('elem'),
+            },
+            success: function(response) {
+                if(response.redirect) 
+                    window.location = response.redirect;
+                else {
+                    alertify.success(response.message);
+                }
+            },
+        });
+    });*/
+    $(document).on('click', '.wish-small', function() {
         $.ajax({
             type: 'POST',
             url: '/wishlist/add/',
@@ -2680,52 +2697,19 @@ $(document).ready(function($){
     }
     // end product page
     // model page
-    if($('.price-link').length) {
+    /*if($('.price-link').length) {
        $('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
-    }
-    
-    function addToCart(event){
-        var parent = $(this).parent();
-        var target=event.target||event.srcElement;
-        var classname=target.className;
-        if (classname==="small-cart-button-wishlist"){
-           var count=1;
-        }
-        else if(classname==="small-cart-button"){
-           var cart = parent.find('.cart-quantity');
-           var count = parseInt(cart.val()); 
-        }
-        if(count > 0) {
-            $.ajax({
-                type: 'POST',
-                url: '/cart/add',
-                dataType: 'json',
-                data: {
-                    id: parent.attr('elem'),
-                    count: count
-                },
-                success: function(response) { 
-                    $('.cart-quantity').val('1');
-                    if(response.count){
-                        var label = ' товаров';
-                        if(response.count == 1) {
-                            label = ' товар';
-                        } else if(response.count == 2 || response.count == 3 || response.count == 4){
-                            label = ' товарa';
-                        }
-                        $('#cart-count').text(response.count+label);
-                    }
-                    alertify.success(response.message);
-                },
-            });
-        } else {
-            alertify.success('<div class="mes-notify"><span></span><div>Введено неправильное количество</div></div>');
-        }
     }
     
     $( ".small-cart-button" ).on('click', addToCart);
     $( ".small-cart-button-wishlist" ).on('click',addToCart);
-
+    */
+    if($('.price-link').length) {
+       $('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
+    }
+    
+    $(document).on('click', '.small-cart-button', addToCart);
+    $(document).on('click', '.small-cart-button-wishlist', addToCart);
     // end model page
     // main page
     if($('#carousel ul').length) {
@@ -2768,6 +2752,45 @@ $(document).ready(function($){
     });
     // end seo-text in bottom
 });
+
+function addToCart(event){
+    var parent = $(this).parent();
+    var target=event.target||event.srcElement;
+    var classname=target.className;
+    if (classname==="small-cart-button-wishlist"){
+       var count=1;
+    }
+    else if(classname==="small-cart-button"){
+       var cart = parent.find('.cart-quantity');
+       var count = parseInt(cart.val()); 
+    }
+    if(count > 0) {
+        $.ajax({
+            type: 'POST',
+            url: '/cart/add',
+            dataType: 'json',
+            data: {
+                id: parent.attr('elem'),
+                count: count
+            },
+            success: function(response) { 
+                $('.cart-quantity').val('1');
+                if(response.count){
+                    var label = ' товаров';
+                    if(response.count == 1) {
+                        label = ' товар';
+                    } else if(response.count == 2 || response.count == 3 || response.count == 4){
+                        label = ' товарa';
+                    }
+                    $('#cart-count').text(response.count+label);
+                }
+                alertify.success(response.message);
+            },
+        });
+    } else {
+        alertify.success('<div class="mes-notify"><span></span><div>Введено неправильное количество</div></div>');
+    }
+}
     
 function showRegions(){
     $.ajax({
