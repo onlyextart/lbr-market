@@ -108,13 +108,20 @@ class Changes extends CActiveRecord
 	}
         
         public static function getAuthUser($id){
-            if (isset($id)){
-                $sql="SELECT login FROM user WHERE id=".$id.";";
-                $command=Yii::app()->db_auth->createCommand($sql);
-                $user_name=$command->query()->readColumn();
-                return $user_name;
-            }
-            else{
+            if (isset($id)) {
+                
+                if(is_numeric($id)) {
+                    $sql = "SELECT surname, name, secondname FROM user WHERE id=".$id.";";   
+                } else {
+                    $sql = "SELECT surname, name, secondname FROM user WHERE login = '".trim($id)."';";
+                }
+                
+                $result = Yii::app()->db_auth->createCommand($sql)->queryRow();
+                if(!$result) $userName = $id;
+                else $userName = $result['surname'].' '.$result['name'].' '.$result['secondname'];
+                
+                return $userName;
+            } else {
                 return false;
             }
         }

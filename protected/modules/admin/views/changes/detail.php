@@ -41,7 +41,7 @@
             
             echo CHtml::openTag('div', array('class'=>'row'));
             echo $form->labelEx($model, 'user_name');
-            echo CHtml::textField('user_name', Changes::getAuthUser($model->user_id), array('disabled'=>true));
+            echo CHtml::textField('user_name', Changes::getAuthUser($model->user), array('disabled'=>true));
             echo CHtml::closeTag('div');
             
             $this->endWidget();

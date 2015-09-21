@@ -2,6 +2,18 @@
 
 class TestController extends Controller 
 {
+    public function actionTest() 
+    {
+        $models = Changes::model()->findAll();
+        
+        foreach($models as $model){
+            if(!empty($model->user_id) && empty($model->user)) {
+                $model->user = $model->user_id;
+                $model->save();
+            }
+        }
+    }
+    
     //public function actionShow($id = 920) 
     public function actionDescription($id = 920) 
     {

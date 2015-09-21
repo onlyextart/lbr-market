@@ -48,13 +48,14 @@ $errorMsg = Yii::app()->user->getFlash('error');
                     return '<div class="description">'.htmlspecialchars($data->description).'</div>';
                 },
             ),
-            array(
+            /*array(
                 'name'=>'user_id',
-            ),
+            ),*/
             array(
                 'name'=>'user_name',
                 'filter'=>false,
-                'value'=>'Changes::getAuthUser($data->user_id)',
+                'type'=>'raw',
+                'value'=>'Changes::getAuthUser($data->user)',
             ),
         ),
     ));
