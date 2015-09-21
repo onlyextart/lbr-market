@@ -3,13 +3,10 @@
 class TestController extends Controller 
 {    
     public function actionTest() 
-    {   set_time_limit(0);
-        $models = Changes::model()->findAll();
-        
-        foreach($models as $model){
-            $model->user_id = null;
-            $model->save();
-        }
+    {   
+        set_time_limit(0);
+        Changes::model()->findByPk(198)->delete();
+        Changes::model()->findByPk(200)->delete();
     }
     
     //public function actionShow($id = 920) 
