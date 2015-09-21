@@ -39,7 +39,12 @@ $errorMsg = Yii::app()->user->getFlash('error');
                     'id'=>'id-change',
                 ),
              ),
-            'date',
+            array(
+                'name'=>'date',
+                //'type'=>'raw',
+                //'filter'=>false,
+                'value'=>'date("Y-m-d H:i", strtotime($data->date))',
+            ),
             array(
                 'name'=>'description',
                 'type'=>'raw',
@@ -53,6 +58,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
             ),*/
             array(
                 'name'=>'user',
+                'header'=> 'Пользователь',
                 'filter' => $filter,
                 'type'=>'raw',
                 'value'=>'Changes::getAuthUser($data->user)',

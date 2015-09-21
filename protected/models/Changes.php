@@ -61,7 +61,7 @@ class Changes extends CActiveRecord
 			'description' => 'Описание изменений',
 			'user_id' => 'ID пользователя',
                         'user_name'=>'Логин пользователя',
-                        'user' => 'Пользователь',
+                        'user' => 'ID пользователя',
 		);
 	}
 
