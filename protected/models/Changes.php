@@ -81,18 +81,38 @@ class Changes extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 		$criteria->compare('id',$this->id);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('description',$this->description,true);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('user',$this->user);
+		
+                if(!empty($this->user)) {
+                    if(is_numeric($this->user)) {
+                        $user = Yii::app()->db_auth->createCommand()
+                            ->select('login')
+                            ->from('user')
+                            ->where('id = '.trim($this->user))
+                            ->queryRow()
+                        ;
+                        $criteria->compare('user', $this->user);
+                        $criteria->addCondition('user like "'.$user['login'].'%"', 'OR');
+                    } else {
+                        $user = Yii::app()->db_auth->createCommand()
+                            ->select('id')
+                            ->from('user')
+                            ->where('login like "'.$this->user.'%"')
+                            ->queryRow()
+                        ;
+                        $criteria->addCondition('user like "'.$this->user.'%"');
+                        $criteria->addCondition('user = '.$user['id'], 'OR');
+                    }
+                }
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-                        'sort' => array(
-                            'defaultOrder' => 'date DESC',
-                        ),
+                    'criteria'=>$criteria,
+                    'sort' => array(
+                        'defaultOrder' => 'date DESC',
+                    ),
 		));
 	}
 
