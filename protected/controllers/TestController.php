@@ -1,57 +1,14 @@
 <?php
 
 class TestController extends Controller 
-{
-    public $user;
-    public function actionIndex()
-    {
-        $this->user = 'isakov';
-        $criteria = new CDbCriteria;
-        $user = array();
-        //$criteria->compare('user', $this->user);
-        if(!empty($this->user)) {
-            if(is_numeric($this->user)) {
-                $user = Yii::app()->db_auth->createCommand()
-                    ->select('login')
-                    ->from('user')
-                    ->where('id = '.trim($this->user))
-                    ->queryRow()
-                ;
-                $criteria->compare('user', $this->user);
-                $criteria->addCondition('user like "'.$user['login'].'%"', 'OR');
-            } else {
-                $user = Yii::app()->db_auth->createCommand()
-                    ->select('id')
-                    ->from('user')
-                    ->where('login like "'.$this->user.'%"')
-                    ->queryRow()
-                ;
-                $criteria->addCondition('user like "'.$this->user.'%"');
-                $criteria->addCondition('user = '.$user['id'], 'OR');
-            }
-        }
-        
-        $criteria->compare('id',1);
-        $criteria->compare('date',2,true);
-        $criteria->compare('description',3,true);
-        
-        
-        $users = Changes::model()->findAll($criteria);
-        echo '<pre>';
-        //var_dump($users); exit;
-        var_dump($criteria); exit;
-        //var_dump(count($users)); exit;
-    }
-    
+{    
     public function actionTest() 
-    {
+    {   set_time_limit(0);
         $models = Changes::model()->findAll();
         
         foreach($models as $model){
-            if(!empty($model->user_id) && empty($model->user)) {
-                $model->user = $model->user_id;
-                $model->save();
-            }
+            $model->user_id = null;
+            $model->save();
         }
     }
     
