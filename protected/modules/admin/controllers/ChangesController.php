@@ -53,7 +53,9 @@ class ChangesController extends Controller
                 ;
                 
                 foreach($stringResults as $result){
-                    $filter[$result['login']] = $result['surname'].' '.$result['name'].' '.$result['secondname'];
+                    $name = $result['surname'].' '.$result['name'].' '.$result['secondname'];
+                    if(!in_array($name, $filter))
+                       $filter[$result['login']] = $name;
                 }
             }            
 
