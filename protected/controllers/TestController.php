@@ -31,12 +31,16 @@ class TestController extends Controller
             }
         }
         
+        $criteria->compare('id',1);
+        $criteria->compare('date',2,true);
+        $criteria->compare('description',3,true);
+        
         
         $users = Changes::model()->findAll($criteria);
         echo '<pre>';
         //var_dump($users); exit;
-        //var_dump($criteria); exit;
-        var_dump(count($users)); exit;
+        var_dump($criteria); exit;
+        //var_dump(count($users)); exit;
     }
     
     public function actionTest() 

@@ -16,7 +16,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
     <?php
     $this->widget('zii.widgets.grid.CGridView', array(
         'id'=>'changesListGrid',
-        'emptyText'=>'Нет изменений',
+        'emptyText'=>'Нет информации',
         'filter'=>$model,
         'dataProvider'=>$data,
         'template'=>'{items}{pager}{summary}',
