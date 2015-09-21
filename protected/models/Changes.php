@@ -103,7 +103,7 @@ class Changes extends CActiveRecord
                         $criteria->addCondition('user like "'.$this->user.'%"');
                         $criteria->addCondition('user = '.$user['id'], 'OR');
                     }
-                }
+                } else $criteria->compare('user', $this->user);
                 
                 $criteria->compare('id',$this->id);
 		$criteria->compare('date',$this->date,true);
