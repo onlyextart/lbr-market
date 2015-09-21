@@ -5,7 +5,6 @@ class TestController extends Controller
     public function actionTest() 
     {   
         //set_time_limit(0);
-        Changes::model()->findByPk(198)->delete();
     }
     
     //public function actionShow($id = 920) 
