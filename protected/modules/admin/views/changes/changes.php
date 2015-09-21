@@ -52,8 +52,8 @@ $errorMsg = Yii::app()->user->getFlash('error');
                 'name'=>'user_id',
             ),*/
             array(
-                'name'=>'user_name',
-                'filter'=>false,
+                'name'=>'user',
+                'filter' => $filter,
                 'type'=>'raw',
                 'value'=>'Changes::getAuthUser($data->user)',
             ),
