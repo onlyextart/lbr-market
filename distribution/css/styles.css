@@ -2669,7 +2669,7 @@ ul.yiiPager li {
     display: inline;
 }
 
-ul.yiiPager .last
+ul.yiiPager .last, ul.yiiPager .first
 {
    display: inline !important; 
 }
