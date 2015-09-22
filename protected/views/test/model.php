@@ -56,6 +56,8 @@
         'pager' => array(
             'class' => 'LinkPager',
             'header' => false,
+            'prevPageLabel' => '<',
+            'nextPageLabel' => '>'
         ),
         'columns' => array(
             array(

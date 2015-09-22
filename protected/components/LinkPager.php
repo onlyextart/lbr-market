@@ -3,8 +3,6 @@
 class LinkPager extends CLinkPager{
     protected function createPageButtons()
     {
-        $this->prevPageLabel = '<';
-        $this->nextPageLabel = '>';
         if(($pageCount = $this->getPageCount())<=1) 
             return array();
 
