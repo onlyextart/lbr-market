@@ -180,4 +180,3 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 	'target'=>'a.thumbnail',
 	'config'=>array(),
 ));
-?>

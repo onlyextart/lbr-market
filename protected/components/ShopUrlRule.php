@@ -221,7 +221,8 @@ class ShopUrlRule extends CBaseUrlRule
                         
                         Yii::app()->params['analiticsMark'] = 'modelline='.$modelLine->external_id;
                         Yii::app()->session['model'] = $modelLine->id;
-                        return '/model/show/id/'.$modelLine->id.'/sort/'.$matches[8].'/order/'.$matches[10];
+                        //return '/model/show/id/'.$modelLine->id.'/sort/'.$matches[8].'/order/'.$matches[10];
+                        return '/model/show/id/'.$modelLine->id;
                     }
                 }
             }
