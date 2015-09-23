@@ -29,7 +29,6 @@
     <?php
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'model-grid-products',
-        //'ajaxUrl'=>Yii::app()->createUrl('/model/show/'),
         'filter' => $products,
         'dataProvider' => $dataProvider,
         'loadingCssClass' => '',
