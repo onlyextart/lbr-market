@@ -260,12 +260,13 @@ header .header-label ul.label-list li a {
   padding: 2px 0;
 }
 header .region-label{
-    color: #727272;
-    font-weight: bold;
-    font-size: 13px;
-    position: absolute;
+  color: #727272;
+  font-weight: bold;
+  font-size: 13px;
+  width:260px; 
+/*    position: absolute;
     top: 80px;
-    right: 20%;
+    right: 20%;*/
 }
 header #region{
   text-transform: uppercase;
@@ -273,7 +274,6 @@ header #region{
   font-weight: 600;
   font-size: 12px;
   text-decoration: underline;
-  padding-right: 20px;
 }
 header #region:hover{
   text-decoration: none;
@@ -286,6 +286,7 @@ header .map a{
 header .map {
   float: left;
   position: relative;
+  margin-left: 110px;
 }
 header .map a span {
   position: absolute;
@@ -297,13 +298,157 @@ header .map a span {
   margin-left: 20px;
 }
 /*----- end header ----------------*/
+
 /*----- start main menu -----------*/
-header div.main-menu ul {
+header div.main-menu{
+    clear:both;
+    margin: 0px 30px 0px 800px;
+    padding:0px 0px 10px 0px;
+}
+header div.main-menu ul#nav {
+    display: table;  
+}
+header div.main-menu ul#nav>li {
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+    width: auto;
+    display:block;
+    float: left;
+    margin: 0px 5px;
+    border-bottom: solid 2px white;
+}
+header div.main-menu ul#nav>li>a {
+    display:block;
+    color: #727272;
+    text-decoration: none;
+    font-weight: bold;
+}
+header div.main-menu ul#nav > li:hover {
+    border-bottom: solid 2px #fbd7a6;
+}
+header div.main-menu ul.submenu {
+    display: none;
+    position: absolute;
+    width: 140px;
+    top: 17px;
+    left: 0;
+    background-color: white;
+    border: 1px solid #fbd7a6;
+    z-index:1001;
+}
+header div.main-menu ul.submenu > li {
+    display: block;
+}
+header div.main-menu ul#nav > li:hover > ul.submenu {
+    display: block;
+}
+header div.main-menu ul.submenu > li > a {
+    display: block;
+    margin-left: 15px;
+    padding: 3px;
+    color: #727272;
+    background-color: white;
+    text-decoration: none;
+}
+header div.main-menu ul.submenu > li:before {
+    content: "";
+    border-color: transparent #f39314;
+    border-style: solid;
+    border-width: 0.35em 0 0.35em 0.45em;
+    display: none;
+    height: 0;
+    width: 5px;
+    left: 9px;
+    top: 8px;
+    float:left;
+    position: relative;
+}
+header div.main-menu ul.submenu > li > a:hover {
+    text-decoration: underline;
+}
+header div.main-menu ul.submenu > li:hover:before {
+    display: block;
+}
+
+/*----- end main menu -----------*/
+
+/*----- start menu line -----------*/
+header div.menu-line{
+    clear:both;
+}
+header div.menu-line ul.menu-line-items {
+    /*display: table;*/
+    margin: 0 auto;
+    width: 1300px;
+    height: 36px;
+}
+header div.menu-line ul.menu-line-items>li {
+    height: 36px;
+    position: relative;
+    text-align: left;
+    width: auto;
+    display:block;
+    float: left;
+    background: url("/images/main_menu_bg.png") repeat-x scroll 0 -1px #d7d4d4;
+}
+header div.menu-line ul.menu-line-items>li:first-child {
+    margin-left:5px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+header div.menu-line ul.menu-line-items>li .empty-menu, header div.menu-line ul.menu-line-items>li .elem{
+    color: #5f5e5e;
+    display: table-cell;
+    height: 36px;
+    position: relative;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: bold;
+    padding: 0 10px;
+}
+header div.menu-line ul.menu-line-items>li>.elem>a{
+    color: #5f5e5e;
+    text-decoration: none;
+    font-weight: bold;
+}
+header div.menu-line ul.menu-line-items:after {
+    background: url("/images/top-line.png") no-repeat rgba(0, 0, 0, 0);
+    bottom: -4px;
+    content: "";
+    height: 4px;
+    left: 0;
+    padding-left: -15px;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+}
+header div.menu-line ul.menu-line-items>li.login-elem{
+   width:145px;
+}
+header div.menu-line ul.menu-line-items>li.login-elem .elem{
+   width:125px;
+   text-align: center;
+}
+/*header div.menu-line ul.menu-line-items>li:not(.empty-li):hover {
+    background: #E1E1E1;
+}*/
+header div.menu-line ul.menu-line-items>li:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin-right: 5px;
+}
+
+/*----- end menu line-----------*/
+
+/*----- start main menu -----------*/
+/*header div.main-menu ul {
     display: table-row;
     margin: 0 10px;
 }
 header div.main-menu li {
-    display: table-cell;
+    display: block;
     height: 36px;
     padding-left: 2px;
     position: relative;
@@ -351,25 +496,25 @@ header #nav:after {
 header div.main-menu ul li {
     display: block; 
     float: left;
-    background: url("/images/main_menu_bg.png") repeat-x scroll 0 -1px #d7d4d4; /*no-repeat scroll center top transparent;*/
+    background: url("/images/main_menu_bg.png") repeat-x scroll 0 -1px #d7d4d4; no-repeat scroll center top transparent;
 }
 header div.main-menu ul li:first-child {
-    /*background: url("/images/main_menu_bg.png") repeat scroll 0 0 transparent;*/
+    background: url("/images/main_menu_bg.png") repeat scroll 0 0 transparent;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
 header div.main-menu ul li:last-child {
-    /*background: url("/images/main_menu_bg.png") repeat scroll right top transparent;*/
+    background: url("/images/main_menu_bg.png") repeat scroll right top transparent;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
 header div.main-menu ul li:not(.empty-li):hover {
     background: #E1E1E1;
 }
-/*ul#accordion-type li:hover{
+ul#accordion-type li:hover{
     background: red;
     z-index: 999999999;
-}*/
+}
 header div.main-menu ul li:first-child:hover {
     -webkit-border-radius: 3px 0 0 3px;
     -moz-border-radius: 3px 0 0 3px;
@@ -449,17 +594,7 @@ header ul.dropdown li ul li, ul.dropdown li ul li:first-child, ul.dropdown li ul
 }
 header ul.dropdown ul ul {
     margin: 10px 0 0 -30px;
-}
-.search-input input.search-button{
-    background: url("/images/search.png") no-repeat scroll 0 0 transparent;
-    height: 28px;
-    width: 29px;
-    border-radius: 4px;
-    cursor: pointer;
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
-}
+}*/
 
 /*----- Main menu end -------------------*/
 /*----- Begin Breadcrumbs ---------------*/
@@ -476,6 +611,9 @@ header ul.dropdown ul ul {
 }
 .breadcrumbs a:hover, .elements table td a:hover, .cart-wrapper .order_products a:hover, .best-sales .one_banner a:hover, 
 #sale-block .one_banner a:hover, #sale-block-wrapper span a:hover{
+    text-decoration: none;
+}
+#sale-block-wrapper span a{
     text-decoration: none;
 }
 /*----- End Breadcrumbs -----------------*/
@@ -630,15 +768,12 @@ input#full-search
     box-shadow: inset 0 1px 3px rgb(200,200,200);
     vertical-align: middle;
 }
-.left-sidebar .search-input p{
+/*.left-sidebar .search-input p{
     margin-bottom: 5px;
 }
 .left-sidebar .search-input{
     margin-bottom: 10px;
-}
-.search-input input {
-    width: 78%;
-}
+}*/
 
 #login-form .row.error input
 {
@@ -1368,7 +1503,7 @@ input#full-search
 
 #sale-block-wrapper > span > a{
     color: #444444;
-    font-size: 23px;
+    font-size: 22px;
 }
 /*----- end Sale-block-logo ----------------*/
 /*----- start Bestsale --------------*/
@@ -1619,14 +1754,42 @@ input#full-search
 }
 /*----- end Static pages --------------*/
 /*----- start search---------------*/
+.search-input{
+    width:845px;
+}
+.search-input input {
+    width: 88%;
+    height:23px;
+    padding:2px 5px;
+}
+.search-input input.search-button{
+    background: url("/images/search.png") no-repeat scroll 0 0 transparent;
+    height: 28px;
+    width: 29px;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+.search-input span{
+    margin-right: 5px;
+    vertical-align: middle;
+    font-size: 13px;
+    font-weight:900;
+}
 .quick-result, .full-quick-result {
     background: none repeat scroll 0 0 #ffffff;
     border: 1px solid #cccccc;
     display: none;
     list-style: outside none none;
     position: absolute;
-    width: 213px;
-    z-index: 1;
+/*    width: 213px;*/
+    z-index: 101;
+}
+.quick-result{
+    width: 87%;
+    margin-left: 56px;
 }
 .full-quick-result {
     top: 27px;
@@ -2422,6 +2585,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     color: #5f5e5e;
     font-size: 14px;
     font-weight: bold;
+    margin: 0px 0px 5px 15px;
 }
 .left-menu-wrapper .rounded ul.filter-links {
     list-style: outside none none;
@@ -2449,7 +2613,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     background: url("/images/close_sprite.png") no-repeat scroll left bottom transparent;
 }
 .l-menu-wrapper{
-    height: 300px;
+    height: 405px;
     overflow: auto;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -3506,7 +3670,7 @@ div.phone_text{
 .mCSB_scrollTools .mCSB_buttonDown{
 	/*top:100%;
 	margin-top:-40px;*/
-    top: 260px;
+    top: 365px;
 }
 #rates .mCSB_scrollTools .mCSB_buttonDown{
     

@@ -62,33 +62,89 @@
                     </div>
                 </ul>
             </div>
-            <div class="header-label">
+    <!--         <div class="header-label">
                 <ul class="label-list">
-                    <li>
+                    
+                   <li>
                         <a href="http://www.lbr.ru/company/" title="О компании">О компании</a>
                     </li>
                     <li>
                         <a href="/search/show/" title="Поиск">Поиск</a>
                     </li>
                 </ul>
-            </div>
-            <?php if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
-               <?php
-                  if(!empty($filial)): 
-                      $filial = Filial::model()->findByPk($filial)->name; 
-               ?>
-                  <div class="region-label">Ваш филиал: <span id="region"><?php echo $filial?></span></div>
-               <?php else: ?>
-                  <div class="region-label">Ваш филиал: <span id="region">Не выбран</span></div>
-               <?php endif; ?>
-            <?php endif; ?>
+            </div>-->
+            
             <div class="map">
-                <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
+                 <a href="http://www.lbr.ru/company/" title="О компании"><span>О КОМПАНИИ</span></a>
+                 <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
+                   <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
+                </a>
+<!--                <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
                     <span>Контакты</span>
                     <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
-                </a>
+                </a>-->
             </div>
             <div class="main-menu">
+                <ul id="nav">
+                    <li><a href="/"><span>Главная</span></a></li>
+                    <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
+                    <li><a href="/sale/"><span>Распродажа</span></a></li>
+                    <li><a href="#"><span>Бренды</span></a></li>
+                    <li>
+                        <a href="#"><span>О нас</span></a>
+                        <ul class="submenu">
+                            <li><a href="#">Мы online</a></li>
+                            <li><a href="http://lbr-market.ru/payment/">Условия и оплата</a></li>
+                            <li><a href="http://lbr-market.ru/delivery/">Доставка</a></li>
+                            <li><a href="http://lbr-market.ru/garantiya/">Гарантия</a></li>
+                            <li><a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/" target="_blank">
+                                    Контакты
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="menu-line">
+                <ul class="menu-line-items">
+                   <li>
+                       <?php if (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
+                           <?php
+                           if (!empty($filial)):
+                               $filial = Filial::model()->findByPk($filial)->name;
+                               ?>
+                               <div class="region-label elem">Ваш филиал: <span id="region"><?php echo $filial ?></span></div>
+                           <?php else: ?>
+                               <div class="region-label elem">Ваш филиал: <span id="region">Не выбран</span></div>
+                           <?php endif; ?>
+                           <?php else: ?>
+                           <div class="region-label elem"></div>   
+                       <?php  endif; ?>  
+                    </li>
+                    
+                    <li>
+                        <div class="search-input elem">
+                            <form id="form_search" method="post">
+                                <span>ПОИСК</span>
+                                <input id="search" type="text" name="q" autocomplete="off"/>
+                                <ul class="quick-result"></ul> 
+                                <input class="search-button" type="button" value=""/>
+                            </form>
+                        </div>
+                    </li>
+                     <?php  
+                        # Подключаем файл
+                        if (!Yii::app()->user->isGuest && Yii::app()->user->isShop)
+                            echo '<li class="login-elem"><div class="elem"><a href="/user/cabinet/index/">Кабинет</a></div></li>';
+                        else if(Yii::app()->user->isGuest)
+                            echo '<li class="login-elem"><div class="elem"><a href="/user/cabinet/index/">Вход / Регистрация</a></div></li>';
+                        else 
+                            echo '<li class="login-elem"><span class="empty-menu"></span></li>';
+
+                    ?>
+                </ul>
+            </div>
+<!--            <div class="main-menu">
                 <ul id="nav" class="dropdown">
                     <li><a href="/"><span>Главная</span></a></li>
                     <li><a href="/sale/"><span>Распродажа</span></a></li>
@@ -99,16 +155,16 @@
                     <?php   
 
                         # Подключаем файл
-                        if (!Yii::app()->user->isGuest && Yii::app()->user->isShop)
-                            echo '<li class="last"><a href="/user/cabinet/index/"><span>Кабинет</span></a></li>';
-                        else if(Yii::app()->user->isGuest)
-                            echo '<li class="last"><a href="/user/cabinet/index/"><span>Вход / Регистрация</span></a></li>';
-                        else 
-                            echo '<li class="last empty-li"><span class="empty-menu"></span></li>';
+//                        if (!Yii::app()->user->isGuest && Yii::app()->user->isShop)
+//                            echo '<li class="last"><a href="/user/cabinet/index/"><span>Кабинет</span></a></li>';
+//                        else if(Yii::app()->user->isGuest)
+//                            echo '<li class="last"><a href="/user/cabinet/index/"><span>Вход / Регистрация</span></a></li>';
+//                        else 
+//                            echo '<li class="last empty-li"><span class="empty-menu"></span></li>';
 
                     ?>
                 </ul>
-            </div>
+            </div>-->
         </header>
         <div class="wrapper">
             <div class="left-sidebar">
