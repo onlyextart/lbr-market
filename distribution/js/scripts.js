@@ -2184,7 +2184,7 @@
 
                                         // hide all opened accordeons
                                         if($(this).hasClass('sub-title')){
-                                            $('.sub-title.'+defaults.classActiveElement).siblings('ul').slideUp(defaults.speed);
+                                            $('.sub-title.'+defaults.classActiveElement+' + ul').slideUp(defaults.speed);
                                         }
                                         
 					if ($('> ul',$activeLi).is(':visible')){

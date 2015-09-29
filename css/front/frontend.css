@@ -2082,7 +2082,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 {
     margin-bottom: 0;
 }
-.modellines-wrapper .sub-title, .modellines-wrapper .sub-child-title {
+.modellines-wrapper .sub-child-title {
    text-decoration: none;
    font-weight: bold;
 }

@@ -43,36 +43,32 @@ class SubcategoryController extends Controller
                     $crit->params = array(':published'=>true);
                     $crit->addInCondition('id', $temp);
                     $crit->order = 'name';
+                    
                     $subcategories = $categoryRoot->children()->findAll($crit);
                 }
             }
             
             if(!empty($subcategories)) {
-                $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-                $count = 0;
-                $dividend = 3;
-                foreach($subcategories as $subcategory) {
-                    $brand = '';
-                    if(!empty(Yii::app()->params['currentMaker'])) $brand = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->path;
-                    
-                    $ids[] = $subcategory['id'];
-                    $count++;
-                    if($count == 1) $response .= '<tr>';
-                    $response .= '<td valign="top">'.
-                          '<div class="grey">'.
-                            '<ul class="accordion subcategory">'.
-                              '<li>'.
-                                 '<a href="/catalog'.$subcategory['path'].$brand.'/">'.$subcategory['name'].'</a>'.
-                              '</li>'.
-                            '</ul>'.
-                          '</div>'.
-                       '</td>'
-                    ;
-                    
-                    if($count == $dividend) {
-                        $count = 0;
-                        $response .= '</tr>';
+                $brand = '';
+                if(!empty(Yii::app()->params['currentMaker'])) $brand = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->path;
+                
+                $count = count($subcategories);
+                $half = ceil($count/2);
+                
+                $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+                for($index = 0; $index < $half; $index++) {                    
+                    $response .= '<tr>';
+                    $response .= '<td width="50%" valign="top">';
+                    $subcategory = $subcategories[$index];
+                    $response .= '<a href="/catalog'.$subcategory['path'].$brand.'/">'.$subcategory['name'].'</a>';
+                    $response .= '</td>';
+                    if(($index + $half) < $count) {
+                        $subcategory = $subcategories[$index + $half];
+                        $response .= '<td width="50%" valign="top">';
+                        $response .= '<a href="/catalog'.$subcategory['path'].$brand.'/">'.$subcategory['name'].'</a>';
+                        $response .= '</td>';
                     }
+                    $response .= '</tr>';
                 }
                 $response .= '</tbody></table>';
             }
@@ -94,7 +90,7 @@ class SubcategoryController extends Controller
                 if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
             }
             
-        } else if(!empty($maker)) {
+        } /*else if(!empty($maker)) {
             $criteria = new CDbCriteria;
             $criteria->select = 'category_id';
             $criteria->distinct = true;
@@ -187,7 +183,7 @@ class SubcategoryController extends Controller
                 if(!empty($equipmentMaker->top_text)) $topText = $equipmentMaker->top_text;
                 if(!empty($equipmentMaker->bottom_text)) $bottomText = $equipmentMaker->bottom_text;
             }
-        }
+        }*/
         
         // random products for hit products
         //echo '='.Yii::app()->session['maker'];exit;
@@ -203,6 +199,8 @@ class SubcategoryController extends Controller
     private function setHitProducts($ids)
     {
         $sql = '';
+        $hitProducts = array();
+        
         if(!empty(Yii::app()->params['currentMaker'])) {
             $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
         }

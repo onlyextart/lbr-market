@@ -70,17 +70,18 @@ class ModellinesController extends Controller
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         
         // show in two columns
-        $count = count($result);
-        $half = ceil($count/2);
         if(!empty($result)) {
+            $count = count($result);
+            $half = ceil($count/2);
+        
             $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-            for($index = 0; $index < ($half); $index++) {
+            for($index = 0; $index < $half; $index++) {
                 $response .= '<tr>';
-                $response .= '<td width="50%" valign="top" align="left">';
+                $response .= '<td width="50%" valign="top">';
                 $response .= $this->setModelline($result[$index], $dependency, $categoryRoot);
                 $response .= '</td>';
                 if(($index + $half) < $count){
-                    $response .= '<td width="50%" valign="top" align="left">';
+                    $response .= '<td width="50%" valign="top">';
                     $response .= $this->setModelline($result[$index + $half], $dependency, $categoryRoot);
                     $response .= '</td>';
                 }
