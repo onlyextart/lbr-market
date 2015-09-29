@@ -2082,9 +2082,8 @@ input.small-cart-button,input.small-cart-button-wishlist{
 {
     margin-bottom: 0;
 }
-.modellines-wrapper .sub-child-title {
+.modellines-wrapper .sub-title, .modellines-wrapper .sub-child-title {
    text-decoration: none;
-   font-weight: bold;
 }
 .modellines-wrapper .sub-child-title{
     margin-left: 15px;
@@ -2114,6 +2113,10 @@ input.small-cart-button,input.small-cart-button-wishlist{
 .subcategory-wrapper .sub-title {
    font-weight: bold;
    margin-left: 5px;
+}
+
+.subcategory-wrapper a {
+   font-size: 18px;
 }
 
 .subcategory-wrapper .hit-label, 
