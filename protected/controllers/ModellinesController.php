@@ -134,17 +134,26 @@ class ModellinesController extends Controller
                               '<li>'.
                                  '<a href="#" class="sub-title">'.$categoryName.'</a>'.
                                  '<ul>';
-                $response .=         '<a href="#" class="sub-title">'.'1'.'</a>';
-                $response .=         '<ul>';
-                $response .=            '<a href="#" class="sub-title">'.'2'.'</a>';
-                $response .=         '</ul>'.
+                
+                
+                usort($models, array($this, 'sortByName'));
+                
+                foreach($models as $model) {
+                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
+                    $children = $category->children()->findAll();
+                    $response .= '<li><a href="#" class="sub-child-title">'.$model['name'].'</a><ul>';                    
+
+                    foreach($children as $child) {
+                       $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
+                       $response .= '<li><a class="modelline-child" href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
+                    }
+                    $response .= '</ul></li>';
+                }
+                
                 $response .=     '</ul>'.
                               '</li>'.
                              '</ul>'
                 ;
-                
-                
-                
                 
                 /*$response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
                 $count = 0;

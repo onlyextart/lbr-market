@@ -2165,9 +2165,11 @@
 				}
 
 			} else {
-			
 				$('li a:not(.thumbnail):not(.info):not(.prodInfo)',obj).click(function(e){
-				//$('li a.dcjq-parent',obj).click(function(e){
+                                        // hide all opened accordeons
+                                        if($(this).hasClass('sub-title')){
+                                            $('.sub-title.dcjq-parent.active').siblings('ul').hide();
+                                        }
 
 					$activeLi = $(this).parent('li');
 					$parentsLi = $activeLi.parents('li');
@@ -2269,7 +2271,7 @@
 
 		// Auto-Close Open Menu Items
 		function autoCloseAccordion($parentsLi, $parentsUl){
-			$('ul',obj).not($parentsUl).slideUp(defaults.speed);
+                        $('ul',obj).not($parentsUl).slideUp(defaults.speed);
 			// Reset active links
 			$('a',obj).removeClass(defaults.classActiveElement);
 			$('> a',$parentsLi).addClass(defaults.classActiveElement);
@@ -2607,23 +2609,32 @@ $(document).ready(function($){
         wrap	 : 'letter',
     });
     
-    $('#accordion-sparepart').dcAccordion({
+    /*$('#accordion-sparepart').dcAccordion({
         eventType: 'click',
         saveState: true,
         disableLink: true,
         speed: 'fast',
         classActive: 'test',
         showCount: false
-    });
+    });*/
     
     $('.modelline').dcAccordion({
+        eventType: 'click',
+        autoClose: true,
+        saveState: true,
+        disableLink: true,
+        speed: 'fast',
+        showCount: false
+    });
+    
+    /*$('.modelline').dcAccordion({
         eventType: 'click',
         autoClose: true,
         disableLink: true,
         speed: 'fast',
         showCount: false,
         menuClose : true
-    });
+    });*/
     
     //Add product to wish list
     /*$( ".wish-small" ).on('click', function() {

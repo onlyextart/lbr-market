@@ -72,23 +72,32 @@ $(document).ready(function($){
         wrap	 : 'letter',
     });
     
-    $('#accordion-sparepart').dcAccordion({
+    /*$('#accordion-sparepart').dcAccordion({
         eventType: 'click',
         saveState: true,
         disableLink: true,
         speed: 'fast',
         classActive: 'test',
         showCount: false
-    });
+    });*/
     
     $('.modelline').dcAccordion({
+        eventType: 'click',
+        autoClose: true,
+        saveState: true,
+        disableLink: true,
+        speed: 'fast',
+        showCount: false
+    });
+    
+    /*$('.modelline').dcAccordion({
         eventType: 'click',
         autoClose: true,
         disableLink: true,
         speed: 'fast',
         showCount: false,
         menuClose : true
-    });
+    });*/
     
     //Add product to wish list
     /*$( ".wish-small" ).on('click', function() {

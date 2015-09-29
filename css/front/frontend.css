@@ -2067,8 +2067,21 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin-bottom: 5px;
     margin-top: 5px;
 }
-.modellines-wrapper .sub-title{
+.modellines-wrapper .sub-title, .modellines-wrapper .sub-child-title {
    text-decoration: none;
+   font-weight: bold;
+}
+.modellines-wrapper .sub-child-title{
+    margin-left: 15px;
+    display: inline-block;
+}
+.modellines-wrapper .modelline-child{
+    margin-left: 25px;
+    display: inline-block;
+}
+
+.modellines-wrapper .sub-child-title.dcjq-parent.active{
+    color: #ef801b;
 }
 .modellines-wrapper h1, .subcategory-wrapper h1
 {
@@ -2086,11 +2099,6 @@ input.small-cart-button,input.small-cart-button-wishlist{
 .subcategory-wrapper .sub-title {
    font-weight: bold;
    margin-left: 5px;
-}
-
-.modellines-wrapper .sub-title{
-   font-weight: bold;
-   margin-left: 10px;
 }
 
 .subcategory-wrapper .hit-label, 
