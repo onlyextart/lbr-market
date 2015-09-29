@@ -25,9 +25,6 @@ class ModellinesController extends Controller
         }
         
         $categoryParent = $categoryRoot->parent()->find();
-        
-        //preg_match('/\d{2,}\./i', $categoryParent->name, $result);
-        //$title = trim(substr($categoryParent->name, strlen($result[0])));
         $title = $categoryParent->name;
         
         $currentBrand = '';
@@ -69,19 +66,19 @@ class ModellinesController extends Controller
                 if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
             }
         }
-        
-        // сортировать по типу техники
-        /*if(empty(Yii::app()->params['currentMaker'])){
-            //найти все бренды
-            $parentId = Category::model()->findByPk($category->id)->parent()->id;
-            $all = Category::model()->findByAttributes('', array());
-        }*/
+
         $result = $this->setMakerFilter($maker, $count, $id, $categoryRoot->name);
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         
+        /////////////////////////
+        echo '<pre>';
+        var_dump($result);
+        exit;
+        ////////////////////////
+        
+        // show in two columns
         $count = count($result);
         $half = ceil($count/2);
-        
         if(!empty($result)) {
             $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
             for($index = 0; $index < ($half); $index++) {
@@ -186,106 +183,6 @@ class ModellinesController extends Controller
         return $response;
     }
     
-//    private function setModelline($modelline, $dependency, $categoryRoot)
-//    {
-//        $response = '';
-//        if(!empty($modelline) && empty(Yii::app()->params['currentMaker'])) {
-//            foreach($modelline as $categoryName=>$models) {
-//                $response .= '<div class="sub-title">'.$categoryName.'</div>';
-//                $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-//                $count = 0;
-//                $dividend = 3;
-//                
-//                usort($models, array($this, 'sortByName'));
-//                
-//                foreach($models as $model) {
-//                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
-//                    $children = $category->children()->findAll();
-//
-//                    $count++;
-//                    if($count == 1) $response .= '<tr>';
-//                    
-//                    $response .= '<td valign="top">'.
-//                          '<div class="grey">'.
-//                            '<ul class="accordion modelline">'.
-//                              '<li>'.
-//                                 '<a href="#">'.$model['name'].'</a>'.
-//                                 '<ul>'
-//                    ;
-//
-//                    foreach($children as $child) {
-//                       $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
-//                       $response .= '<li><a href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
-//                    }
-//
-//                    $response .= '</ul>'.
-//                              '</li>'.
-//                            '</ul>'.
-//                          '</div>'.
-//                    '</td>'
-//                  ;
-//                  if($count == $dividend) {
-//                      $count = 0;
-//                      $response .= '</tr>';
-//                  }
-//                }
-//
-//                $response .= '</tbody></table>';
-//            }
-//        } else if(!empty($modelline)){
-//            foreach($modelline as $categoryName=>$models) {
-//                //$makerH1 = EquipmentMaker::model()->find('name=:name', array(':name'=>$categoryName))->h1;
-//                
-//                $title = $categoryName;
-//                //if(!empty($makerH1)) $title = $makerH1;
-//                
-//                $response .= '<h1>'.$title.'</h1>
-//                   <table cellspacing="0" cellpadding="0" border="0"><tbody>'
-//                ;
-//                
-//                $count = 0;
-//                $dividend = 3;
-//                
-//                usort($models, array($this, 'sortByName'));
-//                
-//                foreach($models as $model) {
-//                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
-//                    $children = $category->children()->findAll();
-//
-//                    $count++;
-//                    if($count == 1) $response .= '<tr>';
-//                    
-//                    $response .= '<td valign="top">'.
-//                          '<div class="grey">'.
-//                            '<ul class="accordion modelline">'.
-//                              '<li>'.
-//                                 '<a href="#">'.$model['name'].'</a>'.
-//                                 '<ul>'
-//                    ;
-//
-//                    foreach($children as $child) {
-//                       $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
-//                       $response .= '<li><a href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
-//                    }
-//
-//                    $response .= '</ul>'.
-//                              '</li>'.
-//                            '</ul>'.
-//                          '</div>'.
-//                    '</td>'
-//                  ;
-//                  if($count == $dividend) {
-//                      $count = 0;
-//                      $response .= '</tr>';
-//                  }
-//                }
-//
-//                $response .= '</tbody></table>';
-//            }
-//        }
-//        return $response;
-//    }
-    
     private function setHitProducts($id)
     {   
         $sql = '';
@@ -335,12 +232,11 @@ class ModellinesController extends Controller
     private function setMakerFilter($maker = null, $count = 0, $categoryId = null, $title = null)
     {
         $models = $temp = $result = array();
-        //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
+        
         if(!empty($categoryId) || !empty($maker)) {
             $criteria = new CDbCriteria();
             if(!empty($categoryId)) {
                 $criteria->addCondition('category_id = :category_id');
-                //$rootCategory = ModelLine::model()->cache(1000, $dependency)->findByPk($categoryId);
                 $rootCategory = ModelLine::model()->findByPk($categoryId);
             }
             
@@ -356,7 +252,7 @@ class ModellinesController extends Controller
                     $criteria->params = array(':category_id' => $categoryId);
             }
             
-            //if(empty(Yii::app()->params['currentMaker'])){
+            if(empty(Yii::app()->params['currentMaker'])){
                 $criteriaForBrand = $criteria;
                 $criteriaForBrand->distinct = true;
                 $criteriaForBrand->select = 'maker_id';
@@ -374,7 +270,7 @@ class ModellinesController extends Controller
                    
                    $result[] = $this->fillArray($models, $count, $name);
                 }
-            /*} else {
+            } else {
                 $models = ModelLine::model()->findAll($criteria);
                 $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
                 $nameForCategoryInBrand = CategorySeo::model()->find('category_id=:category and equipment_id=:equipment', array('category'=>$categoryId, 'equipment'=>Yii::app()->params['currentMaker']))->h1;
@@ -382,7 +278,7 @@ class ModellinesController extends Controller
                 if(!empty($name))
                     $result[] = $this->fillArray($models, $count, $name);
                 else $result[] = $this->fillArray($models, $count);
-            }*/
+            }
         }
         
         return $result;
@@ -403,10 +299,7 @@ class ModellinesController extends Controller
                    $label = $parent->name;
                 }
                 
-                //preg_match('/\d{2,}\./i', $label, $result);
-                //$label = trim(substr($label, strlen($result[0])));
                 $label = $label;
-                
                 $modelline[$label][$count]['name'] = $currentModel->name;
                 $modelline[$label][$count]['id'] = $currentModel->id;
                 $count++;
