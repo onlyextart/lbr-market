@@ -2117,6 +2117,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 
 .subcategory-wrapper a {
    font-size: 18px;
+   text-decoration: none;
 }
 
 .subcategory-wrapper .hit-label, 
