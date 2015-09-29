@@ -1808,6 +1808,15 @@ input#full-search{
     margin-left: 0;
 }
 
+.modellines-wrapper h1{
+    margin-left: 5px;
+}
+.modellines-wrapper .elements table td{
+    width: 50%;
+}
+.modellines-wrapper .elements table{
+    border-spacing: 0;
+}
 .elements table{
     width: 100%;
     border-collapse: separate;
@@ -2056,16 +2065,22 @@ input.small-cart-button,input.small-cart-button-wishlist{
     vertical-align: middle;
 }
 
-.product-wrapper h1, .modellines-wrapper h1, .subcategory-wrapper h1, .subcategory-wrapper .sub-title, .modellines-wrapper .sub-title {
+.product-wrapper h1, .modellines-wrapper h1, .subcategory-wrapper h1, .subcategory-wrapper .sub-title, .modellines-wrapper .sub-title
+{
     color: #5f5e5e;
     font-size: 18px;
     margin-bottom: 10px;
     padding: 0;
 }
 
-.modellines-wrapper h1, .subcategory-wrapper h1, .subcategory-wrapper .sub-title, .modellines-wrapper .sub-title{
+.subcategory-wrapper h1, .subcategory-wrapper .sub-title
+{
     margin-bottom: 5px;
     margin-top: 5px;
+}
+.modellines-wrapper h1, .modellines-wrapper .sub-title
+{
+    margin-bottom: 0;
 }
 .modellines-wrapper .sub-title, .modellines-wrapper .sub-child-title {
    text-decoration: none;
@@ -3429,9 +3444,7 @@ div.phone_text{
     /*text-shadow: 1px 1px 1px #fff;*/
     height: 100%;
 }
-.grey .accordion.modelline a.dcjq-parent:not(.active){
-    padding: 10px 10px 10px 10px; 
-}
+
 .grey .accordion.subcategory a {
     padding: 10px 10px 10px 10px; 
     text-decoration: underline;
@@ -3462,33 +3475,16 @@ div.phone_text{
 {
     background: #D7D4D4 url(/images/main_menu_bg.png) repeat-x 0 -1px;
 }
-.grey .accordion.modelline > li > a, .grey .accordion.modelline > li > a:hover, .grey .accordion.subcategory > li > a {
+.grey .accordion.subcategory > li > a {
     background-color: #e9e9e9;
 }
 
-.grey .accordion.modelline a.dcjq-parent.active {
-    border-bottom: 2px solid #d1d0d0;
+.grey .accordion.modelline a { 
+    background: none;
 }
 
-.prod-wrapper .grey .accordion > li{
-    /*height: 100%;*/
-}
 .prod-wrapper .grey{
     font-size: 12px;
-}
-/*.prod-wrapper .elements table td{
-    border-radius: 4px;
-    background-color: #e9e9e9;
-}*/
-.prod-wrapper div.grey{
-    
-}
-
-.prod-wrapper ul.accordion.modelline div{
-    /*line-height: 100%;*/
-}
-.prod-wrapper ul.accordion.modelline a.high {
-    min-height: 30px;
 }
 
 .grey .accordion a .dcjq-icon {
@@ -3505,11 +3501,13 @@ div.phone_text{
     margin-top: -13px;
 }
 
-.grey .accordion.modelline a.dcjq-parent, .subcategory-wrapper a {
+.subcategory-wrapper a {
     min-height: 30px;
 }
-
-.grey .accordion.modelline a .dcjq-icon {
+.grey .accordion.modelline a{
+    padding: 0;
+}
+.grey .accordion.modelline a .dcjq-icon, .grey .accordion.modelline a.dcjq-parent.active .dcjq-icon {
     background: none;
 }
 .grey .accordion a.dcjq-parent.active .dcjq-icon {

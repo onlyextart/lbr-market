@@ -158,7 +158,7 @@ class ModellinesController extends Controller
                           '<div class="grey">'.
                             '<ul class="accordion modelline">'.
                               '<li>'.
-                                 '<a href="#">'.$model['name'].'</a>'.
+                                 '<a href="#" class="sub-title">'.$model['name'].'</a>'.
                                  '<ul>'
                     ;
 
