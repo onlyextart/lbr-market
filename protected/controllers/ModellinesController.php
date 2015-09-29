@@ -7,7 +7,6 @@ class ModellinesController extends Controller
         $category = Yii::app()->params['currentType'];
         $maker = Yii::app()->params['currentMaker'];
         $hitProducts = $modelIds = array();
-        $count = 0;
         $response = $topText = $bottomText = $h1Title = '';
         $modelline = array();
         
@@ -67,14 +66,8 @@ class ModellinesController extends Controller
             }
         }
 
-        $result = $this->setMakerFilter($maker, $count, $id, $categoryRoot->name);
+        $result = $this->setMakerFilter($id, $categoryRoot->name);
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
-        
-        /////////////////////////
-        echo '<pre>';
-        var_dump($result);
-        exit;
-        ////////////////////////
         
         // show in two columns
         $count = count($result);
@@ -84,11 +77,11 @@ class ModellinesController extends Controller
             for($index = 0; $index < ($half); $index++) {
                 $response .= '<tr>';
                 $response .= '<td width="50%" valign="top" align="left">';
-                $response .= $this->setModelline($result[$index][0], $dependency, $categoryRoot);
+                $response .= $this->setModelline($result[$index], $dependency, $categoryRoot);
                 $response .= '</td>';
                 if(($index + $half) < $count){
                     $response .= '<td width="50%" valign="top" align="left">';
-                    $response .= $this->setModelline($result[$index + $half][0], $dependency, $categoryRoot);
+                    $response .= $this->setModelline($result[$index + $half], $dependency, $categoryRoot);
                     $response .= '</td>';
                 }
                 $response .= '</tr>';
@@ -106,14 +99,17 @@ class ModellinesController extends Controller
     {
         $response = '';
         if(!empty($modelline) && empty(Yii::app()->params['currentMaker'])) {
-            foreach($modelline as $categoryName=>$models) {
+            foreach($modelline as $categoryName=>$modelsIds) {
                 $response .= '<ul class="accordion modelline">'.
                               '<li>'.
                                  '<a href="#" class="sub-title">'.$categoryName.'</a>'.
                                  '<ul>';
                 
+                $criteria = new CDbCriteria();
+                $criteria->addInCondition('id', $modelsIds);
+                $criteria->order = 'name';
                 
-                usort($models, array($this, 'sortByName'));
+                $models = ModelLine::model()->findAll($criteria);
                 
                 foreach($models as $model) {
                     $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
@@ -133,17 +129,18 @@ class ModellinesController extends Controller
                 ;
             }
         } else if(!empty($modelline)) {
-            foreach($modelline as $categoryName => $models) {
-                $title = $categoryName;
-                $response .= '<h1>'.$title.'</h1>';
-                
-                $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-                
+            foreach($modelline as $categoryName => $modelsIds) {
                 $count = 0;
                 $dividend = 3;
+                $title = $categoryName;
                 
-                usort($models, array($this, 'sortByName'));
+                $criteria = new CDbCriteria();
+                $criteria->addInCondition('id', $modelsIds);
+                $criteria->order = 'name';
+                $models = ModelLine::model()->findAll($criteria);
                 
+                $response .= '<h1>'.$title.'</h1>';
+                $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
                 foreach($models as $model) {
                     $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
                     $children = $category->children()->findAll();
@@ -168,12 +165,12 @@ class ModellinesController extends Controller
                               '</li>'.
                             '</ul>'.
                           '</div>'.
-                    '</td>'
-                  ;
-                  if($count == $dividend) {
-                      $count = 0;
-                      $response .= '</tr>';
-                  }
+                        '</td>'
+                    ;
+                    if($count == $dividend) {
+                        $count = 0;
+                        $response .= '</tr>';
+                    }
                 }
 
                 $response .= '</tbody></table>';
@@ -183,6 +180,58 @@ class ModellinesController extends Controller
         return $response;
     }
     
+    private function setMakerFilter($categoryId, $title = null)
+    {
+        $maker = Yii::app()->params['currentMaker'];
+        $models = $temp = $result = array();
+        
+        if(!empty($categoryId) || !empty($maker)) {
+            $criteria = new CDbCriteria();
+            if(!empty($categoryId)) {
+                $criteria->addCondition('category_id = :category_id');
+            }
+            if(!empty($maker)) {
+                $criteria->addCondition('maker_id = :maker_id');
+            }
+            
+            if(!empty($maker) && !empty($categoryId)) {
+                $criteria->params = array(':maker_id' => $maker, ':category_id' => $categoryId);
+            } else if(!empty($maker)) 
+                $criteria->params = array(':maker_id' => $maker);
+            else if(!empty($categoryId))
+                $criteria->params = array(':category_id' => $categoryId);
+            
+            if(empty($maker)) {
+                $criteriaForBrand = $criteria;
+                $criteriaForBrand->distinct = true;
+                $criteriaForBrand->select = 'maker_id';
+                
+                $allBrands = ModelLine::model()->findAll($criteriaForBrand);
+                foreach($allBrands as $brand) {
+                   $name = EquipmentMaker::model()->findByPk($brand->maker_id)->name;
+                   $result[][$name] = Yii::app()->db->createCommand()
+                        ->selectDistinct('id')
+                        ->from('model_line')
+                        ->where('maker_id = :maker_id and category_id = :category_id and level = 2', array(':maker_id' => $brand->maker_id, ':category_id' => $categoryId))
+                        ->queryColumn()
+                   ;
+                }
+            } else {
+                $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
+                $nameForCategoryInBrand = CategorySeo::model()->find('category_id=:category and equipment_id=:equipment', array('category'=>$categoryId, 'equipment'=>Yii::app()->params['currentMaker']))->h1;
+                if(!empty($nameForCategoryInBrand)) $name = $nameForCategoryInBrand;
+                
+                $criteria->addCondition('level = 2');
+                $models = ModelLine::model()->findAll($criteria);
+                foreach($models as $model){
+                    $result[0][$name][] = $model->id;
+                }
+            }
+        }
+        
+        return $result;
+    }
+    
     private function setHitProducts($id)
     {   
         $sql = '';
@@ -190,7 +239,7 @@ class ModellinesController extends Controller
         if(!empty(Yii::app()->params['currentMaker'])) {
             $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
         }
-       // $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
+        
         $elements = Yii::app()->db->cache(1000)->createCommand()
             ->selectDistinct('p.id')
             ->from('model_line m')
@@ -227,90 +276,5 @@ class ModellinesController extends Controller
         }
         
         return $hitProducts;
-    }
-    
-    private function setMakerFilter($maker = null, $count = 0, $categoryId = null, $title = null)
-    {
-        $models = $temp = $result = array();
-        
-        if(!empty($categoryId) || !empty($maker)) {
-            $criteria = new CDbCriteria();
-            if(!empty($categoryId)) {
-                $criteria->addCondition('category_id = :category_id');
-                $rootCategory = ModelLine::model()->findByPk($categoryId);
-            }
-            
-            if(!empty($maker)) {
-                $criteria->addCondition('maker_id = :maker_id');
-            }
-            if(!empty($maker) && !empty($categoryId)) {
-                $criteria->params = array(':maker_id' => $maker, ':category_id' => $categoryId);
-            } else {
-                if(!empty($maker)) 
-                    $criteria->params = array(':maker_id' => $maker);
-                else 
-                    $criteria->params = array(':category_id' => $categoryId);
-            }
-            
-            if(empty(Yii::app()->params['currentMaker'])){
-                $criteriaForBrand = $criteria;
-                $criteriaForBrand->distinct = true;
-                $criteriaForBrand->select = 'maker_id';
-                
-                $allBrands = ModelLine::model()->findAll($criteriaForBrand);
-                foreach($allBrands as $brand) {
-                   $criteria->distinct = false;
-                   $criteria->select = '*';
-                   $criteria->condition = 'maker_id = :maker_id';
-                   $criteria->addCondition('category_id = :category_id');
-                   $criteria->params = array(':maker_id' => $brand->maker_id, ':category_id' => $categoryId);
-                   $name = EquipmentMaker::model()->findByPk($brand->maker_id)->name;
-
-                   $models = ModelLine::model()->findAll($criteria);
-                   
-                   $result[] = $this->fillArray($models, $count, $name);
-                }
-            } else {
-                $models = ModelLine::model()->findAll($criteria);
-                $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
-                $nameForCategoryInBrand = CategorySeo::model()->find('category_id=:category and equipment_id=:equipment', array('category'=>$categoryId, 'equipment'=>Yii::app()->params['currentMaker']))->h1;
-                if(!empty($nameForCategoryInBrand)) $name = $nameForCategoryInBrand;
-                if(!empty($name))
-                    $result[] = $this->fillArray($models, $count, $name);
-                else $result[] = $this->fillArray($models, $count);
-            }
-        }
-        
-        return $result;
-    }
-    
-    private function fillArray($models, $count, $title = null)
-    {   
-        $modelline = array();
-        $label = $title;
-
-        foreach($models as $model) {
-           $currentModel = ModelLine::model()->findByPk($model->id);
-           if(!$currentModel->isLeaf()){
-                if(empty($title)) {
-                   $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
-                   $category = Category::model()->cache(1000, $category_dependency)->findByPk($currentModel->category_id);
-                   $parent = $category->parent()->find();
-                   $label = $parent->name;
-                }
-                
-                $label = $label;
-                $modelline[$label][$count]['name'] = $currentModel->name;
-                $modelline[$label][$count]['id'] = $currentModel->id;
-                $count++;
-           }
-        }
-        
-        return array($modelline, $count);
-    }
-    
-    private static function sortByName($a, $b)
-    {
-        return strcmp(strtolower($a["name"]), strtolower($b["name"]));
     }
 }
