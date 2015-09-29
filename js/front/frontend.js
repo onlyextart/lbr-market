@@ -90,15 +90,6 @@ $(document).ready(function($){
         showCount: false
     });
     
-    /*$('.modelline').dcAccordion({
-        eventType: 'click',
-        autoClose: true,
-        disableLink: true,
-        speed: 'fast',
-        showCount: false,
-        menuClose : true
-    });*/
-    
     //Add product to wish list
     /*$( ".wish-small" ).on('click', function() {
         $.ajax({

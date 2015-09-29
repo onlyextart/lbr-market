@@ -82,12 +82,6 @@ class ModellinesController extends Controller
         $count = count($result);
         $half = ceil($count/2);
         
-        ////////////////////////
-//        echo '<pre>';
-//        var_dump($result);
-//        exit;
-        ///////////////////////
-        
         if(!empty($result)) {
             $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
             for($index = 0; $index < ($half); $index++) {
@@ -103,21 +97,8 @@ class ModellinesController extends Controller
                 $response .= '</tr>';
             }
             $response .= '</tbody></table>';
-            
-            /*foreach($result as $res) {
-                $response .= $this->setModelline($res[0], $dependency, $categoryRoot);
-            }*/
         }
-        
-        
-        
-        /*
-        if(!empty($result[0])) {
-            $modelline = $result[0];     
-            //ksort($modelline);
-        }
-        $response .= $this->setModelline($modelline, $dependency);
-        */
+
         // random products for hit products
         $hitProducts = $this->setHitProducts($id);
         
@@ -127,9 +108,8 @@ class ModellinesController extends Controller
     private function setModelline($modelline, $dependency, $categoryRoot)
     {
         $response = '';
-        //if(!empty($modelline) && empty(Yii::app()->params['currentMaker'])) {
+        if(!empty($modelline) && empty(Yii::app()->params['currentMaker'])) {
             foreach($modelline as $categoryName=>$models) {
-                //$response .= '<div class="sub-title">'.$categoryName.'</div>';
                 $response .= '<ul class="accordion modelline">'.
                               '<li>'.
                                  '<a href="#" class="sub-title">'.$categoryName.'</a>'.
@@ -154,48 +134,8 @@ class ModellinesController extends Controller
                               '</li>'.
                              '</ul>'
                 ;
-                
-                /*$response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-                $count = 0;
-                $dividend = 3;
-                
-                usort($models, array($this, 'sortByName'));
-                
-                foreach($models as $model) {
-                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
-                    $children = $category->children()->findAll();
-
-                    $count++;
-                    if($count == 1) $response .= '<tr>';
-                    
-                    $response .= '<td valign="top">'.
-                          '<div class="grey">'.
-                            '<ul class="accordion modelline">'.
-                              '<li>'.
-                                 '<a href="#">'.$model['name'].'</a>'.
-                                 '<ul>'
-                    ;
-
-                    foreach($children as $child) {
-                       $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
-                       $response .= '<li><a href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
-                    }
-
-                    $response .= '</ul>'.
-                              '</li>'.
-                            '</ul>'.
-                          '</div>'.
-                    '</td>'
-                  ;
-                  if($count == $dividend) {
-                      $count = 0;
-                      $response .= '</tr>';
-                  }
-                }
-
-                $response .= '</tbody></table>';*/
             }
-        /*} else if(!empty($modelline)) {
+        } else if(!empty($modelline)) {
             foreach($modelline as $categoryName => $models) {
                 $title = $categoryName;
                 $response .= '<h1>'.$title.'</h1>';
@@ -241,7 +181,8 @@ class ModellinesController extends Controller
 
                 $response .= '</tbody></table>';
             }
-        }*/
+        }
+        
         return $response;
     }
     
