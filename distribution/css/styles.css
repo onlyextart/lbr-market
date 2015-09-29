@@ -2067,7 +2067,9 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin-bottom: 5px;
     margin-top: 5px;
 }
-
+.modellines-wrapper .sub-title{
+   text-decoration: none;
+}
 .modellines-wrapper h1, .subcategory-wrapper h1
 {
     margin-bottom: 15px;

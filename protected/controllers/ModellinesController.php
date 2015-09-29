@@ -129,7 +129,23 @@ class ModellinesController extends Controller
         $response = '';
         //if(!empty($modelline) && empty(Yii::app()->params['currentMaker'])) {
             foreach($modelline as $categoryName=>$models) {
-                $response .= '<div class="sub-title">'.$categoryName.'</div>';
+                //$response .= '<div class="sub-title">'.$categoryName.'</div>';
+                $response .= '<ul class="accordion modelline">'.
+                              '<li>'.
+                                 '<a href="#" class="sub-title">'.$categoryName.'</a>'.
+                                 '<ul>';
+                $response .=         '<a href="#" class="sub-title">'.'1'.'</a>';
+                $response .=         '<ul>';
+                $response .=            '<a href="#" class="sub-title">'.'2'.'</a>';
+                $response .=         '</ul>'.
+                $response .=     '</ul>'.
+                              '</li>'.
+                             '</ul>'
+                ;
+                
+                
+                
+                
                 /*$response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
                 $count = 0;
                 $dividend = 3;
