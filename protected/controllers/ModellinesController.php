@@ -89,11 +89,8 @@ class ModellinesController extends Controller
             }
             $response .= '</tbody></table>';
         }
-
-        // random products for hit products
-        $hitProducts = $this->setHitProducts($id);
         
-        $this->render('modellines', array('response' => $response, 'title' => $h1Title, 'hitProducts'=>$hitProducts, 'topText'=>$topText, 'bottomText'=>$bottomText));
+        $this->render('modellines', array('response' => $response, 'title' => $h1Title, 'topText'=>$topText, 'bottomText'=>$bottomText));
     }
     
     private function setModelline($modelline, $dependency, $categoryRoot)
@@ -233,7 +230,7 @@ class ModellinesController extends Controller
         return $result;
     }
     
-    private function setHitProducts($id)
+    /*private function setHitProducts($id)
     {   
         $sql = '';
         $hitProducts='';
@@ -277,5 +274,5 @@ class ModellinesController extends Controller
         }
         
         return $hitProducts;
-    }
+    }*/
 }

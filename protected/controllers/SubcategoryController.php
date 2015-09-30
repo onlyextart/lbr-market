@@ -3,7 +3,7 @@ class SubcategoryController extends Controller
 {        
     public function actionIndex($type = null, $maker = null)
     {
-        $ids = array();
+        $breadcrumbs = array();
         $category = $type;
         $title = $response = $topText = $bottomText = '';
         $modelline = array();
@@ -74,8 +74,6 @@ class SubcategoryController extends Controller
             }
 
             // bradcrumbs
-            //preg_match('/\d{2,}\./i', $categoryRoot->name, $result);
-            //$title = trim(substr($categoryRoot->name, strlen($result[0])));
             $title = $categoryRoot->name.$makerName;
             if(!empty($categoryRoot->h1))
                 $title = $categoryRoot->h1;
@@ -90,7 +88,7 @@ class SubcategoryController extends Controller
                 if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
             }
             
-        } /*else if(!empty($maker)) {
+        } else if(!empty($maker)) {
             $criteria = new CDbCriteria;
             $criteria->select = 'category_id';
             $criteria->distinct = true;
@@ -133,7 +131,7 @@ class SubcategoryController extends Controller
                        <table cellspacing="0" cellpadding="0" border="0"><tbody>'
                     ;
                     $count = 0;
-                    $dividend = 3;
+                    $dividend = 2;
 
                     usort($models, array($this, 'sortByName'));
 
@@ -149,12 +147,8 @@ class SubcategoryController extends Controller
                         if($count == 1) $response .= '<tr>';
 
                         $response .= '<td valign="top">'.
-                              '<div class="grey">'.
-                                '<ul class="accordion subcategory">'.
-                                  '<li>'.
+                              '<div>'.
                                      '<a href="/catalog'.$modelline['path'].$brand.'/">'.$modelline['name'].'</a>'.
-                                  '</li>'.
-                                '</ul>'.
                               '</div>'.
                         '</td>'
                       ;
@@ -183,19 +177,14 @@ class SubcategoryController extends Controller
                 if(!empty($equipmentMaker->top_text)) $topText = $equipmentMaker->top_text;
                 if(!empty($equipmentMaker->bottom_text)) $bottomText = $equipmentMaker->bottom_text;
             }
-        }*/
-        
-        // random products for hit products
-        //echo '='.Yii::app()->session['maker'];exit;
-        $hitProducts = $this->setHitProducts($ids);
-        
-        // bradcrumbs
+        }
         
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         
-        $this->render('subcategory', array('response' => $response, 'hitProducts'=>$hitProducts, 'title'=>$title, 'topText'=>$topText, 'bottomText'=>$bottomText));
+        $this->render('subcategory', array('response' => $response, 'title'=>$title, 'topText'=>$topText, 'bottomText'=>$bottomText));
     }
     
+    /*
     private function setHitProducts($ids)
     {
         $sql = '';
@@ -246,75 +235,5 @@ class SubcategoryController extends Controller
         
         
         return $hitProducts;
-    }
-    
-    private function setMakerFilter($maker, $count = 0, $categoryId = null, $title = null)
-    {
-        $models = $temp = array();
-        if(!empty($categoryId) || !empty($maker)) {
-            $criteria = new CDbCriteria();
-            $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
-            if(!empty($categoryId)) {
-                $criteria->addCondition('category_id = :category_id');
-                $rootCategory = ModelLine::model()->cache(1000, $dependency)->findByPk($categoryId);
-            }
-            
-            if(!empty($maker)) {
-                $criteria->addCondition('maker_id = :maker_id');
-            }
-            if(!empty($maker) && !empty($categoryId)) {
-                $criteria->params = array(':maker_id' => $maker, ':category_id' => $categoryId);
-            } else {
-                if(!empty($maker)) 
-                    $criteria->params = array(':maker_id' => $maker);
-                else 
-                    $criteria->params = array(':category_id' => $categoryId);
-            }
-            
-            $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
-        }
-        
-        if(!empty($title))
-            $result = $this->fillArray($models, $count, $title);
-        else $result = $this->fillArray($models, $count);
-        
-        return $result;
-    }
-    
-    private function fillArray($models, $count, $title = null)
-    {   
-        $modelline = array();
-        $label = $title;
-        foreach($models as $model) {
-           $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
-           $currentModel = ModelLine::model()->cache(1000, $dependency)->findByPk($model->id);
-           if(!$currentModel->isLeaf()){
-                if(empty($title)) {
-                   $dep = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
-                   $category = Category::model()->cache(1000, $dep)->findByPk($currentModel->category_id);
-                   $parent = $category->parent()->find();
-                   $label = $parent->name;
-                }
-                
-                preg_match('/\d{2,}\./i', $label, $result);
-                $label = trim(substr($label, strlen($result[0])));
-                
-                /*$parent = $model->parent()->find()->name;
-                $modelline[$label][$parent][$count]['name'] = $model->name;               
-                $modelline[$label][$parent][$count]['id'] = $model->id;               
-                $modelline[$label][$parent][$count]['path'] = $model->path;*/
-                
-                $modelline[$label][$count]['name'] = $currentModel->name;
-                $modelline[$label][$count]['id'] = $currentModel->id;
-                $count++;
-           }
-        }
-        
-        return array($modelline, $count);
-    }
-    
-    private static function sortByName($a, $b)
-    {
-        return strcmp(strtolower($a["name"]), strtolower($b["name"]));
-    }
+    }*/
 }
