@@ -87,37 +87,43 @@ class SubcategoryController extends Controller
                 if(!empty($categoryRoot->top_text)) $topText = $categoryRoot->top_text;
                 if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
             }
-            
         } else if(!empty($maker)) {
-            $criteria = new CDbCriteria;
+            /*$criteria = new CDbCriteria;
             $criteria->select = 'category_id';
             $criteria->distinct = true;
             $criteria->condition = 'maker_id=:maker';
             $criteria->params = array(':maker'=>$maker);
-            $depend = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
-            $models = ModelLine::model()->cache(1000, $depend)->findAll($criteria);
+            //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
+            $models = ModelLine::model()->findAll($criteria);
+            
             $temp = array();
-
-            foreach($models as $model){
+            foreach($models as $model) {
                 $temp[] = $model['category_id'];
-            }
+            }*/
+            
+            $temp = Yii::app()->db->createCommand()
+                ->selectDistinct('category_id')
+                ->from('model_line')
+                ->where('maker_id=:maker', array(':maker'=>$maker))
+                ->queryColumn()
+            ;
             
             $crit = new CDbCriteria();
             $crit->condition = 'published=:published';
             $crit->params = array(':published'=>true);
             $crit->addInCondition('id', $temp);
             $crit->order = 'name';
-            $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
-            $subcategories = Category::model()->cache(1000, $dependency)->findAll($crit);
+            $subcategories = Category::model()->findAll($crit);
+            ///////////////////////////////////////////////////////////////////////////
             
             $count = 0;
             foreach($subcategories as $subcategory) {
                 $label = $subcategory->parent()->find()->name;
-                preg_match('/\d{2,}\./i', $label, $result);
-                $label = trim(substr($label, strlen($result[0])));
+                //preg_match('/\d{2,}\./i', $label, $result);
+                //$label = trim(substr($label, strlen($result[0])));
             
-                $modelline[$label][$count]['name'] = $subcategory->name;
                 $modelline[$label][$count]['id'] = $subcategory->id;
+                $modelline[$label][$count]['name'] = $subcategory->name;
                 $modelline[$label][$count]['path'] = $subcategory->path;
                 $count++;
             }
@@ -133,25 +139,23 @@ class SubcategoryController extends Controller
                     $count = 0;
                     $dividend = 2;
 
-                    usort($models, array($this, 'sortByName'));
+                    //usort($models, array($this, 'sortByName'));
 
                     foreach($models as $modelline) {
                         $brand = '';
                         if(!empty(Yii::app()->params['currentMaker'])) $brand = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->path;
                         
                         $ids[] = $modelline['id'];
-                        $category = ModelLine::model()->cache(1000, $depend)->findByPk($modelline['id']);
+                        $category = ModelLine::model()->findByPk($modelline['id']);
                         $children = $category->children()->findAll();
 
                         $count++;
                         if($count == 1) $response .= '<tr>';
 
                         $response .= '<td valign="top">'.
-                              '<div>'.
-                                     '<a href="/catalog'.$modelline['path'].$brand.'/">'.$modelline['name'].'</a>'.
-                              '</div>'.
-                        '</td>'
-                      ;
+                               '<a href="/catalog'.$modelline['path'].$brand.'/">'.$modelline['name'].'</a>'.
+                            '</td>'
+                        ;
                       if($count == $dividend) {
                           $count = 0;
                           $response .= '</tr>';
@@ -161,6 +165,33 @@ class SubcategoryController extends Controller
                     $response .= '</tbody></table>';
                 }
             }
+            
+//            if(!empty($subcategories)) {
+//                $brand = '';
+//                if(!empty(Yii::app()->params['currentMaker'])) $brand = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->path;
+//                
+//                $count = count($subcategories);
+//                $half = ceil($count/2);
+//                
+//                $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+//                for($index = 0; $index < $half; $index++) {                    
+//                    $response .= '<tr>';
+//                    $response .= '<td width="50%" valign="top">';
+//                    $subcategory = $subcategories[$index];
+//                    $response .= '<a href="/catalog'.$subcategory['path'].$brand.'/">'.$subcategory['name'].'</a>';
+//                    $response .= '</td>';
+//                    if(($index + $half) < $count) {
+//                        $subcategory = $subcategories[$index + $half];
+//                        $response .= '<td width="50%" valign="top">';
+//                        $response .= '<a href="/catalog'.$subcategory['path'].$brand.'/">'.$subcategory['name'].'</a>';
+//                        $response .= '</td>';
+//                    }
+//                    $response .= '</tr>';
+//                }
+//                $response .= '</tbody></table>';
+//            }
+            
+            ////////////////////////////////////////////////////////////////
             // bradcrumbs
             $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
             $name = $equipmentMaker->name;
