@@ -221,7 +221,7 @@ class Product extends CActiveRecord {
     {
         $criteria = new CDbCriteria;
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
-        $criteria->condition = 'product_in_model_line.model_line_id=:model_id';
+        $criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
         $criteria->params = array(":model_id" => $this->modelLineId);
         
         if(!empty($this->count)) { // for model-view filter

@@ -26,6 +26,7 @@ class ModelController extends Controller
             $products->attributes = $_GET['Product'];
         
         $products->modelLineId = $id;
+        $products->published = true;
         
         $dataProvider = $products->searchEvent();
         $dataProvider->pagination = array(
