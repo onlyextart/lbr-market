@@ -259,16 +259,17 @@ header .header-label ul.label-list li a {
   text-transform: uppercase;
   padding: 2px 0;
 }
-header .region-label{
+header #region-label{
+  padding-top:2px;
   color: #727272;
   font-weight: bold;
   font-size: 13px;
-  width:260px; 
+  width:310px; 
 /*    position: absolute;
     top: 80px;
     right: 20%;*/
 }
-header #region{
+/*header #region{
   text-transform: uppercase;
   color: #727272;
   font-weight: 600;
@@ -278,6 +279,45 @@ header #region{
 header #region:hover{
   text-decoration: none;
   cursor: pointer;
+}*/
+header #select_region{
+  text-transform: uppercase;
+  z-index: 101;
+  background: #d7d4d4 url("/images/main_menu_bg.png") repeat-x scroll 50% 50%;
+  outline: none;
+  border:none;
+}
+#region-label .chosen-container-single .chosen-single{
+   background:transparent; 
+   border:0;
+   box-shadow: none;
+   height: 28px;
+}
+#region-label #select_region_chosen{
+    width:auto!important;
+}
+#region-label .chosen-container-single .chosen-drop{
+    width:220px;
+    background-color: #EDEDED;
+}
+#region-label .chosen-container .chosen-results{
+    width:218px;
+}
+#region-label .chosen-container-single .chosen-single div b{
+    background: rgba(0, 0, 0, 0) url("/images/carousel/carousel_control_small.png") no-repeat scroll 0 -12px;
+    left:75px;
+    height:14px;
+    width:19px;    
+}
+#region-label .chosen-container-single .chosen-single div {
+    top:6px;   
+}
+#region-label .chosen-container-single a span{
+    text-transform: uppercase;
+} 
+#region-label .chosen-container .chosen-results li.active-result.highlighted{
+    background: #D2D2D2;
+    color:#444;
 }
 header .map a{
   display: block;
@@ -425,11 +465,13 @@ header div.menu-line ul.menu-line-items:after {
     z-index: 100;
 }
 header div.menu-line ul.menu-line-items>li.login-elem{
-   width:145px;
+   width:155px;
 }
 header div.menu-line ul.menu-line-items>li.login-elem .elem{
-   width:125px;
+   width:135px;
    text-align: center;
+   text-transform: uppercase;
+   font-size: 12px;
 }
 /*header div.menu-line ul.menu-line-items>li:not(.empty-li):hover {
     background: #E1E1E1;
@@ -1755,10 +1797,10 @@ input#full-search
 /*----- end Static pages --------------*/
 /*----- start search---------------*/
 .search-input{
-    width:845px;
+    width:785px;
 }
 .search-input input {
-    width: 88%;
+    width: 87%;
     height:23px;
     padding:2px 5px;
 }
@@ -2613,7 +2655,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     background: url("/images/close_sprite.png") no-repeat scroll left bottom transparent;
 }
 .l-menu-wrapper{
-    height: 405px;
+    /*height: 405px;*/
     overflow: auto;
     margin-bottom: 10px;
     margin-right: 10px;

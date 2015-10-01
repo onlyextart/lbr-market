@@ -15,7 +15,8 @@ module.exports = function (grunt) {
                     'js/front/frontend.js',
                     'js/front/search.js',
                     'js/front/cart.js',
-                    'js/alertify.js'
+                    'js/alertify.js',
+                    'js/front/chosen.jquery.js',
                 ],
                 dest: 'distribution/js/scripts.js',
             },
@@ -27,7 +28,8 @@ module.exports = function (grunt) {
                     'css/front/tip-darkgray/tip-darkgray.css',
                     'css/ui/jquery-ui-1.10.3-min.css',
                     'css/alertify/core.css',
-                    'css/alertify/default.css'
+                    'css/alertify/default.css',
+                    'css/front/chosen/chosen.css'
                 ],
                 dest: 'distribution/css/styles.css',
             },

@@ -26,6 +26,7 @@
                 Yii::app()->request->cookies['lbrfilial'] = $cookie;
             }
             
+            $allFilials = Filial::model()->findAll(array('condition'=>'level != 1'));
             $filial = Yii::app()->request->cookies['lbrfilial']->value;
         ?>
     </head>
@@ -94,9 +95,9 @@
                         <a href="#"><span>О нас</span></a>
                         <ul class="submenu">
                             <li><a href="#">Мы online</a></li>
-                            <li><a href="http://lbr-market.ru/payment/">Условия и оплата</a></li>
-                            <li><a href="http://lbr-market.ru/delivery/">Доставка</a></li>
-                            <li><a href="http://lbr-market.ru/garantiya/">Гарантия</a></li>
+                            <li><a href="/payment/">Условия и оплата</a></li>
+                            <li><a href="/delivery/">Доставка</a></li>
+                            <li><a href="/garantiya/">Гарантия</a></li>
                             <li><a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/" target="_blank">
                                     Контакты
                                 </a>
@@ -111,14 +112,18 @@
                        <?php if (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
                            <?php
                            if (!empty($filial)):
-                               $filial = Filial::model()->findByPk($filial)->name;
+//                               $filial = Filial::model()->findByPk($filial)->name;
                                ?>
-                               <div class="region-label elem">Ваш филиал: <span id="region"><?php echo $filial ?></span></div>
+                               <div id="region-label" class="elem">Ваш филиал: 
+                                   <!--<span id="region"><?php //echo $filial ?></span>-->
+                                   <?php echo CHtml::dropDownList('select_region',$filial,CHtml::listData($allFilials,'id','name'),array('id'=>'select_region')); ?>
+                               </div>
                            <?php else: ?>
-                               <div class="region-label elem">Ваш филиал: <span id="region">Не выбран</span></div>
+                               <div id="region-label" class="elem"></div>  
+                               <!--<div id="region-label" class="elem">Ваш филиал: <span id="region">Не выбран</span></div>-->
                            <?php endif; ?>
                            <?php else: ?>
-                           <div class="region-label elem"></div>   
+                           <div id="region-label" class="elem"></div>   
                        <?php  endif; ?>  
                     </li>
                     
@@ -195,32 +200,33 @@
         <!--OnlineSeller.ru {/literal} -->
                                         
 
-        <div>
-            <?php $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-                'id' => 'setRegion',
-                'options' => array(
-                    'title' => 'Выбор филиала',
-                    'autoOpen' => false,
-                    'modal' => true,
-                    'resizable'=> false,
-                ),
-            ));
+<!--        <div>
+            <?php //$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+//                'id' => 'setRegion',
+//                'options' => array(
+//                    'title' => 'Выбор филиала',
+//                    'autoOpen' => false,
+//                    'modal' => true,
+//                    'resizable'=> false,
+//                ),
+//            ));
             ?>
             <div class="row">
                 <?php
-                echo CHtml::dropDownList('select-region', '', array());
+                //echo CHtml::dropDownList('select-region', '', array());
                 ?>
             </div>
             <div class="reg-button">
-            <?php echo CHtml::button('Подтвердить',array('id' => 'confirm-region', 'class' => 'btn')); ?>
+            <?php //echo CHtml::button('Подтвердить',array('id' => 'confirm-region', 'class' => 'btn')); ?>
             </div>
             <?php
-                $this->endWidget('zii.widgets.jui.CJuiDialog');
+                //$this->endWidget('zii.widgets.jui.CJuiDialog');
             ?>
-        </div>
+        </div>-->
     </body>
 </html>
 <script>
+    $("#select_region").chosen({disable_search:true});
     /*function loadJs(url) {
         var script  = document.createElement( 'script' );
         script.src  = url;
