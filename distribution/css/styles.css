@@ -192,6 +192,7 @@ header .header-main .main-top {
   height: 100%;
   padding: 0;
   font-weight: bold;
+  padding:0px 0px 0px 25px;
 }
 
 header .header-main .main-top li {
@@ -341,9 +342,12 @@ header .map a span {
 
 /*----- start main menu -----------*/
 header div.main-menu{
-    clear:both;
+/*    clear:both;
     margin: 0px 30px 0px 800px;
-    padding:0px 0px 10px 0px;
+    padding:0px 0px 10px 0px;*/
+    position:absolute;
+    left:620px;
+    top:85px;
 }
 header div.main-menu ul#nav {
     display: table;  
@@ -3412,14 +3416,16 @@ div.ui-widget-header{
 }
 
 /*----- end QuickForm ---------------*/
-
-.phone_number{
+.phone{
+    position:absolute;
+    left:725px;
+    top:20px;
     text-align: center; 
     font: 'Trebuchet MS'; 
     font-size: 25px;
     font-weight: bolder; 
     color: #F39314;
-    padding: 28px 0 0;
+    /*padding: 20px 0 0 0px;*/
 }
 div.phone_text{
     font-size: 13px;
