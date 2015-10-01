@@ -5,7 +5,7 @@
         'homeLink' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'/" itemprop="url"><span itemprop="title">Главная</span></a></div>',
         'activeLinkTemplate' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'{url}" itemprop="url"><span itemprop="title">{label}</span></a></div>',
         'inactiveLinkTemplate' => '{label}',
-    ));        
+    ));
 ?>
 <div class="search-form">
     <form id="form_full_search" method="post">
@@ -13,7 +13,7 @@
             <h1>ПОИСК ПО РАЗДЕЛАМ</h1>
         </div>
         <div class="query-field">
-                <input id="full-search" type="text" name="q" value="<?php echo $input ?>" placeholder="Найти" autocomplete="off"/>
+                <input id="full-search" type="text" name="q" value="<?php echo htmlentities($input) ?>" placeholder="Найти" autocomplete="off"/>
                 <ul class="full-quick-result"></ul>
                 <input class="btn full-search-button" type="button" value="Найти">
         </div>
