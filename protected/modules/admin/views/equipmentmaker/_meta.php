@@ -1,5 +1,12 @@
 <div class="row">      
     <?php  
+        echo $form_view->labelEx($model, 'h1');
+        echo $form_view->textField($model, 'h1');
+    ?>
+</div>
+
+<div class="row">      
+    <?php  
         echo $form_view->labelEx($model, 'meta_title');
         echo $form_view->textField($model, 'meta_title');
     ?>

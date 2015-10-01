@@ -1,21 +1,18 @@
+<?php 
+    $action = '/cart/index/';
+?>
 <div class="cart-wrapper">
-    <div class="breadcrumbs">
-        <?php
-            $breadcrumbs[] = 'Корзина';
-            Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
-            $this->widget('zii.widgets.CBreadcrumbs', array(
-                'links' => Yii::app()->params['breadcrumbs'],
-                'activeLinkTemplate' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="{url}">{label}</a></span>',
-                'inactiveLinkTemplate' => '{label}',
-                'homeLink' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="/">Главная</a></span>',
-                'tagName' => 'span',
-                'htmlOptions' => array(
-                    'xmlns:v' => 'http://rdf.data-vocabulary.org/#',
-                ),
-            ));
-            $action = '/cart/index/';
-        ?>
-    </div>
+    <?php
+        $breadcrumbs[] = 'Корзина';
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs; 
+
+        $this->widget('zii.widgets.CBreadcrumbs', array(
+            'links' => Yii::app()->params['breadcrumbs'],
+            'homeLink' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'/" itemprop="url"><span itemprop="title">Главная</span></a></div>',
+            'activeLinkTemplate' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'{url}" itemprop="url"><span itemprop="title">{label}</span></a></div>',
+            'inactiveLinkTemplate' => '{label}',
+        )); 
+    ?>
     <?php if($mess = Yii::app()->user->getFlash('error')): ?>
     <div class="flash_error">
         <?php echo $mess; ?>
@@ -88,7 +85,7 @@
                <?php else: ?>
                     <?php 
                     foreach($items as $item): 
-                        $price = $this->getProductPrice($item[id], $item[count]);
+                        $price = $this->getProductPrice($item['id'], $item['count']);
                     ?>
                     <tr>
                         <td width="110px" align="center">
@@ -99,8 +96,8 @@
                         </td>
                         <td width="220px" >
                             <?php
-                            echo CHtml::link($item[name], $item[path], array('target'=>'_blank'));
-                            if($item[liquidity] == 'D' && $item[count] > 0) {
+                            echo CHtml::link($item['name'], $item['path'], array('target'=>'_blank'));
+                            if($item['liquidity'] == 'D' && $item['count'] > 0) {
                                 echo CHtml::openTag('span', array('class'=>'price'));
                                 echo (Yii::app()->params['showPrices'])? $price['one']:'';
                                 echo CHtml::closeTag('span');
@@ -109,12 +106,12 @@
                         </td>
                         <td width="120px">
                             <div class="minus">&minus;</div>
-                            <?php echo CHtml::textField("products[$item[id]]", $item[count], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
+                            <?php echo CHtml::textField("products[$item[id]]", $item['count'], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
                             <div class="plus">&plus;</div>
                         </td>
                         <td>
                             <?php
-                            if($item[liquidity] == 'D' && $item[count] > 0) {
+                            if($item['liquidity'] == 'D' && $item['count'] > 0) {
                                 echo CHtml::openTag('span', array('class'=>'price'));
                                 echo (Yii::app()->params['showPrices']) ? $price['total'] : Yii::app()->params['textHidePrice'];
                                 echo CHtml::closeTag('span');
@@ -126,7 +123,7 @@
                             ?>
                         </td>
                         <td width="20px">
-                            <a class="remove" href="/cart/guestremove<?php echo $item[path] ?>"></a>
+                            <a class="remove" href="/cart/guestremove<?php echo $item['path'] ?>"></a>
                         </td>
                     </tr>
                     <?php endforeach ?>

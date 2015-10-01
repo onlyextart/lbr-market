@@ -9,15 +9,16 @@
         <meta content="Global" name="distribution">
         <meta http-equiv="pragma" content="no-cache">
         <meta name="description" content="<?php echo Yii::app()->params['meta_description']; ?>">
+        <meta name=viewport content="width=device-width, initial-scale=1">
         <title><?php echo Yii::app()->params['meta_title']; ?></title>
         <link rel="shortcut icon" type="image/jpg" href="<?php echo Yii::app()->request->baseUrl.'/images/favicon.jpg';?>"/>
         <script>
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?5');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?12');
             Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js');
+            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?1');
 
             if(empty(Yii::app()->request->cookies['lbrfilial'])) {
                 $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;

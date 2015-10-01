@@ -42,10 +42,10 @@ class Category extends CActiveRecord
                         array('name', 'required'),
                         array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
 			array('lft, rgt, parent, level', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, published, path, update_time, alias, meta_title, meta_description, top_text, bottom_text', 'safe'),
+			array('external_id, name, published, path, update_time, h1, alias, meta_title, meta_description, top_text, bottom_text', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, lft, rgt, parent, published, level, path, update_time, alias, meta_title, meta_description, top_text, bottom_text', 'safe', 'on'=>'search'),
+			array('id, external_id, name, lft, rgt, parent, published, h1, level, path, update_time, alias, meta_title, meta_description, top_text, bottom_text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,7 +81,8 @@ class Category extends CActiveRecord
 			'meta_title' => 'meta-title',
 			'meta_description' => 'meta-description',
                         'top_text' => 'Верхний блок',
-                        'bottom_text' => 'Нижний блок'
+                        'bottom_text' => 'Нижний блок',
+                        'h1' => 'Заголовок h1',
 		);
 	}
 
@@ -118,6 +119,7 @@ class Category extends CActiveRecord
 		$criteria->compare('meta_description',$this->meta_description,true);
 		$criteria->compare('top_text',$this->top_text,true);
 		$criteria->compare('bottom_text',$this->bottom_text,true);
+                $criteria->compare('h1',$this->h1,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

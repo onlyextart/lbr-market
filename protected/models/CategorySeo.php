@@ -32,10 +32,10 @@ class CategorySeo extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('category_id, equipment_id', 'numerical', 'integerOnly'=>true),
-			array('meta_title, meta_description, top_text, bottom_text, categoryName, equipmentMakerName', 'safe'),
+			array('meta_title, meta_description, top_text, bottom_text, categoryName, h1, equipmentMakerName', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, category_id, equipment_id, meta_title, meta_description, top_text, bottom_text, categoryName, equipmentMakerName', 'safe', 'on'=>'search'),
+			array('id, category_id, equipment_id, meta_title, meta_description, top_text, bottom_text, categoryName, equipmentMakerName, h1', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,6 +67,7 @@ class CategorySeo extends CActiveRecord
                         'bottom_text' => 'Нижний блок',
                         'categoryName' => 'Название категории',
                         'equipmentMakerName' => 'Название производителя техники',
+                        'h1' => 'Заголовок h1',
 		);
 	}
 
@@ -96,6 +97,7 @@ class CategorySeo extends CActiveRecord
 		$criteria->compare('meta_description',$this->meta_description,true);
 		$criteria->compare('top_text',$this->top_text,true);
 		$criteria->compare('bottom_text',$this->bottom_text,true);
+		$criteria->compare('h1',$this->h1,true);
                 
                 if($this->prepareSqlite()){
                     $criteria->addCondition('lower(category.name) like lower("%'.$this->categoryName.'%")');

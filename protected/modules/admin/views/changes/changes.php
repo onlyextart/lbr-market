@@ -16,7 +16,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
     <?php
     $this->widget('zii.widgets.grid.CGridView', array(
         'id'=>'changesListGrid',
-        'emptyText'=>'Нет изменений',
+        'emptyText'=>'Нет информации',
         'filter'=>$model,
         'dataProvider'=>$data,
         'template'=>'{items}{pager}{summary}',
@@ -39,7 +39,12 @@ $errorMsg = Yii::app()->user->getFlash('error');
                     'id'=>'id-change',
                 ),
              ),
-            'date',
+            array(
+                'name'=>'date',
+                //'type'=>'raw',
+                //'filter'=>false,
+                'value'=>'date("Y-m-d H:i", strtotime($data->date))',
+            ),
             array(
                 'name'=>'description',
                 'type'=>'raw',
@@ -48,13 +53,15 @@ $errorMsg = Yii::app()->user->getFlash('error');
                     return '<div class="description">'.htmlspecialchars($data->description).'</div>';
                 },
             ),
-            array(
+            /*array(
                 'name'=>'user_id',
-            ),
+            ),*/
             array(
-                'name'=>'user_name',
-                'filter'=>false,
-                'value'=>'Changes::getAuthUser($data->user_id)',
+                'name'=>'user',
+                'header'=> 'Пользователь',
+                'filter' => $filter,
+                'type'=>'raw',
+                'value'=>'Changes::getAuthUser($data->user)',
             ),
         ),
     ));

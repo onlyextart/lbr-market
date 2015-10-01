@@ -9,6 +9,7 @@ class ProductmakerController extends Controller
             $breadcrumbs[] = "Производители запчастей";
             $breadcrumbs[] = $data->name;
             Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+            Yii::app()->params['meta_title'] = $data->name;
             
             if(!empty($data)) {
                 Yii::app()->params['analiticsMark'] = 'pmaker='.$data->external_id;

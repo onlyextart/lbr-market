@@ -81,6 +81,9 @@ class SubcategoryController extends Controller
             //preg_match('/\d{2,}\./i', $categoryRoot->name, $result);
             //$title = trim(substr($categoryRoot->name, strlen($result[0])));
             $title = $categoryRoot->name.$makerName;
+            if(!empty($categoryRoot->h1))
+                $title = $categoryRoot->h1;
+            
             $breadcrumbs[] = $title;
             
             Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
@@ -92,12 +95,6 @@ class SubcategoryController extends Controller
             }
             
         } else if(!empty($maker)) {
-            /*$result = $this->setMakerFilter($maker);
-            if(!empty($result[0])) {
-                $modelline = $result[0];
-                $count = $result[1];
-            }*/
-            //echo 111; exit;
             $criteria = new CDbCriteria;
             $criteria->select = 'category_id';
             $criteria->distinct = true;
@@ -178,6 +175,10 @@ class SubcategoryController extends Controller
             $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
             $name = $equipmentMaker->name;
             $breadcrumbs[] = $name;
+            
+            $title = $name;
+            if(!empty($equipmentMaker->h1)) 
+                $title = $equipmentMaker->h1;
             
             Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $name;
             if(!empty($equipmentMaker->meta_title)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_title;

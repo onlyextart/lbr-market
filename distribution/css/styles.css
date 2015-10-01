@@ -659,8 +659,12 @@ header ul.dropdown ul ul {
 #sale-block .one_banner a:hover, #sale-block-wrapper span a:hover{
     text-decoration: none;
 }
+
 #sale-block-wrapper span a{
     text-decoration: none;
+}
+.breadcrumbs div{
+    display: inline-block;
 }
 /*----- End Breadcrumbs -----------------*/
 /*----- Begin Content -------------------*/
@@ -1554,7 +1558,7 @@ input#full-search
 /*----- end Sale-block-logo ----------------*/
 /*----- start Bestsale --------------*/
 #special-offer{
-    margin-left: 10px;
+    margin-left: 5px;
 }
 #special-offer .one-banner-special{
     margin-right: 15px !important;
@@ -2198,34 +2202,88 @@ input.small-cart-button,input.small-cart-button-wishlist{
 }
 /*----- end Pages about products ------*/
 /*----- start Product -----------------*/
+.product-wrapper .prod-name{
+    font-size: 18px;
+    color: #5f5e5e;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
 .product-image-wrapper{
     border-radius: 4px;
     box-shadow: 0 0 4px 1px rgba(50, 50, 50, 0.5);
     float: left;
     height: auto;
     width: auto;
-    margin: 5px 25px 10px 5px;
+    margin: 5px 0 0;
     padding: 5px;
     position: relative;
     text-align: center;
+    display: inline-block;
 }
+
+.product-params > div > span:first-child{
+    width: 130px;
+}
+
+.product-params{
+    float: left;
+    margin-left: 20px;
+    display: table;
+    border-collapse: collapse;
+    font-size: 12px;
+    font-style: italic;
+    width: 450px;
+}
+
+.product-params > div{
+    margin: 0 0 10px;
+    display: table-row;
+    border-bottom: 1px solid #f39314;
+}
+
+.product-params > div > span {
+    display: table-cell;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+.product-add-info:first-letter {
+    text-transform: uppercase;
+}
+
+.product-add-info {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-indent: 1.5em;
+}
+
 .product-image-wrapper img{
     margin: 0 auto;
     max-height: 270px;
     max-width: 270px;
     vertical-align: middle;
 }
+
 .product-wrapper h1, .modellines-wrapper h1, .subcategory-wrapper h1, .subcategory-wrapper .sub-title, .modellines-wrapper .sub-title {
     color: #5f5e5e;
     font-size: 18px;
     margin-bottom: 10px;
     padding: 0;
 }
+
 .modellines-wrapper h1, .subcategory-wrapper h1, .subcategory-wrapper .sub-title, .modellines-wrapper .sub-title{
     margin-bottom: 5px;
     margin-top: 5px;
 }
-/*.product-wrapper h1, */.product-info h2:first-letter, 
+
+.modellines-wrapper h1, .subcategory-wrapper h1
+{
+    margin-bottom: 15px;
+}
+
+.product-info h2:first-letter, 
 .subcategory-wrapper .hit-label:first-letter, .subcategory-wrapper h1:first-letter, .subcategory-wrapper .sub-title:first-letter, .modellines-wrapper .sub-title:first-letter,
 .modelline-wrapper .hit-label:first-letter, 
 .modellines-wrapper .hit-label:first-letter, .modellines-wrapper h1:first-letter
@@ -2250,11 +2308,16 @@ input.small-cart-button,input.small-cart-button-wishlist{
     font-size: 22px;
     display: block;
     font-weight: bold;
+    margin-left: 10px;
 }
 
 .model-wrapper h1
 {
     color: #F39314;
+}
+.model-wrapper h1, .model-wrapper h2
+{
+    margin-left: 10px;
 }
 .product-info h2{
     margin-top: 10px;
@@ -2265,13 +2328,8 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin-left: 0;
     margin-right: 10px;
 }
-#prod-info td{
-    font-size: 0.9em;
-    font-style: italic;
-    border-bottom: 1px solid #f39314;
-    padding: 5px 5px 5px 0;
-}
-#prod-info td.date-label{
+
+#prod-info .product-params .date-label{
     text-align: right;
 }
 #prod-info .in-stock{
@@ -2338,7 +2396,100 @@ input.small-cart-button,input.small-cart-button-wishlist{
 .draft-table a{
     color: #5f5e5e;
 }
-/*----- end Draft -------------------*/
+/*----- end Draft ---------------------*/
+/*----- start Model Grid --------------*/
+.model-wrapper .grid-view table.items td, .model-wrapper .grid-view table.items th{
+    border: none;
+}
+.model-wrapper .grid-view table.items tr.odd, .model-wrapper .grid-view table.items tr.even, 
+.model-wrapper .grid-view table.items tr.selected, .model-wrapper .grid-view table.items tbody tr:hover
+{   
+    background-color: #dfdfdf;
+    border-bottom: 1px solid #ccc;
+}
+.model-wrapper .grid-view table.items{
+    border-spacing: 0 1px;
+    border-collapse: separate;
+}
+.model-wrapper .grid-view table.items td{
+    font-size: 13px;
+    color: #333;
+}
+.model-wrapper .grid-view table.items th{
+    background: #ccc url("/images/main_menu_bg.png") repeat-x scroll 0 -1px;
+}
+.model-wrapper .grid-view table.items tbody td:first-child a
+{
+    margin-left: 10px;
+    display: block;
+}
+.model-wrapper .loader
+{
+    /*display: none;*/
+    background: rgba(0, 0, 0, 0) url("/images/loading.gif") no-repeat scroll 0 0;
+    padding-left: 25px;
+    display: inline-block;
+    height: 17px;
+    width: 200px;
+}
+
+.model-wrapper .grid-view table.items{
+    border: none;
+}
+.model-wrapper .grid-view table.items th a
+{
+    text-decoration: underline;
+}
+.model-wrapper .grid-view table.items a:hover{
+    text-decoration: none;
+}
+.model-wrapper .grid-view table.items a, .model-wrapper .grid-view table.items a:hover, .model-wrapper .grid-view table.items th
+{
+    color: #5f5e5e;
+}
+.grid-overlay span {
+    display: inline-block;
+}
+.grid-overlay > div {
+    background-color: #fff;
+    margin-top: auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border: 2px #5f5e5e solid;
+    width: 220px;
+    height: 40px;
+    text-align: center;
+    opacity: 1;
+}
+
+.grid-overlay
+{
+    background-color: #d1d0d0;
+    /*cursor: pointer;*/
+    display: block;
+    /*height: 1197px;*/
+    opacity: 0.7;
+    /*display: none;*/
+    /*left: 0;*/
+    position: absolute;
+    /*top: 0;*/
+    /*width: 100%;*/
+    z-index: 1100; 
+    font-weight: bold;
+}
+
+.model-wrapper .grid-view
+{
+    padding: 0;
+    position: relative;
+}
+.model-wrapper .summary
+{
+    position: absolute;
+    right: 0;
+    top: -30px;
+}
+/*----- end Model Grid ----------------*/
 /*----- start Cart --------------------*/
 .cart-wrapper, .order-wrapper, .wishlist-wrapper, .orders-wrapper {
     margin-top: 20px;
@@ -2727,6 +2878,11 @@ footer
 }
 ul.yiiPager li {
     display: inline;
+}
+
+ul.yiiPager .last, ul.yiiPager .first
+{
+   display: inline !important; 
 }
 
 ul.yiiPager {

@@ -72,15 +72,15 @@ if(!Yii::app()->user->isGuest) {
             <ul>
                 <?php
                     foreach($sale as $offer) {
-                        $image = Product::model()->getImage($offer[image], 'm');
+                        $image = Product::model()->getImage($offer['image'], 'm');
                         echo '<li>'.
                             '<div class="one_banner">
                                 <h3>
-                                   <a href="'.$offer[path].'" target="_blank">'.$offer[name].'</a>
+                                   <a href="'.$offer['path'].'" target="_blank">'.$offer['name'].'</a>
                                 </h3>
                                 <div class="img-wrapper">
-                                    <a href="'.$offer[path].'" target="_blank">
-                                        <img class="main-img" alt="'.$offer[name].'" src="'.$image.'">
+                                    <a href="'.$offer['path'].'" target="_blank">
+                                        <img class="main-img" alt="'.$offer['name'].'" src="'.$image.'">
                                         <img width="30" height="30" class="sale-label" alt="Скидка" src="/images/sale-label.png">
                                     </a>
                                 </div>'.

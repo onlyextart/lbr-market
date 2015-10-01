@@ -8,7 +8,7 @@ class ModellinesController extends Controller
         $maker = Yii::app()->params['currentMaker'];
         $hitProducts = $modelIds = array();
         $count = 0;
-        $response = $topText = $bottomText = '';
+        $response = $topText = $bottomText = $h1Title = '';
         $modelline = array();
         
         $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
@@ -25,18 +25,28 @@ class ModellinesController extends Controller
         }
         
         $categoryParent = $categoryRoot->parent()->find();
-        preg_match('/\d{2,}\./i', $categoryParent->name, $result);
-        $title = trim(substr($categoryParent->name, strlen($result[0])));
+        
+        //preg_match('/\d{2,}\./i', $categoryParent->name, $result);
+        //$title = trim(substr($categoryParent->name, strlen($result[0])));
+        $title = $categoryParent->name;
+        
         $currentBrand = '';
         $breadcrumbs[$title] = '/catalog'.$categoryParent->path.$currentBrand.'/';
         if(!empty($maker)) {
            $breadcrumbs[$categoryRoot->name] = '/catalog'.$categoryRoot->path.'/';
-           $equipmentMakerName = EquipmentMaker::model()->findByPk($maker)->name;
+           $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
+           $equipmentMakerName = $equipmentMaker->name;
            $breadcrumbs[] = $equipmentMakerName;
            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name.' '.$equipmentMakerName;
+           if(!empty($equipmentMaker->meta_title)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_title;
+           if(!empty($equipmentMaker->meta_description)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_description;
         } else {
            $breadcrumbs[] = $categoryRoot->name;
+           $h1Title = $categoryRoot->name;
+           if(!empty($categoryRoot->h1)) $h1Title = $categoryRoot->h1;
            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name;
+           if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
+           if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_title'] = $categoryRoot->meta_description;
         }
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
@@ -86,7 +96,7 @@ class ModellinesController extends Controller
         // random products for hit products
         $hitProducts = $this->setHitProducts($id);
         
-        $this->render('modellines', array('response' => $response, 'hitProducts'=>$hitProducts, 'topText'=>$topText, 'bottomText'=>$bottomText));
+        $this->render('modellines', array('response' => $response, 'title' => $h1Title, 'hitProducts'=>$hitProducts, 'topText'=>$topText, 'bottomText'=>$bottomText));
     }
     
     private function setModelline($modelline, $dependency, $categoryRoot)
@@ -101,8 +111,8 @@ class ModellinesController extends Controller
                 
                 usort($models, array($this, 'sortByName'));
                 
-                foreach($models as $modelline) {
-                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($modelline['id']);
+                foreach($models as $model) {
+                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
                     $children = $category->children()->findAll();
 
                     $count++;
@@ -112,7 +122,7 @@ class ModellinesController extends Controller
                           '<div class="grey">'.
                             '<ul class="accordion modelline">'.
                               '<li>'.
-                                 '<a href="#">'.$modelline['name'].'</a>'.
+                                 '<a href="#">'.$model['name'].'</a>'.
                                  '<ul>'
                     ;
 
@@ -137,16 +147,22 @@ class ModellinesController extends Controller
             }
         } else if(!empty($modelline)){
             foreach($modelline as $categoryName=>$models) {
-                $response .= '<h1>'.$categoryName.'</h1>
+                //$makerH1 = EquipmentMaker::model()->find('name=:name', array(':name'=>$categoryName))->h1;
+                
+                $title = $categoryName;
+                //if(!empty($makerH1)) $title = $makerH1;
+                
+                $response .= '<h1>'.$title.'</h1>
                    <table cellspacing="0" cellpadding="0" border="0"><tbody>'
                 ;
+                
                 $count = 0;
                 $dividend = 3;
                 
                 usort($models, array($this, 'sortByName'));
                 
-                foreach($models as $modelline) {
-                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($modelline['id']);
+                foreach($models as $model) {
+                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
                     $children = $category->children()->findAll();
 
                     $count++;
@@ -156,7 +172,7 @@ class ModellinesController extends Controller
                           '<div class="grey">'.
                             '<ul class="accordion modelline">'.
                               '<li>'.
-                                 '<a href="#">'.$modelline['name'].'</a>'.
+                                 '<a href="#">'.$model['name'].'</a>'.
                                  '<ul>'
                     ;
 
@@ -276,6 +292,8 @@ class ModellinesController extends Controller
                 //$models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
                 $models = ModelLine::model()->findAll($criteria);
                 $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
+                $nameForCategoryInBrand = CategorySeo::model()->find('category_id=:category and equipment_id=:equipment', array('category'=>$categoryId, 'equipment'=>Yii::app()->params['currentMaker']))->h1;
+                if(!empty($nameForCategoryInBrand)) $name = $nameForCategoryInBrand;
                 if(!empty($name))
                     $result[Yii::app()->params['currentMaker']] = $this->fillArray($models, $count, $name);
                     //$result[Yii::app()->params['currentMaker']] = $this->fillArray($models, $count, $title);
@@ -302,8 +320,9 @@ class ModellinesController extends Controller
                    $label = $parent->name;
                 }
                 
-                preg_match('/\d{2,}\./i', $label, $result);
-                $label = trim(substr($label, strlen($result[0])));
+                //preg_match('/\d{2,}\./i', $label, $result);
+                //$label = trim(substr($label, strlen($result[0])));
+                $label = $label;
                 
                 $modelline[$label][$count]['name'] = $currentModel->name;
                 $modelline[$label][$count]['id'] = $currentModel->id;

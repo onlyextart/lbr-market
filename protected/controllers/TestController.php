@@ -1,8 +1,14 @@
 <?php
 
-class ModelController extends Controller 
-{
-    public function actionShow($id) 
+class TestController extends Controller 
+{    
+    public function actionTest() 
+    {   
+        //set_time_limit(0);
+    }
+    
+    //public function actionShow($id = 920) 
+    public function actionDescription($id = 920) 
     {
         //set_time_limit(0);
         $hitProducts = array();
@@ -56,6 +62,8 @@ class ModelController extends Controller
             'hitProducts' => $hitProducts,
             'breadcrumbs' => $breadcrumbs
         );
+        
+//920
         
         if (!isset($_GET['ajax']))
             $this->render('model', $params);

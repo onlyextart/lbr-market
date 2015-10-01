@@ -79,7 +79,7 @@ class WebUser extends CWebUser
         $cookie->expire = time()+$duration;
 
         // Устанавливает cookie для всех поддоменов
-        $cookie->domain='.'.$app->params[host];
+        $cookie->domain='.'.$app->params['host'];
 
         $time = date('Y-m-d H:i:s');
         $data = array(

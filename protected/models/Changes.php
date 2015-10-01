@@ -8,6 +8,7 @@
  * @property string $date
  * @property string $description
  * @property integer $user_id
+ * @property string $user
  */
 class Changes extends CActiveRecord
 {
@@ -34,7 +35,7 @@ class Changes extends CActiveRecord
 			array('date, description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, date, description, user_id, user_name', 'safe', 'on'=>'search'),
+			array('id, date, description, user_id, user, user_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,7 +60,8 @@ class Changes extends CActiveRecord
 			'date' => 'Дата и время изменения',
 			'description' => 'Описание изменений',
 			'user_id' => 'ID пользователя',
-                        'user_name'=>'Логин пользователя'
+                        'user_name'=>'Логин пользователя',
+                        'user' => 'ID пользователя',
 		);
 	}
 
@@ -79,17 +81,39 @@ class Changes extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
-		$criteria->compare('id',$this->id);
+		$criteria = new CDbCriteria;
+		
+                if(!empty($this->user)) {
+                    if(is_numeric($this->user)) {
+                        $user = Yii::app()->db_auth->createCommand()
+                            ->select('login')
+                            ->from('user')
+                            ->where('id = '.trim($this->user))
+                            ->queryRow()
+                        ;
+                        $criteria->compare('user', $this->user);
+                        $criteria->addCondition('user like "'.$user['login'].'%"', 'OR');
+                    } else {
+                        $user = Yii::app()->db_auth->createCommand()
+                            ->select('id')
+                            ->from('user')
+                            ->where('login like "'.$this->user.'%"')
+                            ->queryRow()
+                        ;
+                        $criteria->addCondition('user like "'.$this->user.'%"');
+                        $criteria->addCondition('user = '.$user['id'], 'OR');
+                    }
+                } else $criteria->compare('user', $this->user);
+                
+                $criteria->compare('id',$this->id);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('description',$this->description,true);
-		$criteria->compare('user_id',$this->user_id);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-                        'sort' => array(
-                            'defaultOrder' => 'date DESC',
-                        ),
+                    'criteria'=>$criteria,
+                    'sort' => array(
+                        'defaultOrder' => 'date DESC',
+                    ),
 		));
 	}
 
@@ -105,13 +129,20 @@ class Changes extends CActiveRecord
 	}
         
         public static function getAuthUser($id){
-            if (isset($id)){
-                $sql="SELECT login FROM user WHERE id=".$id.";";
-                $command=Yii::app()->db_auth->createCommand($sql);
-                $user_name=$command->query()->readColumn();
-                return $user_name;
-            }
-            else{
+            if (isset($id)) {
+                
+                if(is_numeric($id)) {
+                    $sql = "SELECT surname, name, secondname FROM user WHERE id=".$id.";";   
+                } else {
+                    $sql = "SELECT surname, name, secondname FROM user WHERE login = '".trim($id)."';";
+                }
+                
+                $result = Yii::app()->db_auth->createCommand($sql)->queryRow();
+                if(!$result) $userName = $id;
+                else $userName = $result['surname'].' '.$result['name'].' '.$result['secondname'];
+                
+                return $userName;
+            } else {
                 return false;
             }
         }
@@ -122,6 +153,7 @@ class Changes extends CActiveRecord
             $change = new Changes();
             //AuthUser
             $change['user_id'] = Yii::app()->user->_id;
+            $change['user'] = Yii::app()->user->_id;
             $change['date'] = date('Y-m-d H:i:s');
             $change['description'] = $message;
             $change->save();

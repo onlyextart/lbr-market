@@ -1,25 +1,18 @@
-<div class="breadcrumbs">
-    <?php
-        /*$breadcrumbs['Тест'] = '/';
-        $breadcrumbs[] = 'Производитель';
-        Yii::app()->params['breadcrumbs'] = $breadcrumbs;  */
-        $this->widget('zii.widgets.CBreadcrumbs', array(
-            'links' => Yii::app()->params['breadcrumbs'],
-            'activeLinkTemplate' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="{url}">{label}</a></span>',
-            'inactiveLinkTemplate' => '{label}',
-            'homeLink' => '<span typeof="v:Breadcrumb"><a property="v:title" rel="v:url" href="/">Главная</a></span>',
-            'tagName' => 'span',
-            'htmlOptions' => array(
-                'xmlns:v' => 'http://rdf.data-vocabulary.org/#',
-            ),
-        ));
-    ?>
-</div>
+<?php
+    $this->widget('zii.widgets.CBreadcrumbs', array(
+        'links' => Yii::app()->params['breadcrumbs'],
+        'homeLink' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'/" itemprop="url"><span itemprop="title">Главная</span></a></div>',
+        'activeLinkTemplate' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'{url}" itemprop="url"><span itemprop="title">{label}</span></a></div>',
+        'inactiveLinkTemplate' => '{label}',
+    ));        
+?>
 <div class="subcategory-wrapper">
     <?php if(!empty($topText)): ?>
     <div class="text"><?php echo $topText?></div>
     <?php endif; ?>
+    <?php if(!empty($title)): ?>
     <h1><?php echo $title ?></h1>
+    <?php endif; ?>
     <div class="elements">
         <?php if(!empty($response)): ?>
         <?php echo $response; ?>
