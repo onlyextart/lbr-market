@@ -6,7 +6,9 @@ class ProductController extends Controller
         $data = Product::model()->findByPk($id);
         if(!$data)
             throw new CHttpException(404, 'Товар не найден');
-        
+        if(!$data->published)
+            throw new CHttpException(404, 'Товар не найден');
+        //echo $data->published; exit;
         $image = Product::model()->getImage($data->image);
         $maker = ProductMaker::model()->findByPk($data->product_maker_id);
               
