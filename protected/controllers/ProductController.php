@@ -76,6 +76,7 @@ class ProductController extends Controller
         ;
         
         $criteria = new CDbCriteria;
+        $criteria->addCondition('published = 1');
         $criteria->addInCondition('id', $temp);
         $criteria->addCondition('image IS NOT NULL');
         $relatedProducts = Product::model()->findAll($criteria);
@@ -121,6 +122,7 @@ class ProductController extends Controller
         ;
         
         $criteria = new CDbCriteria;
+        $criteria->addCondition('t.published = 1');
         $criteria->addInCondition('t.id', $temp);
         $criteria->order = 't.count desc, t.name';
         //if (!empty($filial)) $criteria->addInCondition('priceInFilial.filial_id', array($filial));
