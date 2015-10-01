@@ -261,6 +261,7 @@ class Product extends CActiveRecord {
             $criteria->addInCondition('product_group_id', $groups);
         }
         
+        $criteria->addCondition('published = 1');
         
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
