@@ -13,7 +13,7 @@
             <h1>ПОИСК ПО РАЗДЕЛАМ</h1>
         </div>
         <div class="query-field">
-                <input id="full-search" type="text" name="q" value="<?php echo htmlentities($input) ?>" placeholder="Найти" autocomplete="off"/>
+                <input id="full-search" type="text" name="q" value="<?php echo $input ?>" placeholder="Найти" autocomplete="off"/>
                 <ul class="full-quick-result"></ul>
                 <input class="btn full-search-button" type="button" value="Найти">
         </div>
