@@ -20,7 +20,7 @@ class SearchController extends Controller
                 $result = Yii::app()->db->cache(1000, $dependency)->createCommand()
                     ->select('name, path')
                     ->from('product')
-                    ->where('lower(name) like lower("%'.$query.'%")')
+                    ->where('published = 1 and lower(name) like lower("%'.$query.'%")')
                     ->limit(7)
                     ->queryAll()
                 ;
@@ -74,11 +74,11 @@ class SearchController extends Controller
                 
                 $crit = new CDbCriteria();
                 $crit->order = 'count desc, name';
-                $crit->condition = ' lower(name) like lower(:input)';
+                $crit->condition = 'published = 1 and lower(name) like lower(:input)';
                 $crit->params = array(':input' => '%' . $input . '%');
                 
-                $dependecy = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-                $productProvider = new CActiveDataProvider(Product::model()->cache(1000, $dependecy, 2), array ( 
+                //$dependecy = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
+                $productProvider = new CActiveDataProvider(Product, array ( 
                 //$productProvider = new CActiveDataProvider(Product::model(), array ( 
                     'criteria'=>$crit,
                     'pagination' => array ( 
