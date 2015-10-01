@@ -121,6 +121,10 @@
                 'htmlOptions' => array(
                     'width' => '20%'
                 ),
+                'filter' => array(
+                    '1' => Product::IN_STOCK_SHORT,
+                    '2' => Product::NO_IN_STOCK
+                ),
                 //'value'  => '($data->count > 0 ? Product::IN_STOCK_SHORT : Product::NO_IN_STOCK)',
                 'type' => 'raw',
                 'value' => function($data) {
@@ -153,11 +157,7 @@
                     $result .= '</div></div>';
 
                     return $result;
-                },
-                'filter' => array(
-                    '1' => Product::IN_STOCK_SHORT,
-                    '2' => Product::NO_IN_STOCK
-                )
+                }
             ),
             array(
                 'header' => 'Группа',
