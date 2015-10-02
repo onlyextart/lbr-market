@@ -206,6 +206,14 @@ class User extends CActiveRecord
             return $list;
         } 
         
+        public function getFilialName($id){
+            $filial= User::model()->findByPk($id)->filial;
+            if (isset($filial)){
+                $filial_name=Filial::model()->findByPk($filial)->name;
+            }
+            return $filial_name;
+        }
+        
         //  Метод возвращет $cost значное число для хэширования пароля, где: 
         //  $cost - количество возвращаемых знаков
         public function blowfishSalt($cost = 13)

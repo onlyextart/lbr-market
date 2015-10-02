@@ -270,6 +270,43 @@ header #region-label{
     top: 80px;
     right: 20%;*/
 }
+.page-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #d1d0d0;
+  display: block;
+  opacity: 0.7;
+  z-index: 1100; 
+  font-weight: bold;
+}
+.page-overlay span {
+    display: inline-block;
+}
+.page-overlay > div {
+    background-color: #fff;
+    margin-top: 200px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border: 2px #5f5e5e solid;
+    width: 220px;
+    height: 50px;
+    text-align: center;
+    opacity: 1;
+}
+.page-overlay .loader
+{
+    background: rgba(0, 0, 0, 0) url("/images/loading.gif") no-repeat scroll 0 0;
+    padding-left: 25px;
+    display: inline-block;
+    height: 17px;
+    width: 200px;
+}
+header #region-label.reg-user{
+    padding-top:0px;
+}
 /*header #region{
   text-transform: uppercase;
   color: #727272;
@@ -287,6 +324,29 @@ header #select_region{
   background: #d7d4d4 url("/images/main_menu_bg.png") repeat-x scroll 50% 50%;
   outline: none;
   border:none;
+}
+header #region-label a#select_region_link{
+    display:block;
+    float:left;
+    padding:0px 0px 0px 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color:#444;
+}
+header #region-label>span{
+    display:block;
+    float:left;
+    color:#444;
+}
+header #region-label #arrow{
+    margin:2px 0px 0px 5px;
+    display:block;
+    float:left;
+    empty-cells: show;
+    background: rgba(0, 0, 0, 0) url("/images/carousel/carousel_control_small.png") no-repeat scroll 0 -12px;
+    left:75px;
+    height:14px;
+    width:19px;
 }
 #region-label .chosen-container-single .chosen-single{
    background:transparent; 
@@ -469,13 +529,13 @@ header div.menu-line ul.menu-line-items:after {
     z-index: 100;
 }
 header div.menu-line ul.menu-line-items>li.login-elem{
-   width:155px;
+   width:250px;
 }
 header div.menu-line ul.menu-line-items>li.login-elem .elem{
-   width:135px;
+   width:250px;
    text-align: center;
    text-transform: uppercase;
-   font-size: 12px;
+   font-size: 13px;
 }
 /*header div.menu-line ul.menu-line-items>li:not(.empty-li):hover {
     background: #E1E1E1;
@@ -1805,10 +1865,10 @@ input#full-search
 /*----- end Static pages --------------*/
 /*----- start search---------------*/
 .search-input{
-    width:785px;
+    width:690px;
 }
 .search-input input {
-    width: 87%;
+    width: 66%;
     height:23px;
     padding:2px 5px;
 }
@@ -3572,10 +3632,10 @@ div.ui-widget-header{
 }
 
 /*----- end QuickForm ---------------*/
-.phone{
+.phone_main{
     position:absolute;
     left:725px;
-    top:20px;
+    top:10px;
     text-align: center; 
     font: 'Trebuchet MS'; 
     font-size: 25px;

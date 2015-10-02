@@ -58,7 +58,7 @@
                             <span>Сервис</span>
                         </a>
                     </li>
-                    <div class="phone">
+                    <div class="phone_main">
                         <div class="phone_number">8-800-5553219</div>
                         <div class="phone_text">Помощь в подборе запчастей</div>                        
                     </div>
@@ -77,14 +77,14 @@
             </div>-->
             
             <div class="map">
-                 <a href="http://www.lbr.ru/company/" title="О компании"><span>О КОМПАНИИ</span></a>
+<!--                 <a href="http://www.lbr.ru/company/" title="О компании"><span>О КОМПАНИИ</span></a>
                  <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
                    <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
-                </a>
-<!--                <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
-                    <span>Контакты</span>
-                    <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
                 </a>-->
+                <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
+                    <span>КОНТАКТЫ</span>
+                    <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
+                </a>
             </div>
             <div class="main-menu">
                 <ul id="nav">
@@ -93,15 +93,14 @@
                     <li><a href="/sale/"><span>Распродажа</span></a></li>
                     <li><a href="#"><span>Бренды</span></a></li>
                     <li>
-                        <a href="#"><span>О нас</span></a>
+                        <a href="#"><span>Информация</span></a>
                         <ul class="submenu">
                             <li><a href="#">Мы online</a></li>
                             <li><a href="/payment/">Условия и оплата</a></li>
                             <li><a href="/delivery/">Доставка</a></li>
                             <li><a href="/garantiya/">Гарантия</a></li>
-                            <li><a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/" target="_blank">
-                                    Контакты
-                                </a>
+                            <li>
+                                <a href="http://www.lbr.ru/company/" title="О компании"><span>О компании</span></a>
                             </li>
                         </ul>
                     </li>
@@ -124,7 +123,13 @@
                                <!--<div id="region-label" class="elem">Ваш филиал: <span id="region">Не выбран</span></div>-->
                            <?php endif; ?>
                            <?php else: ?>
-                           <div id="region-label" class="elem"></div>   
+                               <?php if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)): ?>
+                               <div id="region-label" class="elem reg-user"><span>Ваш филиал:</span><a href="/user/cabinet/index/" id="select_region_link">
+                                   <?php echo User::model()->getFilialName(Yii::app()->user->_id);?></a><span id="arrow"></span>
+                               </div> 
+                               <?php else: ?>
+                                    <div id="region-label" class="elem"></div> 
+                               <?php  endif; ?>
                        <?php  endif; ?>  
                     </li>
                     
@@ -172,6 +177,7 @@
                 </ul>
             </div>-->
         </header>
+        <div class="page-overlay" style="display: none"><div><span>Изменение филиала...</span><span class="loader"></span></div></div>
         <div class="wrapper">
             <div class="left-sidebar">
                 <?php $this->widget('ext.menuChoice.MenuChoice'); ?>
@@ -227,7 +233,6 @@
     </body>
 </html>
 <script>
-    $("#select_region").chosen({disable_search:true});
     /*function loadJs(url) {
         var script  = document.createElement( 'script' );
         script.src  = url;

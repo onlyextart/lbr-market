@@ -38,6 +38,7 @@ $(document).ready(function($){
     $('.no-price-label').easyTooltip({content:'Цена будет указана в счет-фактуре'});
     
     $('#select_region').change(function(event,params) {
+        $(".page-overlay").show();
         $.ajax({
             type: 'POST',
             url: '/site/setRegion',
@@ -228,6 +229,8 @@ $(document).ready(function($){
             $(this).addClass('show-text').text('Скрыть'); 
         }
     });
+    
+    $("#select_region").chosen({disable_search:true});
     // end seo-text in bottom
 });
 
