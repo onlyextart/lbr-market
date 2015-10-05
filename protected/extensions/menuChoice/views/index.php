@@ -1,12 +1,12 @@
 <div class="left-menu-wrapper grey">
-    <div class="search-input">
+<!--    <div class="search-input">
         <p>Поиск по сайту</p>
         <form id="form_search" method="post">
             <input id="search" type="text" name="q" placeholder="Найти" autocomplete="off"/>
             <ul class="quick-result"></ul> 
             <input class="search-button" type="button" value=""/>
         </form>
-    </div>
+    </div>-->
     <?php if(!empty($filterCategory) || !empty($filterMaker)): ?>
     <div class="rounded">
         <div class="label">Текущий отбор</div>
@@ -35,7 +35,7 @@
     </div>
     <?php endif; ?>
     <?php if(!empty($types)): ?>
-    <div class="label">Выбор по типу техники:</div>
+    <div class="label">КАТАЛОГ ТОВАРОВ</div>
     <div class="l-menu-wrapper">
         <ul class="accordion" id="accordion-type">
             <?php /*foreach($types as $type) : ?>
@@ -77,33 +77,33 @@
         </ul>
     </div>
     <?php endif; ?>
-    <?php if(!empty($makers)): ?>
-    <div class="label">Выбор по производителю техники:</div>
+    <?php //if(!empty($makers)): ?>
+<!--    <div class="label">Выбор по производителю техники:</div>
     <div class="l-menu-wrapper">
         <ul class="accordion" id="accordion-maker">
-            <?php foreach($makers as $maker): ?>
+            <?php //foreach($makers as $maker): ?>
             <?php
-                $makerHref = '/manufacturer'.$maker['path'].'/';
-                if(!empty(Yii::app()->params['currentType'])){
-                    $makerHref = '/catalog'.$types[Yii::app()->params['currentType']]['path'].$maker['path'].'/';
-                }
+//                $makerHref = '/manufacturer'.$maker['path'].'/';
+//                if(!empty(Yii::app()->params['currentType'])){
+//                    $makerHref = '/catalog'.$types[Yii::app()->params['currentType']]['path'].$maker['path'].'/';
+//                }
             ?>
-            <li elemId="<?php echo $maker['id'] ?>">
-                <?php if($maker['id'] == Yii::app()->params['currentMaker']): ?>
-                <a href="<?php echo $makerHref ?>" class="active">
+            <li elemId="<?php //echo $maker['id'] ?>">
+                <?php //if($maker['id'] == Yii::app()->params['currentMaker']): ?>
+                <a href="<?php //echo $makerHref ?>" class="active">
                     <span class="icon"></span>
-                    <span><?php echo $maker['name'] ?></span>
+                    <span><?php //echo $maker['name'] ?></span>
                 </a>
-                <?php else: ?>
-                <a href="<?php echo $makerHref ?>">
-                    <span><?php echo $maker['name'] ?></span>
+                <?php //else: ?>
+                <a href="<?php //echo $makerHref ?>">
+                    <span><?php //echo $maker['name'] ?></span>
                 </a>
-                <?php endif; ?>
+                <?php //endif; ?>
             </li>
-            <?php endforeach; ?>
+            <?php //endforeach; ?>
         </ul>
-    </div>
-    <?php endif; ?>
+    </div>-->
+    <?php //endif; ?>
 </div>
 <script>
 (function($){

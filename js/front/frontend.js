@@ -37,30 +37,44 @@ $(document).ready(function($){
     
     $('.no-price-label').easyTooltip({content:'Цена будет указана в счет-фактуре'});
     
-    $('#confirm-region').click(function() {
-        var selector = $('#select-region').find(":selected");
+    $('#select_region').change(function(event,params) {
+        $(".page-overlay").show();
         $.ajax({
             type: 'POST',
             url: '/site/setRegion',
             dataType: 'json',
             data:{
-                id: selector.val(),
+                id: params.selected,
             },
             success: function() {
                 location.reload();
-                /*$("#region").text(selector.text());
-                if($("#setRegion").dialog("isOpen")) {
-                    $("#setRegion").dialog('close');
-                }*/
         }});           
     });
-    /* end choose filial */
     
-    $(".l-menu-wrapper").mCustomScrollbar({
-        scrollButtons:{
-            enable:true
-        }
-    });
+//    $('#confirm-region').click(function() {
+//        var selector = $('#select-region').find(":selected");
+//        $.ajax({
+//            type: 'POST',
+//            url: '/site/setRegion',
+//            dataType: 'json',
+//            data:{
+//                id: selector.val(),
+//            },
+//            success: function() {
+//                location.reload();
+//                /*$("#region").text(selector.text());
+//                if($("#setRegion").dialog("isOpen")) {
+//                    $("#setRegion").dialog('close');
+//                }*/
+//        }});           
+//    });
+    /* end choose filial */
+//    
+//    $(".l-menu-wrapper").mCustomScrollbar({
+//        scrollButtons:{
+//            enable:true
+//        }
+//    });
     
     $(".one_banner h3").dotdotdot({
         ellipsis : '... ',
@@ -215,6 +229,8 @@ $(document).ready(function($){
             $(this).addClass('show-text').text('Скрыть'); 
         }
     });
+    
+    $("#select_region").chosen({disable_search:true});
     // end seo-text in bottom
 });
 
