@@ -16,9 +16,9 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?12');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?13');
             Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?1');
+            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?2');
 
             if(empty(Yii::app()->request->cookies['lbrfilial'])) {
                 $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
@@ -91,11 +91,11 @@
                     <li><a href="/"><span>Главная</span></a></li>
                     <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
                     <li><a href="/sale/"><span>Распродажа</span></a></li>
-                    <li><a href="#"><span>Бренды</span></a></li>
+<!--                    <li><a href="#"><span>Бренды</span></a></li>-->
                     <li>
                         <a href="#"><span>Информация</span></a>
                         <ul class="submenu">
-                            <li><a href="#">Мы online</a></li>
+<!--                            <li><a href="#">Мы online</a></li>-->
                             <li><a href="/payment/">Условия и оплата</a></li>
                             <li><a href="/delivery/">Доставка</a></li>
                             <li><a href="/garantiya/">Гарантия</a></li>

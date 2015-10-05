@@ -1898,7 +1898,7 @@ input#full-search
     z-index: 101;
 }
 .quick-result{
-    width: 87%;
+    width: 65%;
     margin-left: 56px;
 }
 .full-quick-result {
@@ -2840,7 +2840,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
 }
 .left-menu-wrapper .label{
     color: #5f5e5e;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     margin: 0px 0px 5px 15px;
 }
