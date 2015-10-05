@@ -254,44 +254,6 @@
     });
 })(jQuery);
 </script>
-<!--<script>-->
-    /*function loadJs(url) {
-        var script  = document.createElement( 'script' );
-        script.src  = url;
-        script.type = 'text/javascript';
-        document.getElementsByTagName( 'head' )[0].appendChild( script );
-    }*/
-    //loadJs("/js/alertify.min.js");
-    //loadJs("/js/jquery.mCustomScrollbar.concat.min.js");
-    //loadJs("/js/jquery.carouFredSel.min.js");
-    //loadJs("/js/jquery.jcarousel.min.js");
-    //loadJs("/js/jquery.dotdotdot.min.js");
-    //loadJs("/js/jquery.dcjqaccordion.2.7.min.js");
-    //loadJs("/js/easyTooltip.js");
-    //loadJs("/js/jquery.cookie.min.js");
-    //loadJs("/js/jquery.hoverIntent.minified.js");
-    
-    
-    //loadJs("/js/front/search.js");
-    //loadJs("/js/front/cart.js");
-    //loadJs("/js/front/frontend.js");
-    
-//  $(function() {
-        <?php 
-        /* 
-        * Share cookie to another user
-        */
-//        $cookies = Yii::app()->request->cookies;
-//        if((Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && Yii::app()->user->isShop)) && (isset($cookies['ct']->value) || isset($cookies['sb']->value))): 
-        ?>
-//        $('a').each(function(index) {
-//            var element = $(this);
-//            var href = element.attr('href')+'?sb=<?php //echo $cookies['sb']->value ?>&ct=<?php //echo $cookies['ct']->value ?>';
-//            element.attr('href', href);
-//        });
-        <?php //endif; ?>
-//  });
-<!--</script>-->
 <!----- Universal Analitics ----->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
