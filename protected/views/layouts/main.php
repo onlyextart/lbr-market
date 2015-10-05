@@ -233,6 +233,28 @@
     </body>
 </html>
 <script>
+(function($){
+    $(window).load(function() {
+        $('#search').focus(function() {
+            $('#search').blur(function(){
+                $('.quick-result').fadeOut(200);
+            });
+            
+            var ajax = new AjaxQuickSearch();
+        });
+        
+        var search_enter=new QuickSearchEnter();
+        
+        $('.search-button').click(function() {
+            var input = $.trim($('#search').val());
+            if(input.length > 0)
+               document.location.href = "/search/show/input/" + input;
+        });
+        
+    });
+})(jQuery);
+</script>
+<!--<script>-->
     /*function loadJs(url) {
         var script  = document.createElement( 'script' );
         script.src  = url;
@@ -269,7 +291,7 @@
 //        });
         <?php //endif; ?>
 //  });
-</script>
+<!--</script>-->
 <!----- Universal Analitics ----->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
