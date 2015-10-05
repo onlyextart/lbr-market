@@ -57,13 +57,11 @@ class TestController extends Controller
         $params = array(
             'products' => $products,
             'dataProvider' => $dataProvider,
-            'title' => $title,
+            'title'  => $title,
             'filter' => $filter,
             'hitProducts' => $hitProducts,
             'breadcrumbs' => $breadcrumbs
         );
-        
-//920
         
         if (!isset($_GET['ajax']))
             $this->render('model', $params);
