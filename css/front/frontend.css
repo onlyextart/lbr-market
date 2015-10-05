@@ -265,7 +265,7 @@ header #region-label{
   color: #727272;
   font-weight: bold;
   font-size: 13px;
-  width:310px; 
+  width:356px; 
 /*    position: absolute;
     top: 80px;
     right: 20%;*/
@@ -1865,7 +1865,7 @@ input#full-search
 /*----- end Static pages --------------*/
 /*----- start search---------------*/
 .search-input{
-    width:690px;
+    width:644px;
 }
 .search-input input {
     width: 66%;

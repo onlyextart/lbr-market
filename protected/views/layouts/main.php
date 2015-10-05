@@ -16,7 +16,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?13');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?14');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?2');
 
@@ -233,42 +233,26 @@
     </body>
 </html>
 <script>
-    /*function loadJs(url) {
-        var script  = document.createElement( 'script' );
-        script.src  = url;
-        script.type = 'text/javascript';
-        document.getElementsByTagName( 'head' )[0].appendChild( script );
-    }*/
-    //loadJs("/js/alertify.min.js");
-    //loadJs("/js/jquery.mCustomScrollbar.concat.min.js");
-    //loadJs("/js/jquery.carouFredSel.min.js");
-    //loadJs("/js/jquery.jcarousel.min.js");
-    //loadJs("/js/jquery.dotdotdot.min.js");
-    //loadJs("/js/jquery.dcjqaccordion.2.7.min.js");
-    //loadJs("/js/easyTooltip.js");
-    //loadJs("/js/jquery.cookie.min.js");
-    //loadJs("/js/jquery.hoverIntent.minified.js");
-    
-    
-    //loadJs("/js/front/search.js");
-    //loadJs("/js/front/cart.js");
-    //loadJs("/js/front/frontend.js");
-    
-//  $(function() {
-        <?php 
-        /* 
-        * Share cookie to another user
-        */
-//        $cookies = Yii::app()->request->cookies;
-//        if((Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && Yii::app()->user->isShop)) && (isset($cookies['ct']->value) || isset($cookies['sb']->value))): 
-        ?>
-//        $('a').each(function(index) {
-//            var element = $(this);
-//            var href = element.attr('href')+'?sb=<?php //echo $cookies['sb']->value ?>&ct=<?php //echo $cookies['ct']->value ?>';
-//            element.attr('href', href);
-//        });
-        <?php //endif; ?>
-//  });
+(function($){
+    $(window).load(function() {
+        $('#search').focus(function() {
+            $('#search').blur(function(){
+                $('.quick-result').fadeOut(200);
+            });
+            
+            var ajax = new AjaxQuickSearch();
+        });
+        
+        var search_enter=new QuickSearchEnter();
+        
+        $('.search-button').click(function() {
+            var input = $.trim($('#search').val());
+            if(input.length > 0)
+               document.location.href = "/search/show/input/" + input;
+        });
+        
+    });
+})(jQuery);
 </script>
 <!----- Universal Analitics ----->
 <script>
