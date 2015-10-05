@@ -2585,6 +2585,22 @@ $(document).ready(function($){
                 location.reload();
         }});           
     });
+    //search in main panel
+    $('#search').focus(function() {
+            $('#search').blur(function(){
+                $('.quick-result').fadeOut(200);
+            });
+            
+            var ajax = new AjaxQuickSearch();
+        });
+        
+        var search_enter=new QuickSearchEnter();
+        
+        $('.search-button').click(function() {
+            var input = $.trim($('#search').val());
+            if(input.length > 0)
+               document.location.href = "/search/show/input/" + input;
+        });
     
 //    $('#confirm-region').click(function() {
 //        var selector = $('#select-region').find(":selected");
