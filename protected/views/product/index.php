@@ -6,12 +6,13 @@
         'inactiveLinkTemplate' => '{label}',
     ));       
     
-    $makerLabel = $maker->name;
-    //$path = Yii::getPathOfAlias('webroot').$maker->logo;
-    if ($maker->published && !empty($maker->logo)) { // && file_exists(Yii::getPathOfAlias('webroot').$maker->logo)) {
-        $makerLabel = '<a href="/product-maker'.$maker->path.'/">' .$makerLabel . '</a>';
-    }
-                    
+    if(!empty($maker)) {
+        $makerLabel = $maker->name;
+        //$path = Yii::getPathOfAlias('webroot').$maker->logo;
+        if ($maker->published && !empty($maker->logo)) { // && file_exists(Yii::getPathOfAlias('webroot').$maker->logo)) {
+            $makerLabel = '<a href="/product-maker'.$maker->path.'/">' .$makerLabel . '</a>';
+        }
+    }               
 ?>
 <div>
     <?php if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)): // logged user ?>
