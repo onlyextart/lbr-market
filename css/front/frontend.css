@@ -1898,8 +1898,8 @@ input#full-search
     z-index: 101;
 }
 .quick-result{
-    width: 65%;
-    margin-left: 56px;
+    width: 65.5%;
+    margin-left: 53px;
 }
 .full-quick-result {
     top: 27px;
@@ -3640,7 +3640,7 @@ div.ui-widget-header{
 .phone_main{
     position:absolute;
     left:725px;
-    top:10px;
+    top:15px;
     text-align: center; 
     font: 'Trebuchet MS'; 
     font-size: 25px;
