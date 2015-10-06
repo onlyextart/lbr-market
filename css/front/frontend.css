@@ -2402,6 +2402,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 }
 #prod-info{
     margin-bottom: 40px;
+    padding-left: 10px;
 }
 #prod-info .price_link a{
     color: #F39314;
