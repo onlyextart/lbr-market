@@ -214,8 +214,9 @@
     <div class="product-add-info">
         <?php echo $data->additional_info; ?>
     </div>
-    <?php endif; ?>
     <div class="clearfix"></div>
+    <?php endif; ?>
+    
     <div class="product-info">
         <?php if(!empty($analogProducts)): ?>
         <div class="left-menu-wrapper grey" style="display: none">
