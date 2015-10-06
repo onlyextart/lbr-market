@@ -2302,7 +2302,12 @@ input.small-cart-button,input.small-cart-button-wishlist{
     display: table-row;
     border-bottom: 1px solid #f39314;
 }
-
+.product-params a{
+    color: #333333;
+}
+.product-params a:hover{
+    text-decoration: none;
+}
 .product-params > div > span {
     display: table-cell;
     padding: 5px;
