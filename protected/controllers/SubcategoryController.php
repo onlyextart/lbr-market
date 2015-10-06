@@ -74,11 +74,11 @@ class SubcategoryController extends Controller
             }
 
             // bradcrumbs
+            $breadcrumbs[] = $categoryRoot->name;
+            
             $title = $categoryRoot->name.$makerName;
             if(!empty($categoryRoot->h1))
                 $title = $categoryRoot->h1;
-            
-            $breadcrumbs[] = $title;
             
             Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
             if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;            
