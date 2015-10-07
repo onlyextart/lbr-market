@@ -432,14 +432,17 @@ header div.main-menu ul#nav>li>a {
 header div.main-menu ul#nav > li:hover {
     border-bottom: solid 2px #fbd7a6;
 }
+header div.main-menu ul#nav > li:last-child:hover {
+    border-bottom: none;
+}
 header div.main-menu ul.submenu {
     display: none;
     position: absolute;
     width: 140px;
-    top: 17px;
+    top: 16px;
     left: 0;
     background-color: white;
-    border: 1px solid #fbd7a6;
+    border: 2px solid #fbd7a6;
     z-index:1001;
 }
 header div.main-menu ul.submenu > li {
@@ -756,7 +759,7 @@ header ul.dropdown ul ul {
 #shop-description{
     font-size: 15px;
     font-weight: 400;
-    margin: 5px 5px 20px;
+    margin: 30px 5px 20px;
     line-height: 20px;
     text-align: justify;
 }
@@ -960,16 +963,27 @@ input#full-search
     font-size:12px;
 }
 
+#cart-wrapper-right{
+    border:2px #f39314 solid;
+    border-radius: 10px;
+    width:100%;
+}
 .cart img{
-    margin-top: 15px;
+    margin-top: 5px;
     margin-left: 15px;
+}
+.cart img.cart-reg-user{
+    margin-top: 15px;
 }
 .cart-label{
     display: inline-block;
     float: right;
     font-weight: bold;
     color: #5f5e5e;
-    margin: 35px 20px 0 0;
+    margin: 25px 20px 0 0;
+}
+.cart-label.cart-label-reg-user{
+    margin: 30px 20px 0 0;
 }
 .cart-label a{
     color: #f39314;
@@ -1225,7 +1239,7 @@ input#full-search
 
 .user-info
 {
-    margin: 45px 20px 10px;
+    margin: 20px 20px 10px;
 }
 .user-info
 {
@@ -1815,8 +1829,25 @@ input#full-search
 }
 .hit-label-main{
     margin-left: 5px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 8px;
+    margin-bottom: 13px;
+    text-align: center;
+}
+hr#hit-line-first{
+    margin:5px auto;
+    width:90%;
+    border: none; /* Убираем границу для браузера Firefox */
+    color: #f39314; /* Цвет линии для остальных браузеров */
+    background-color: #f39314; /* Цвет линии для браузера Firefox и Opera */
+    height: 1px; /* Толщина линии */
+}
+hr#hit-line-second{
+    margin:3px auto;
+    width:65%;
+    border: none; /* Убираем границу для браузера Firefox */
+    color: #f39314; /* Цвет линии для остальных браузеров */
+    background-color: #f39314; /* Цвет линии для браузера Firefox и Opera */
+    height: 1px; /* Толщина линии */
 }
 /*----- end Block_info ----------------*/
 /*----- start Static pages ------------*/
@@ -1861,6 +1892,21 @@ input#full-search
 }*/
 .article p, .article div{
     padding-bottom: 10px;
+}
+#aboutus-photos{
+    width:780px;
+    margin:20px 5px 0px 5px;
+}
+#aboutus-photos .aboutus-photo{
+    width:253px;
+    float:left;
+    margin:0px 0px 0px 4px;
+}
+#aboutus-photos .aboutus-photo:first-child{
+    margin:0px 0px 0px 0px;
+}
+#aboutus-photos .aboutus-photo img{
+    width:253px;
 }
 /*----- end Static pages --------------*/
 /*----- start search---------------*/
@@ -2838,7 +2884,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     padding: 10px;
     margin-right: 10px;
 }
-.left-menu-wrapper .label{
+.left-menu-wrapper .label, .user-info .label{
     color: #5f5e5e;
     font-size: 13px;
     font-weight: bold;
@@ -3593,9 +3639,9 @@ div.ui-widget-header{
     background: -ms-linear-gradient(top,#fbc173,#f39314);
     background: linear-gradient(top,#fbc173,#f39314);
     cursor: pointer;
-    margin-top: 10px 10px;
-    width: 70%;
-    font: 17px "Trebuchet MS";
+    margin-top: 10px;
+    width: 80%;
+    font: 13px "Trebuchet MS";
     font-weight: bold;
     margin-top: 10px;
 }
@@ -3624,7 +3670,10 @@ div.ui-widget-header{
     font-weight: bold;
     text-indent: 15px;
 }
-
+.text_quickform{
+   text-indent: 0px;
+   text-align: center;
+}
 .phone_note
 {
     font-size: 11px;
