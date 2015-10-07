@@ -1602,7 +1602,7 @@ input#full-search
 }
 
 #sale-block-wrapper > span {
-    text-align: center;
+    margin-left: 62px;
     margin-top: 20px;
     margin-bottom: 15px;
     color: #333333;
