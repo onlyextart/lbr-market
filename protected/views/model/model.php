@@ -63,7 +63,7 @@
                 'name' => 'name',
                 'type' => 'raw',
                 'value' => 'CHtml::link($data->name, array("$data->path"))',
-                'htmlOptions' => array('width' => '20%')
+                'htmlOptions' => array('width' => '130px')
             ),
             array(
                 'header' => '',
@@ -81,7 +81,7 @@
             array(
                 'header' => '',
                 'filter' => false,
-                'htmlOptions' => array('width' => '15%', 'align' => 'center'),
+                'htmlOptions' => array('width' => '150px', 'align' => 'center'),
                 'type' => 'raw',
                 'value' => function($data) {
                     if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {
@@ -119,7 +119,7 @@
                 'header' => 'В наличии',
                 'name' => 'count',
                 'htmlOptions' => array(
-                    'width' => '20%'
+                    'width' => '150px'
                 ),
                 'filter' => array(
                     '1' => Product::IN_STOCK_SHORT,
@@ -165,7 +165,7 @@
                 'type' => 'raw',
                 'value' => 'ProductGroup::model()->findByPk($data->product_group_id)->name',
                 //'htmlOptions' => array('width'=>'15%', 'padding-right'=>'5px'),
-                'htmlOptions' => array('align' => 'center'),
+                'htmlOptions' => array('width'=>'200px', 'align' => 'center'),
                 'filter' => $filter,
             ),
         ),
