@@ -2639,15 +2639,15 @@ $(document).ready(function($){
         ellipsis : '... ',
         wrap	 : 'letter',
     });
-    
-    /*$('#accordion-sparepart').dcAccordion({
+    // product page
+    $('#accordion-sparepart').dcAccordion({
         eventType: 'click',
         saveState: true,
         disableLink: true,
         speed: 'fast',
         classActive: 'test',
         showCount: false
-    });*/
+    });
     
     $('.modelline').dcAccordion({
         eventType: 'click',

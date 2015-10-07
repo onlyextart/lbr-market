@@ -25,9 +25,12 @@ class ProductController extends Controller
             $category = Category::model()->findByPk($modelline->category_id);
             
             $categoryParent = $category->parent()->find();
-            preg_match('/\d{2,}\./i', $categoryParent->name, $result);
             Yii::app()->params['currentType'] = $categoryParent->id;
-            $label = trim(substr($categoryParent->name, strlen($result[0])));
+            
+            //preg_match('/\d{2,}\./i', $categoryParent->name, $result);
+            //$label = trim(substr($categoryParent->name, strlen($result[0])));
+            
+            $label = $categoryParent->name;
             //$breadcrumbs[$label] = '/subcategory/index/id/'.$categoryParent->id;
             $breadcrumbs[$label] = '/catalog'.$categoryParent->path.'/';
             $breadcrumbs[$category->name] = '/catalog'.$category->path.'/';
