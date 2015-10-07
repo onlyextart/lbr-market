@@ -77,7 +77,7 @@ class SiteController extends Controller {
         }
 
         if (!empty($hitProducts)) {
-            $result = '<span class="hit-label-main">Рекомендуем</span>' .
+            $result = '<hr id="hit-line-first"/><hr id="hit-line-second"/><span class="hit-label-main">Рекомендуем</span>' .
                     '<div class="best-sales">'
             ;
 
@@ -131,6 +131,11 @@ class SiteController extends Controller {
         //Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         
         $this->render('staticPage', array('data' => $model), false, true);
+    }
+    
+    public function actionAboutus()
+    {
+        $this->render('aboutus', array());
     }
 
     public function actions() {

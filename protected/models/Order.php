@@ -120,7 +120,7 @@ class Order extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-                $criteria->order = 'status_id, date_created';
+                //$criteria->order = 'status_id, date_created';
 		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('delivery_id',$this->delivery_id);

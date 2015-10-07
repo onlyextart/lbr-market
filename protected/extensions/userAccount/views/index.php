@@ -10,7 +10,7 @@ if(!Yii::app()->user->isGuest) {
     $name = (!empty($user->name))? $user->name : $user->login;
 ?>
     <div class='user-info'>
-        <?php echo 'Добро пожаловать, '.$name.'!'; ?>
+        <?php echo '<span class="label">ДОБРО ПОЖАЛОВАТЬ</span>, '.$name.'!'; ?>
     </div>
     <?php if(Yii::app()->user->isShop) { ?>
             <ul class="user-menu">
@@ -27,11 +27,13 @@ if(!Yii::app()->user->isGuest) {
                 <?php } ?>
                 <li><a href="/user/logout/" class="exit">Выход</a></li>
             </ul>
+
             <center>
-                <?php echo CHtml::button('Отправить заявку', array('submit' =>array('/site/quickform/'), 'class'=>'buttonform')); ?>    
+                <?php echo CHtml::button('РАСЧЕТ ЗАЯВКИ', array('submit' =>array('/site/quickform/'), 'class'=>'buttonform')); ?>    
             </center>
-            <a href="/cart/" class="cart"><img src="/images/cart.png" alt="Корзина"/></a>
-            <div class="cart-label">В корзине <a id="cart-count" href="/cart/"><?php echo $cartCount ?></a></div>
+            <a href="/cart/" class="cart"><img class="cart-reg-user" src="/images/cart.png" alt="Корзина"/></a>
+            <div class="cart-label cart-label-reg-user">В корзине <a id="cart-count" href="/cart/"><?php echo $cartCount ?></a></div>
+
     <?php }  else { ?>
                 <ul class="user-menu">
                     <?php if(Yii::app()->user->checkAccess('shopRead')){ ?>
@@ -50,16 +52,17 @@ if(!Yii::app()->user->isGuest) {
     )); ?>
     
     <div class="text_quickform">
-        <p>Вы можете оформить заявку, и  в кратчайшие сроки наши специалисты произведут подбор запасных частей согласно заявке и указанным моделям техники.</p>
+        <p>РАСЧЕТ ЗАЯВКИ</p>
+        <center>
+            <?php echo CHtml::button('ОТПРАВИТЬ', array('submit' =>array('/site/quickform/'), 'class'=>'buttonform')); ?>    
+        </center>
     </div>
     
     <div class="clearfix"></div>
-    <center>
-    <?php echo CHtml::button('Отправить заявку', array('submit' =>array('/site/quickform/'), 'class'=>'buttonform')); ?>    
-    </center>
-        <div class="clearfix"></div>
-    <a href="/cart/" class="cart"><img src="/images/cart.png" alt="Корзина"/></a>
-    <div class="cart-label">В корзине <a id="cart-count" href="/cart/"><?php echo $cartCount ?></a></div>
+    <div id="cart-wrapper-right">
+        <a href="/cart/" class="cart"><img src="/images/cart.png" alt="Корзина"/></a>
+        <div class="cart-label">В корзине <a id="cart-count" href="/cart/"><?php echo $cartCount ?></a></div>
+    </div>
 <?php $this->endWidget();    
 }
 ?>
