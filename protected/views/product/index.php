@@ -4,7 +4,15 @@
         'homeLink' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'/" itemprop="url"><span itemprop="title">Главная</span></a></div>',
         'activeLinkTemplate' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'{url}" itemprop="url"><span itemprop="title">{label}</span></a></div>',
         'inactiveLinkTemplate' => '{label}',
-    ));        
+    ));       
+    
+    if(!empty($maker)) {
+        $makerLabel = $maker->name;
+        //$path = Yii::getPathOfAlias('webroot').$maker->logo;
+        if ($maker->published && !empty($maker->logo)) { // && file_exists(Yii::getPathOfAlias('webroot').$maker->logo)) {
+            $makerLabel = '<a href="/product-maker'.$maker->path.'/">' .$makerLabel . '</a>';
+        }
+    }               
 ?>
 <div>
     <?php if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)): // logged user ?>
@@ -26,7 +34,7 @@
                 <?php if(!empty($maker)): ?>
                 <div itemprop="brand" itemscope itemtype="http://schema.org/Organization">
                     <span>Производитель:</span>
-                    <span title="Производитель" itemprop="name"><?php echo $maker->name ?></span>
+                    <span title="Производитель" itemprop="name"><?php echo $makerLabel ?></span>
                 </div>
                 <?php endif; ?>
                 <?php if(!empty($maker->country)): ?>
@@ -123,7 +131,7 @@
                 <?php if(!empty($maker)): ?>
                 <div>
                     <span>Производитель:</span>
-                    <span title="Производитель"><?php echo $maker->name ?></span>
+                    <span title="Производитель"><?php echo $makerLabel ?></span>
                 </div>
                 <?php endif; ?>
                 <?php if(!empty($maker->country)): ?>
@@ -207,8 +215,9 @@
     <div class="product-add-info">
         <?php echo $data->additional_info; ?>
     </div>
-    <?php endif; ?>
     <div class="clearfix"></div>
+    <?php endif; ?>
+    
     <div class="product-info">
         <?php if(!empty($analogProducts)): ?>
         <div class="left-menu-wrapper grey" style="display: none">
