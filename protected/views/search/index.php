@@ -7,7 +7,7 @@
         'inactiveLinkTemplate' => '{label}',
     ));
 ?>
-<div class="search-form">
+<!--<div class="search-form">
     <form id="form_full_search" method="post">
         <div class="search-metod">
             <h1>ПОИСК ПО РАЗДЕЛАМ</h1>
@@ -18,7 +18,8 @@
                 <input class="btn full-search-button" type="button" value="Найти">
         </div>
     </form>
-</div>
+</div>-->
+<div class="search-text">Вы искали: "<span><?php echo $input;?></span>"</div>
 <?php if(!empty($input)): ?>
 <div class="search-result">
     <?php if(count($product->getData())): 
@@ -101,27 +102,53 @@
     ));
     ?>
     <?php endif; ?>
+    <?php if(count($bestoffer->getData())): 
+        $flag = true; 
+    ?>
+    <h2>НАЙДЕНО В <span>СПЕЦПРЕДЛОЖЕНИЯХ</span></h2>
+    <?php $this->widget('zii.widgets.CListView', array(
+        'dataProvider'=>$bestoffer,
+        'itemView'=>'_bestoffer', // представление для одной записи
+        'ajaxUpdate'=>false, // отключаем ajax поведение
+        'emptyText'=>'По Вашему запросу ничего не найдено.',
+        'template'=>'{items} {pager}',
+        //'summaryText'=>'Показано {start} — {end} из {count}',
+        'sorterHeader'=>'',
+        'itemsTagName'=>'div',
+        'sortableAttributes'=>array('name'),
+        'pager' => array(
+            'class' => 'LinkPager',
+            'maxButtonCount' => '5',
+            'header'   => false,
+            'firstPageLabel' => '<<',
+            'prevPageLabel'  => '<',
+            'nextPageLabel'  => '>',
+            'lastPageLabel'  => '>>',
+            'cssFile'        => false
+        )
+    )); ?>
+    <?php endif; ?>
     <?php if(!$flag) echo '<div class="no-result">По Вашему запросу ничего не найдено.</div>'; ?>
 </div>
 <?php endif; ?>
 <script>
-(function($){
-    $(window).load(function() {
-        $('#full-search').focus(function() {
-            $('#full-search').blur(function(){
-                $('.full-quick-result').fadeOut(200);
-            });
-            var ajax = new AjaxQuickSearch('full');
-        });
-        
-        var search_enter=new QuickSearchEnter('full');
-        
-        $('.full-search-button').click(function() {
-            var input = $.trim($('#full-search').val());
-            if(input.length > 0)
-               document.location.href = "/search/show/input/" + input;
-        });
-        
+//(function($){
+//    $(window).load(function() {
+//        $('#full-search').focus(function() {
+//            $('#full-search').blur(function(){
+//                $('.full-quick-result').fadeOut(200);
+//            });
+//            var ajax = new AjaxQuickSearch('full');
+//        });
+//        
+//        var search_enter=new QuickSearchEnter('full');
+//        
+//        $('.full-search-button').click(function() {
+//            var input = $.trim($('#full-search').val());
+//            if(input.length > 0)
+//               document.location.href = "/search/show/input/" + input;
+//        });
+//        
         
         /*$('.pager').pagination({
             items: 100,
