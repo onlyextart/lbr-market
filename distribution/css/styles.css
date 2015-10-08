@@ -1934,7 +1934,7 @@ hr#hit-line-second{
     font-size: 13px;
     font-weight:900;
 }
-.quick-result, .full-quick-result {
+.quick-result {
     background: none repeat scroll 0 0 #ffffff;
     border: 1px solid #cccccc;
     display: none;
@@ -1947,30 +1947,29 @@ hr#hit-line-second{
     width: 65.5%;
     margin-left: 53px;
 }
-.full-quick-result {
+/*.full-quick-result {
     top: 27px;
     width: 51%;
-}
-.search-form .query-field{
+}*/
+/*.search-form .query-field{
     position: relative;
-}
-.quick-result li, .full-quick-result li
+}*/
+.quick-result li
 {
     padding: 3px 5px 5px 10px;
 }
 
-.quick-result li:first-child, .full-quick-result li:first-child
+.quick-result li:first-child
 {
     padding-top: 10px;
 }
-.quick-result a:visited, .quick-result a:hover, .quick-result a, 
-.full-quick-result a:visited, .full-quick-result a:hover, .full-quick-result a, 
+.quick-result a:visited, .quick-result a:hover, .quick-result a,  
 .search-result a:hover, .search-result a:visited, .search-result a
 {
     color: #5f5e5e;
     font-weight: bold;
 }
-.quick-result a:hover, .full-quick-result a:hover, .search-result a:hover{
+.quick-result a:hover, .search-result a:hover{
     text-decoration: none;
 }
 .search-result .items div.label{
@@ -1996,12 +1995,21 @@ hr#hit-line-second{
 }
 
 .search-result .no-result{
-    margin-left: 30px;
+    margin-left: 20px;
     margin-top: 20px;
     color: #5f5e5e;
     font-size: 20px;
 }
 
+.search-text{
+    margin-left: 20px;
+    margin-top: 20px;
+    color: #5f5e5e;
+    font-size: 20px;
+}
+.search-text span{
+    color:#f39314;
+}
 .search-result .items > div span{
     font-style: italic;
     text-align: center;
@@ -2015,18 +2023,18 @@ hr#hit-line-second{
     border-bottom: 1px solid silver;
 }
 
-input#full-search{
+/*input#full-search{
     width: 50%;
     padding: 5px;
-    /*float: left;*/
+    float: left;
     float: left;
     display: block;
     margin-right: 10px;
-}
-.search-form {
+}*/
+/*.search-form {
     border-radius: 2px;
     box-shadow: 0 0 4px 1px rgba(50, 50, 50, 0.5);
-    /*padding: 1em 2em;*/
+    padding: 1em 2em;
     padding: 5px 20px 10px 20px;
     margin: 5px 5px 5px 10px;
 }
@@ -2034,7 +2042,7 @@ input#full-search{
     display: block;
     float: left;
     margin-top: -1px;
-}
+}*/
 /*----- end search ----------------*/
 /*----- start Pages about products ----*/
 .prod-wrapper, .subcategory-wrapper, .bestoffer-wrapper{

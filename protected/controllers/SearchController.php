@@ -66,7 +66,16 @@ class SearchController extends Controller
                         'pageSize' => 8, 
                     ) 
                 ));
-
+                
+                $criteria_bestoffer = new CDbCriteria();
+                $criteria_bestoffer->condition = ' published=1 and lower(name) like lower(:input)';
+                $criteria_bestoffer->params = array(':input' => '%' . $input . '%');
+                $bestofferProvider = new CActiveDataProvider(BestOffer::model(), array ( 
+                    'criteria'=>$criteria_bestoffer,
+                    'pagination' => array ( 
+                        'pageSize' => 8, 
+                    ) 
+                ));
                 $productSize = 8;
                 if(count($modelProvider->getData()) == 0 && count($categoryProvider->getData()) == 0){
                     $productSize = 15;
@@ -94,7 +103,7 @@ class SearchController extends Controller
             $breadcrumbs[] = 'Поиск';
             Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         
-            $this->render('index', array('input'=>$input, 'product'=>$productProvider, 'category'=>$categoryProvider, 'model'=>$modelProvider));
+            $this->render('index', array('input'=>$input, 'product'=>$productProvider, 'category'=>$categoryProvider, 'model'=>$modelProvider, 'bestoffer'=>$bestofferProvider));
     }
     
     public function prepareSqlite()
