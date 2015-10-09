@@ -515,12 +515,12 @@ class SiteController extends Controller {
         echo json_encode($filials);
     }
     
-    public function actionCanselPublMakers() {
-        $sql="UPDATE product_maker SET published=0 WHERE logo IS NULL or description IS NULL;";
-        $connection=Yii::app()->db;
-        $command=$connection->createCommand($sql);
-        $rowCount=$command->execute();  
-        echo $rowCount;
-    }
+//    public function actionCanselPublMakers() {
+//        $sql="UPDATE product_maker SET published=0 WHERE logo IS NULL or description IS NULL;";
+//        $connection=Yii::app()->db;
+//        $command=$connection->createCommand($sql);
+//        $rowCount=$command->execute();  
+//        echo $rowCount;
+//    }
 
 }
