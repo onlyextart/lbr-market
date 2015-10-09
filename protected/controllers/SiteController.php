@@ -9,7 +9,7 @@ class SiteController extends Controller {
         Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'];
         $this->render('index', array('hitProducts' => $hitProducts, 'bestoffer' => $bestOffer, 'makers' => $makers));
     }
-
+    
     public function getMakers() {
         $result = '';
         $equipmentMakers = EquipmentMaker::model()->getAllMakers();
