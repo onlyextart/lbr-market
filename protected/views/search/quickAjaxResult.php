@@ -5,4 +5,4 @@ if(!empty($data)){
         $text = $li['name'];
         echo '<li><a href="'.Yii::app()->getBaseUrl(true).$li['path'].'">'.$text.'</a></li>';
     }
-} else echo '<li>Ничего не найдено ...</li>';
+} else echo '<li>Запчасти не найдены ...</li>';
