@@ -3743,6 +3743,6 @@ div.phone_text{
 
 #myCalculator{
     display: inline-block;
-    width: 260px;
+    width: auto !important;
     margin-top: 20px;
 }
