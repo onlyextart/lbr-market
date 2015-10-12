@@ -2734,7 +2734,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin-right: 5px;
 }
 .cart-wrapper .btn{
-    margin-top: 0;
+    margin-top: 3px;
     box-shadow: 0 0 4px 1px rgba(50, 50, 50, 0.5);
 }
 .cart-wrapper .order_products a:link, .cart-wrapper .order_products a:visited, 
@@ -2891,7 +2891,9 @@ div.flash_error {
     display: block;
     padding-left: 10px;
 }
-
+.cart-wrapper .confirm_order #total-price {
+   padding-bottom: 5px;
+}
 /*----- end Cart Ordered Products ----------------------*/
 /*----- start Cart form errors ----------------------*/
 div.form .errorSummary {
