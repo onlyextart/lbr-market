@@ -162,7 +162,7 @@
                 </li>
                 <?php endforeach; ?>
             </ul>
-            <div id="myCalculator"></div>
+            <!--div id="myCalculator"></div-->
         </div>
         <div class="guest-data">
             <h2>Адрес получателя</h2>
@@ -221,7 +221,6 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 ));
 ?>
 <script>
-   
     $(function() {
        $("#myCalculator").bsCalculator();
        //$('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
