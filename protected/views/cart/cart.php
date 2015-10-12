@@ -162,7 +162,7 @@
                 </li>
                 <?php endforeach; ?>
             </ul>
-            <!--div id="myCalculator"></div-->
+            <div id="myCalculator"></div>
         </div>
         <div class="guest-data">
             <h2>Адрес получателя</h2>
