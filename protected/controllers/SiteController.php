@@ -9,7 +9,7 @@ class SiteController extends Controller {
         Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'];
         $this->render('index', array('hitProducts' => $hitProducts, 'bestoffer' => $bestOffer, 'makers' => $makers));
     }
-
+    
     public function getMakers() {
         $result = '';
         $equipmentMakers = EquipmentMaker::model()->getAllMakers();
@@ -513,6 +513,14 @@ class SiteController extends Controller {
             $filials['active'] = $chosenFilialId;
 
         echo json_encode($filials);
+    }
+    
+    public function actionCanselPublMakers() {
+        $sql="UPDATE equipment_maker SET published=0 WHERE logo IS NULL or description IS NULL;";
+        $connection=Yii::app()->db;
+        $command=$connection->createCommand($sql);
+        $rowCount=$command->execute();  
+        echo $rowCount;
     }
 
 }
