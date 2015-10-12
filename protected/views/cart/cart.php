@@ -1,5 +1,7 @@
 <?php 
     $action = '/cart/index/';
+    //Yii::app()->clientScript->registerScriptFile('http://www.baikalsr.ru/api-calc/?ver=2.2&setAccount=BS-0000189',CClientScript::POS_END);
+    Yii::app()->clientScript->registerScriptFile('http://www.baikalsr.ru/api-calc/?ver=2.2&setAccount=BS-0000189');
 ?>
 <div class="cart-wrapper">
     <?php
@@ -160,6 +162,7 @@
                 </li>
                 <?php endforeach; ?>
             </ul>
+            <div id="myCalculator"></div>
         </div>
         <div class="guest-data">
             <h2>Адрес получателя</h2>
@@ -218,7 +221,9 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 ));
 ?>
 <script>
+   
     $(function() {
+       $("#myCalculator").bsCalculator();
        //$('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
 
        $('.order_products .plus').click(function(event) {

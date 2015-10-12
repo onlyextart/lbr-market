@@ -2781,6 +2781,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 .order-data .delivery-type{
     margin-right: 10px;
     margin-left: 10px;
+    float: left;
 }
 div.flash_messages, div.flash_error {
     background-color: #dff0d8;
@@ -3732,6 +3733,11 @@ div.phone_text{
     font-weight: normal;
 }
 
+#myCalculator{
+    display: inline-block;
+    width: 260px;
+    margin-top: 20px;
+}
 /*.grey .accordion > li{
     width: 98%;
 }*/

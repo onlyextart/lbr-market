@@ -2781,6 +2781,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 .order-data .delivery-type{
     margin-right: 10px;
     margin-left: 10px;
+    float: left;
 }
 div.flash_messages, div.flash_error {
     background-color: #dff0d8;
@@ -3730,4 +3731,10 @@ div.ui-widget-header{
 div.phone_text{
     font-size: 13px;
     font-weight: normal;
+}
+
+#myCalculator{
+    display: inline-block;
+    width: 260px;
+    margin-top: 20px;
 }
