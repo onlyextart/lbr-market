@@ -3745,4 +3745,12 @@ div.phone_text{
     display: inline-block;
     width: auto !important;
     margin-top: 20px;
+    padding: 10px !important;
+}
+#myCalculator #copyright_bs {
+    margin: -10px 15px 5px 0 !important
+}
+
+#copyright_bs a{
+    color: #333;
 }
