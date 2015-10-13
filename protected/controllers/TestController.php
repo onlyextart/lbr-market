@@ -4,7 +4,7 @@ class TestController extends Controller
 {    
     public function actionTest() 
     {   
-        //set_time_limit(0);
+        $this->render('test');
     }
     
     //public function actionShow($id = 920) 
