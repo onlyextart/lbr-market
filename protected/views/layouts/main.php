@@ -19,7 +19,6 @@
             Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?28');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?3');
-            Yii::app()->clientScript->registerScriptFile('http://www.baikalsr.ru/api-calc/?ver=2.2&setAccount=BS-0000189');
 
             if(empty(Yii::app()->request->cookies['lbrfilial'])) {
                 $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;

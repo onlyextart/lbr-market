@@ -163,7 +163,7 @@
                 <?php endforeach; ?>
             </ul>
             <?php if(Yii::app()->user->getId() == 3): ?>
-            <div id="myCalculator"></div>
+            <!--div id="myCalculator"></div-->
             <?php endif; ?>
         </div>
         <div class="guest-data">

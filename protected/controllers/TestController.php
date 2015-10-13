@@ -4,6 +4,10 @@ class TestController extends Controller
 {    
     public function actionTest() 
     {   
+        $model = User::model()->findByPk(3);
+        $model->password = crypt('lbrtest2', User::model()->blowfishSalt());
+        $model->save();
+        
         $this->render('index');
     }
     
