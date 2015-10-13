@@ -4,7 +4,7 @@ class TestController extends Controller
 {    
     public function actionTest() 
     {   
-        $this->render('test');
+        $this->render('index');
     }
     
     //public function actionShow($id = 920) 
