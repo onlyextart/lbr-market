@@ -2155,6 +2155,17 @@ hr#hit-line-second{
 .elements table td a:link, .elements table td a:visited, .elements table td a:hover{
     color: #5f5e5e;
 }
+
+.modellines-wrapper .elements table td a{
+    font-weight: 500;
+    color: #5f5e5e;
+    text-decoration: underline !important;
+}
+
+.modellines-wrapper .elements table td a:hover{
+    text-decoration: none !important;
+}
+
 .prod-wrapper .elements .empty{
     margin-left: 20px;
 }
