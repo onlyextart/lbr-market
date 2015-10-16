@@ -69,7 +69,7 @@ class OrderController extends Controller
         }
         
 //        if(Yii::app()->user->checkAccess('shopEditOrder')) {
-            if (!empty($_POST['OrderForm'])&&!empty($_POST['OrderProductForm'])) {
+            if (!empty($_POST['OrderForm'])||!empty($_POST['OrderProductForm'])) {
                 $valid=true;
                 $editFieldsMessage=Changes::getEditMessage($model,$_POST['OrderForm'],$fieldsShortInfo,$file,$foreignKeys);
                 if (!empty($editFieldsMessage)){
