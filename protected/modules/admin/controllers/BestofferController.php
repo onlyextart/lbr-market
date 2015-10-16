@@ -73,7 +73,32 @@ class BestofferController extends Controller {
         $fieldsShortInfo=array('img','description');
         $file=array('img');
         $model = BestOffer::model()->findByPk($id);
-        if(!empty($_POST['BestOffer'])) {
+        
+//        // select all product_makers
+//        $criteria=new CDbCriteria;
+//        $criteria->order = 'name';
+//        $makers_all=ProductMaker::model()->findAll();
+//        
+//        // generate array of models BestofferMakersForm
+//        foreach ($makers_all as $key => $maker) {
+//            $modelMakers[$key]=new BestofferMakersForm;
+//            $modelMakers[$key]->maker_id=$maker->id;
+//            $modelMakers[$key]->maker_name=$maker->name;
+//            $modelMakers[$key]->published=$this->checkMakerPublish($maker->id, $id);
+//        }
+//        
+        // generate CActiveDataProvider
+         $model_maker = new ProductMaker('search');
+         $model_maker->unsetAttributes();
+         if (!empty($_GET['ProductMaker']))
+            $model_maker->attributes = $_GET['ProductMaker'];
+         $dataProvider = $model_maker->search();
+         $dataProvider->pagination->pageSize = 15;
+         
+         //selected makers
+         $selected_makers=$this->getIdMakers($id);
+         
+        if(!empty($_POST['BestOffer'])||(!empty($_POST['makers'])&&($_POST['makers']!=$selected_makers))) {
             $editFieldsMessage=Changes::getEditMessage($model,$_POST['BestOffer'],$fieldsShortInfo,$file);
             if (!empty($editFieldsMessage)){
                 $message.= 'Редактирование спецпредложения "'.$model->name.'", ';
@@ -103,9 +128,9 @@ class BestofferController extends Controller {
                     ));
                 }
             } else
-                $this->render('edit', array('model' => $model), false, true);
+                $this->render('edit', array('model' => $model, 'makers'=>$dataProvider, 'model_maker'=>$model_maker, 'selected_makers'=>$selected_makers), false, true);
         } else
-            $this->render('edit', array('model' => $model), false, true);
+            $this->render('edit', array('model' => $model, 'makers'=>$dataProvider, 'model_maker'=>$model_maker,'selected_makers'=>$selected_makers), false, true);
     }
 
     public function actionDelete($id) {
@@ -120,4 +145,25 @@ class BestofferController extends Controller {
             }
         }
     }
+    
+    private function getIdMakers($bestoffer_id){
+        $sql="SELECT maker_id FROM bestoffer_makers WHERE bestoffer_id=".$bestoffer_id.";";
+        $connection=Yii::app()->db;
+        $command=$connection->createCommand($sql);
+        $makers=$command->queryColumn();
+        return $makers;
+    }
+    
+//    private function checkMakerPublish($m_id,$b_id) {
+//        $criteria=new CDbCriteria;
+//        $criteria->condition='maker_id=:maker_id and bestoffer_id=:bestoffer_id';
+//        $criteria->params=array(':maker_id'=>$m_id,':bestoffer_id'=>$b_id,);
+//        $bestoffer_maker=BestofferMakers::model()->findAll($criteria);
+//        if (!empty ($bestoffer_maker) ){
+//            return true;
+//        }
+//        else{
+//            return false;
+//        }
+//    }
 }
