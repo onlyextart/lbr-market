@@ -31,6 +31,7 @@ class ModellinesController extends Controller
         if(!empty($maker)) {
            $breadcrumbs[$categoryRoot->name] = '/catalog'.$categoryRoot->path.'/';
            $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
+           $response .= '<h1>'.$equipmentMaker->name.'</h1>';
            $equipmentMakerName = $equipmentMaker->name;
            $breadcrumbs[] = $equipmentMakerName;
            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name.' '.$equipmentMakerName;
@@ -71,6 +72,7 @@ class ModellinesController extends Controller
         //echo '<pre>';
         //var_dump($result); exit;
         // show in two columns
+        
         if(!empty($result)) {
             $count = count($result);
             $half = ceil($count/2);
