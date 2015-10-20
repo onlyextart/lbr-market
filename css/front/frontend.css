@@ -2066,6 +2066,7 @@ hr#hit-line-second{
     line-height: 20px;
     font: 14px "Trebuchet MS";
     text-indent: 30px;
+    margin-top: 80px;
 }
 .subcategory-wrapper .text p, .modellines-wrapper .text p, .modelline-wrapper .text p {
     margin: 13px 0;
