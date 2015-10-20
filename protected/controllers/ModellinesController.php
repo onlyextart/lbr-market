@@ -129,7 +129,7 @@ class ModellinesController extends Controller
         } else if(!empty($modelline)) {
             foreach($modelline as $categoryName => $modelsIds) {
                 $count = 0;
-                $dividend = 3;
+                $dividend = 2;
                 $title = $categoryName;
                 
                 $criteria = new CDbCriteria();
