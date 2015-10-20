@@ -31,6 +31,7 @@ class ModellinesController extends Controller
         if(!empty($maker)) {
            $breadcrumbs[$categoryRoot->name] = '/catalog'.$categoryRoot->path.'/';
            $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
+           $response .= '<h1>'.$equipmentMaker->name.'</h1>';
            $equipmentMakerName = $equipmentMaker->name;
            $breadcrumbs[] = $equipmentMakerName;
            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name.' '.$equipmentMakerName;
@@ -68,13 +69,15 @@ class ModellinesController extends Controller
 
         $result = $this->setMakerFilter($id, $categoryRoot->name);
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
-        
+        //echo '<pre>';
+        //var_dump($result); exit;
         // show in two columns
+        
         if(!empty($result)) {
             $count = count($result);
             $half = ceil($count/2);
         
-            $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+            $response .= '<table cellspacing="0" cellpadding="4" border="0"><tbody>';
             for($index = 0; $index < $half; $index++) {
                 $response .= '<tr>';
                 $response .= '<td width="50%" valign="top">';
@@ -118,6 +121,7 @@ class ModellinesController extends Controller
                        $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
                        $response .= '<li><a class="modelline-child" href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
                     }
+                    
                     $response .= '</ul></li>';
                 }
                 
@@ -127,52 +131,77 @@ class ModellinesController extends Controller
                 ;
             }
         } else if(!empty($modelline)) {
-            foreach($modelline as $categoryName => $modelsIds) {
-                $count = 0;
-                $dividend = 2;
-                $title = $categoryName;
-                
-                $criteria = new CDbCriteria();
-                $criteria->addInCondition('id', $modelsIds);
-                $criteria->order = 'name';
-                $models = ModelLine::model()->findAll($criteria);
-                
-                $response .= '<h1>'.$title.'</h1>';
-                $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-                foreach($models as $model) {
-                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
-                    $children = $category->children()->findAll();
+            //echo '<pre>';
+            //var_dump($modelline); exit;
+//            foreach($modelline as $categoryName => $modelsIds) {
+//                $count = 0;
+//                $dividend = 2;
+//                $title = $categoryName;
+//                
+//                $criteria = new CDbCriteria();
+//                $criteria->addInCondition('id', $modelsIds);
+//                $criteria->order = 'name';
+//                $models = ModelLine::model()->findAll($criteria);
+//                
+//                $response .= '<h1>'.$title.'</h1>';
+//                $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+//                foreach($models as $model) {
+//                    $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
+//                    $children = $category->children()->findAll();
+//
+//                    $count++;
+//                    if($count == 1) $response .= '<tr>';
+//                    
+//                    $response .= '<td valign="top">'.
+//                          '<div class="grey">'.
+//                            '<ul class="accordion modelline">'.
+//                              '<li>'.
+//                                 '<a href="#" class="sub-title">'.$model['name'].'</a>'.
+//                                 '<ul>'
+//                    ;
+//
+//                    foreach($children as $child) {
+//                       $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
+//                       $response .= '<li><a href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
+//                    }
+//
+//                    $response .= '</ul>'.
+//                              '</li>'.
+//                            '</ul>'.
+//                          '</div>'.
+//                        '</td>'
+//                    ;
+//                    if($count == $dividend) {
+//                        $count = 0;
+//                        $response .= '</tr>';
+//                    }
+//                }
+//
+//                $response .= '</tbody></table>';
+//            }
+            
+            $model = ModelLine::model()->findByPk($modelline);
 
-                    $count++;
-                    if($count == 1) $response .= '<tr>';
-                    
-                    $response .= '<td valign="top">'.
-                          '<div class="grey">'.
-                            '<ul class="accordion modelline">'.
+            $response .= '<ul class="accordion modelline">'.
                               '<li>'.
-                                 '<a href="#" class="sub-title">'.$model['name'].'</a>'.
+                                 '<a href="#" class="sub-title">'.$model->name.'</a>'.
                                  '<ul>'
-                    ;
+            ;
+            
+            $children = $model->children()->findAll();
+                           
 
-                    foreach($children as $child) {
-                       $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
-                       $response .= '<li><a href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
-                    }
-
-                    $response .= '</ul>'.
-                              '</li>'.
-                            '</ul>'.
-                          '</div>'.
-                        '</td>'
-                    ;
-                    if($count == $dividend) {
-                        $count = 0;
-                        $response .= '</tr>';
-                    }
-                }
-
-                $response .= '</tbody></table>';
+            foreach($children as $child) {
+               $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
+               $response .= '<li><a class="sub-child-title" href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
+               
+               //$response .= '<li><a href="#" class="sub-child-title">'.$model['name'].'</a><ul>';     
             }
+            
+            $response .=         '</ul>'.
+                              '</li>'.
+                          '</ul>'
+            ;
         }
         
         return $response;
@@ -222,7 +251,7 @@ class ModellinesController extends Controller
                 $criteria->addCondition('level = 2');
                 $models = ModelLine::model()->findAll($criteria);
                 foreach($models as $model){
-                    $result[0][$name][] = $model->id;
+                    $result[] = $model->id;
                 }
             }
         }
