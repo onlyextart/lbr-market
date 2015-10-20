@@ -193,7 +193,7 @@ class ModellinesController extends Controller
 
             foreach($children as $child) {
                $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
-               $response .= '<li><a class="sub-child-title" href="/catalog'.$model->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
+               $response .= '<li><a class="sub-child-title" href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
                
                //$response .= '<li><a href="#" class="sub-child-title">'.$model['name'].'</a><ul>';     
             }
