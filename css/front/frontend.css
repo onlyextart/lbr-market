@@ -988,6 +988,10 @@ input#full-search
 .cart-label a{
     color: #f39314;
 }
+
+.cart-wrapper #price-bscalc{
+    padding: 10px;
+}
 /*----- end Login Form ---------------*/
 
 /*----- Registration Form, Login Form Big and Restore Form---------------*/
