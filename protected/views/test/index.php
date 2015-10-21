@@ -6,8 +6,7 @@
 <script type="text/javascript">
     $(function() {
         $("#myCalculator").bsCalculator({
-            city_out:true,
-            load_parameters:true
+            city_out:true
         });
     });
 </script>
