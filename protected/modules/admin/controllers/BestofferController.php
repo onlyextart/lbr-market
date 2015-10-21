@@ -33,6 +33,14 @@ class BestofferController extends Controller {
         $model = new BestOffer;
         $model->published = true;
         $model->level = 1;
+        
+        // generate CActiveDataProvider
+         $model_maker = new ProductMaker('search');
+         $model_maker->unsetAttributes();
+         if (!empty($_GET['ProductMaker']))
+            $model_maker->attributes = $_GET['ProductMaker'];
+         $dataProvider = $model_maker->search();
+         $dataProvider->pagination->pageSize = 15;
 
         if (!empty($_POST['BestOffer'])) {
             $model->attributes = $_POST['BestOffer'];
@@ -45,12 +53,30 @@ class BestofferController extends Controller {
                     if(!empty($uploadedImage)) $model->img = $uploadedImage;
                 }
                 
-                if ($model->save()) {
+                $success=true;
+                $connection=Yii::app()->db; 
+                $transaction=$connection->beginTransaction();
+                if(!$model->save()){
+                    $success=false;
+                }
+                if(!empty($_POST['makers'])){
+                    foreach($_POST['makers'] as $maker_id){
+                        $sql_insert="INSERT INTO bestoffer_makers(bestoffer_id,maker_id) VALUES('".$model->id."','".$maker_id."')";
+                        $rowCount=$connection->createCommand($sql_insert)->execute();
+                        if ($rowCount==0){
+                            $success=false;
+                        }
+                    }
+                }
+                
+                if ($success) {
+                    $transaction->commit();
                     $message = 'Создано спецпредложение "' . $model->name . '"';
                     Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', $message);
                     $this->redirect(array('edit', 'id' => $model->id));
                 } else {
+                    $transaction->rollback();
                     $errors = "Ошибка при сохранении";
                     //$errors = $model->getErrors();
                     Yii::log($errors, 'error');
@@ -60,9 +86,9 @@ class BestofferController extends Controller {
                     ));
                 }
             } else
-                $this->render('edit', array('model' => $model), false, true);
+                $this->render('edit', array('model' => $model,'makers'=>$dataProvider,'model_maker'=>$model_maker), false, true);
         } else
-            $this->render('edit', array('model' => $model), false, true);
+            $this->render('edit', array('model' => $model,'makers'=>$dataProvider,'model_maker'=>$model_maker), false, true);
 
         //}else {
         //throw new CHttpException(403,Yii::t('yii','У Вас недостаточно прав доступа.'));
@@ -105,7 +131,6 @@ class BestofferController extends Controller {
                 $connection=Yii::app()->db; 
                 $transaction=$connection->beginTransaction();
                 
-                
                 if($_POST['makers']!=$selected_makers){
                     if(!empty($selected_makers)){
                             $sql_delete="DELETE FROM bestoffer_makers WHERE bestoffer_id=".$id.";";
@@ -123,6 +148,13 @@ class BestofferController extends Controller {
                                 }
                            }
                     }
+                    if(empty($message)){
+                        $message.= 'Редактирование спецпредложения "'.$model->name.'", ';
+                    }
+                    else{
+                         $message.="; ";
+                    }
+                    $message.="изменен список производителей";
                 }
                 if (!empty($_POST['BestOffer'])){
                     if(!$model->save()){
@@ -131,7 +163,7 @@ class BestofferController extends Controller {
                 }
                 if ($success){
                     $transaction->commit();
-                    //if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message);
                     Yii::app()->user->setFlash('message', 'Спецпредложение сохранено успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 }
@@ -144,22 +176,7 @@ class BestofferController extends Controller {
                         'model' => $model,
                     ));
                 }
-                    
-     
-                // если сохранение данных прошло успешно
-//                if($success){
-//                    //if(!empty($message)) Changes::saveChange($message);
-//                    Yii::app()->user->setFlash('message', 'Спецпредложение сохранено успешно.');
-//                    $this->redirect(array('edit', 'id'=>$model->id));
-//                }
-//                else{
-//                    $errors = "Ошибка при сохранении";
-//                    Yii::log($errors, 'error');
-//                    Yii::app()->user->setFlash('error', $errors);
-//                    $this->render('edit', array(
-//                        'model' => $model,
-//                    ));
-//                }
+
             } else
                 $this->render('edit', array('model' => $model, 'makers'=>$dataProvider, 'model_maker'=>$model_maker, 'selected_makers'=>$selected_makers), false, true);
         } else
