@@ -163,7 +163,7 @@
                 <?php endforeach; ?>
             </ul>
             <?php if(Yii::app()->user->getId() == 3): ?>
-            <!--div id="myCalculator"></div-->
+            <div id="myCalculator"></div>
             <?php endif; ?>
         </div>
         <div class="guest-data">
@@ -224,7 +224,10 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 ?>
 <script>
     $(function() {
-       $("#myCalculator").bsCalculator();
+       $("#myCalculator").bsCalculator({
+            city_out:true
+        });
+        
        //$('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
 
        $('.order_products .plus').click(function(event) {
