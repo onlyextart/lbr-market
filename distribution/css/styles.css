@@ -989,10 +989,6 @@ input#full-search
     color: #f39314;
 }
 
-.cart-wrapper #price-bscalc{
-    padding: 10px;
-    padding-top: 0;
-}
 /*----- end Login Form ---------------*/
 
 /*----- Registration Form, Login Form Big and Restore Form---------------*/
@@ -3764,7 +3760,12 @@ div.phone_text{
     padding: 10px !important;
 }
 #myCalculator #copyright_bs {
-    margin: -10px 0 10px 0 !important
+    margin: -10px 0 20px 0 !important
+}
+
+#myCalculator #price-bscalc{
+    padding: 10px;
+    padding-top: 0;
 }
 
 /*.grey .accordion > li{
