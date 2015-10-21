@@ -991,7 +991,7 @@ input#full-search
 
 .cart-wrapper #price-bscalc{
     padding: 10px;
-    padding-top: 0;
+    padding-top: 0 !important;
 }
 /*----- end Login Form ---------------*/
 
