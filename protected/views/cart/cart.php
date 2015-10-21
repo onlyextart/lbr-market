@@ -162,9 +162,9 @@
                 </li>
                 <?php endforeach; ?>
             </ul>
-            <?php if(Yii::app()->user->getId() == 3): ?>
+            <?php //if(Yii::app()->user->getId() == 3): ?>
             <div id="myCalculator"></div>
-            <?php endif; ?>
+            <?php //endif; ?>
         </div>
         <div class="guest-data">
             <h2>Адрес получателя</h2>
