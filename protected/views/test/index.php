@@ -5,7 +5,11 @@
 
 <script type="text/javascript">
     $(function() {
-       $("#myCalculator").bsCalculator();
+        $("#myCalculator").bsCalculator({
+            city_out:true,
+            datepicker:true,
+            load_parameters:true
+        });
     });
 </script>
 
