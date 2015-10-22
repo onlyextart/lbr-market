@@ -17,7 +17,7 @@
 <div>
     <?php if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)): // logged user ?>
     <div class="product-wrapper" itemscope itemtype="http://schema.org/Product">    
-        <div class="prod-name" itemprop="name"><?php echo $data->name; ?></div>
+        <h1 class="prod-name" itemprop="name"><?php echo $data->name; ?></h1>
         <div id="prod-info">
             <div class="product-image-wrapper">
                 <a href="<?php echo $image; ?>" class="thumbnail" target="_blank">
@@ -114,7 +114,7 @@
     </div>
     <?php else: // guest or admin?>
     <div class="product-wrapper">
-        <div class="prod-name"><?php echo $data->name; ?></div>
+        <h1 class="prod-name"><?php echo $data->name; ?></h1>
         <div id="prod-info">
             <div class="product-image-wrapper">
                 <a href="<?php echo $image; ?>" class="thumbnail" target="_blank">
