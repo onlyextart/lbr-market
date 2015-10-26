@@ -131,10 +131,36 @@
     <?php if(count($brand->getData())): 
         $flag = true; 
     ?>
-    <h2>НАЙДЕНО В <span>ПРОИЗВОДИТЕЛЯХ</span></h2>
+    <h2>НАЙДЕНО В <span>ПРОИЗВОДИТЕЛЯХ ЗАПЧАСТЕЙ</span></h2>
     <?php $this->widget('zii.widgets.CListView', array(
         'dataProvider'=>$brand,
         'itemView'=>'_brand', // представление для одной записи
+        'ajaxUpdate'=>false, // отключаем ajax поведение
+        'emptyText'=>'По Вашему запросу ничего не найдено.',
+        'template'=>'{items} {pager}',
+        //'summaryText'=>'Показано {start} — {end} из {count}',
+        'sorterHeader'=>'',
+        'itemsTagName'=>'div',
+        'sortableAttributes'=>array('name'),
+        'pager' => array(
+            'class' => 'LinkPager',
+            'maxButtonCount' => '5',
+            'header'   => false,
+            'firstPageLabel' => '<<',
+            'prevPageLabel'  => '<',
+            'nextPageLabel'  => '>',
+            'lastPageLabel'  => '>>',
+            'cssFile'        => false
+        )
+    )); ?>
+    <?php endif; ?>
+     <?php if(count($eqMaker->getData())): 
+        $flag = true; 
+    ?>
+    <h2>НАЙДЕНО В <span>ПРОИЗВОДИТЕЛЯХ ТЕХНИКИ</span></h2>
+    <?php $this->widget('zii.widgets.CListView', array(
+        'dataProvider'=>$eqMaker,
+        'itemView'=>'_eqMaker', // представление для одной записи
         'ajaxUpdate'=>false, // отключаем ajax поведение
         'emptyText'=>'По Вашему запросу ничего не найдено.',
         'template'=>'{items} {pager}',

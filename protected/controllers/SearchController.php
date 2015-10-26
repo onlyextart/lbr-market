@@ -88,6 +88,17 @@ class SearchController extends Controller
                     ) 
                 ));
                 
+                $dependecy = new CDbCacheDependency('SELECT MAX(update_time) FROM equipment_maker');
+                $criteria_eq_maker = new CDbCriteria();
+                $criteria_eq_maker->condition = ' published=1 and description IS NOT NULL and logo IS NOT NULL and lower(name) like lower(:input)';
+                $criteria_eq_maker->params = array(':input' => '%' . $input . '%');
+                $eqMakerProvider = new CActiveDataProvider(EquipmentMaker::model()->cache(1000, $dependecy, 2), array ( 
+                    'criteria'=>$criteria_eq_maker,
+                    'pagination' => array ( 
+                        'pageSize' => 8, 
+                    ) 
+                ));
+                
                 $productSize = 8;
                 if(count($modelProvider->getData()) == 0 && count($categoryProvider->getData()) == 0){
                     $productSize = 15;
@@ -115,7 +126,7 @@ class SearchController extends Controller
             $breadcrumbs[] = 'Поиск';
             Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         
-            $this->render('index', array('input'=>$input, 'product'=>$productProvider, 'category'=>$categoryProvider, 'model'=>$modelProvider, 'bestoffer'=>$bestofferProvider, 'brand'=>$brandProvider));
+            $this->render('index', array('input'=>$input, 'product'=>$productProvider, 'category'=>$categoryProvider, 'model'=>$modelProvider, 'bestoffer'=>$bestofferProvider, 'brand'=>$brandProvider, 'eqMaker'=>$eqMakerProvider));
     }
     
     public function prepareSqlite()
