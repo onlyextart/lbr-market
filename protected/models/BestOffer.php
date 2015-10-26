@@ -39,7 +39,7 @@ class BestOffer extends CActiveRecord
                 return array(
 			//array('id', 'required'),
                         array('name', 'required'),
-			array('id', 'numerical', 'integerOnly'=>true),
+			array('id,level', 'numerical', 'integerOnly'=>true),
 			array('name, img, level, published, description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

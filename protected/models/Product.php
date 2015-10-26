@@ -43,7 +43,8 @@ class Product extends CActiveRecord {
             $group,
             $price,
             $filial,
-            $modelLineId
+            $modelLineId,
+            $makersID
     ;
 
     CONST IN_STOCK = 'есть в наличии';
@@ -76,6 +77,7 @@ class Product extends CActiveRecord {
             // @todo Please remove those attributes that should not be searched.
             array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name, problem, units, multiplicity, material, size, date_sale_off', 'safe', 'on' => 'search'),
             array('name, product_group_id, count, model_line_id', 'safe', 'on'=>'searchEvent'),
+            array('name, product_maker_id, count', 'safe', 'on'=>'searchEventMaker'),
             array('image', 'EImageValidator', 'types' => 'gif, jpg, png', 'allowEmpty' => 'true'),
         );
     }
@@ -262,6 +264,55 @@ class Product extends CActiveRecord {
         }
         
         $criteria->addCondition('published = 1');
+        
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'sort' => array(
+                'defaultOrder' => 'name ASC',
+                'multiSort' => true,
+                'sortVar'  => 'sort',
+                'attributes'=>array(
+                    'count'=>array(
+                        'asc' => 'count ASC',
+                        'desc' => 'count DESC',
+                        'default' => 'desc'
+                    ),
+                    'name'=>array(
+                        'asc' => 'name ASC',
+                        'desc' => 'name DESC',
+                        'default' => 'desc'
+                    ),
+                ),
+            ),
+            'pagination' => array(
+                'pageSize' => 10,
+                'pageVar'  => 'page',
+            ),
+        ));
+    }
+    
+    public function searchEventMaker(){
+        $criteria = new CDbCriteria;
+        $criteria->join='JOIN bestoffer_makers ON bestoffer_makers.maker_id=t.product_maker_id';
+        $criteria->condition = 't.product_maker_id IN'.$this->makersID.' and t.published = 1';
+        if(!empty($this->count)) { 
+            if($this->count == 1) { 
+                $criteria->addCondition('count > 0');
+            } else $criteria->addCondition('count = 0 or count is null');
+        }
+        
+        if(!empty($this->name)) {
+            if(Yii::app()->search->prepareSqlite()){ 
+                $match = addcslashes($this->name, '%_');
+                $criteria->addCondition('lower(name) like lower(:name)');
+                $criteria->params[':name'] = "%$match%";
+            }
+        }
+        
+        if(!empty($this->product_maker_id)){
+            $criteria->addCondition('product_maker_id=:maker_id');
+            $criteria->params = array(":maker_id" => $this->product_maker_id);
+        }
         
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

@@ -3160,6 +3160,73 @@ ul.yiiPager .selected a {
     position: relative;
     text-align: left;
 }
+.bestoffer-spareparts-wrapper{
+    margin:25px auto 5px;
+    width:95%; 
+}
+.bestoffer-spareparts-wrapper h2{
+    margin-top: -10px;
+    margin-bottom: 12px;
+}
+.bestoffer-spareparts-wrapper .grid-view table.items td, .bestoffer-spareparts-wrapper .grid-view table.items th{
+    border: none;
+}
+.bestoffer-spareparts-wrapper .grid-view table.items tr.odd, .bestoffer-spareparts-wrapper .grid-view table.items tr.even, 
+.bestoffer-spareparts-wrapper .grid-view table.items tr.selected, .bestoffer-spareparts-wrapper .grid-view table.items tbody tr:hover
+{   
+    background-color: #dfdfdf;
+    border-bottom: 1px solid #ccc;
+}
+.bestoffer-spareparts-wrapper .grid-view table.items{
+    border-spacing: 0 1px;
+    border-collapse: separate;
+}
+.bestoffer-spareparts-wrapper .grid-view table.items td{
+    font-size: 13px;
+    color: #333;
+}
+.bestoffer-spareparts-wrapper .grid-view table.items th{
+    background: #ccc url("/images/main_menu_bg.png") repeat-x scroll 0 -1px;
+}
+.bestoffer-spareparts-wrapper .grid-view table.items tbody td:first-child a
+{
+    margin-left: 10px;
+    display: block;
+}
+.bestoffer-spareparts-wrapper .loader
+{
+    background: rgba(0, 0, 0, 0) url("/images/loading.gif") no-repeat scroll 0 0;
+    padding-left: 25px;
+    display: inline-block;
+    height: 17px;
+    width: 200px;
+}
+
+.bestoffer-spareparts-wrapper .grid-view table.items{
+    border: none;
+}
+.bestoffer-spareparts-wrapper .grid-view table.items th a
+{
+    text-decoration: underline;
+}
+.bestoffer-spareparts-wrapper .grid-view table.items a:hover{
+    text-decoration: none;
+}
+.bestoffer-spareparts-wrapper .grid-view table.items a, .bestoffer-spareparts-wrapper .grid-view table.items a:hover, .bestoffer-spareparts-wrapper .grid-view table.items th
+{
+    color: #5f5e5e;
+}
+.bestoffer-spareparts-wrapper .grid-view
+{
+    padding: 0;
+    position: relative;
+}
+.bestoffer-spareparts-wrapper .summary
+{
+    position: absolute;
+    right: 0;
+    top: -30px;
+}
 /*----- end BestOffer page---------------*/
 /*----- start List style for Contact----------------*/
 .contact-wrapper{
