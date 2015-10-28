@@ -10,7 +10,7 @@
         echo $form_view->error($model, 'published'); 
         echo $form_view->labelEx($model, 'published');
         echo $form_view->dropDownList($model, 'published',array('0'=>'Нет','1'=>'Да'));
-        echo CHtml::link('Предварительный просмотр', '/equipmentmaker/index/id/'.$model->id, array('class' => 'link_view','target'=>'_blank')); 
+        echo CHtml::link('Предварительный просмотр', '/equipment-maker'.$model->path, array('class' => 'link_view','target'=>'_blank')); 
     ?>
 </div>
 

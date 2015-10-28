@@ -80,7 +80,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
                 echo $form_view->error($model, 'published');
                 echo $form_view->labelEx($model, 'published');
                 echo $form_view->dropDownList($model, 'published', array('0' => 'Нет', '1' => 'Да'));
-                //echo CHtml::link('Предварительный просмотр', '/description/maker/id/'.$model->id, array('class' => 'link_view','target'=>'_blank')); 
+                echo CHtml::link('Предварительный просмотр', '/product-maker'.$model->path, array('class' => 'link_view','target'=>'_blank')); 
                 ?>
             </div>
 
