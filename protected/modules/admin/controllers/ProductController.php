@@ -67,12 +67,12 @@ class ProductController extends Controller
                     $model->product_group_id=null;
                 }
                 if ($model->validate()){
-                $image=CUploadedFile::getInstance($model,'image');
-                if (isset($image)){
-                    $filePath = '/images/upload/'.$image->name;
-                    $image->saveAs(Yii::getPathOfAlias('webroot').$filePath);
-                    $model->image = $filePath;
-                }
+//                $image=CUploadedFile::getInstance($model,'image');
+//                if (isset($image)){
+//                    $filePath = '/images/upload/'.$image->name;
+//                    $image->saveAs(Yii::getPathOfAlias('webroot').$filePath);
+//                    $model->image = $filePath;
+//                }
 
                 if (isset($model->price_id)){
                     $modelPrice=Price::model()->findByPk($model->price_id);

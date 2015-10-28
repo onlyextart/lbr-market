@@ -15,7 +15,7 @@ Yii::app()->getClientScript()->registerCss('infoStyles', "
 // Upload button
 echo CHtml::openTag('div', array('class'=>'row'));
 echo CHtml::label('Выберите изображение', 'image');
-echo $form_view->fileField($model, 'image');
+echo $form_view->fileField($model, 'image',array('disabled'=>'true'));
 echo CHtml::closeTag('div');
 
 // Image
