@@ -2972,7 +2972,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     background: url("/images/close_sprite.png") no-repeat scroll left bottom transparent;
 }
 .l-menu-wrapper{
-    /*height: 405px;*/
+    height: 300px;
     overflow: auto;
     margin-bottom: 10px;
     margin-right: 10px;
