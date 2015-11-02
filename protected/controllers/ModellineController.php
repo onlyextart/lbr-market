@@ -46,81 +46,33 @@ class ModellineController extends Controller
         $breadcrumbs[] = $modelline->name;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
-        
+
         if(!empty($models)) {
-            $response .= '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-            $count = 0;
-            $dividend = 3;
-        foreach($models as $model) {
-                $ids[] = $model['id'];
-                $brand = EquipmentMaker::model()->findByPk($model['maker_id'])->path;
+            $brand = '';
+            if(!empty(Yii::app()->params['currentMaker'])) $brand = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->path;
                 
-                $count++;
-                if($count == 1) $response .= '<tr>';
-                $response .= '<td><a href="/catalog'.$category->path.$brand.$model['path'].'/">'.$model['name'].'</a></td>';
-                if($count == $dividend) {
-                    $count = 0;
-                    $response .= '</tr>';
+            $count = count($models);
+            $half = ceil($count/2);
+            $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+
+            for($index = 0; $index < $half; $index++) {                    
+                $response .= '<tr>';
+                $response .= '<td width="50%" valign="top">';
+                $model = $models[$index];
+                $response .= '<a href="/catalog'.$category->path.$brand.$model['path'].'/">'.$model['name'].'</a>';
+                $response .= '</td>';
+                if(($index + $half) < $count) {
+                    $model = $models[$index + $half];
+                    $response .= '<td width="50%" valign="top">';
+                    $response .= '<a href="/catalog'.$category->path.$brand.$model['path'].'/">'.$model['name'].'</a>';
+                    $response .= '</td>';
                 }
-                
-                $modelIds[] = $model['id'];
+                $response .= '</tr>';
             }
-            
             $response .= '</tbody></table>';
         }
         
-        // random products for hit products
-        $hitProducts = $this->setHitProducts($ids);
-        
         $this->render('modelline', array('response' => $response, 'hitProducts'=>$hitProducts, 'title'=>$headTitle, 'topText'=>$topText, 'bottomText'=>$bottomText));
-    }
-    
-    private function setHitProducts($ids)
-    {
-        $sql = '';
-        $hitProducts='';
-        if(!empty(Yii::app()->params['currentMaker'])) {
-            $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
-        }
-        
-        //$depend = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-        
-        $elements = Yii::app()->db->cache(1000)->createCommand()
-            ->selectDistinct('p.id')
-            ->from('model_line m')
-            ->join('product_in_model_line pm', 'm.id=pm.model_line_id')
-            ->join('product p', 'p.id=pm.product_id')
-            ->where(
-               array('and', 
-                    'p.liquidity = "A" and p.image not NULL and p.published=:flag',
-                     array('in', 'pm.model_line_id', $ids)
-               ), array(':flag'=>true)
-            )
-            ->queryColumn()
-        ;
-        
-        set_time_limit(200);
-        $max = count($elements);
-        $count = 16;
-        if ($max > 0) {
-            if ($max >= $count) {
-                $random_elem = array_rand($elements, $count);
-            } else {
-                $random_elem = array_rand($elements, $max);
-            }
-            $random_count = count($random_elem);
-            $query = "SELECT * from product where id in (";
-            for ($i = 0; $i < $random_count; $i++) {
-                if ($i != 0) {
-                    $query.=',';
-                }
-                $query.=$elements[$random_elem[$i]];
-            }
-            $query.=");";
-            $hitProducts = Product::model()->findAllBySql($query);
-        }
-  
-        return $hitProducts;
     }
 }
 
