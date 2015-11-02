@@ -2624,11 +2624,11 @@ $(document).ready(function($){
 //    });
     /* end choose filial */
 //    
-//    $(".l-menu-wrapper").mCustomScrollbar({
-//        scrollButtons:{
-//            enable:true
-//        }
-//    });
+    $(".l-menu-wrapper").mCustomScrollbar({
+        scrollButtons:{
+            enable:true
+        }
+    });
     
     $(".one_banner h3").dotdotdot({
         ellipsis : '... ',
