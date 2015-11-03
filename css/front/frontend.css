@@ -3816,6 +3816,7 @@ div.ui-widget-header{
     background: -o-linear-gradient(top,#fbc173,#f39314);
     background: -ms-linear-gradient(top,#fbc173,#f39314);
     background: linear-gradient(top,#fbc173,#f39314);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#fbc173', endColorstr='#f39314');/*For IE7-8-9*/
     cursor: pointer;
     margin-top: 10px;
     width: 80%;
