@@ -14,7 +14,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 echo CHtml::openTag('div', array('class' => 'maker_wrapper'));
                     echo CHtml::openTag('div', array('class' => 'maker_inner_wrapper'));
                         $link='/product-maker'.$maker->path.'/';
-                        echo CHtml::openTag('a', array('href' => $link));
+                        echo CHtml::openTag('a', array('href' => $link,'target'=>'_blank'));
                             echo CHtml::image($maker->logo, $maker->name, array());
                         echo CHtml::closeTag('a');
                     echo CHtml::closeTag('div');
