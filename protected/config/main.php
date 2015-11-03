@@ -96,6 +96,7 @@ return array(
                 //'productmaker/index/id/<id:\d+>' => 'productmaker/index',
                 'equipment-maker/<path:[\w_\/-\d]+>' => 'equipmentmaker/index',
                 'product-maker/<path:[\w_\/-\d]+>' => 'productmaker/index',
+                'product-maker/' => 'productmaker/index',
                 
                 'cart/guestremove/<path:[\w_\/-\d]+>' => 'cart/guestremove',
                 'cart/remove/<path:[\w_\/-\d]+>' => 'cart/remove',
