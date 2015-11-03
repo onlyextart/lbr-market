@@ -3228,6 +3228,63 @@ ul.yiiPager .selected a {
     top: -30px;
 }
 /*----- end BestOffer page---------------*/
+
+/*----- start Brand page---------------*/
+.productmakers_wrapper{
+  width:100%;
+  padding-top: 10px;
+}
+.maker_wrapper{
+  width:21%;
+  float:left;
+  height: 70px;
+  margin:10px 2%;
+  text-align:center;
+}
+.maker_wrapper::before{
+  content:'';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.maker_wrapper .maker_inner_wrapper{
+   display:inline-block;
+   position: relative;
+   vertical-align: middle;
+   margin:0 auto;
+   text-align:center;
+}
+.maker_inner_wrapper img{
+   display:block;
+   margin:0 auto;
+   max-width:146px;
+   max-height:70px;
+   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=75);
+   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+   opacity: 0.75;
+   filter: alpha(opacity=75);
+   -webkit-filter: opacity(75%);
+           filter: opacity(75%);
+   
+   -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+       -ms-transition: all 0.3s ease;
+           transition: all 0.3s ease;
+}
+.maker_inner_wrapper img:hover{
+/*  max-width: 151px;
+  max-height: 75px;*/
+  cursor: pointer;
+  opacity: 1;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=75);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: alpha(opacity=100);
+  -webkit-filter: opacity(100%);
+          filter: opacity(100%);
+}
+/*----- end Brand page---------------*/
+
 /*----- start List style for Contact----------------*/
 .contact-wrapper{
     margin-top: 20px;
