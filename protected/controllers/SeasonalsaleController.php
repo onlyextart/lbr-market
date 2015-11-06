@@ -8,6 +8,10 @@ class SeasonalsaleController extends Controller
         
         if (!empty($id)) {
             $data = BestOffer::model()->findByPk($_REQUEST['id'], 'published=1');
+            $breadcrumbs[$sectionName] = '/seasonalsale/';
+            $breadcrumbs[] = $data->name;
+            Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'] .= ' '.$data->name;
+            Yii::app()->params['breadcrumbs'] = $breadcrumbs;
             
             $products = new Product('searchEventMaker');
             
@@ -41,11 +45,14 @@ class SeasonalsaleController extends Controller
                     'pageSize' => 10,
                 );
             }
-            $breadcrumbs[$sectionName] = '/seasonalsale/';
-            $breadcrumbs[] = $data->name;
-            Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'] .= ' '.$data->name;
-            Yii::app()->params['breadcrumbs'] = $breadcrumbs;
-            if(!empty($data)) $this->render('index', array('data'=>$data,'products' => $products,'dataProvider' => $dataProvider,'filter_data'=>$filter_data,'products_by_makers'=>$products_by_makers));
+            if(!empty($data)){ 
+                if(!empty($makers)){
+                    $this->render('index', array('data'=>$data,'products' => $products,'dataProvider' => $dataProvider,'filter_data'=>$filter_data,'products_by_makers'=>$products_by_makers));
+                }
+                else{
+                  $this->render('index', array('data'=>$data,'products' => $products));  
+                }     
+            }
             else $this->redirect('/');
         } else {
             $data = BestOffer::model()->findAll(array('condition'=>'published=1', 'order'=>'IFNULL(level, 1000000000)'));

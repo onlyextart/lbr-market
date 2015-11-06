@@ -16,7 +16,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?36');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?37');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?3');
 
@@ -91,7 +91,7 @@
                     <li><a href="/"><span>Главная</span></a></li>
                     <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
                     <li><a href="/sale/"><span>Распродажа</span></a></li>
-<!--                    <li><a href="#"><span>Бренды</span></a></li>-->
+                    <li><a href="/product-maker/"><span>Бренды</span></a></li>
                     <li>
                         <a href="#"><span>Информация</span></a>
                         <ul class="submenu">
