@@ -26,14 +26,15 @@ class ModelController extends Controller
         
         $products->modelLineId = $id;
         
-        $dataProvider = $products->searchEvent();
+        $result = $products->searchEvent();
+        $dataProvider = $result['dataProvider'];
         $dataProvider->pagination = array(
             'pageVar' => 'page',
             'pageSize' => 10,
         );
         
         $filter = $this->getAllGroups($id, $products->product_maker_id);
-        $brandFilter = $this->getAllBrands($id, $products->product_group_id);
+        $brandFilter = $this->getAllBrands($result['brandCriteria']);
         
         // breadcrumbs
         $categoryDependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
@@ -124,39 +125,9 @@ class ModelController extends Controller
         return $data;
     }
     
-    private function getAllBrands($id, $group)
+    private function getAllBrands($criteria)
     {
         $data = $temp = array();
-        
-        $criteria = new CDbCriteria;
-        $criteria->distinct = true;
-        $criteria->select = 'product.product_maker_id as id';
-        $criteria->join ='JOIN product ON product.id = t.product_id';
-        $criteria->condition = 't.model_line_id=:model_line_id';
-        $criteria->params = array(':model_line_id'=>$id);
-        
-        if(!empty($group)){
-            $groups = array();
-            //$groups[] = 651;
-            $groups[] = $group;
-            $model = ProductGroup::model()->findByPk($group);
-
-            if(!$model->isLeaf()) {
-                $children = $model->children()->findAll();
-                foreach($children as $child) {
-                    $groups[] = $child->id;
-                    if(!$child->isLeaf()) {
-                        $subChildren = $child->children()->findAll();
-                        foreach($subChildren as $subChild) {
-                             $groups[] = $subChild->id;
-                        }
-                    }
-                }
-            }
-
-            $criteria->addInCondition('product.product_group_id', $groups);
-            //$criteria->addCondition('product.product_group_id = 1');
-        }
         
         $productsInModel = ProductInModelLine::model()->findAll($criteria);
         foreach($productsInModel as $productInModel){
@@ -173,32 +144,6 @@ class ModelController extends Controller
 
         foreach($makers as $maker) {
             $data[$maker->id] = $maker->name;
-            
-//            $ancestors = $group->ancestors()->findAll();
-//            if(!empty($ancestors)) {
-//                $count = 1;
-//                $groupParent = $group->parent()->find();
-//                if($groupParent->level == 1){
-//                    $data[$group->name][$group->id] = $group->name;
-//                } else {
-//                    foreach($ancestors as $ancestor) {
-//                        $parent = $ancestor->parent()->find();
-//                        if(!empty($parent)) {
-//                            if(count($ancestors) == 2) {
-//                                $data[$ancestor->name][$group->id] = $group->name;
-//                            } else if(count($ancestors) == 3 && $parent->level > 1) {
-//                                $data[$parent->name][$ancestor->id] = $ancestor->name;
-//                            } else if(count($ancestors) == 4 && $parent->level > 2) {
-//                                $parent2 = $parent->parent()->find();
-//                                if($parent2->level > 1){
-//                                    $data[$parent2->name][$parent->id] = $parent->name;
-//                                }
-//                            }
-//                        }
-//                        $count++;
-//                    }
-//                }
-//            }
         }
 
         return $data;
