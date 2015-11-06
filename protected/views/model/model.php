@@ -67,8 +67,8 @@
             ),
             array(
                 'header' => '',
-                'name' => 'image',
-                'filter' => false,
+                'name' => 'product_group_id',
+                'filter' => $filter,
                 'type' => 'raw',
                 'value' =>
                 'CHtml::link('
@@ -77,6 +77,15 @@
                 . 'array("target"=>"_blank", "class"=>"thumbnail")'
                 . ')',
                 'htmlOptions' => array('width' => '100px')
+            ),
+            array(
+                'header' => 'Производитель',
+                'name' => 'product_maker_id',
+                'filter' => $brand,
+                'type' => 'raw',
+                'value' => '(!empty($data->product_maker_id)) ? ProductMaker::model()->findByPk($data->product_maker_id)->name : ""',
+                //'htmlOptions' => array('width'=>'15%', 'padding-right'=>'5px'),
+                'htmlOptions' => array('width'=>'200px', 'align' => 'center'),
             ),
             array(
                 'header' => '',
@@ -159,15 +168,7 @@
                     return $result;
                 }
             ),
-            array(
-                'header' => 'Группа',
-                'name' => 'product_group_id',
-                'type' => 'raw',
-                'value' => 'ProductGroup::model()->findByPk($data->product_group_id)->name',
-                //'htmlOptions' => array('width'=>'15%', 'padding-right'=>'5px'),
-                'htmlOptions' => array('width'=>'200px', 'align' => 'center'),
-                'filter' => $filter,
-            ),
+            
         ),
     ));
     ?> 

@@ -241,6 +241,10 @@ class Product extends CActiveRecord {
             }
         }
         
+        if(!empty($this->product_maker_id)) {
+            $criteria->addCondition('product_maker_id = '.$this->product_maker_id);
+        }
+        
         if(!empty($this->product_group_id)) {
             $groups = array();
             //$groups[] = 651;
