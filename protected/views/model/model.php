@@ -66,7 +66,7 @@
                 'htmlOptions' => array('width' => '130px')
             ),
             array(
-                'header' => '',
+                'header' => 'Группа',
                 'name' => 'product_group_id',
                 'filter' => $filter,
                 'type' => 'raw',
