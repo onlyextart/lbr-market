@@ -1868,7 +1868,7 @@ hr#hit-line-second{
     margin-bottom: 0;
     margin-left: -5px;
 }
-.article h1{
+.article h1, h1#aboutus-header{
     text-align: center;
     color: #5f5e5e;
     margin-left: 0;
@@ -1893,6 +1893,9 @@ hr#hit-line-second{
 }*/
 .article p, .article div{
     padding-bottom: 10px;
+}
+#aboutus-content{
+    margin-top: 20px;
 }
 #aboutus-photos{
     width:780px;
