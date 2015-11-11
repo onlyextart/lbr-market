@@ -137,7 +137,7 @@ class ProductController extends Controller
                 $countLabel = '<span class="stock in-stock">'.Product::IN_STOCK_SHORT.'</span>';
             }
         
-            $drafts = $this->getDraftsLabel($analog->id);
+            
 
             $analogProducts .= '<li>'.
                                     '<div class="spareparts-wrapper">'.
@@ -155,8 +155,15 @@ class ProductController extends Controller
                                   '<img src="'.$smallImg.'" alt="'.$analog->name.'"/>'.
                                '</a>'
             ;
+            
+            $drafts = $this->getDraftsLabel($analog->id);
+            $productMaker = '';
+            if(!empty($analog->product_maker_id)) { 
+                $productMaker = '<div>'.ProductMaker::model()->findByPk($analog->product_maker_id)->name.'</div>';
+            }
             $analogProducts .= '</div>'.
                             '<div class="cell draft width-35">'.
+                               $productMaker.
                                $drafts.
                             '</div>'
             ;

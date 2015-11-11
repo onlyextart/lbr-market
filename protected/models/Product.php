@@ -221,6 +221,7 @@ class Product extends CActiveRecord {
 
     public function searchEvent() 
     {
+        $groups = array();
         $criteria = new CDbCriteria;
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
         $criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
@@ -232,7 +233,6 @@ class Product extends CActiveRecord {
             } else $criteria->addCondition('count = 0 or count is null');
         }
         
-        
         if(!empty($this->name)) {
             if(Yii::app()->search->prepareSqlite()){ 
                 $match = addcslashes($this->name, '%_');
@@ -241,9 +241,11 @@ class Product extends CActiveRecord {
             }
         }
         
+        if(!empty($this->product_maker_id)) {
+            $criteria->addCondition('product_maker_id = '.$this->product_maker_id);
+        }
+        
         if(!empty($this->product_group_id)) {
-            $groups = array();
-            //$groups[] = 651;
             $groups[] = $this->product_group_id;
             $model = ProductGroup::model()->findByPk($this->product_group_id);
 
@@ -265,7 +267,20 @@ class Product extends CActiveRecord {
         
         $criteria->addCondition('published = 1');
         
-        return new CActiveDataProvider($this, array(
+        // brand filter        
+        $brandCriteria = new CDbCriteria;
+        $brandCriteria->distinct = true;
+        $brandCriteria->select = 'product.product_maker_id as id';
+        $brandCriteria->join ='JOIN product ON product.id = t.product_id';
+        $brandCriteria->condition = 't.model_line_id=:model_line_id';
+        $brandCriteria->params = array(':model_line_id'=>$this->modelLineId);
+        
+        if(!empty($groups)) {
+            $brandCriteria->addInCondition('product.product_group_id', $groups);
+        }
+        // end brand filter
+        
+        $dataProvider = new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'sort' => array(
                 'defaultOrder' => 'name ASC',
@@ -289,6 +304,12 @@ class Product extends CActiveRecord {
                 'pageVar'  => 'page',
             ),
         ));
+        
+        
+        return array(
+            'dataProvider' => $dataProvider,
+            'brandCriteria' => $brandCriteria
+        );
     }
     
     public function searchEventMaker(){

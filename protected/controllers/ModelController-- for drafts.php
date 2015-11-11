@@ -8,21 +8,17 @@ class ModelController extends Controller
         
         $output = '';
         $data = $hitProducts = array();
-
         //$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         //$model = ModelLine::model()->cache(1000, $dependency)->findByPk($id);
         $model = ModelLine::model()->findByPk($id);
         if(!$model)
             throw new CHttpException(404, 'Модель не найдена');
-
         $title = $model->name;
-
         $criteria = new CDbCriteria;
         $criteria->select = 't.*';
         $criteria->join ='JOIN product ON product.id = t.product_id';
         $criteria->condition = 't.model_line_id=:model_line_id';
         $criteria->params = array(':model_line_id'=>$id);
-
         if(!empty($sort)) {
             Yii::app()->params['sortCol'] = $sort;
             Yii::app()->params['sortOrder'] = $order;
@@ -33,8 +29,6 @@ class ModelController extends Controller
                 $criteria->order = 'product.name '.$order;
             } else $criteria->order = 'product.liquidity '.$order.', product.name asc';
         } else $criteria->order = 'IFNULL(product.count, 1000000000) desc, product.name asc';
-
-
         $productsInModel = ProductInModelLine::model()->findAll($criteria);
         
         foreach($productsInModel as $productInModel) {
@@ -42,11 +36,9 @@ class ModelController extends Controller
             if(!empty($product->product_group_id)){
                 $group = ProductGroup::model()->findByPk($product->product_group_id);
                 $ancestors = $group->ancestors()->findAll();
-
                 if(!empty($ancestors)) {
                     $count = 1;
                     $groupParent = $group->parent()->find();
-
                     foreach($ancestors as $ancestor) {
                         $parent = $ancestor->parent()->find();
                         if(!empty($parent)) {
@@ -85,7 +77,6 @@ class ModelController extends Controller
         
         // random products for hit products            
         $hitProducts = $this->setHitProducts($id);
-
         // bradcrumbs
         Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
         $category_dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
@@ -96,17 +87,14 @@ class ModelController extends Controller
         
         $breadcrumbs[$label] = '/catalog'.$categoryParent->path.'/';
         $breadcrumbs[$category->name] = '/catalog'.$category->path.'/';
-
         $parent = $model->parent()->find();
         $brand = EquipmentMaker::model()->findByPk($model->maker_id);
         $breadcrumbs[$brand->name] = '/catalog'.$category->path.$brand->path.'/';
         $breadcrumbs[$parent->name] = '/catalog'.$category->path.$brand->path.$parent->path.'/';
         $breadcrumbs[] = $title;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
-
         if(!empty($data)) $output = $this->showInnerGroups($data);
         $this->render('model', array('model' => $model, 'data' => $data, 'title' => $title, 'result'=>$output, 'hitProducts'=>$hitProducts, 'url'=>ModelLine::model()->getUrl($model->id) ));
-
     }
     
     private function setHitProducts($id)
@@ -116,7 +104,6 @@ class ModelController extends Controller
         if(!empty(Yii::app()->params['currentMaker'])) {
             $sql = ' and m.maker_id = '.Yii::app()->params['currentMaker'];
         }
-
         $elements = Yii::app()->db->cache(1000)->createCommand()
             ->selectDistinct('p.id')
             ->from('model_line m')
@@ -130,7 +117,6 @@ class ModelController extends Controller
             )
             ->queryColumn()
         ;
-
         $max = count($elements);
         $count = 4;
         if ($max > 0) {
@@ -206,7 +192,6 @@ class ModelController extends Controller
         
         if(Yii::app()->params['showDrafts']){
             $allDrafts = ProductInDraft::model()->findAllByAttributes(array('product_id'=>$id));
-
             if(!empty($allDrafts)){
                 foreach($allDrafts as $one) {
                     $draft = Draft::model()->findByPk($one['draft_id']);
@@ -260,7 +245,6 @@ class ModelController extends Controller
                 '</div>';
             }
         }
-
         $result .= '<div class="cell width-20">
                        <div class="cart-form" elem="'.$model->id.'">'
         ;
@@ -279,7 +263,6 @@ class ModelController extends Controller
                         <input onclick='.$intent.' type="submit"  title="Добавить в корзину" value="" class="small-cart-button">'
                     ;
                 //}
-
                 $result .= '<button class="wish-small" title="Добавить в блокнот">
                                <span class="wish-icon"></span>
                             </button>'

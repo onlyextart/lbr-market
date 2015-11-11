@@ -14,8 +14,7 @@ class ModelController extends Controller
         $title = $model->name;
         Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
         //$url = ModelLine::model()->getUrl($model->id);
-        
-        $filter = $this->getAllGroups($id);
+
         // random products for hit products            
         $hitProducts = $this->setHitProducts($id);
         
@@ -27,11 +26,15 @@ class ModelController extends Controller
         
         $products->modelLineId = $id;
         
-        $dataProvider = $products->searchEvent();
+        $result = $products->searchEvent();
+        $dataProvider = $result['dataProvider'];
         $dataProvider->pagination = array(
             'pageVar' => 'page',
             'pageSize' => 10,
         );
+        
+        $filter = $this->getAllGroups($id, $products->product_maker_id);
+        $brandFilter = $this->getAllBrands($result['brandCriteria']);
         
         // breadcrumbs
         $categoryDependency = new CDbCacheDependency('SELECT MAX(update_time) FROM category');
@@ -47,12 +50,13 @@ class ModelController extends Controller
         $breadcrumbs[] = $title;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
         // end breadcrumbs
-
+        
         $params = array(
             'products' => $products,
             'dataProvider' => $dataProvider,
             'title' => $title,
             'filter' => $filter,
+            'brand' => $brandFilter,
             'hitProducts' => $hitProducts,
             'breadcrumbs' => $breadcrumbs
         );
@@ -63,7 +67,7 @@ class ModelController extends Controller
             $this->renderPartial('model', $params);
     }
     
-    private function getAllGroups($id)
+    private function getAllGroups($id, $brand)
     {
         $data = $temp = array();
         
@@ -73,6 +77,10 @@ class ModelController extends Controller
         $criteria->join ='JOIN product ON product.id = t.product_id';
         $criteria->condition = 't.model_line_id=:model_line_id';
         $criteria->params = array(':model_line_id'=>$id);
+        
+        if(!empty($brand)){
+            $criteria->addCondition('product.product_maker_id = '.$brand);
+        }
         
         $productsInModel = ProductInModelLine::model()->findAll($criteria);
         foreach($productsInModel as $productInModel){
@@ -112,6 +120,30 @@ class ModelController extends Controller
                     }
                 }
             }
+        }
+
+        return $data;
+    }
+    
+    private function getAllBrands($criteria)
+    {
+        $data = $temp = array();
+        
+        $productsInModel = ProductInModelLine::model()->findAll($criteria);
+        foreach($productsInModel as $productInModel){
+            $temp[] = $productInModel['id'];
+        }
+        
+        $crit = new CDbCriteria();
+        $crit->distinct = true;
+        $crit->select = '*';
+        $crit->condition = 'external_id IS NOT NULL';
+        $crit->order = 'name';
+        $crit->addInCondition('id', $temp);
+        $makers = ProductMaker::model()->findAll($crit);
+
+        foreach($makers as $maker) {
+            $data[$maker->id] = $maker->name;
         }
 
         return $data;

@@ -2217,6 +2217,10 @@ hr#hit-line-second{
     display: block;
 }
 
+.product-info .draft{
+    text-align: center;
+}
+
 .spareparts-wrapper .row .cell:first-child{
     padding-left: 10px;
 }
