@@ -88,12 +88,8 @@
                 'htmlOptions' => array('width'=>'200px', 'align' => 'center'),
             ),
             array(
-                'header' => 'В наличии',
-                'name' => 'count',
-                'filter' => array(
-                    '1' => Product::IN_STOCK_SHORT,
-                    '2' => Product::NO_IN_STOCK
-                ),
+                'header' => '',
+                'filter' => false,
                 'htmlOptions' => array('width' => '150px', 'align' => 'center'),
                 'type' => 'raw',
                 'value' => function($data) {
@@ -117,8 +113,8 @@
                                     '<span>' . $price . '</span>'.$available.
                                     '</div>';
                         } else {
-                            $result = '<div class="cell price-link">' .
-                                    '<a href="/site/login/">' . Yii::app()->params['textNoPrice'] . '</a>' .$available.
+                            $result = '<div class="cell">' .
+                                    '<a href="/site/login/" class="price_link">' . Yii::app()->params['textNoPrice'] . '</a>'.$available.
                                     '</div>';
                         }
                     } else {
@@ -134,8 +130,12 @@
                 }
             ),
             array(
-                'header' => '',
-                'filter' => false,
+                'header' => 'В наличии',
+                'name' => 'count',
+                'filter' => array(
+                    '1' => Product::IN_STOCK_SHORT,
+                    '2' => Product::NO_IN_STOCK
+                ),
                 'htmlOptions' => array(
                     'width' => '150px'
                 ),

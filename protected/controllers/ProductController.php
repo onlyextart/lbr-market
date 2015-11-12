@@ -132,13 +132,11 @@ class ProductController extends Controller
         $products = Product::model()->with('priceInFilial')->findAll($criteria);
         
         foreach ($products as $analog) {
-            $countLabel = '<span class="stock">'.Product::NO_IN_STOCK.'</span>';
+            $countLabel = '<div class="stock">'.Product::NO_IN_STOCK.'</div>';
             if($analog->count > 0) {
-                $countLabel = '<span class="stock in-stock">'.Product::IN_STOCK_SHORT.'</span>';
+                $countLabel = '<div class="stock in-stock">'.Product::IN_STOCK_SHORT.'</div>';
             }
-        
             
-
             $analogProducts .= '<li>'.
                                     '<div class="spareparts-wrapper">'.
                                         '<div class="row">'.
@@ -176,10 +174,10 @@ class ProductController extends Controller
                        if(empty($price)) $price = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
                    } else $price = Yii::app()->params['textHidePrice'];
 
-                   $analogProducts .= '<div class="cell width-15">'.$price.'</div>';
+                   $analogProducts .= '<div class="cell width-15">'.$price.$countLabel.'</div>';
                 } else {
-                   $analogProducts .= '<div class="cell width-15 price_link">'.
-                      '<a href="/site/login/">'.Yii::app()->params['textNoPrice'].'</a>'.
+                   $analogProducts .= '<div class="cell price-label width-15">'.
+                      '<a href="/site/login/" class="price_link">'.Yii::app()->params['textNoPrice'].'</a>'.$countLabel.
                    '</div>';
                 }
             } else {
@@ -191,12 +189,11 @@ class ProductController extends Controller
                 }
             }
              
-             $analogProducts .=      '<div class="cell width-20">'.
-                                         '<div class="cart-form" elem="'.$analog->id.'">'
+             $analogProducts .= '<div class="cell width-20">'.
+                                    '<div class="cart-form" elem="'.$analog->id.'">'
              ;
              
-             if(empty($analog->date_sale_off)) { 
-                $analogProducts .= $countLabel;
+             if(empty($analog->date_sale_off)) {
                 $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";                               
                 if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
                    $analogProducts .= '<input type="number" min="1" pattern="[0-9]*" name="quantity" value="1" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">'.

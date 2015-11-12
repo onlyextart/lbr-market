@@ -2227,7 +2227,7 @@ hr#hit-line-second{
 .spareparts-wrapper div.row{
     display: table-row;
 }
-.spareparts-wrapper .row .cell.draft a{
+.spareparts-wrapper .row .cell.draft a, .spareparts-wrapper .row .cell.price-label{
     text-align: center;
 }
 .spareparts-wrapper div.cell{
