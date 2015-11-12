@@ -2310,14 +2310,14 @@ input.small-cart-button,input.small-cart-button-wishlist{
     position: relative;
 }
 
-.cart-form .stock{
-    padding-right: 10px;
-    /*padding-bottom: 10px;*/
+.spareparts-wrapper .stock{
+    /*padding-right: 10px;
     vertical-align: middle;
     padding-bottom: 3px;
-    display: block;
+    display: block;*/
+    padding-top: 10px;
 }
-.cart-form .stock.in-stock{
+.spareparts-wrapper .stock.in-stock{
     color: #f39314;
 }
 .cell .cart-form {
