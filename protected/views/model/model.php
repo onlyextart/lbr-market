@@ -88,8 +88,12 @@
                 'htmlOptions' => array('width'=>'200px', 'align' => 'center'),
             ),
             array(
-                'header' => '',
-                'filter' => false,
+                'header' => 'В наличии',
+                'name' => 'count',
+                'filter' => array(
+                    '1' => Product::IN_STOCK_SHORT,
+                    '2' => Product::NO_IN_STOCK
+                ),
                 'htmlOptions' => array('width' => '150px', 'align' => 'center'),
                 'type' => 'raw',
                 'value' => function($data) {
@@ -130,14 +134,10 @@
                 }
             ),
             array(
-                'header' => 'В наличии',
-                'name' => 'count',
+                'header' => '',
+                'filter' => false,
                 'htmlOptions' => array(
                     'width' => '150px'
-                ),
-                'filter' => array(
-                    '1' => Product::IN_STOCK_SHORT,
-                    '2' => Product::NO_IN_STOCK
                 ),
                 //'value'  => '($data->count > 0 ? Product::IN_STOCK_SHORT : Product::NO_IN_STOCK)',
                 'type' => 'raw',
