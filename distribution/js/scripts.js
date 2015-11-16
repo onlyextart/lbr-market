@@ -2640,6 +2640,16 @@ $(document).ready(function($){
         wrap	 : 'letter',
     });
     // product page
+    $('#accordion-group').dcAccordion({
+        eventType: 'click',
+        saveState: true,
+        disableLink: true,
+        speed: 'fast',
+        classActive: 'test',
+        showCount: false
+    });
+    
+    // product page
     $('#accordion-sparepart').dcAccordion({
         eventType: 'click',
         saveState: true,

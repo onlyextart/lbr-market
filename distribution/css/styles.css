@@ -3009,6 +3009,34 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     text-align: left;
     text-decoration: none;
 }
+
+.grey #accordion-group > li > a { 
+    background: url("/images/main_menu_bg.png") repeat-x scroll 0 -1px #d7d4d4;
+    color: #5f5e5e;
+    font-weight: bold;
+    display: block;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+.grey #accordion-group > li > ul > li > a
+{
+    margin-right: 15px;
+    padding: 10px 10px 10px 40px;
+}
+
+.grey #accordion-group > li ul a
+{
+    border-bottom: 1px dotted #afaf94;
+}
+
+.grey #accordion-group > li > ul li:last-child a
+{
+    border-bottom: none;
+}
+
 .grey #accordion-maker > li > a.active, .grey #accordion-type > li > a.active
 {
     padding: 10px 10px 10px 40px;
