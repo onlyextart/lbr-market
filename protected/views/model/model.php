@@ -47,7 +47,7 @@
         . '}',
         'afterAjaxUpdate'=>'function(id, data){ '
             . '$("a.thumbnail").fancybox();'
-            . '$(".price-link").easyTooltip({content:"Авторизуйтесь, чтобы узнать цену"});'
+            . '$(".price_link").easyTooltip({content:"Авторизуйтесь, чтобы узнать цену"});'
             . '$(".grid-overlay").hide();'
         . '}',         
         'template' => '{summary}{items}{pager}',
