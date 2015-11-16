@@ -1,4 +1,19 @@
 <div class="left-menu-wrapper grey">
+    <?php //if(!empty($types)): ?>
+    <div class="l-menu-wrapper">
+        <ul class="accordion" id="accordion-group">
+            <li elemId="555">
+                <ul class="accordion">
+                    <li elemId="555">
+                        <a href="#">
+                            <span>ljkj</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <?php //endif; ?>
     <?php if(!empty($filterCategory) || !empty($filterMaker)): ?>
     <div class="rounded">
         <div class="label">Текущий отбор</div>
