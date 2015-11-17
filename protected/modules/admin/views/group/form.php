@@ -13,7 +13,7 @@ return array(
                 ),
                 'use_in_group_filter'=>array(
                     'type'=>'dropdownlist',
-                    'options' => array(1 => '1'),
+                    'items'=>array('0'=>'Нет','1'=>'Да')
                 ),
                 'alias'=>array(
                     'type'=>'text',
