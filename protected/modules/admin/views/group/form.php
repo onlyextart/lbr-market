@@ -11,6 +11,13 @@ return array(
                 'name'=>array(
                     'type'=>'text',
                 ),
+                'use_in_group_filter'=>array(
+                    'type'=>'dropdownlist',
+                    'options' => array(1 => '1'),
+                ),
+                'alias'=>array(
+                    'type'=>'text',
+                ),
             ),
         ),
     ),

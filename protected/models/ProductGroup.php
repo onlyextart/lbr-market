@@ -37,10 +37,10 @@ class ProductGroup extends CActiveRecord
 		return array(
                         array('name', 'required'),
 			array('lft, rgt, parent, level', 'numerical', 'integerOnly'=>true),
-			array('external_id, name', 'safe'),
+			array('external_id, name, use_in_group_filter, alias', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, lft, rgt, parent, level', 'safe', 'on'=>'search'),
+			array('id, external_id, name, lft, rgt, parent, level, use_in_group_filter, alias', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,13 +64,15 @@ class ProductGroup extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'external_id' => 'External',
-			'name' => 'Название',
-			'lft' => 'Lft',
-			'rgt' => 'Rgt',
-			'parent' => 'Parent',
-			'level' => 'Level',
+                    'id' => 'ID',
+                    'external_id' => 'External',
+                    'name' => 'Название',
+                    'lft' => 'Lft',
+                    'rgt' => 'Rgt',
+                    'parent' => 'Parent',
+                    'level' => 'Level',
+                    'alias' => 'Псевдоним (для фильтра групп)',
+                    'use_in_group_filter' => 'Использовать в фильтре групп',
 		);
 	}
 

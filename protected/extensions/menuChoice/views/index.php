@@ -1,12 +1,24 @@
 <div class="left-menu-wrapper grey">
     <ul class="accordion" id="accordion-group">
-        <li><a href="#">Масла</a>
+        <li><a href="#">ГСМ и технические жидкости</a>
             <ul>
                 <li><a href="#">Масла 1</a></li>
                 <li><a href="#">Масла 2</a></li>
             </ul>
         </li>
-        <li><a href="#">Масла 5</a>
+        <li><a href="#">Фильтры</a>
+            <ul>
+                <li><a href="#">Масла 3</a></li>
+                <li><a href="#">Масла 4</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Ремни</a>
+            <ul>
+                <li><a href="#">Масла 3</a></li>
+                <li><a href="#">Масла 4</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Колеса и комплекты</a>
             <ul>
                 <li><a href="#">Масла 3</a></li>
                 <li><a href="#">Масла 4</a></li>
