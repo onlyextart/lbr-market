@@ -11,7 +11,7 @@ class m151116_081857_add_groups_filter extends CDbMigration
                 $this->createTable('product_group_filter', array(
                     'id' => 'pk',
                     'group_id' => 'integer NOT NULL REFERENCES product_group(id) ON DELETE CASCADE ON UPDATE CASCADE',
-                    'alias' => 'text',
+                    'name' => 'text',
                     'lft' => 'integer',
                     'rgt' => 'integer',
                     'parent' => 'integer',

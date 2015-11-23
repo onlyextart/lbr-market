@@ -3,7 +3,7 @@ class MenuChoice extends CWidget
 {
     public function init()
     {
-        $types = $makers = $temp = $makersAll = array();
+        $groups = $types = $makers = $temp = $makersAll = array();
         $filterCategory = $filterMaker = null;
         
         $model = new Category;
@@ -140,8 +140,19 @@ class MenuChoice extends CWidget
             $filterMaker['id'] = $filterMakerModel->id;
             $filterMaker['path'] = $filterMakerModel->path;
         }
-        //var_dump($makers);exit;
-        //var_dump($filterCategory);exit;
-        $this->render('index',array('types'=>$types, 'makers'=>$makers, 'filterMaker' => $filterMaker, 'filterCategory' => $filterCategory));
+        
+        // формируем меню "Продукты в группах"
+        $groupsRoot = ProductGroupFilter::model()->findByAttributes(array('level'=>1));
+        if(!empty($groupsRoot)) {
+            $groups = $groupsRoot->children()->findAll();
+        }
+        
+        $this->render('index',array(
+            'groups' => $groups,
+            'types'=>$types, 
+            'makers'=>$makers, 
+            'filterMaker' => $filterMaker, 
+            'filterCategory' => $filterCategory
+        ));
     }
 }

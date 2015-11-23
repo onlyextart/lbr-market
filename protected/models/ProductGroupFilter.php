@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This is the model class for table "product_group".
+ * This is the model class for table "product_group_filter".
  *
- * The followings are the available columns in table 'product_group':
+ * The followings are the available columns in table 'product_group_filter':
  * @property integer $id
- * @property string $external_id
+ * @property integer $group_id
  * @property string $name
  * @property integer $lft
  * @property integer $rgt
@@ -13,18 +13,16 @@
  * @property integer $level
  *
  * The followings are the available model relations:
- * @property Attribute[] $attributes
- * @property GroupInModelLine[] $groupInModelLines
- * @property Product[] $products
+ * @property ProductGroup $group
  */
-class ProductGroup extends CActiveRecord
+class ProductGroupFilter extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'product_group';
+		return 'product_group_filter';
 	}
 
 	/**
@@ -35,12 +33,12 @@ class ProductGroup extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-                        array('name', 'required'),
-			array('lft, rgt, parent, level', 'numerical', 'integerOnly'=>true),
-			array('external_id, name, use_in_group_filter, alias', 'safe'),
+			array('group_id', 'required'),
+			array('group_id, lft, rgt, parent, level', 'numerical', 'integerOnly'=>true),
+			array('name, group_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, external_id, name, lft, rgt, parent, level, use_in_group_filter, alias', 'safe', 'on'=>'search'),
+			array('id, group_id, name, lft, rgt, parent, level', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,9 +50,7 @@ class ProductGroup extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'attributes' => array(self::HAS_MANY, 'Attribute', 'product_group_id'),
-			'groupInModelLines' => array(self::HAS_MANY, 'GroupInModelLine', 'group_id'),
-			'products' => array(self::HAS_MANY, 'Product', 'product_group_id'),
+			'group' => array(self::BELONGS_TO, 'ProductGroup', 'group_id'),
 		);
 	}
 
@@ -64,15 +60,13 @@ class ProductGroup extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-                    'id' => 'ID',
-                    'external_id' => 'External',
-                    'name' => 'Название',
-                    'lft' => 'Lft',
-                    'rgt' => 'Rgt',
-                    'parent' => 'Parent',
-                    'level' => 'Level',
-                    'alias' => 'Псевдоним (для фильтра групп)',
-                    'use_in_group_filter' => 'Использовать в фильтре групп',
+			'id' => 'ID',
+			'group_id' => 'Name',
+			'name' => 'Alias',
+			'lft' => 'Lft',
+			'rgt' => 'Rgt',
+			'parent' => 'Parent',
+			'level' => 'Level',
 		);
 	}
 
@@ -95,14 +89,12 @@ class ProductGroup extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('external_id',$this->external_id,true);
+		$criteria->compare('group_id',$this->group_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('lft',$this->lft);
 		$criteria->compare('rgt',$this->rgt);
 		$criteria->compare('parent',$this->parent);
 		$criteria->compare('level',$this->level);
-		$criteria->compare('alias',$this->alias);
-		$criteria->compare('use_in_group_filter',$this->use_in_group_filter);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -113,7 +105,7 @@ class ProductGroup extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ProductGroup the static model class
+	 * @return ProductGroupFilter the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -163,6 +163,8 @@ class Changes extends CActiveRecord
         public static function getEditMessage($model,$post_data,$fields_short_info=array(),$file=array(),$foreign_keys=array())
         {
             $number=0;
+            $message = '';
+            
             foreach($model as $field=>$value){
                 // если передается файл
                 if(in_array($field,$file)){
@@ -175,7 +177,7 @@ class Changes extends CActiveRecord
                     }
                 }
                 // если значение изменилось
-                elseif ($value!=$post_data[$field]&&!is_null($post_data[$field])){
+                elseif (!empty($post_data[$field]) && $value!=$post_data[$field]){
                     $number++;
                     $message.=' '.$number.') поле "'.$model->getAttributeLabel($field).'"';
                     if(!in_array($field,$fields_short_info)){

@@ -1,31 +1,20 @@
 <div class="left-menu-wrapper grey">
+    <?php if(!empty($groups)): ?>
     <ul class="accordion" id="accordion-group">
-        <li><a href="#">ГСМ и технические жидкости</a>
+        <?php foreach($groups as $group): ?>
+        <li><a href="#"><?php echo $group->name ?></a>
             <ul>
-                <li><a href="#">Масла 1</a></li>
-                <li><a href="#">Масла 2</a></li>
+                <?php 
+                    $subgroups = $group->children()->findAll();
+                    foreach($subgroups as $subgroup):
+                ?>
+                <li><a href="#"><?php echo $subgroup->name ?></a></li>
+                <?php endforeach; ?>
             </ul>
         </li>
-        <li><a href="#">Фильтры</a>
-            <ul>
-                <li><a href="#">Масла 3</a></li>
-                <li><a href="#">Масла 4</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Ремни</a>
-            <ul>
-                <li><a href="#">Масла 3</a></li>
-                <li><a href="#">Масла 4</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Колеса и комплекты</a>
-            <ul>
-                <li><a href="#">Масла 3</a></li>
-                <li><a href="#">Масла 4</a></li>
-            </ul>
-        </li>
+        <?php endforeach; ?>
     </ul>
-    
+    <?php endif; ?>
     <?php if(!empty($filterCategory) || !empty($filterMaker)): ?>
     <div class="rounded">
         <div class="label">Текущий отбор</div>
