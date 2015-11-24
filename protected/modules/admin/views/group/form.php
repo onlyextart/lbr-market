@@ -13,10 +13,6 @@ $output = array(
                     'type'=>'text',
                     'disabled'=>'disabled',
                 ),
-//                'use_in_group_filter'=>array(
-//                    'type'=>'dropdownlist',
-//                    'items'=>array('0'=>'Нет', '1'=>'Да')
-//                ),
                 'alias'=>array(
                     'type'=>'text',
                 )

@@ -64,8 +64,8 @@ class GroupController extends Controller
 
             if($model->validate()) {
                 $model->saveNode();
-                
                 $node = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$model->id));
+                
                 // add item to group filter
                 if(!empty($model->use_in_group_filter)) {
                     if(empty($node)) { 
@@ -88,7 +88,14 @@ class GroupController extends Controller
                             $secondLevel->appendTo($root);
                         }
                             
-                        if($model->level == 4) {
+                        $node = new ProductGroupFilter;
+                        $node->group_id = $model->id;
+                        $node->name = $model->name;
+                        if(!empty($model->alias)) $node->name = $model->alias;
+                        
+                        if($model->level == 3) {
+                            $node->appendTo($secondLevel);
+                        } else if($model->level == 4) {
                             $thirdLevel = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$ancestors[2]->id));
                             if(empty($thirdLevel)) {
                                 $thirdLevel = new ProductGroupFilter;
@@ -98,10 +105,6 @@ class GroupController extends Controller
                                 $thirdLevel->appendTo($secondLevel);
                             }
 
-                            $node = new ProductGroupFilter;
-                            $node->group_id = $model->id;
-                            $node->name = $model->name;
-                            if(!empty($model->alias)) $node->name = $model->alias;
                             $node->appendTo($thirdLevel);
                         }
                     } else {
@@ -110,7 +113,17 @@ class GroupController extends Controller
                         $node->saveNode();
                     }
                 } else if(!empty($node)) { // delete unnecessary
-                    
+                    //$ancestors = $model->ancestors()->findAll();
+                    $parent = $node->parent()->find();
+                    $parentChildren = count($parent->children()->findAll());
+                    if($parentChildren == 1) {
+                        $grandparent = $parent->parent()->find();
+                        $grandparentChildren = count($grandparent->children()->findAll());
+                        if($grandparentChildren == 1) $grandparent->deleteNode();
+                        else $parent->deleteNode();
+                    } else {
+                        $node->deleteNode();
+                    }
                 }
                 
                 if(!empty($message)) Changes::saveChange($message);
