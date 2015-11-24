@@ -50,7 +50,7 @@ class SJsTreeGroups extends CWidget
                 echo CHtml::openTag('li', array(
                     'id'=>$this->id.'Node_'.$node['id']
                 ));
-                echo CHtml::link(CHtml::encode($node->name), '/admin/group/edit/id/'.$node->group_id);
+                echo CHtml::link(CHtml::encode($node->name), '/admin/group/edit/id/'.$node->group_id, array('target'=>'_blank'));
                 $children = $node->children()->findAll();
                 if ($children)
                 {

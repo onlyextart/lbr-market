@@ -30,3 +30,11 @@ $this->breadcrumbs = array(
     <div class="right">
     </div>
 </div>
+
+<script>
+    $(document).ready(function($){
+        $("#tree a").click(function(event){
+            event.stopPropagation();
+        }); 
+    });
+</script>
