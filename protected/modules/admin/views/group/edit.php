@@ -35,6 +35,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
     <?php endif; ?>
 </span>
 <h1><?php echo $name; ?></h1>
+<h2>Посмотреть <a href="/admin/groupfilter" target="_blank">"Фильтр групп"</a></h2>
 <div class="total">
     <div class="left">
         <div class="form wide">

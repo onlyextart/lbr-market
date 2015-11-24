@@ -94,7 +94,7 @@ class GroupController extends Controller
 
                             if($model->level == 3) {
                                 $node->appendTo($secondLevel);
-                            } else if($model->level == 4) {
+                            } else {
                                 $thirdLevel = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$ancestors[2]->id));
                                 if(empty($thirdLevel)) {
                                     $thirdLevel = new ProductGroupFilter;
@@ -105,8 +105,6 @@ class GroupController extends Controller
                                 }
 
                                 $node->appendTo($thirdLevel);
-                            } else if($model->level == 5){
-                                
                             }
                         } else {
                             $node->name = $model->name;
