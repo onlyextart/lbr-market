@@ -59,71 +59,75 @@ class GroupController extends Controller
                 $message.= $editFieldsMessage;
             }
             
-            $model->use_in_group_filter = (int)$_POST['ProductGroup']['use_in_group_filter'];
+            if($model->isLeaf()) $model->use_in_group_filter = (int)$_POST['ProductGroup']['use_in_group_filter'];
             $model->alias = $_POST['ProductGroup']['alias'];
 
             if($model->validate()) {
                 $model->saveNode();
                 $node = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$model->id));
-                
-                // add item to group filter
-                if(!empty($model->use_in_group_filter)) {
-                    if(empty($node)) { 
-                        $root = ProductGroupFilter::model()->findByAttributes(array('level'=>1));
-                        if(empty($root)) {
-                            $mainRoot = ProductGroup::model()->findByAttributes(array('level'=>1));
-                            $root = new ProductGroupFilter;
-                            $root->group_id = $mainRoot->id;
-                            $root->name = 'Все категории';
-                            $root->saveNode();
-                        }
-
-                        $ancestors = $model->ancestors()->findAll();
-                        $secondLevel = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$ancestors[1]->id));
-                        if(empty($check)) {
-                            $secondLevel = new ProductGroupFilter;
-                            $secondLevel->group_id = $ancestors[1]->id;
-                            $secondLevel->name = $ancestors[1]->name;
-                            if(!empty($ancestors[1]->alias)) $secondLevel->name = $ancestors[1]->alias;
-                            $secondLevel->appendTo($root);
-                        }
-                            
-                        $node = new ProductGroupFilter;
-                        $node->group_id = $model->id;
-                        $node->name = $model->name;
-                        if(!empty($model->alias)) $node->name = $model->alias;
-                        
-                        if($model->level == 3) {
-                            $node->appendTo($secondLevel);
-                        } else if($model->level == 4) {
-                            $thirdLevel = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$ancestors[2]->id));
-                            if(empty($thirdLevel)) {
-                                $thirdLevel = new ProductGroupFilter;
-                                $thirdLevel->group_id = $ancestors[2]->id;
-                                $thirdLevel->name = $ancestors[2]->name;
-                                if(!empty($ancestors[2]->alias)) $thirdLevel->name = $ancestors[2]->alias;
-                                $thirdLevel->appendTo($secondLevel);
+                if($model->isLeaf()) {
+                    if(!empty($model->use_in_group_filter)) {
+                        if(empty($node)) { 
+                            $root = ProductGroupFilter::model()->findByAttributes(array('level'=>1));
+                            if(empty($root)) {
+                                $mainRoot = ProductGroup::model()->findByAttributes(array('level'=>1));
+                                $root = new ProductGroupFilter;
+                                $root->group_id = $mainRoot->id;
+                                $root->name = 'Все категории';
+                                $root->saveNode();
                             }
 
-                            $node->appendTo($thirdLevel);
+                            $ancestors = $model->ancestors()->findAll();
+                            $secondLevel = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$ancestors[1]->id));
+                            if(empty($check)) {
+                                $secondLevel = new ProductGroupFilter;
+                                $secondLevel->group_id = $ancestors[1]->id;
+                                $secondLevel->name = $ancestors[1]->name;
+                                if(!empty($ancestors[1]->alias)) $secondLevel->name = $ancestors[1]->alias;
+                                $secondLevel->appendTo($root);
+                            }
+
+                            $node = new ProductGroupFilter;
+                            $node->group_id = $model->id;
+                            $node->name = $model->name;
+                            if(!empty($model->alias)) $node->name = $model->alias;
+
+                            if($model->level == 3) {
+                                $node->appendTo($secondLevel);
+                            } else if($model->level == 4) {
+                                $thirdLevel = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$ancestors[2]->id));
+                                if(empty($thirdLevel)) {
+                                    $thirdLevel = new ProductGroupFilter;
+                                    $thirdLevel->group_id = $ancestors[2]->id;
+                                    $thirdLevel->name = $ancestors[2]->name;
+                                    if(!empty($ancestors[2]->alias)) $thirdLevel->name = $ancestors[2]->alias;
+                                    $thirdLevel->appendTo($secondLevel);
+                                }
+
+                                $node->appendTo($thirdLevel);
+                            }
+                        } else {
+                            $node->name = $model->name;
+                            if(!empty($model->alias)) $node->name = $model->alias;
+                            $node->saveNode();
                         }
-                    } else {
-                        $node->name = $model->name;
-                        if(!empty($model->alias)) $node->name = $model->alias;
-                        $node->saveNode();
+                    } else if(!empty($node)) { // delete unnecessary
+                        //$ancestors = $model->ancestors()->findAll();
+                        $parent = $node->parent()->find();
+                        $parentChildren = count($parent->children()->findAll());
+                        if($parentChildren == 1) {
+                            $grandparent = $parent->parent()->find();
+                            $grandparentChildren = count($grandparent->children()->findAll());
+                            if($grandparentChildren == 1) $grandparent->deleteNode();
+                            else $parent->deleteNode();
+                        } else {
+                            $node->deleteNode();
+                        }
                     }
-                } else if(!empty($node)) { // delete unnecessary
-                    //$ancestors = $model->ancestors()->findAll();
-                    $parent = $node->parent()->find();
-                    $parentChildren = count($parent->children()->findAll());
-                    if($parentChildren == 1) {
-                        $grandparent = $parent->parent()->find();
-                        $grandparentChildren = count($grandparent->children()->findAll());
-                        if($grandparentChildren == 1) $grandparent->deleteNode();
-                        else $parent->deleteNode();
-                    } else {
-                        $node->deleteNode();
-                    }
+                } else if(!empty($node)) {
+                    $node->name = $model->name;
+                    if(!empty($model->alias)) $node->name = $model->alias;
+                    $node->saveNode();
                 }
                 
                 if(!empty($message)) Changes::saveChange($message);
