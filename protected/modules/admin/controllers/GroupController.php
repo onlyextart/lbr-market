@@ -73,7 +73,7 @@ class GroupController extends Controller
                                 $mainRoot = ProductGroup::model()->findByAttributes(array('level'=>1));
                                 $root = new ProductGroupFilter;
                                 $root->group_id = $mainRoot->id;
-                                $root->name = 'Все категории';
+                                $root->name = 'Все группы';
                                 $root->saveNode();
                             }
 

@@ -209,7 +209,6 @@ return array(
         'boolLabel' => array('0'=>'Нет','1'=>'Да'),
         'menu_admin' => array(
             'Каталог' => array(
-                'Группы товаров'=>'/admin/group/',
                 'Запчасти'=>'/admin/product/',
                 'Запчасти, на которые нет цен'=>'/admin/noprice/',
                 'Категории'=>'/admin/category/',
@@ -218,6 +217,8 @@ return array(
                 'Производители техники'=>'/admin/equipmentmaker/',
                 'Производители техники в категории'=>'/admin/categoryseo/',
                 'Филиалы и зоны'=>'/admin/filial/',
+                'Группы товаров'=>'/admin/group/',
+                'Фильтр по группам товаров'=>'/admin/groupfilter/'
             ),
             //'Скидки'=>'/admin/discount/',
             'Заказы'=>array(
