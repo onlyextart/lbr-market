@@ -156,6 +156,10 @@ $(document).ready(function($){
         });
     });
     
+//    $(document).on('click', '.login-button', function() {
+//        window.location = '/site/login/';
+//    });
+    
     if($('#sale-block ul').length) {
         $('#sale-block ul').carouFredSel({
             prev: '#prev-logo-sale',

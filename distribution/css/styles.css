@@ -2317,6 +2317,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
     display: block;*/
     padding-top: 10px;
 }
+
 .spareparts-wrapper .stock.in-stock{
     color: #f39314;
 }
@@ -2839,6 +2840,16 @@ div.flash_error {
     vertical-align: bottom;
     width: 25px;
     padding-left: 13px;
+}
+#accordion-sparepart .spareparts-wrapper a.login-button {
+    color: #5f5e5e;
+    background: url("/images/main_menu_bg.png") repeat-x scroll 0 -1px #d7d4d4;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 400;
+    text-decoration: none;
+    text-align: center;
 }
 .wish-icon{
     background: url("/images/wish.png") no-repeat scroll center center transparent;

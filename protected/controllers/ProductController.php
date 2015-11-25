@@ -193,26 +193,30 @@ class ProductController extends Controller
                 }
             }
              
-             $analogProducts .= '<div class="cell width-20">'.
-                                    '<div class="cart-form" elem="'.$analog->id.'">'
-             ;
+            $analogProducts .= '<div class="cell width-20">';
              
-             if(empty($analog->date_sale_off)) {
-                $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";                               
-                if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
-                   $analogProducts .= '<input type="number" min="1" pattern="[0-9]*" name="quantity" value="1" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">'.
-                       '<input onclick='.$intent.' type="submit" title="Добавить в корзину" value="" class="small-cart-button">'.
-                       '<button class="wish-small" title="Добавить в блокнот">'.
-                       '<span class="wish-icon"></span>'.
-                       '</button>'
-                   ;
+            if(!Yii::app()->user->isGuest) {
+                $analogProducts .= '<div class="cart-form" elem="'.$analog->id.'">';
+                if(empty($analog->date_sale_off)) {
+                    $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";                               
+                    if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){
+                       $analogProducts .= '<input type="number" min="1" pattern="[0-9]*" name="quantity" value="1" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">'.
+                           '<input onclick='.$intent.' type="submit" title="Добавить в корзину" value="" class="small-cart-button">'.
+                           '<button class="wish-small" title="Добавить в блокнот">'.
+                           '<span class="wish-icon"></span>'.
+                           '</button>'
+                       ;
+                    }
+                } else {
+                    $analogProducts .= '<span>'.Yii::app()->params['textSaleOff'].'</span>'; 
                 }
-             } else {
-                $analogProducts .= '<span>'.Yii::app()->params['textSaleOff'].'</span>'; 
-             }
+                $analogProducts .= '</div>';
+            } else {
+                //$analogProducts .= '<button class="login-button" title="Авторизоваться на сайте">Авторизоваться</button>';
+                $analogProducts .= '<a class="login-button" href="/site/login/">Авторизоваться</a>';
+            }
              
-             $analogProducts .=           '</div>'.
-                                     '</div>'.
+            $analogProducts .=     '</div>'.
                                  '</div>'.
                              '</div>'.
                         '</li>';
