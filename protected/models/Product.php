@@ -72,10 +72,10 @@ class Product extends CActiveRecord {
             array('name', 'required'),
             array('min_quantity', 'numerical', 'integerOnly' => true, 'message' => 'Поле должно содержать целое число'),
             array('liquidity', 'match', 'pattern' => '/^[ABCD ]$/', 'message' => 'Значением поля "Ликвидность" может быть только латинская буква A, B, C или D'),
-            array('external_id, count, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published, problem, units, multiplicity, material, size, date_sale_off, modelLineId', 'safe'),
+            array('external_id, count, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published, problem, units, multiplicity, material, size, date_sale_off, modelLineId, original', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name, problem, units, multiplicity, material, size, date_sale_off', 'safe', 'on' => 'search'),
+            array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name, problem, units, multiplicity, material, size, date_sale_off, original', 'safe', 'on' => 'search'),
             array('name, product_group_id, count, model_line_id', 'safe', 'on'=>'searchEvent'),
             array('name, product_maker_id, count', 'safe', 'on'=>'searchEventMaker'),
             array('image', 'EImageValidator', 'types' => 'gif, jpg, png', 'allowEmpty' => 'true'),
@@ -150,7 +150,8 @@ class Product extends CActiveRecord {
             'multiplicity' => 'Кратность',
             'material' => 'Материал изделия',
             'size' => 'Размер изделия',
-            'date_sale_off' => 'Дата снятия с продажи'
+            'date_sale_off' => 'Дата снятия с продажи',
+            'original' => 'Оригинальная запчасть'
         );
     }
 
@@ -184,6 +185,7 @@ class Product extends CActiveRecord {
         $criteria->compare('t.published', $this->published);
         $criteria->compare('additional_info', $this->additional_info, true);
         $criteria->compare('t.update_time', $this->update_time, true);
+        $criteria->compare('t.original', $this->original, true);
 
         if (Yii::app()->search->prepareSqlite()) {
             $condition_name = 'lower(t.name) like lower("%' . $this->name . '%")';
