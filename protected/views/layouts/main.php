@@ -16,9 +16,9 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?39');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?40');
             Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?3');
+            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?4');
 
             if(empty(Yii::app()->request->cookies['lbrfilial'])) {
                 $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
