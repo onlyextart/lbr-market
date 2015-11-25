@@ -139,12 +139,16 @@ class ProductController extends Controller
             
             $analogProducts .= '<li>'.
                                     '<div class="spareparts-wrapper">'.
-                                        '<div class="row">'.
-                                             '<div class="cell width-20">'.
-                                                 '<a target="_blank" class="prodInfo" href="'.$analog->path.'">'.$analog->name.'</a>'.
-                                             '</div>'.
-                                             '<div class="cell cell-img">'
+                                        '<div class="row">'
             ;
+            
+            if(!Yii::app()->user->isGuest) {
+                $analogProducts .= '<div class="cell width-20">'.
+                    '<a target="_blank" class="prodInfo" href="'.$analog->path.'">'.$analog->name.'</a>'.
+                '</div>';
+            }
+            
+            $analogProducts .= '<div class="cell cell-img">';
             $largeImg = Product::model()->getImage($analog->image);
             $smallImg = Product::model()->getImage($analog->image, 's');
 
@@ -176,7 +180,7 @@ class ProductController extends Controller
 
                    $analogProducts .= '<div class="cell width-15">'.$price.$countLabel.'</div>';
                 } else {
-                   $analogProducts .= '<div class="cell price-label width-15">'.
+                   $analogProducts .= '<div class="cell width-15">'.
                       '<a href="/site/login/" class="price_link">'.Yii::app()->params['textNoPrice'].'</a>'.$countLabel.
                    '</div>';
                 }
