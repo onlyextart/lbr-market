@@ -77,6 +77,8 @@ class ModelController extends Controller
         $criteria->join ='JOIN product ON product.id = t.product_id';
         $criteria->condition = 't.model_line_id=:model_line_id';
         $criteria->params = array(':model_line_id'=>$id);
+        // !!!
+        //$criteria->addCondition('product.original = 1');
         
         if(!empty($brand)){
             $criteria->addCondition('product.product_maker_id = '.$brand);
