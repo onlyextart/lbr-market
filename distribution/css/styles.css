@@ -2202,6 +2202,7 @@ hr#hit-line-second{
     display: table;
     border-collapse: separate;
     border-spacing: 10px 0;
+    padding-top: 25px;
 }
 
 #accordion-sparepart .spareparts-wrapper a{
