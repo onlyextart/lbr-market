@@ -35,10 +35,10 @@ class ProductGroupFilter extends CActiveRecord
 		return array(
 			array('group_id', 'required'),
 			array('group_id, lft, rgt, parent, level', 'numerical', 'integerOnly'=>true),
-			array('name, group_id', 'safe'),
+			array('name, group_id, path', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, group_id, name, lft, rgt, parent, level', 'safe', 'on'=>'search'),
+			array('id, group_id, name, lft, rgt, parent, level, path', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,6 +67,7 @@ class ProductGroupFilter extends CActiveRecord
 			'rgt' => 'Rgt',
 			'parent' => 'Parent',
 			'level' => 'Level',
+                        'path' => 'Url'
 		);
 	}
 

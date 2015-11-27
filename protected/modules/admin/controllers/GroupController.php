@@ -67,6 +67,7 @@ class GroupController extends Controller
                 $node = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$model->id));
                 if($model->isLeaf()) {
                     if(!empty($model->use_in_group_filter)) {
+                        $ancestors = $model->ancestors()->findAll();
                         if(empty($node)) { 
                             $root = ProductGroupFilter::model()->findByAttributes(array('level'=>1));
                             if(empty($root)) {
@@ -77,7 +78,6 @@ class GroupController extends Controller
                                 $root->saveNode();
                             }
 
-                            $ancestors = $model->ancestors()->findAll();
                             $secondLevel = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$ancestors[1]->id));
                             if(empty($secondLevel)) {
                                 $secondLevel = new ProductGroupFilter;
@@ -93,6 +93,7 @@ class GroupController extends Controller
                             if(!empty($model->alias)) $node->name = $model->alias;
 
                             if($model->level == 3) {
+                                $node->path = '/products/'.Translite::rusencode($node->name, '-');
                                 $node->appendTo($secondLevel);
                             } else {
                                 $thirdLevel = ProductGroupFilter::model()->findByAttributes(array('group_id'=>$ancestors[2]->id));
@@ -101,14 +102,16 @@ class GroupController extends Controller
                                     $thirdLevel->group_id = $ancestors[2]->id;
                                     $thirdLevel->name = $ancestors[2]->name;
                                     if(!empty($ancestors[2]->alias)) $thirdLevel->name = $ancestors[2]->alias;
+                                    $thirdLevel->path = '/products/'.Translite::rusencode($thirdLevel->name, '-');
                                     $thirdLevel->appendTo($secondLevel);
                                 }
-
+                                //$node->path = $thirdLevel->path.'/'.Translite::rusencode($node->name, '-');
                                 $node->appendTo($thirdLevel);
                             }
                         } else {
                             $node->name = $model->name;
                             if(!empty($model->alias)) $node->name = $model->alias;
+                            if($model->level == 3) $node->path = '/products/'.Translite::rusencode($node->name, '-');
                             $node->saveNode();
                         }
                     } else if(!empty($node)) { // delete unnecessary
@@ -127,6 +130,7 @@ class GroupController extends Controller
                 } else if(!empty($node)) {
                     $node->name = $model->name;
                     if(!empty($model->alias)) $node->name = $model->alias;
+                    if($model->level == 3) $node->path = '/products/'.Translite::rusencode($node->name, '-');
                     $node->saveNode();
                 }
                 

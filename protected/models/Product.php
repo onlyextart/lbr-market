@@ -419,5 +419,4 @@ class Product extends CActiveRecord {
 
         return $image;
     }
-
 }

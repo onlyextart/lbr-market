@@ -17,6 +17,7 @@ class ShopUrlRule extends CBaseUrlRule
          * search for "/catalog/01-traktory/" -> subcategory controller
          * or "/manufacturer/case/"           -> subcategory controller
          * or "/sparepart/15-bolt/"           -> product controller
+         * or "/products/amortizatory-kabiny/" -> groupFilter controller
          */        
         if(preg_match('/^[\w,-]+(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $page = $matches[1];
@@ -53,13 +54,21 @@ class ShopUrlRule extends CBaseUrlRule
                    Yii::app()->params['analiticsMark'] = 'product='.$product->external_id;
                    return 'product/index/id/'.$product->id;
                 }
+            } else if(strpos($matches[0], 'products/') !== false) {
+                $group = ProductGroupFilter::model()->find(
+                    'path=:path',
+                    array(':path'=>'/'.$matches[0])
+                );
+                if(!empty($group)) {
+                   return 'groupfilter/index/id/'.$group->id;
+                }
             }
         } 
         /*
          * search for "/catalog/traktornaya-tehnika/traktory/"     -> modellines controller
          * or "/catalog/traktornaya-tehnika/buhler-versatile-inc/" -> subcategory controller
          */
-        else if(preg_match('/^[\w,-]+(\/[\w,-]+)(\/[\w,-]+)$/', $pathInfo, $matches)) { 
+        else if(preg_match('/^[\w,-]+(\/[\w,-]+)(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $type = Category::model()->find(
                 'path=:path',
                 array(':path'=>$matches[1].$matches[2])
@@ -95,9 +104,27 @@ class ShopUrlRule extends CBaseUrlRule
             }
         }
         /* 
+         * search for "/products/amortizatory-kabiny/zagotovka-kormov/kosilki/" -> ...
+         */
+        else if(preg_match('/^(products\/[\w,-]+)((\/[\w,-]+){2})$/', $pathInfo, $matches)){
+            $category = Category::model()->find(
+                'path=:path',
+                array(':path'=>$matches[2])
+            );
+            
+            $group = ProductGroupFilter::model()->find(
+                'path=:path',
+                array(':path'=>'/'.$matches[1])
+            );
+
+            if(!empty($category) && !empty($group)) {
+                return 'groupfilter/models/categoryId/'.$category->id.'/groupId/'.$group->group_id;
+            }
+        }
+        /* 
          * search for "/catalog/traktornaya-tehnika/traktory/case/" -> modellines controller
          */
-        else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)$/', $pathInfo, $matches)) {
+        else if(preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)$/', $pathInfo, $matches)) {            
             $type = Category::model()->find(
                 'path=:path',
                 array(':path'=>$matches[1])
@@ -227,11 +254,12 @@ class ShopUrlRule extends CBaseUrlRule
                 }
             }
         } 
-        /*else {
-            preg_match('/^[\w,-]+((\/[\w,-]+){2})(\/[\w,-]+)((\/[\w,-]+){2})(\/(sort)\/(col|category|name)\/(order)\/(asc|desc))$/', $pathInfo, $matches);
-            echo '<pre>';
-            var_dump($matches);exit;
-        } */   
+//        else {
+//            echo 111; exit;
+//            preg_match('/^products/', $pathInfo, $matches);
+//            echo '<pre>';
+//            var_dump($matches);exit;
+//        }  
         
         return false;  // this rule does not apply
     }

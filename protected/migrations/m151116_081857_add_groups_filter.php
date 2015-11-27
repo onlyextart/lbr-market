@@ -12,6 +12,7 @@ class m151116_081857_add_groups_filter extends CDbMigration
                     'id' => 'pk',
                     'group_id' => 'integer NOT NULL REFERENCES product_group(id) ON DELETE CASCADE ON UPDATE CASCADE',
                     'name' => 'text',
+                    'path' => 'text',
                     'lft' => 'integer',
                     'rgt' => 'integer',
                     'parent' => 'integer',

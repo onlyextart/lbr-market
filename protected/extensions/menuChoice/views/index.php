@@ -8,7 +8,7 @@
                     $subgroups = $group->children()->findAll();
                     foreach($subgroups as $subgroup):
                 ?>
-                <li><a href="#"><?php echo $subgroup->name ?></a></li>
+                <li><a href="<?php echo $subgroup->path ?>/"><?php echo $subgroup->name ?></a></li>
                 <?php endforeach; ?>
             </ul>
         </li>

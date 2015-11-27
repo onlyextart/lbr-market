@@ -4,11 +4,9 @@ class ProductController extends Controller
     public function actionIndex($id)
     {
         $data = Product::model()->findByPk($id);
-        if(!$data)
+        if(!$data || !$data->published)
             throw new CHttpException(404, 'Товар не найден');
-        if(!$data->published)
-            throw new CHttpException(404, 'Товар не найден');
-        //echo $data->published; exit;
+
         $image = Product::model()->getImage($data->image);
         $maker = ProductMaker::model()->findByPk($data->product_maker_id);
               
