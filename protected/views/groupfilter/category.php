@@ -18,5 +18,3 @@
         <?php endif; ?>
     </div>
 </div>
-
-

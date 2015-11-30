@@ -5,12 +5,12 @@ class GroupfilterController extends Controller
     
     public function actionIndex($id)
     {
-        $model = ProductGroupFilter::model()->findByPk($id);
-        if(!$model)
+        $filter = ProductGroupFilter::model()->findByPk($id);
+        if(!$filter)
             throw new CHttpException(404, 'Товар не найден');
-        $title = $model->name;
+        $title = $filter->name;
         
-        $response = $this->getCategory($model);
+        $response = $this->getCategories($filter);
         
         $breadcrumbs[] = $title;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
@@ -21,31 +21,11 @@ class GroupfilterController extends Controller
         ));
     }
     
-    public function getCategory($model)
+    public function getCategories($filter)
     {
         $response = '';
-        $modellines = Yii::app()->db->createCommand()
-            ->selectDistinct('model_line_id')
-            ->from('product_in_model_line m')
-            ->join('product p', 'p.id = m.product_id')
-            ->where('p.published = 1 and p.product_group_id=:id', array(':id'=>$model->group_id))
-            ->queryColumn()
-        ;
-
-        $subcategoryIds = Yii::app()->db->createCommand()
-            ->selectDistinct('category_id')
-            ->from('model_line')
-            ->where(array('in', 'id', $modellines))
-            ->queryColumn()
-        ;
         
-        $temp = array();
-        foreach($subcategoryIds as $id) {
-            $subcategory = Category::model()->findByPk($id);
-            $parent = $subcategory->ancestors()->find('level = 2');
-            $temp[$parent->name][$subcategory->name]['name'] = $subcategory->name;
-            $temp[$parent->name][$subcategory->name]['path'] = $subcategory->path;
-        }
+        $temp = $this->getSubcategories($filter);
         
         ksort($temp);
         $allKeys = array_keys($temp);
@@ -59,14 +39,14 @@ class GroupfilterController extends Controller
             $response .= '<td width="50%" valign="top">';
             
             $elementName = $allKeys[$index];
-            $response .= $this->setChildren($elementName, $temp[$elementName], $model->path);
+            $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
             
             $response .= '</td>';
             if(($index + $half) < $count) {
                 $response .= '<td width="50%" valign="top">';
                 
                 $elementName = $allKeys[$index + $half];
-                $response .= $this->setChildren($elementName, $temp[$elementName], $model->path);
+                $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
                 
                 $response .= '</td>';
             }
@@ -75,6 +55,36 @@ class GroupfilterController extends Controller
         $response .= '</tbody></table>';
 
         return $response;
+    }
+    
+    public function getSubcategories($filter, $subcategoryId = null)
+    {
+        $temp = array();
+        $modellines = Yii::app()->db->createCommand()
+            ->selectDistinct('model_line_id')
+            ->from('product_in_model_line m')
+            ->join('product p', 'p.id = m.product_id')
+            ->where('p.published = 1 and p.product_group_id=:id', array(':id'=>$filter->group_id))
+            ->queryColumn()
+        ;
+
+        $subcategoryIds = Yii::app()->db->createCommand()
+            ->selectDistinct('category_id')
+            ->from('model_line')
+            ->where(array('in', 'id', $modellines))
+            ->queryColumn()
+        ;
+        
+        foreach($subcategoryIds as $id) {
+            $subcategory = Category::model()->findByPk($id);
+            $parent = $subcategory->ancestors()->find('level = 2');
+            if(empty($subcategoryId) || $parent->id == $subcategoryId) {    
+                $temp[$parent->name][$subcategory->name]['name'] = $subcategory->name;
+                $temp[$parent->name][$subcategory->name]['path'] = $subcategory->path;
+            }
+        }
+        
+        return $temp;
     }
     
     public function setChildren($categoryName, $elements, $path)
@@ -94,6 +104,64 @@ class GroupfilterController extends Controller
                 '</ul>'
         ;
         return $response;
+    }
+    
+    /* Show page with subcategory */
+    
+    public function actionCategory($categoryId, $filterId)
+    {
+        // Breadcrumbs
+        $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $filterId));
+        $breadcrumbs[$filter->name] = $filter->path.'/';
+        
+        $category = Category::model()->findByPk($categoryId);   
+        $title = $category->name;
+               
+        $breadcrumbs[] = $title;
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+        // end Breadcrubs
+        
+        $temp = $this->getSubcategories($filter, $categoryId);
+        $arrayKeys = array_keys($temp);
+        $temp = $temp[$arrayKeys[0]];
+        
+//        echo '<pre>';
+//        var_dump($temp);
+//        exit;
+        
+        $count = count($temp);
+        $half = ceil($count/2);
+        
+        ksort($temp);
+        $allKeys = array_keys($temp);
+        
+        $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+        for($index = 0; $index < $half; $index++) {                    
+            $response .= '<tr>';
+            $response .= '<td width="50%" valign="top">';
+            
+            $element = $temp[$allKeys[$index]];
+            $response .= '<a href="'.$filter->path.$element['path'].'/">'.$element['name'].'</a>';
+            
+            $response .= '</td>';
+            if(($index + $half) < $count) {
+                $response .= '<td width="50%" valign="top">';
+                
+                $element = $temp[$allKeys[$index + $half]];
+                $response .= '<a href="'.$filter->path.$element['path'].'/">'.$element['name'].'</a>';
+                
+                $response .= '</td>';
+            }
+            $response .= '</tr>';
+        }
+        $response .= '</tbody></table>';
+        
+        
+        
+        $this->render('category', array(
+            'response' => $response,
+            'title' => $title
+        ));
     }
     
     /* Show page with brands and models */
@@ -148,16 +216,13 @@ class GroupfilterController extends Controller
         
         if(!empty($temp)) {
             ksort($temp);
-
             $allKeys = array_keys($temp);
-        
+            
             $count = count($temp);
             $half = ceil($count/2);
 
             $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-            for($index = 0; $index < $half; $index++) {         
-                
-                
+            for($index = 0; $index < $half; $index++) {
                 $response .= '<tr>';
                 $response .= '<td width="50%" valign="top">';
 
@@ -226,9 +291,6 @@ class GroupfilterController extends Controller
             'pageVar' => 'page',
             'pageSize' => 10,
         );
-        
-        //$filter = $this->getAllGroups($id, $products->product_maker_id);
-        //$brandFilter = $this->getAllBrands($result['brandCriteria']);
         
         // Breadcrumbs
         $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $groupId));

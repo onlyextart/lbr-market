@@ -17,7 +17,7 @@ class ShopUrlRule extends CBaseUrlRule
          * search for "/catalog/01-traktory/" -> subcategory controller
          * or "/manufacturer/case/"           -> subcategory controller
          * or "/sparepart/15-bolt/"           -> product controller
-         * or "/products/amortizatory-kabiny/" -> groupFilter controller
+         * or "/products/amortizatory-kabiny/" -> groupfilter controller
          */        
         if(preg_match('/^[\w,-]+(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $page = $matches[1];
@@ -64,6 +64,24 @@ class ShopUrlRule extends CBaseUrlRule
                 }
             }
         } 
+        /*
+         * search for "/products/filtry-vozdushnye/zagotovka-kormov/" -> groupfilter controller
+         */
+        else if(preg_match('/^(products\/[\w,-]+)(\/[\w,-]+)$/', $pathInfo, $matches)) {
+            $category = Category::model()->find(
+                'path=:path',
+                array(':path'=>$matches[2])
+            );
+            
+            $group = ProductGroupFilter::model()->find(
+                'path=:path',
+                array(':path'=>'/'.$matches[1])
+            );
+
+            if(!empty($category) && !empty($group)) {
+                return 'groupfilter/category/categoryId/'.$category->id.'/filterId/'.$group->group_id;
+            }
+        }
         /*
          * search for "/catalog/traktornaya-tehnika/traktory/"     -> modellines controller
          * or "/catalog/traktornaya-tehnika/buhler-versatile-inc/" -> subcategory controller
