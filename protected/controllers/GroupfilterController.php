@@ -211,6 +211,25 @@ class GroupfilterController extends Controller
     
     public function actionModel($categoryId, $groupId, $modelId, $brandId)
     {
+        $products = new Product;
+        $products->unsetAttributes();
+        
+        if (isset($_GET['Product']))
+            $products->attributes = $_GET['Product'];
+        
+        $products->modelLineId = $modelId;
+        $products->product_group_id = $groupId;
+        
+        $result = $products->searchEvent();
+        $dataProvider = $result['dataProvider'];
+        $dataProvider->pagination = array(
+            'pageVar' => 'page',
+            'pageSize' => 10,
+        );
+        
+        //$filter = $this->getAllGroups($id, $products->product_maker_id);
+        //$brandFilter = $this->getAllBrands($result['brandCriteria']);
+        
         // Breadcrumbs
         $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $groupId));
         $breadcrumbs[$filter->name] = $filter->path.'/';
@@ -233,7 +252,8 @@ class GroupfilterController extends Controller
         // end Breadcrubs
         
         $this->render('model', array(
-            //'response' => $response,
+            'products' => $products,
+            'dataProvider' => $dataProvider,
             'title' => $title
         ));
     }
