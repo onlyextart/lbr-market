@@ -39,17 +39,6 @@ class GroupfilterController extends Controller
             ->queryColumn()
         ;
         
-//        $criteria = new CDbCriteria;
-//        $criteria->addInCondition('id', $subcategoryIds);
-//        $criteria->order = 'name';
-//        $subcategories = Category::model()->findAll($criteria);
-//        
-//        foreach($subcategories as $subcategory) {
-//            $parent = $subcategory->ancestors()->find('level = 2');
-//            $temp[$parent->name][$subcategory->name]['name'] = $subcategory->name;
-//            $temp[$parent->name][$subcategory->name]['path'] = $subcategory->path;
-//        }
-        
         $temp = array();
         foreach($subcategoryIds as $id) {
             $subcategory = Category::model()->findByPk($id);
@@ -109,14 +98,14 @@ class GroupfilterController extends Controller
     
     /* Show page with brands and models */
         
-    public function actionModels($categoryId, $groupId)
+    public function actionModellines($categoryId, $groupId)
     {
-        $response = $title = '';
+        $response = '';
         
-        $model = ProductGroup::model()->findByPk($groupId);
+        $group = ProductGroup::model()->findByPk($groupId);
         $groups = array($groupId);
-        if(!$model->isLeaf()) {
-            $ancestors = $model->ancestors()->findAll();
+        if(!$group->isLeaf()) {
+            $ancestors = $group->ancestors()->findAll();
             foreach($ancestors as $ancestor) {
                 $groups[] = $ancestor->id;
             }
@@ -135,36 +124,52 @@ class GroupfilterController extends Controller
         $criteria->addInCondition('id', $modellineIds);
         $modellines = ModelLine::model()->findAll($criteria);
 
+        // Breadcrumbs
+        $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $group->id));
+        $breadcrumbs[$filter->name] = $filter->path.'/';
+        
+        $category = Category::model()->findByPk($categoryId);
+        $title = $category->name;
+        
+        $categoryParent = $category->parent()->find();
+        $breadcrumbs[$categoryParent->name] = $filter->path.$categoryParent->path.'/';
+        
+        $breadcrumbs[] = $title;
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+        // end Breadcrubs
+        
         $temp = array();
         foreach($modellines as $model) {
             $parent = $model->parent()->find();
             $brand = EquipmentMaker::model()->findByPk($model->maker_id);
-            $temp[$brand->name][$parent->name][] = $model->name;
+            $temp[$brand->name][$parent->name][$model->id]['name'] = $model->name;
+            $temp[$brand->name][$parent->name][$model->id]['path'] = $filter->path.$category->path.$brand->path.$model->path.'/';
         }
         
-        //////////////////////
         if(!empty($temp)) {
             ksort($temp);
 
-
-            foreach($temp as $brand => $modelline){
-
-            }
+            $allKeys = array_keys($temp);
+        
+            $count = count($temp);
+            $half = ceil($count/2);
 
             $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-            for($index = 0; $index < $half; $index++) {                    
+            for($index = 0; $index < $half; $index++) {         
+                
+                
                 $response .= '<tr>';
                 $response .= '<td width="50%" valign="top">';
 
                 $elementName = $allKeys[$index];
-                $response .= $this->setChildren($elementName, $temp[$elementName], $model->path);
+                $response .= $this->setModelline($elementName, $temp[$elementName]);
 
                 $response .= '</td>';
                 if(($index + $half) < $count) {
                     $response .= '<td width="50%" valign="top">';
 
                     $elementName = $allKeys[$index + $half];
-                    $response .= $this->setChildren($elementName, $temp[$elementName], $model->path);
+                    $response .= $this->setModelline($elementName, $temp[$elementName]);
 
                     $response .= '</td>';
                 }
@@ -173,13 +178,62 @@ class GroupfilterController extends Controller
             $response .= '</tbody></table>';   
         }
         
+        $this->render('modelline', array(
+            'response' => $response,
+            'title' => $title
+        ));
+    }
+    
+    public function setModelline($categoryName, $modellines)
+    {
+        $response = '<ul class="accordion modelline">'.
+                     '<li>'.
+                       '<a href="#" class="sub-title">'.$categoryName.'</a>'.
+                       '<ul>'
+        ;
         
-        echo '<pre>';
-        var_dump($temp);
-        exit;
+        foreach($modellines as $key=>$modelline) {
+           $response .= '<li><a href="#" class="sub-child-title">'.$key.'</a><ul>';
+           foreach($modelline as $model) {
+               $response .= '<li><a href="'.$model['path'].'" class="modelline-child">'.$model['name'].'</a></li>';
+           }
+           $response .= '</ul></li>';
+        }
+
+        $response .= '</ul>'.
+                  '</li>'.
+                '</ul>'
+        ;
+        return $response;
+    }
+    
+    /* Show page with brands and models */
+    
+    public function actionModel($categoryId, $groupId, $modelId, $brandId)
+    {
+        // Breadcrumbs
+        $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $groupId));
+        $breadcrumbs[$filter->name] = $filter->path.'/';
+        
+        $category = Category::model()->findByPk($categoryId);        
+        $categoryParent = $category->parent()->find();
+        $breadcrumbs[$categoryParent->name] = $filter->path.$categoryParent->path.'/';
+        $breadcrumbs[$category->name] = $filter->path.$category->path.'/';
+        
+        $brand = EquipmentMaker::model()->findByPk($brandId);
+        $breadcrumbs[$brand->name] = $filter->path.$category->path.$brand->path.'/';
+        
+        $model = ModelLine::model()->findByPk($modelId);
+        $modelline = $model->parent()->find();
+        $breadcrumbs[$modelline->name] = $filter->path.$category->path.$brand->path.$modelline->path.'/';
+        $title = $model->name;
+                
+        $breadcrumbs[] = $title;
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+        // end Breadcrubs
         
         $this->render('model', array(
-            'response' => $response,
+            //'response' => $response,
             'title' => $title
         ));
     }
