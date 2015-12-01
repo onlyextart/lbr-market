@@ -239,11 +239,107 @@ class GroupfilterController extends Controller
             $response .= '</tbody></table>';   
         }
         
-//        echo '<pre>';
-//        var_dump($temp);
+        $this->render('brand', array(
+            'response' => $response,
+            'title' => $title
+        ));
+    }
+    
+    /* Show page with modelline */
+    
+    public function actionModelline($categoryId, $groupId, $brandId, $modellineId)
+    {
+        $response = '';
+        
+        // Breadcrumbs
+        $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $groupId));
+        $breadcrumbs[$filter->name] = $filter->path.'/';
+        
+        $category = Category::model()->findByPk($categoryId);
+        $categoryParent = $category->parent()->find();
+        $breadcrumbs[$categoryParent->name] = $filter->path.$categoryParent->path.'/';
+        $breadcrumbs[$category->name] = $filter->path.$category->path.'/';
+        
+        $brand = EquipmentMaker::model()->findByPk($brandId);
+        $breadcrumbs[$brand->name] = $filter->path.$category->path.$brand->path.'/';
+        
+        $modelline = Modelline::model()->findByPk($modellineId);
+        $title = $modelline->name;
+        
+        $breadcrumbs[] = $title;
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+        // end Breadcrubs
+        
+        $group = ProductGroup::model()->findByPk($groupId);
+        $groups = array($groupId);
+        if(!$group->isLeaf()) {
+            $ancestors = $group->ancestors()->findAll();
+            foreach($ancestors as $ancestor) {
+                $groups[] = $ancestor->id;
+            }
+        }
+        
+        $modellineIds = Yii::app()->db->createCommand()
+            ->selectDistinct('model_line_id')
+            ->from('product_in_model_line m')
+            ->join('product p', 'p.id = m.product_id')
+            ->where(array('and', 'p.published = 1', array('in', 'p.product_group_id', $groups)))
+            ->queryColumn()
+        ;
+        
+        $currentModellineIds = array();
+        $modellines = $modelline->children()->findAll();
+        foreach($modellines as $modelline) {
+            $currentModellineIds[] = $modelline->id;
+        }
+        
+        $modellineIds = array_uintersect($modellineIds, $currentModellineIds, "strcasecmp");
+        
+        $criteria = new CDbCriteria;
+        $criteria->compare('category_id', $categoryId);
+        $criteria->addCondition('maker_id = '.$brandId);
+        $criteria->addInCondition('id', $modellineIds);
+        $modellines = ModelLine::model()->findAll($criteria);
+        
+        $temp = array();
+        foreach($modellines as $model) {
+            $temp[$model->id]['name'] = $model->name;
+            $temp[$model->id]['path'] = $filter->path.$category->path.$brand->path.$model->path.'/';
+        }
+        
+        if(!empty($temp)) {
+            ksort($temp);
+            $allKeys = array_keys($temp);
+            
+            $count = count($temp);
+            $half = ceil($count/2);
+
+            $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+            for($index = 0; $index < $half; $index++) {
+                $response .= '<tr>';
+                $response .= '<td width="50%" valign="top">';
+
+                $element = $temp[$allKeys[$index]];
+                $response .= '<a href="'.$element['path'].'" class="sub-child-title">'.$element['name'].'</a>';
+
+                $response .= '</td>';
+                if(($index + $half) < $count) {
+                    $response .= '<td width="50%" valign="top">';
+
+                    $element = $temp[$allKeys[$index + $half]];
+                    $response .= '<a href="'.$element['path'].'" class="sub-child-title">'.$element['name'].'</a>';
+
+                    $response .= '</td>';
+                }
+                $response .= '</tr>';
+            }
+            $response .= '</tbody></table>';   
+        }
+        
+//        echo 1; 
 //        exit;
         
-        $this->render('brand', array(
+        $this->render('modelline', array(
             'response' => $response,
             'title' => $title
         ));

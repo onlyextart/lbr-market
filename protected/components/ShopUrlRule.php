@@ -168,9 +168,6 @@ class ShopUrlRule extends CBaseUrlRule
          * search for "/products/filtry-vozdushnye/zernouborochnye-kombayny-i-zhatki/kombayny/case/" -> groupfilter controller
          */
         else if(preg_match('/^(products\/[\w,-]+)((\/[\w,-]+){2})(\/[\w,-]+)$/', $pathInfo, $matches)) {
-//            echo '<pre>';
-//            var_dump($matches);exit;
-            //////////////////////
             $category = Category::model()->find(
                 'path=:path',
                 array(':path'=>$matches[2])
@@ -186,8 +183,6 @@ class ShopUrlRule extends CBaseUrlRule
                     'path=:path',
                     array(':path'=>$matches[4])
                 );
-                
-                //////////////
                 
                 if(!empty($brand)) {
                     return 'groupfilter/brand/categoryId/'.$category->id.'/groupId/'.$group->group_id.'/brandId/'.$brand->id;
@@ -222,6 +217,36 @@ class ShopUrlRule extends CBaseUrlRule
                         Yii::app()->params['analiticsMark'] = 'modelline='.$modelLine->external_id;
                         return '/modelline/index/id/'.$modelLine->id;
                     }
+                }
+            }
+        }
+        /*
+         * search for "/products/filtry-vozdushnye/zernouborochnye-kombayny-i-zhatki/kombayny/case/case-af-2366-2388/" -> groupfilter controller
+         */
+        else if(preg_match('/^(products\/[\w,-]+)((\/[\w,-]+){2})(\/[\w,-]+)(\/[\w,-]+)$/', $pathInfo, $matches)) {
+            $category = Category::model()->find(
+                'path=:path',
+                array(':path'=>$matches[2])
+            );
+            
+            $group = ProductGroupFilter::model()->find(
+                'path=:path',
+                array(':path'=>'/'.$matches[1])
+            );
+
+            if(!empty($category) && !empty($group)) {
+                $brand = EquipmentMaker::model()->find(
+                    'path=:path',
+                    array(':path'=>$matches[4])
+                );
+                
+                $modelline = ModelLine::model()->find(
+                    'path=:path',
+                    array(':path'=>$matches[5])
+                );
+                
+                if(!empty($brand) && !empty($modelline) && $modelline->maker_id == $brand->id) {
+                    return 'groupfilter/modelline/categoryId/'.$category->id.'/groupId/'.$group->group_id.'/brandId/'.$brand->id.'/modellineId/'.$modelline->id;
                 }
             }
         }
