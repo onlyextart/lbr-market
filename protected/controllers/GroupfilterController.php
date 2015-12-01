@@ -21,91 +21,6 @@ class GroupfilterController extends Controller
         ));
     }
     
-    public function getCategories($filter)
-    {
-        $response = '';
-        
-        $temp = $this->getSubcategories($filter);
-        
-        ksort($temp);
-        $allKeys = array_keys($temp);
-        
-        $count = count($temp);
-        $half = ceil($count/2);
-        
-        $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-        for($index = 0; $index < $half; $index++) {                    
-            $response .= '<tr>';
-            $response .= '<td width="50%" valign="top">';
-            
-            $elementName = $allKeys[$index];
-            $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
-            
-            $response .= '</td>';
-            if(($index + $half) < $count) {
-                $response .= '<td width="50%" valign="top">';
-                
-                $elementName = $allKeys[$index + $half];
-                $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
-                
-                $response .= '</td>';
-            }
-            $response .= '</tr>';
-        }
-        $response .= '</tbody></table>';
-
-        return $response;
-    }
-    
-    public function getSubcategories($filter, $subcategoryId = null)
-    {
-        $temp = array();
-        $modellines = Yii::app()->db->createCommand()
-            ->selectDistinct('model_line_id')
-            ->from('product_in_model_line m')
-            ->join('product p', 'p.id = m.product_id')
-            ->where('p.published = 1 and p.product_group_id=:id', array(':id'=>$filter->group_id))
-            ->queryColumn()
-        ;
-
-        $subcategoryIds = Yii::app()->db->createCommand()
-            ->selectDistinct('category_id')
-            ->from('model_line')
-            ->where(array('in', 'id', $modellines))
-            ->queryColumn()
-        ;
-        
-        foreach($subcategoryIds as $id) {
-            $subcategory = Category::model()->findByPk($id);
-            $parent = $subcategory->ancestors()->find('level = 2');
-            if(empty($subcategoryId) || $parent->id == $subcategoryId) {    
-                $temp[$parent->name][$subcategory->name]['name'] = $subcategory->name;
-                $temp[$parent->name][$subcategory->name]['path'] = $subcategory->path;
-            }
-        }
-        
-        return $temp;
-    }
-    
-    public function setChildren($categoryName, $elements, $path)
-    {
-        $response = '<ul class="accordion modelline">'.
-                     '<li>'.
-                       '<a href="#" class="sub-title">'.$categoryName.'</a>'.
-                       '<ul>'
-        ;
-        
-        foreach($elements as $key=>$element) {
-           $response .= '<li><a href="'.$path.$element['path'].'/" class="sub-child-title">'.$element['name'].'</a></li>';
-        }
-
-        $response .= '</ul>'.
-                  '</li>'.
-                '</ul>'
-        ;
-        return $response;
-    }
-    
     /* Show page with subcategory */
     
     public function actionCategory($categoryId, $filterId)
@@ -124,10 +39,6 @@ class GroupfilterController extends Controller
         $temp = $this->getSubcategories($filter, $categoryId);
         $arrayKeys = array_keys($temp);
         $temp = $temp[$arrayKeys[0]];
-        
-//        echo '<pre>';
-//        var_dump($temp);
-//        exit;
         
         $count = count($temp);
         $half = ceil($count/2);
@@ -155,8 +66,6 @@ class GroupfilterController extends Controller
             $response .= '</tr>';
         }
         $response .= '</tbody></table>';
-        
-        
         
         $this->render('category', array(
             'response' => $response,
@@ -249,27 +158,95 @@ class GroupfilterController extends Controller
         ));
     }
     
-    public function setModelline($categoryName, $modellines)
+    /* Show page with brands and models */
+    
+    public function actionBrand($categoryId, $groupId, $brandId)
     {
-        $response = '<ul class="accordion modelline">'.
-                     '<li>'.
-                       '<a href="#" class="sub-title">'.$categoryName.'</a>'.
-                       '<ul>'
+        $response = '';
+        
+        // Breadcrumbs
+        $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $groupId));
+        $breadcrumbs[$filter->name] = $filter->path.'/';
+        
+        $category = Category::model()->findByPk($categoryId);
+        $categoryParent = $category->parent()->find();
+        $breadcrumbs[$categoryParent->name] = $filter->path.$categoryParent->path.'/';
+        $breadcrumbs[$category->name] = $filter->path.$category->path.'/';
+        
+        $brand = EquipmentMaker::model()->findByPk($brandId);
+        $title = $brand->name;
+        
+        $breadcrumbs[] = $title;
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+        // end Breadcrubs       
+        
+        $group = ProductGroup::model()->findByPk($groupId);
+        $groups = array($groupId);
+        if(!$group->isLeaf()) {
+            $ancestors = $group->ancestors()->findAll();
+            foreach($ancestors as $ancestor) {
+                $groups[] = $ancestor->id;
+            }
+        }
+        
+        $modellineIds = Yii::app()->db->createCommand()
+            ->selectDistinct('model_line_id')
+            ->from('product_in_model_line m')
+            ->join('product p', 'p.id = m.product_id')
+            ->where(array('and', 'p.published = 1', array('in', 'p.product_group_id', $groups)))
+            ->queryColumn()
         ;
         
-        foreach($modellines as $key=>$modelline) {
-           $response .= '<li><a href="#" class="sub-child-title">'.$key.'</a><ul>';
-           foreach($modelline as $model) {
-               $response .= '<li><a href="'.$model['path'].'" class="modelline-child">'.$model['name'].'</a></li>';
-           }
-           $response .= '</ul></li>';
+        $criteria = new CDbCriteria;
+        $criteria->compare('category_id', $categoryId);
+        $criteria->addCondition('maker_id = '.$brandId);
+        $criteria->addInCondition('id', $modellineIds);
+        $modellines = ModelLine::model()->findAll($criteria);
+        
+        $temp = array();
+        foreach($modellines as $model) {
+            $parent = $model->parent()->find();
+            $temp[$parent->name][$model->id]['name'] = $model->name;
+            $temp[$parent->name][$model->id]['path'] = $filter->path.$category->path.$brand->path.$model->path.'/';
         }
+        
+        if(!empty($temp)) {
+            ksort($temp);
+            $allKeys = array_keys($temp);
+            
+            $count = count($temp);
+            $half = ceil($count/2);
 
-        $response .= '</ul>'.
-                  '</li>'.
-                '</ul>'
-        ;
-        return $response;
+            $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+            for($index = 0; $index < $half; $index++) {
+                $response .= '<tr>';
+                $response .= '<td width="50%" valign="top">';
+
+                $elementName = $allKeys[$index];
+                $response .= $this->setModel($elementName, $temp[$elementName]);
+
+                $response .= '</td>';
+                if(($index + $half) < $count) {
+                    $response .= '<td width="50%" valign="top">';
+
+                    $elementName = $allKeys[$index + $half];
+                    $response .= $this->setModel($elementName, $temp[$elementName]);
+
+                    $response .= '</td>';
+                }
+                $response .= '</tr>';
+            }
+            $response .= '</tbody></table>';   
+        }
+        
+//        echo '<pre>';
+//        var_dump($temp);
+//        exit;
+        
+        $this->render('brand', array(
+            'response' => $response,
+            'title' => $title
+        ));
     }
     
     /* Show page with brands and models */
@@ -318,5 +295,132 @@ class GroupfilterController extends Controller
             'dataProvider' => $dataProvider,
             'title' => $title
         ));
+    }    
+    
+    public function getCategories($filter)
+    {
+        $response = '';
+        
+        $temp = $this->getSubcategories($filter);
+        
+        ksort($temp);
+        $allKeys = array_keys($temp);
+        
+        $count = count($temp);
+        $half = ceil($count/2);
+        
+        $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+        for($index = 0; $index < $half; $index++) {                    
+            $response .= '<tr>';
+            $response .= '<td width="50%" valign="top">';
+            
+            $elementName = $allKeys[$index];
+            $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
+            
+            $response .= '</td>';
+            if(($index + $half) < $count) {
+                $response .= '<td width="50%" valign="top">';
+                
+                $elementName = $allKeys[$index + $half];
+                $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
+                
+                $response .= '</td>';
+            }
+            $response .= '</tr>';
+        }
+        $response .= '</tbody></table>';
+
+        return $response;
+    }
+    
+    public function getSubcategories($filter, $subcategoryId = null)
+    {
+        $temp = array();
+        $modellines = Yii::app()->db->createCommand()
+            ->selectDistinct('model_line_id')
+            ->from('product_in_model_line m')
+            ->join('product p', 'p.id = m.product_id')
+            ->where('p.published = 1 and p.product_group_id=:id', array(':id'=>$filter->group_id))
+            ->queryColumn()
+        ;
+
+        $subcategoryIds = Yii::app()->db->createCommand()
+            ->selectDistinct('category_id')
+            ->from('model_line')
+            ->where(array('in', 'id', $modellines))
+            ->queryColumn()
+        ;
+        
+        foreach($subcategoryIds as $id) {
+            $subcategory = Category::model()->findByPk($id);
+            $parent = $subcategory->ancestors()->find('level = 2');
+            if(empty($subcategoryId) || $parent->id == $subcategoryId) {    
+                $temp[$parent->name][$subcategory->name]['name'] = $subcategory->name;
+                $temp[$parent->name][$subcategory->name]['path'] = $subcategory->path;
+            }
+        }
+        
+        return $temp;
+    }
+    
+    public function setChildren($categoryName, $elements, $path)
+    {
+        $response = '<ul class="accordion modelline">'.
+                     '<li>'.
+                       '<a href="#" class="sub-title">'.$categoryName.'</a>'.
+                       '<ul>'
+        ;
+        
+        foreach($elements as $key=>$element) {
+           $response .= '<li><a href="'.$path.$element['path'].'/" class="sub-child-title">'.$element['name'].'</a></li>';
+        }
+
+        $response .= '</ul>'.
+                  '</li>'.
+                '</ul>'
+        ;
+        return $response;
+    }
+    
+    public function setModelline($categoryName, $modellines)
+    {
+        $response = '<ul class="accordion modelline">'.
+                     '<li>'.
+                       '<a href="#" class="sub-title">'.$categoryName.'</a>'.
+                       '<ul>'
+        ;
+        
+        foreach($modellines as $key=>$modelline) {
+           $response .= '<li><a href="#" class="sub-child-title">'.$key.'</a><ul>';
+           foreach($modelline as $model) {
+               $response .= '<li><a href="'.$model['path'].'" class="modelline-child">'.$model['name'].'</a></li>';
+           }
+           $response .= '</ul></li>';
+        }
+
+        $response .= '</ul>'.
+                  '</li>'.
+                '</ul>'
+        ;
+        return $response;
+    }
+    
+    public function setModel($categoryName, $models)
+    {
+        $response = '<ul class="accordion modelline">'.
+                     '<li>'.
+                       '<a href="#" class="sub-title">'.$categoryName.'</a>'.
+                       '<ul>'
+        ;
+        
+        foreach($models as $model) {
+           $response .= '<li><a href="'.$model['path'].'" class="modelline-child">'.$model['name'].'</a></li>';
+        }
+
+        $response .= '</ul>'.
+                  '</li>'.
+                '</ul>'
+        ;
+        return $response;
     }
 }
