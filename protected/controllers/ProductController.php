@@ -184,13 +184,15 @@ class ProductController extends Controller
                       '<a href="/site/login/" class="price_link">'.Yii::app()->params['textNoPrice'].'</a>'.$countLabel.
                    '</div>';
                 }
-            } else {
+            } else if(!Yii::app()->user->isGuest){
                 $countAnalogs = Analog::model()->count("product_id=:id", array("id"=>$analog->id));
                 if($countAnalogs) {
                     $analogProducts .= '<div class="cell width-15">'.
                         '<a class="prodInfo" target="_blank" href="'.$analog->path.'">аналоги</a>'.
                     '</div>';
                 }
+            } else {
+                $analogProducts .= '<div class="cell width-15"></div>';
             }
              
             $analogProducts .= '<div class="cell width-20">';
