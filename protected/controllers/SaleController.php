@@ -3,58 +3,59 @@ class SaleController extends Controller
 {
     public function actionIndex()
     {
-        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');     
-        $criteria = new CDbCriteria();
+        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
         
-        /*
-        $sql = '';
-        if(!empty(Yii::app()->session['maker'])) {
-            $sql = 'and m.maker_id = '.Yii::app()->session['maker'];
+        $products = new Product;
+        $products->unsetAttributes();
+        $products->initForSale();
+        
+        if (isset($_GET['Product']))
+            $products->attributes = $_GET['Product'];
+        
+        $additional_filter=new SaleFilterForm();
+        if (isset($_POST['SaleFilterForm'])){
+           $additional_filter->attributes=$_POST['SaleFilterForm']; 
         }
-        if(!empty(Yii::app()->session['category'])) {
-            $allCategories = Category::model()->findByPk(Yii::app()->session['category'])->children()->findAll(array('order'=>'name', 'condition'=>'published=:published', 'params'=>array(':published' => true)));
-            foreach($allCategories as $cat){
-                $categories[] = $cat->id;
+        
+        if (isset($_GET['ajax'])){
+            if(isset($_GET['maker'])){
+                $additional_filter->maker=$_GET['maker']; 
             }
-            
-            $criteria->addInCondition('m.category_id', $categories);
+            if(isset($_GET['category'])){
+                $additional_filter->category=$_GET['category']; 
+            }
         }
-        */
-        //////////////////////////////////////////
         
-        //$criteria->distinct = true;
-        //$criteria->join = 'JOIN price_in_filial pr ON pr.product_id = t.id';
-        //$criteria->addCondition('t.liquidity = "D" and t.count > 0 and t.image IS NOT NULL and pr.price > 0');
-        //$criteria->addCondition('t.liquidity = "D" and t.count > 0 and pr.price > 0');
-        $criteria->addCondition('t.liquidity = "D" and t.count > 0 and t.published = 1');
+        $result =$products->searchEventSale($additional_filter);
+        $dataProvider = $result['dataProvider'];
+        $makerFilter=$result['makerFilter'];
         
-        $data = new CActiveDataProvider(Product::model()->cache(1000, $dependency),
-            array(
-                'criteria' => $criteria,
-                'pagination'=>array(
-                   'pageSize' => 7,
-                   'pageVar' => 'page',
-                ),
-                'sort'=>array(
-                    'sortVar' => 'sort',
-                    'attributes'=>array(
-                        'name'=>array(
-                            'asc'=>'t.name ASC',
-                            'desc'=>'t.name DESC',
-                            'default'=>'asc',
-                        ),
-                    ),
-                    'defaultOrder'=>array(
-                        'name' => CSort::SORT_ASC,
-                    ),
-                ),
-            )
+        $dataProvider->pagination = array(
+            'pageVar' => 'page',
+            'pageSize' => 10,
+            'params'    => isset($_GET['Product']) ? 
+                                array('Product' => $_GET['Product'],'maker'=>$additional_filter->maker,
+                                      'category'=>$additional_filter->category) : 
+                                array('maker'=>$additional_filter->maker,
+                                      'category'=>$additional_filter->category),
         );
         
         Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'] = 'Распродажа';
         $breadcrumbs[] = 'Распродажа';
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
 
-        $this->render('index', array('data' => $data));
+        
+         $params = array(
+            'products' => $products,
+            'additional_filter'=>$additional_filter,
+            'dataProvider' => $dataProvider,
+            'makerFilter'=>$makerFilter,
+            'breadcrumbs' => $breadcrumbs
+        );
+         
+        if (!isset($_GET['ajax']))
+            $this->render('index', $params);
+        else
+            $this->renderPartial('index', $params);
     }
 }
