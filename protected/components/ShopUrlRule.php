@@ -130,13 +130,13 @@ class ShopUrlRule extends CBaseUrlRule
                 array(':path'=>$matches[2])
             );
             
-            $group = ProductGroupFilter::model()->find(
+            $filter = ProductGroupFilter::model()->find(
                 'path=:path',
                 array(':path'=>'/'.$matches[1])
             );
 
-            if(!empty($category) && !empty($group)) {
-                return 'groupfilter/modellines/categoryId/'.$category->id.'/groupId/'.$group->group_id;
+            if(!empty($category) && !empty($filter)) {
+                return 'groupfilter/modellines/categoryId/'.$category->id.'/filterId/'.$filter->id;
             }
         }
         /* 
@@ -185,7 +185,7 @@ class ShopUrlRule extends CBaseUrlRule
                 );
                 
                 if(!empty($brand)) {
-                    return 'groupfilter/brand/categoryId/'.$category->id.'/groupId/'.$group->group_id.'/brandId/'.$brand->id;
+                    return 'groupfilter/brand/categoryId/'.$category->id.'/groupId/'.$group->id.'/brandId/'.$brand->id;
                 }
             }
         }
@@ -246,7 +246,7 @@ class ShopUrlRule extends CBaseUrlRule
                 );
                 
                 if(!empty($brand) && !empty($modelline) && $modelline->maker_id == $brand->id) {
-                    return 'groupfilter/modelline/categoryId/'.$category->id.'/groupId/'.$group->group_id.'/brandId/'.$brand->id.'/modellineId/'.$modelline->id;
+                    return 'groupfilter/modelline/categoryId/'.$category->id.'/groupId/'.$group->id.'/brandId/'.$brand->id.'/modellineId/'.$modelline->id;
                 }
             }
         }

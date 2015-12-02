@@ -75,16 +75,16 @@ class GroupfilterController extends Controller
     
     /* Show page with brands and models */
         
-    public function actionModellines($categoryId, $groupId)
+    public function actionModellines($categoryId, $filterId)
     {
         $response = '';
         
-        $group = ProductGroup::model()->findByPk($groupId);
-        $groups = array($groupId);
+        $group = ProductGroupFilter::model()->findByPk($filterId);
+        $groups = array($filterId);
         if(!$group->isLeaf()) {
             $children = $group->children()->findAll();
             foreach($children as $child) {
-                $groups[] = $child->id;
+                $groups[] = $child->group_id;
             }
         }
         
@@ -102,7 +102,7 @@ class GroupfilterController extends Controller
         $modellines = ModelLine::model()->findAll($criteria);
 
         // Breadcrumbs
-        $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $group->id));
+        $filter = ProductGroupFilter::model()->findByPk($filterId);
         $breadcrumbs[$filter->name] = $filter->path.'/';
         
         $category = Category::model()->findByPk($categoryId);
@@ -165,7 +165,7 @@ class GroupfilterController extends Controller
         $response = '';
         
         // Breadcrumbs
-        $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $groupId));
+        $filter = ProductGroupFilter::model()->findByPk($groupId);
         $breadcrumbs[$filter->name] = $filter->path.'/';
         
         $category = Category::model()->findByPk($categoryId);
@@ -180,12 +180,11 @@ class GroupfilterController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end Breadcrubs       
         
-        $group = ProductGroup::model()->findByPk($groupId);
         $groups = array($groupId);
-        if(!$group->isLeaf()) {
-            $children = $group->children()->findAll();
+        if(!$filter->isLeaf()) {
+            $children = $filter->children()->findAll();
             foreach($children as $child) {
-                $groups[] = $child->id;
+                $groups[] = $child->group_id;
             }
         }
         
@@ -252,7 +251,7 @@ class GroupfilterController extends Controller
         $response = '';
         
         // Breadcrumbs
-        $filter = ProductGroupFilter::model()->findByAttributes(array('group_id' => $groupId));
+        $filter = ProductGroupFilter::model()->findByPk($groupId);
         $breadcrumbs[$filter->name] = $filter->path.'/';
         
         $category = Category::model()->findByPk($categoryId);
@@ -270,12 +269,11 @@ class GroupfilterController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end Breadcrubs
         
-        $group = ProductGroup::model()->findByPk($groupId);
         $groups = array($groupId);
-        if(!$group->isLeaf()) {
-            $children = $group->children()->findAll();
+        if(!$filter->isLeaf()) {
+            $children = $filter->children()->findAll();
             foreach($children as $child) {
-                $groups[] = $child->id;
+                $groups[] = $child->group_id;
             }
         }
         
