@@ -47,7 +47,7 @@ class GroupfilterController extends Controller
         $allKeys = array_keys($temp);
         
         $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-        for($index = 0; $index < $half; $index++) {                    
+        for($index = 0; $index < $half; $index++) {                
             $response .= '<tr>';
             $response .= '<td width="50%" valign="top">';
             
@@ -82,9 +82,9 @@ class GroupfilterController extends Controller
         $group = ProductGroup::model()->findByPk($groupId);
         $groups = array($groupId);
         if(!$group->isLeaf()) {
-            $ancestors = $group->ancestors()->findAll();
-            foreach($ancestors as $ancestor) {
-                $groups[] = $ancestor->id;
+            $children = $group->children()->findAll();
+            foreach($children as $child) {
+                $groups[] = $child->id;
             }
         }
         
@@ -183,9 +183,9 @@ class GroupfilterController extends Controller
         $group = ProductGroup::model()->findByPk($groupId);
         $groups = array($groupId);
         if(!$group->isLeaf()) {
-            $ancestors = $group->ancestors()->findAll();
-            foreach($ancestors as $ancestor) {
-                $groups[] = $ancestor->id;
+            $children = $group->children()->findAll();
+            foreach($children as $child) {
+                $groups[] = $child->id;
             }
         }
         
@@ -273,9 +273,9 @@ class GroupfilterController extends Controller
         $group = ProductGroup::model()->findByPk($groupId);
         $groups = array($groupId);
         if(!$group->isLeaf()) {
-            $ancestors = $group->ancestors()->findAll();
-            foreach($ancestors as $ancestor) {
-                $groups[] = $ancestor->id;
+            $children = $group->children()->findAll();
+            foreach($children as $child) {
+                $groups[] = $child->id;
             }
         }
         
@@ -288,17 +288,18 @@ class GroupfilterController extends Controller
         ;
         
         $currentModellineIds = array();
+        
         $modellines = $modelline->children()->findAll();
         foreach($modellines as $modelline) {
-            $currentModellineIds[] = $modelline->id;
+            if(in_array($modelline->id, $modellineIds)) {
+                $currentModellineIds[] = $modelline->id;
+            }
         }
-        
-        $modellineIds = array_uintersect($modellineIds, $currentModellineIds, "strcasecmp");
         
         $criteria = new CDbCriteria;
         $criteria->compare('category_id', $categoryId);
         $criteria->addCondition('maker_id = '.$brandId);
-        $criteria->addInCondition('id', $modellineIds);
+        $criteria->addInCondition('id', $currentModellineIds);
         $modellines = ModelLine::model()->findAll($criteria);
         
         $temp = array();
@@ -335,9 +336,6 @@ class GroupfilterController extends Controller
             }
             $response .= '</tbody></table>';   
         }
-        
-//        echo 1; 
-//        exit;
         
         $this->render('modelline', array(
             'response' => $response,
@@ -405,38 +403,49 @@ class GroupfilterController extends Controller
         $count = count($temp);
         $half = ceil($count/2);
         
-        $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-        for($index = 0; $index < $half; $index++) {                    
-            $response .= '<tr>';
-            $response .= '<td width="50%" valign="top">';
-            
-            $elementName = $allKeys[$index];
-            $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
-            
-            $response .= '</td>';
-            if(($index + $half) < $count) {
+        if(!empty($temp)) {
+            $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+            for($index = 0; $index < $half; $index++) {                    
+                $response .= '<tr>';
                 $response .= '<td width="50%" valign="top">';
-                
-                $elementName = $allKeys[$index + $half];
-                $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
-                
-                $response .= '</td>';
-            }
-            $response .= '</tr>';
-        }
-        $response .= '</tbody></table>';
 
+                $elementName = $allKeys[$index];
+                $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
+
+                $response .= '</td>';
+                if(($index + $half) < $count) {
+                    $response .= '<td width="50%" valign="top">';
+
+                    $elementName = $allKeys[$index + $half];
+                    $response .= $this->setChildren($elementName, $temp[$elementName], $filter->path);
+
+                    $response .= '</td>';
+                }
+                $response .= '</tr>';
+            }
+            $response .= '</tbody></table>';
+        }
+        
         return $response;
     }
     
     public function getSubcategories($filter, $subcategoryId = null)
     {
         $temp = array();
+        
+        $groups = array($filter->group_id);
+        if(!$filter->isLeaf()) {
+            $children = $filter->children()->findAll();
+            foreach($children as $child) {
+                $groups[] = $child->group_id;
+            }
+        }
+
         $modellines = Yii::app()->db->createCommand()
             ->selectDistinct('model_line_id')
             ->from('product_in_model_line m')
             ->join('product p', 'p.id = m.product_id')
-            ->where('p.published = 1 and p.product_group_id=:id', array(':id'=>$filter->group_id))
+            ->where(array('and', 'p.published = 1', array('in', 'p.product_group_id', $groups)))
             ->queryColumn()
         ;
 
@@ -461,6 +470,7 @@ class GroupfilterController extends Controller
     
     public function setChildren($categoryName, $elements, $path)
     {
+        ksort($elements);
         $response = '<ul class="accordion modelline">'.
                      '<li>'.
                        '<a href="#" class="sub-title">'.$categoryName.'</a>'.

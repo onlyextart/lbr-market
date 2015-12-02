@@ -7,9 +7,7 @@
     ));        
 ?>
 <div class="modellines-wrapper">
-    <?php if(!empty($title)): ?>
     <h1><?php echo $title ?></h1>
-    <?php endif; ?>
     <div class="elements">
         <?php if(!empty($response)): ?>
         <?php echo $response; ?>
