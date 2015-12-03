@@ -1,13 +1,11 @@
 <div class="left-menu-wrapper grey">
-    <?php if(!empty($groups) && (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
+    <?php if(!empty($groups)): ?>
     <ul class="accordion" id="accordion-group">
         <?php foreach($groups as $group): ?>
         <li><a href="#"><?php echo $group->name ?></a>
             <ul>
                 <?php 
-                    $criteria = new CDBCriteria();
-                    $criteria->order = 'name';
-                    $subgroups = $group->children()->findAll($criteria);
+                    $subgroups = $group->children()->findAll(array('order'=>'name'));
                     foreach($subgroups as $subgroup):
                 ?>
                 <li><a href="<?php echo $subgroup->path ?>/"><?php echo $subgroup->name ?></a></li>

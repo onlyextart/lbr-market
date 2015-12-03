@@ -142,45 +142,14 @@ class MenuChoice extends CWidget
         }
         
         // формируем меню "Продукты в группах"
-        $groupsRoot = ProductGroupFilter::model()->findByAttributes(array('level'=>1));
-        if(!empty($groupsRoot)) {
-            $criteria=new CDbCriteria();
-            $criteria->order='name';
-            $groups = $groupsRoot->children()->findAll($criteria);
+        if(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop)) {
+            $groupsRoot = ProductGroupFilter::model()->findByAttributes(array('level'=>1));
+            if(!empty($groupsRoot)) {
+                $criteria=new CDbCriteria();
+                $criteria->order='name';
+                $groups = $groupsRoot->children()->findAll($criteria);
+            }
         }
-        
-//        foreach($groups as $group) {
-//            $subgroups = $group->children()->findAll();
-//            foreach($subgroups as $subgroup){
-//                if($subgroup->isLeaf()){
-//                    $products = Yii::app()->db->createCommand()
-//                        ->select('id')
-//                        ->from('product')
-//                        ->where('published = 1 and product_group_id = '.$subgroup->group_id)
-//                        ->queryAll()
-//                    ;
-//                    
-//                    echo $subgroup->name.' - '.count($products).'<br>';
-//                } else {
-//                    $groups = array($subgroup->id);
-//                    $children = $subgroup->children()->findAll();
-//                    foreach ($children as $child) {
-//                        $products = Yii::app()->db->createCommand()
-//                            ->select('id')
-//                            ->from('product')
-//                            //->where('and', 'p.published = 1', array('in', 'product_group_id', $groups))
-//                            ->where('published = 1 and product_group_id = '.$child->group_id)
-//                            ->queryAll()
-//                        ;
-//
-//                        echo $child->name.' - '.count($products).'<br>';
-//                    }
-//                    
-//                }
-//            }
-//        }
-//        
-//        exit;
         
         $this->render('index',array(
             'groups' => $groups,

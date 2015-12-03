@@ -80,7 +80,7 @@ class GroupfilterController extends Controller
         $response = '';
         
         $group = ProductGroupFilter::model()->findByPk($filterId);
-        $groups = array($filterId);
+        $groups = array($group->group_id);
         if(!$group->isLeaf()) {
             $children = $group->children()->findAll();
             foreach($children as $child) {
@@ -95,6 +95,10 @@ class GroupfilterController extends Controller
             ->where(array('and', 'p.published = 1', array('in', 'p.product_group_id', $groups)))
             ->queryColumn()
         ;
+        
+//        echo '<pre>';
+//        var_dump($groups);
+//        exit;
         
         $criteria = new CDbCriteria;
         $criteria->compare('category_id', $categoryId);
@@ -180,7 +184,7 @@ class GroupfilterController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end Breadcrubs       
         
-        $groups = array($groupId);
+        $groups = array($filter->group_id);
         if(!$filter->isLeaf()) {
             $children = $filter->children()->findAll();
             foreach($children as $child) {
@@ -269,7 +273,7 @@ class GroupfilterController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end Breadcrubs
         
-        $groups = array($groupId);
+        $groups = array($filter->group_id);
         if(!$filter->isLeaf()) {
             $children = $filter->children()->findAll();
             foreach($children as $child) {
