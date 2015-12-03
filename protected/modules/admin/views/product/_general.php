@@ -8,6 +8,13 @@
 
         <div class="row">      
             <?php  
+                echo $form_view->labelEx($model, 'original');
+                echo ($model->original) ? 'Да' : 'Нет';
+            ?>
+        </div>
+
+        <div class="row">      
+            <?php  
                 echo $form_view->labelEx($model, 'external_id');
                 echo $form_view->textField($model, 'external_id', array('disabled'=>'true'));
             ?>

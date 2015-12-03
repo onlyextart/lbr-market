@@ -44,7 +44,9 @@ class Product extends CActiveRecord {
             $price,
             $filial,
             $modelLineId,
-            $makersID
+            $makersID,
+            $filter_maker,
+            $filter_category
     ;
 
     CONST IN_STOCK = 'есть в наличии';
@@ -72,12 +74,13 @@ class Product extends CActiveRecord {
             array('name', 'required'),
             array('min_quantity', 'numerical', 'integerOnly' => true, 'message' => 'Поле должно содержать целое число'),
             array('liquidity', 'match', 'pattern' => '/^[ABCD ]$/', 'message' => 'Значением поля "Ликвидность" может быть только латинская буква A, B, C или D'),
-            array('external_id, count, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published, problem, units, multiplicity, material, size, date_sale_off, modelLineId', 'safe'),
+            array('external_id, count, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published, problem, units, multiplicity, material, size, date_sale_off, modelLineId, original', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name, problem, units, multiplicity, material, size, date_sale_off', 'safe', 'on' => 'search'),
+            array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name, problem, units, multiplicity, material, size, date_sale_off, original', 'safe', 'on' => 'search'),
             array('name, product_group_id, count, model_line_id', 'safe', 'on'=>'searchEvent'),
             array('name, product_maker_id, count', 'safe', 'on'=>'searchEventMaker'),
+            array('name, product_maker_id, product_group_id', 'safe', 'on'=>'searchEventSale'),
             array('image', 'EImageValidator', 'types' => 'gif, jpg, png', 'allowEmpty' => 'true'),
         );
     }
@@ -102,7 +105,7 @@ class Product extends CActiveRecord {
             'priceInFilial' => array(self::HAS_MANY, 'PriceInFilial', 'product_id'),
         );
     }
-
+    
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -150,8 +153,60 @@ class Product extends CActiveRecord {
             'multiplicity' => 'Кратность',
             'material' => 'Материал изделия',
             'size' => 'Размер изделия',
-            'date_sale_off' => 'Дата снятия с продажи'
+            'date_sale_off' => 'Дата снятия с продажи',
+            'original' => 'Оригинальная запчасть'
         );
+    }
+    
+    public function initForSale(){
+        $this->filter_maker=array();
+        $this->filter_category=array();
+        
+        $sql="SELECT  prod.id AS prod_id, 
+                        model_line.maker_name AS maker_name,
+                        model_line.maker_id AS maker_id,
+                        model_line.cat_name AS cat_name,
+                        model_line.cat_id AS cat_id, 
+                        model_line.ml_id
+        FROM product_in_model_line piml, 
+             product prod,
+            (SELECT ml.id AS ml_id,ml.maker_id AS maker_id,maker.name AS maker_name,ml.category_id AS cat_id,cat.name AS cat_name
+            FROM model_line ml, equipment_maker maker, category cat
+            WHERE ml.maker_id=maker.id and ml.category_id=cat.id
+            ) model_line
+        WHERE prod.liquidity = 'D' and prod.count > 0 and prod.published = 1 and prod.date_sale_off IS NULL and piml.product_id=prod.id 
+            and model_line.ml_id=piml.model_line_id and model_line.ml_id=piml.model_line_id;";
+        $result_query=Yii::app()->db->createCommand($sql)->query();
+        $result_array=$result_query->readAll();
+        $array_category_id=array();
+        foreach ($result_array as $result_row){
+            $this->filter_maker[$result_row["maker_id"]]=$result_row["maker_name"];
+            $array_category_id[]=$result_row["cat_id"];
+        }
+        asort($this->filter_maker);
+        $sql='SELECT * FROM category WHERE external_id IS NOT NULL AND published=1 AND id in(';
+        $string_category_id='';
+        foreach ($array_category_id as $category_id){
+          $string_category_id.=$category_id.',';
+        }
+        $string_category_id=substr($string_category_id, 0, -1); 
+        $sql.=$string_category_id.');';        
+        $categories=Category::model()->findAllBySql($sql);
+        $data=array();
+        foreach($categories as $category){
+            $ancestors = $category->ancestors()->findAll();
+            if(!empty($ancestors)){
+                $categoryParent = $category->parent()->find();
+                if($categoryParent->level == 1){
+                   $data[$category->name][$category->id] = $category->name;
+                }
+                elseif($categoryParent->level == 2) {
+                    $data[$categoryParent->name][$category->id] = $category->name;
+                }   
+            }
+        }
+        $this->filter_category=$data;
+        ksort($this->filter_category);
     }
 
     /**
@@ -184,6 +239,7 @@ class Product extends CActiveRecord {
         $criteria->compare('t.published', $this->published);
         $criteria->compare('additional_info', $this->additional_info, true);
         $criteria->compare('t.update_time', $this->update_time, true);
+        $criteria->compare('t.original', $this->original, true);
 
         if (Yii::app()->search->prepareSqlite()) {
             $condition_name = 'lower(t.name) like lower("%' . $this->name . '%")';
@@ -226,6 +282,8 @@ class Product extends CActiveRecord {
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
         $criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
         $criteria->params = array(":model_id" => $this->modelLineId);
+        // !!!
+        //$criteria->addCondition('original = 1');
         
         if(!empty($this->count)) { // for model-view filter
             if($this->count == 1) { 
@@ -274,6 +332,8 @@ class Product extends CActiveRecord {
         $brandCriteria->join ='JOIN product ON product.id = t.product_id';
         $brandCriteria->condition = 't.model_line_id=:model_line_id';
         $brandCriteria->params = array(':model_line_id'=>$this->modelLineId);
+        // !!!
+        //$brandCriteria->addCondition('original = 1');
         
         if(!empty($groups)) {
             $brandCriteria->addInCondition('product.product_group_id', $groups);
@@ -360,7 +420,79 @@ class Product extends CActiveRecord {
             ),
         ));
     }
-
+    
+    public function searchEventSale(SaleFilterForm $additional_filter){
+        $criteria = new CDbCriteria;
+        $criteria->select='t.*,productMaker.name';
+        $criteria->together="true";
+        $criteria->with=array('productMaker');
+        $criteria->condition='t.liquidity = "D" and t.count > 0 and t.published = 1 and t.date_sale_off IS NULL';
+ 
+        if(!empty($this->name)) {
+            if(Yii::app()->search->prepareSqlite()){ 
+                $match = addcslashes($this->name, '%_');
+                $criteria->addCondition('lower(t.name) like lower(:name)');
+                $criteria->params[':name'] = "%$match%";
+            }
+            else{
+                $criteria->compare('t.name', $this->name,'AND', true);
+            }
+        }
+        
+        if(!empty($additional_filter->maker)||!empty($additional_filter->category)){
+            $criteria->distinct="true";
+            $criteria->join=' JOIN product_in_model_line as piml ON piml.product_id=t.id';
+            $criteria->join.=' JOIN model_line as ml ON piml.model_line_id=ml.id';
+            $criteria->join.=' JOIN equipment_maker as maker ON maker.id=ml.maker_id';
+            $criteria->join.=' JOIN category as cat ON cat.id=ml.category_id';
+            if (!empty($additional_filter->maker)){
+                $criteria->addCondition('maker.id=:maker_id');
+                $criteria->params[":maker_id"] = $additional_filter->maker;
+            }
+            if (!empty($additional_filter->category)){
+                $criteria->addCondition('cat.id=:category_id');
+                $criteria->params[":category_id"] = $additional_filter->category;
+            }
+        }
+        $makerFilter=array();
+        $product_makers=Product::model()->findAll($criteria);
+        foreach($product_makers as $product_maker){
+            if (!empty($product_maker->productMaker->name)){
+                $makerFilter[$product_maker->product_maker_id]=$product_maker->productMaker->name;
+            }
+        }
+        asort($makerFilter);
+        if(!empty($this->product_maker_id)){
+            $criteria->addCondition('t.product_maker_id=:product_maker_id');
+            $criteria->params[":product_maker_id"] = $this->product_maker_id;
+        }
+        
+        $dataProvider=new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'sort' => array(
+                'defaultOrder' => 't.name ASC',
+                'multiSort' => true,
+                'sortVar'  => 'sort',
+                'attributes'=>array(
+                    'name'=>array(
+                        'asc' => 't.name ASC',
+                        'desc' => 't.name DESC',
+                        'default' => 'desc'
+                    ),
+                ),
+            ),
+            'pagination' => array(
+                'pageSize' => 10,
+                'pageVar'  => 'page',
+            ),
+        ));
+        
+        return array(
+            'dataProvider'=>$dataProvider,
+            'makerFilter'=>$makerFilter,
+        );
+    }
+    
     public function getProductMaker() {
         $model_productMaker = ProductMaker::model()->findAll();
         $list = CHtml::listData($model_productMaker, 'id', 'name');
@@ -419,4 +551,5 @@ class Product extends CActiveRecord {
 
         return $image;
     }
+
 }
