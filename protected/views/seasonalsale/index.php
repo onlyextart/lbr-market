@@ -80,7 +80,7 @@
                 'htmlOptions' => array('width' => '150px', 'align' => 'center'),
                 'type' => 'raw',
                 'value' => function($data) {
-                    if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {
+                   if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {
                         if (Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                             $price = Price::model()->getPrice($data->id);
                             if (empty($price))
@@ -90,13 +90,18 @@
                     }
 
                     if (empty($data->date_sale_off)) {
+                        $available = '<div class="stock">' . Product::NO_IN_STOCK . '</div>';
+                        if ($data->count > 0) {
+                            $available = '<div class="stock in-stock">' . Product::IN_STOCK_SHORT . '</div>';
+                        }
+                        
                         if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {
                             $result = '<div class="cell">' .
-                                    '<span>' . $price . '</span>' .
+                                    '<span>' . $price . '</span>'.$available.
                                     '</div>';
                         } else {
-                            $result = '<div class="cell price-link">' .
-                                    '<a href="/site/login/">' . Yii::app()->params['textNoPrice'] . '</a>' .
+                            $result = '<div class="cell">' .
+                                    '<a href="/site/login/" class="price_link">' . Yii::app()->params['textNoPrice'] . '</a>'.$available.
                                     '</div>';
                         }
                     } else {
@@ -121,17 +126,11 @@
                     '1' => Product::IN_STOCK_SHORT,
                     '2' => Product::NO_IN_STOCK
                 ),
-                //'value'  => '($data->count > 0 ? Product::IN_STOCK_SHORT : Product::NO_IN_STOCK)',
                 'type' => 'raw',
                 'value' => function($data) {
                     $result = '<div class="cell"><div class="cart-form" elem="' . $data->id . '">';
 
                     if (empty($data->date_sale_off)) {
-                        if ($data->count > 0) {
-                            $result .= '<span class="stock in-stock">' . Product::IN_STOCK_SHORT . '</span>';
-                        } else {
-                            $result .= '<span class="stock">' . Product::NO_IN_STOCK . '</span>';
-                        }
 
                         $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";
                         if (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))) {
