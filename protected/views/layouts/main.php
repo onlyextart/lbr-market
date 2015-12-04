@@ -18,7 +18,7 @@
         <?php
             Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?46');
             Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?4');
+            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?5');
 
             if(empty(Yii::app()->request->cookies['lbrfilial'])) {
                 $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
