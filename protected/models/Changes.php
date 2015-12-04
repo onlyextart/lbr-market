@@ -200,9 +200,12 @@ class Changes extends CActiveRecord
         public static function getNamesById($table,$id_old,$id_new){
             $result=array();
             $query_old="SELECT name FROM ".$table." WHERE id=".$id_old;
-            $result['old'] = Yii::app()->db->createCommand($query_old)->query()->readColumn();
+            //$result['old'] = Yii::app()->db->createCommand($query_old)->query()->readColumn();
+            $result['old'] = Yii::app()->db->createCommand($query_old)->queryScalar();
+            
             $query_new="SELECT name FROM ".$table." WHERE id=".$id_new;
-            $result['new'] = Yii::app()->db->createCommand($query_new)->query()->readColumn();
+            //$result['new'] = Yii::app()->db->createCommand($query_new)->query()->readColumn();
+            $result['new'] = Yii::app()->db->createCommand($query_new)->queryScalar();
             
             return $result;
         }
