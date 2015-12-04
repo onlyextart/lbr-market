@@ -1894,7 +1894,7 @@ hr#hit-line-second{
 .article p, .article div{
     padding-bottom: 10px;
 }
-#aboutus-content{
+/*#aboutus-content{
     margin-top: 20px;
 }
 #aboutus-photos{
@@ -1911,7 +1911,7 @@ hr#hit-line-second{
 }
 #aboutus-photos .aboutus-photo img{
     width:253px;
-}
+}*/
 /*----- end Static pages --------------*/
 /*----- start search---------------*/
 .search-input{

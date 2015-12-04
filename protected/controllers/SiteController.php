@@ -133,10 +133,10 @@ class SiteController extends Controller {
         $this->render('staticPage', array('data' => $model), false, true);
     }
     
-    public function actionAboutus()
-    {
-        $this->render('aboutus', array());
-    }
+//    public function actionAboutus()
+//    {
+//        $this->render('aboutus', array());
+//    }
 
     public function actions() {
         return array(
