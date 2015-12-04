@@ -375,7 +375,7 @@ class Product extends CActiveRecord {
     public function searchEventMaker(){
         $criteria = new CDbCriteria;
         $criteria->join='JOIN bestoffer_makers ON bestoffer_makers.maker_id=t.product_maker_id';
-        $criteria->condition = 't.product_maker_id IN'.$this->makersID.' and t.published = 1';
+        $criteria->condition = 't.product_maker_id IN'.$this->makersID.' and t.published = 1 and t.date_sale_off IS NULL';
         if(!empty($this->count)) { 
             if($this->count == 1) { 
                 $criteria->addCondition('count > 0');
