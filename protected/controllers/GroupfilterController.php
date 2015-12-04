@@ -360,6 +360,9 @@ class GroupfilterController extends Controller
         
         $result = $products->searchEvent();
         $dataProvider = $result['dataProvider'];
+        $dataProvider->sort = array(
+            'defaultOrder' => 'count desc, name'
+        );
         $dataProvider->pagination = array(
             'pageVar' => 'page',
             'pageSize' => 10,
