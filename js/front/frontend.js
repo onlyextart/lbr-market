@@ -101,10 +101,10 @@ $(document).ready(function($){
         ellipsis : '... ',
         wrap	 : 'letter',
     });
-    // product page
+    // group filter
     $('#accordion-group').dcAccordion({
         eventType: 'click',
-        saveState: true,
+        saveState: false,
         disableLink: true,
         speed: 'fast',
         classActive: 'test',
