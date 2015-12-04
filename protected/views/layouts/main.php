@@ -95,7 +95,7 @@
                     <li>
                         <a href="#"><span>Информация</span></a>
                         <ul class="submenu">
-                            <li><a href="/site/aboutus/">Мы online</a></li>
+                            <!--<li><a href="/site/aboutus/">Мы online</a></li>-->
                             <li><a href="/payment/">Условия и оплата</a></li>
                             <li><a href="/delivery/">Доставка</a></li>
                             <li><a href="/garantiya/">Гарантия</a></li>
