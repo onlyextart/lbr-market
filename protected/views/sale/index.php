@@ -110,7 +110,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 'filter' => $makerFilter,
                 'type' => 'raw',
                 'value' => '(!empty($data->product_maker_id)) ? ProductMaker::model()->findByPk($data->product_maker_id)->name : ""',
-                //'htmlOptions' => array('width'=>'15%', 'padding-right'=>'5px'),
                 'htmlOptions' => array('width'=>'200px', 'align' => 'center'),
             ),
             array(
@@ -119,34 +118,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 'htmlOptions' => array('width' => '150px', 'align' => 'center'),
                 'type' => 'raw',
                 'value' => function($data) {
-                    if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {
-                        if (Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
-                            $price = Price::model()->getPrice($data->id);
-                            if (empty($price))
-                                $price = '<span class="no-price-label">' . Yii::app()->params['textNoPrice'] . '</span>';
-                        } else
-                            $price = Yii::app()->params['textHidePrice'];
-                    }
-
-                    if (empty($data->date_sale_off)) {
-                        if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {
-                            $result = '<div class="cell">' .
-                                    '<span>' . $price . '</span>' .
+                    $price = Price::model()->getPrice($data->id);
+                    if (empty($price)){
+                        $price = '<span class="no-price-label">' . Yii::app()->params['textNoPrice'] . '</span>';}
+                    $available = '<div class="stock in-stock">' . Product::IN_STOCK_SHORT . '</div>';
+                    $result = '<div class="cell">' .
+                                    '<span>' . $price . '</span>'.$available.
                                     '</div>';
-                        } else {
-                            $result = '<div class="cell price-link">' .
-                                    '<a href="/site/login/">' . Yii::app()->params['textNoPrice'] . '</a>' .
-                                    '</div>';
-                        }
-                    } else {
-                        $countAnalogs = Analog::model()->count("product_id=:id", array("id" => $data->id));
-                        if ($countAnalogs) {
-                            $result = '<div class="cell">' .
-                                    '<a class="prodInfo" target="_blank" href="' . $data->path . '">аналоги</a>' .
-                                    '</div>';
-                        }
-                    }
-
                     return $result;
                 }
             ),
@@ -160,21 +138,23 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 'type' => 'raw',
                 'value' => function($data) {
                     $result = '<div class="cell"><div class="cart-form" elem="' . $data->id . '">';
-                    $result .= '<span class="stock in-stock">' . Product::IN_STOCK_SHORT . '</span>';
-                    $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";
-                    if (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))) {
-                        //if($price) {
-                        $result .= '<input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">
-                            <input onclick=' . $intent . ' type="submit"  title="Добавить в корзину" value="" class="small-cart-button">'
-                        ;
-                        //}
 
-                       $result .= '<button class="wish-small" title="Добавить в блокнот">
-                                <span class="wish-icon"></span>
-                            </button>'
+                    if (empty($data->date_sale_off)) {
+                        $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";
+                        if (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))) {
+                           $result .= '<input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="4" size="7" autocomplete="off" product="1" class="cart-quantity">
+                                                <input onclick=' . $intent . ' type="submit"  title="Добавить в корзину" value="" class="small-cart-button">'
                             ;
+
+                            $result .= '<button class="wish-small" title="Добавить в блокнот">
+                                                       <span class="wish-icon"></span>
+                                                    </button>'
+                            ;
+                        }
+                    } else {
+                        $result .= '<span>' . Yii::app()->params['textSaleOff'] . '</span>';
                     }
-                   
+
                     $result .= '</div></div>';
 
                     return $result;
