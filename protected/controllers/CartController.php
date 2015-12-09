@@ -176,39 +176,6 @@ class CartController extends Controller
                 }
             }
 
-//            if (!empty(Yii::app()->session['cart'])) {
-//                foreach (Yii::app()->session['cart'] as $productId => $count) {
-//                    $order = Yii::app()->db->createCommand()
-//                            ->select('o.id')
-//                            ->from('order o')
-//                            ->join('order_product p', 'o.id=p.order_id')
-//                            ->where('o.status_id=:cart_status and o.user_id=:user_id and p.product_id=:product_id', array(':cart_status' => Order::CART, ':user_id' => Yii::app()->user->_id, ':product_id' => $productId))
-//                            ->queryRow()
-//                    ;
-//
-//                    if (!empty($order)) {
-//                        $updateOrder = OrderProduct::model()->find('product_id=:product_id and order_id=:order_id', array(':product_id' => $productId, ':order_id' => $order[id]));
-//                        $updateOrder->count = (int) $updateOrder->count + (int) $count;
-//                        //$updateOrder->price = '';
-//                        $updateOrder->save();
-//                    } else {
-//                        $order = new Order;
-//                        $order->user_id = Yii::app()->user->_id;
-//                        $order->delivery_id = 1;
-//                        $order->status_id = Order::CART; // статус "корзина"
-//
-//                        if ($order->save()) {
-//                            $orderProduct = new OrderProduct;
-//                            $orderProduct->order_id = $order->id;
-//                            $orderProduct->product_id = $productId;
-//                            $orderProduct->count = $count;
-//                            $orderProduct->save();
-//                        }
-//                    }
-//                }
-//                Yii::app()->session['cart'] = null;
-//            }
-
             $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status' => Order::CART, ':user' => Yii::app()->user->_id));
 
             foreach ($allOrdersInCart as $orderInCart) {
