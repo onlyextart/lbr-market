@@ -28,24 +28,40 @@
                         'validateOnSubmit'=>true,),
     )); ?>
 
-    <?php echo $form->errorSummary($model); ?>
+    <?php echo $form->errorSummary($model); ?>    
+        <div class="row">
+            <?php
+            if (Yii::app()->user->isGuest) {
+                echo $form->labelEx($model, 'name');
+                echo $form->textField($model, 'name');
+                ?>
+                <?php
+            }
+            ?>
+        </div>
+        <div class="row">
+            <?php
+            if (Yii::app()->user->isGuest) {
+                echo $form->labelEx($model, 'email');
+                echo $form->textField($model, 'email');
+                ?>
+                <?php
+            }
+            ?>
+        </div>
+        <div class="row">
+            <?php
+            if (Yii::app()->user->isGuest) {
+                echo $form->labelEx($model, 'phone');
+                echo $form->textField($model, 'phone'); ?>
+                <div class = "phone_note">пример: +7(4722)402104</div>
+                
+                <?php
+            }
+            ?>
+        </div>
     
-    <div class="row">
-        <?php echo $form->labelEx($model,'name'); ?>
-        <?php echo $form->textField($model,'name'); ?>
-    </div>
     
-    <div class="row">
-        <?php echo $form->labelEx($model,'email'); ?>
-        <?php echo $form->textField($model,'email'); ?>
-    </div>  
-    
-    <div class="row">
-        <?php echo $form->labelEx($model,'phone'); ?>
-        <?php echo $form->textField($model,'phone'); ?>
-        <div class="phone_note">пример: +7(4722)402104</div>
-    </div>
-        
     <div class="row">
         <?php echo $form->labelEx($model,'organization'); ?>
         <?php echo $form->textField($model,'organization'); ?>
@@ -54,7 +70,7 @@
     <div class="row">
         <?php echo $form->labelEx($model,'body'); ?>
         <?php echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>80, 'style'=>'max-width: 570px;')); ?>
-        
+        <div class = "phone_note">Указать производителя, номера и количество</div>
     </div>
     <div class="row">
         <div class="row delivery_type">
@@ -113,7 +129,13 @@ array(
 <div class="row quick-form-info">
     <p class="text_quickform_info">
         Для составления заявки заполните следующие поля:
-   <ol> <li>Укажите Вашу контактную информацию.</li>
+   <ol>
+<?php
+            if (Yii::app()->user->isGuest) { ?>
+                <li>	Укажите Вашу контактную информацию.</li> 
+                <?php
+            }
+            ?>
 <li>	В примечании укажите производителя, модель техники, каталожные номера запчастей и их количество. Если количество номеров более 5  воспользуйтесь <a href="/images/files/QuickFormsexample.xlsx" target="_blank" download="">ФОРМОЙ ЗАЯВКИ</a>, которую необходимо прикрепить во Вложение.</li> 
 <li>	Если каталожные номера запчастей неизвестны, прикрепите их фотографии во Вложение, а в примечании при этом укажите их количество, место установки, модель и производителя техники.</li>
 <li>	В строке доставка укажите способ доставки:</li> 
@@ -129,7 +151,7 @@ array(
 </div>
         </center>
     </div>
-<script type="text/javascript">
+<script type="text/javascript">    
     $(function(){
          $(".delivery_type select").change(function(){
              value=$(".delivery_type select").val();
@@ -151,13 +173,6 @@ array(
                  $('.region *').prop("disabled", false);
                  $(".region").removeClass('hide');
              }
-             
-             if(value==<?= 0 ?>){
-            
-             
-                 $(".adress, .region").addClass('hide');
-             }
-             
          });
          
         <?php if ($err) :?>
