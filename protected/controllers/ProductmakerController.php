@@ -3,7 +3,7 @@ class ProductmakerController extends Controller
 {
     public function actionIndex($path=null)
     {
-        $sectionName="Бренды";
+        $sectionName="Наши партнеры";
         Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'] = $sectionName;
         
         if (!empty($path)) {
