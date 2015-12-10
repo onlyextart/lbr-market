@@ -16,7 +16,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?46');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?47');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?5');
 
@@ -56,6 +56,12 @@
                         <a href="http://www.lbr.ru/service/">
                             <img src="/images/mainMenuIcon/toppict3.png" alt="Сервисное обслуживание">
                             <span>Сервис</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.lbr.ru/finance/products/">
+                            <img src="/images/mainMenuIcon/toppict_finance.png" alt="Финансирование">
+                            <span>Финансовые<br>программы</span>
                         </a>
                     </li>
                     <div class="phone_main">
