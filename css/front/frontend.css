@@ -2402,6 +2402,8 @@ input.small-cart-button,input.small-cart-button-wishlist{
 .product-params > div{
     margin: 0 0 10px;
     display: table-row;
+}
+.product-params > div:not(:first-child){
     border-bottom: 1px solid #f39314;
 }
 .product-params a{

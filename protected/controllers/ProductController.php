@@ -140,11 +140,11 @@ class ProductController extends Controller
                                         '<div class="row">'
             ;
             
-            if(!Yii::app()->user->isGuest) {
+            //if(!Yii::app()->user->isGuest) {
                 $analogProducts .= '<div class="cell width-20">'.
-                    '<a target="_blank" class="prodInfo" href="'.$analog->path.'">'.$analog->name.'</a>'.
+                    '<a target="_blank" class="prodInfo" href="'.$analog->path.'">'.$analog->external_id.'</a>'.
                 '</div>';
-            }
+            //}
             
             $analogProducts .= '<div class="cell cell-img">';
             $largeImg = Product::model()->getImage($analog->image);
@@ -157,13 +157,24 @@ class ProductController extends Controller
             ;
             
             $drafts = $this->getDraftsLabel($analog->id);
-            $productMaker = '';
+            
+//            $productMaker = '';
+//            if(!empty($analog->product_maker_id)) { 
+//                $productMaker = '<div>'.ProductMaker::model()->findByPk($analog->product_maker_id)->name.'</div>';
+//            }
+//            $analogProducts .= '</div>'.
+//                            '<div class="cell draft width-35">'.
+//                               $productMaker.
+//                               $drafts.
+//                            '</div>'
+//            ;
+            $productCountry = '';
             if(!empty($analog->product_maker_id)) { 
-                $productMaker = '<div>'.ProductMaker::model()->findByPk($analog->product_maker_id)->name.'</div>';
+                $productCountry = '<div>'.ProductMaker::model()->findByPk($analog->product_maker_id)->country.'</div>';
             }
             $analogProducts .= '</div>'.
                             '<div class="cell draft width-35">'.
-                               $productMaker.
+                               $productCountry.
                                $drafts.
                             '</div>'
             ;
