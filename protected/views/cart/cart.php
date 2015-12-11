@@ -60,7 +60,8 @@
                         </td>
                         <td width="180px">
                             <?php
-                                echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
+                                echo $item->product->name.'<br>';
+//                                echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
                                 echo CHtml::openTag('span', array('class'=>'price'));
                                 echo (Yii::app()->params['showPrices'])? $price['one']:'';
                                 echo CHtml::closeTag('span');
@@ -100,7 +101,8 @@
                         </td>
                         <td width="180px" >
                             <?php
-                            echo CHtml::link($item['name'], $item['path'], array('target'=>'_blank'));
+                            echo $item['name'].'<br>';
+                            //echo CHtml::link($item['name'], $item['path'], array('target'=>'_blank'));
                             if($item['liquidity'] == 'D' && $item['count'] > 0) {
                                 echo CHtml::openTag('span', array('class'=>'price'));
                                 echo (Yii::app()->params['showPrices'])? $price['one']:'';
