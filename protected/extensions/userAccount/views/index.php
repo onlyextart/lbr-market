@@ -29,7 +29,7 @@ if(!Yii::app()->user->isGuest) {
             </ul>
 
             <center>
-                <?php echo CHtml::button('ЭКСПРЕСС ЗАЯВКА', array('submit' =>array('/site/quickform/'), 'class'=>'buttonform')); ?>    
+                <?php echo CHtml::button('ЭКСПРЕСС-ЗАЯВКА', array('submit' =>array('/site/quickform/'), 'class'=>'buttonform')); ?>    
             </center>
             <a href="/cart/" class="cart"><img class="cart-reg-user" src="/images/cart.png" alt="Корзина"/></a>
             <div class="cart-label cart-label-reg-user">В корзине <a id="cart-count" href="/cart/"><?php echo $cartCount ?></a></div>
@@ -52,7 +52,7 @@ if(!Yii::app()->user->isGuest) {
     )); ?>
     
     <div class="text_quickform">
-        <p>ЭКСПРЕСС ЗАЯВКА</p>
+        <p>ЭКСПРЕСС-ЗАЯВКА</p>
         <center>
             <?php echo CHtml::button('ОТПРАВИТЬ', array('submit' =>array('/site/quickform/'), 'class'=>'buttonform')); ?>    
         </center>

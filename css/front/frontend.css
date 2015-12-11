@@ -145,11 +145,11 @@ header .logo
 {
     text-align: left;
     float: left;
-    width: 20%;
+    width: 15%;
 }
 header .logo a{
     display: block;
-    padding: 15px 0 0px 40px;
+    padding: 15px 0 0px 10px;
 }
 header .logo .logo-label, .page-not-found p {
     font-weight: bold;
@@ -192,12 +192,12 @@ header .header-main .main-top {
   height: 100%;
   padding: 0;
   font-weight: bold;
-  padding:0px 0px 0px 25px;
+  padding:0px 0px 0px 35px;
 }
 
 header .header-main .main-top li {
   float: left;
-  width: 95px;
+  width: 85px;
   height: 110px;
   text-align: center;
 }
@@ -387,7 +387,7 @@ header .map a{
 header .map {
   float: left;
   position: relative;
-  margin-left: 110px;
+  margin-left: 180px;
 }
 header .map a span {
   position: absolute;

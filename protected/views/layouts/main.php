@@ -58,6 +58,12 @@
                             <span>Сервис</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="http://www.lbr.ru/finance/products/">
+                            <img src="/images/mainMenuIcon/toppict_finance.png" alt="Финансирование">
+                            <span>Финансовые<br>программы</span>
+                        </a>
+                    </li>
                     <div class="phone_main">
                         <div class="phone_number">8-800-5553219</div>
                         <div class="phone_text">Помощь в подборе запчастей</div>                        
@@ -91,7 +97,7 @@
                     <li><a href="/"><span>Главная</span></a></li>
                     <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
                     <li><a href="/sale/"><span>Распродажа</span></a></li>
-                    <li><a href="/product-maker/"><span>Бренды</span></a></li>
+                    <li><a href="/product-maker/"><span>Наши партнеры</span></a></li>
                     <li>
                         <a href="#"><span>Информация</span></a>
                         <ul class="submenu">
