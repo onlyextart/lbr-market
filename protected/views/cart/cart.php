@@ -1,7 +1,5 @@
 <?php 
     $action = '/cart/index/';
-    //Yii::app()->clientScript->registerScriptFile('http://www.baikalsr.ru/api-calc/?ver=2.2&setAccount=BS-0000189',CClientScript::POS_END);
-    Yii::app()->clientScript->registerScriptFile('http://www.baikalsr.ru/api-calc/?ver=2.2&setAccount=BS-0000189');
 ?>
 <div class="cart-wrapper">
     <?php
@@ -38,7 +36,8 @@
            <thead>
               <tr>
                  <td></td>
-                 <td></td>
+                 <td>Наименование</td>
+                 <td>Артикул</td>
                  <td>Количество</td>
                  <td>Сумма</td>
                  <td>Удалить</td>
@@ -59,13 +58,16 @@
                                 <img src="<?php echo $image ?>" alt="<?php echo $item->product->name ?>"/>
                             </a>
                         </td>
-                        <td width="220px">
+                        <td width="180px">
                             <?php
                                 echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
                                 echo CHtml::openTag('span', array('class'=>'price'));
                                 echo (Yii::app()->params['showPrices'])? $price['one']:'';
                                 echo CHtml::closeTag('span');
                             ?>
+                        </td>
+                        <td width="80px">
+                            <?php echo $item->product->external_id; ?>
                         </td>
                         <td width="120px">
                             <div class="minus">&minus;</div>
@@ -96,7 +98,7 @@
                             echo CHtml::link(CHtml::image($image, '', array('class'=>'thumbnail')), $image, array('class'=>'thumbnail'));
                             ?>
                         </td>
-                        <td width="220px" >
+                        <td width="180px" >
                             <?php
                             echo CHtml::link($item['name'], $item['path'], array('target'=>'_blank'));
                             if($item['liquidity'] == 'D' && $item['count'] > 0) {
@@ -105,6 +107,9 @@
                                 echo CHtml::closeTag('span');
                             }
                             ?>
+                        </td>
+                        <td width="80px">
+                            <?php echo $item['external_id']; ?>
                         </td>
                         <td width="120px">
                             <div class="minus">&minus;</div>
@@ -162,9 +167,6 @@
                 </li>
                 <?php endforeach; ?>
             </ul>
-            <?php //if(Yii::app()->user->getId() == 3): ?>
-            <div id="myCalculator"></div>
-            <?php //endif; ?>
         </div>
         <div class="guest-data">
             <h2>Адрес получателя</h2>
@@ -223,11 +225,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 ));
 ?>
 <script>
-    $(function() {
-       $("#myCalculator").bsCalculator({
-            city_out:true
-        });
-        
+    $(function() {        
        //$('.price-link').easyTooltip({content:'Авторизуйтесь, чтобы узнать цену'});
 
        $('.order_products .plus').click(function(event) {

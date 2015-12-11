@@ -27,7 +27,7 @@
             <div class="product-params">
                 <div>
                       <span></span>
-                      <span class="date-label">Артикул: <?php echo $data->external_id ?></span>
+                      <span class="date-label"><b>Артикул</b>: <?php echo $data->external_id ?></span>
                 </div>
                 <?php if(!empty($update)): ?>
                 <div>

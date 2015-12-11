@@ -130,13 +130,8 @@ class SiteController extends Controller {
         Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'] = $breadcrumbs[] = $model->title;
         //Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         
-        $this->render('staticPage', array('data' => $model), false, true);
+        $this->render('staticPage', array('data' => $model, 'url'=>$url), false, true);
     }
-    
-//    public function actionAboutus()
-//    {
-//        $this->render('aboutus', array());
-//    }
 
     public function actions() {
         return array(

@@ -65,6 +65,7 @@ class CartController extends Controller
                     if (!empty($product->image))
                         $prodImage = $product->image;
                     $items[] = array(
+                        'external_id' => $product->external_id,
                         'path' => $product->path,
                         'id' => $productId,
                         'name' => $product->name,
