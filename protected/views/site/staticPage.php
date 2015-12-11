@@ -12,9 +12,9 @@ echo $data['full_description'];
 
 
 if($url == 'delivery') {
-    echo '<div>Актуальные цены доставки уточняйте у перевозчика</div>';
-    Yii::app()->clientScript->registerScriptFile('http://www.baikalsr.ru/api-calc/?ver=2.2&setAccount=BS-0000189');
-    echo '<div id="baycalService"></div>';
+//    echo '<div>Актуальные цены доставки уточняйте у перевозчика</div>';
+//    Yii::app()->clientScript->registerScriptFile('http://www.baikalsr.ru/api-calc/?ver=2.2&setAccount=BS-0000189');
+//    echo '<div id="baycalService"></div>';
 }
 
 echo CHtml::openTag('dl', array(
