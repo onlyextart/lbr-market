@@ -18,6 +18,7 @@
 	   <thead>
 	      <tr>
 		 <td></td>
+		 <td>Артикул</td>
 		 <td>Количество</td>
 		 <td>Сумма</td>
 	      </tr>
@@ -26,7 +27,8 @@
 		<?php foreach($items as $item): ?>
 		<tr>
                     <td>
-                        <h3><?php echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));?></h3>
+                        <!--h3><?php //echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));?></h3-->
+                        <h3><?php echo $item->product->name ?></h3>
                         <?php
                         echo CHtml::openTag('div', array('class'=>'price'));
                         if(Yii::app()->params['showPrices']) {
@@ -34,6 +36,10 @@
                         } else echo Yii::app()->params['textHidePrice']; 
                         echo CHtml::closeTag('div');
                         ?>
+                    </td>
+                    <td>
+                        <?php echo $item->product->external_id ?>
+                    </td>
                     <td>
                         <?php echo $item->count ?>
                     </td>
