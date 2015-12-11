@@ -140,11 +140,10 @@ class ProductController extends Controller
                                         '<div class="row">'
             ;
             
-            //if(!Yii::app()->user->isGuest) {
-                $analogProducts .= '<div class="cell width-20">'.
-                    '<a target="_blank" class="prodInfo" href="'.$analog->path.'">'.$analog->external_id.'</a>'.
-                '</div>';
-            //}
+            $analogProducts .= '<div class="cell width-20">'.
+                //'<a target="_blank" class="prodInfo" href="'.$analog->path.'">'.$analog->external_id.'</a>'.
+                $analog->external_id.
+            '</div>';
             
             $analogProducts .= '<div class="cell cell-img">';
             $largeImg = Product::model()->getImage($analog->image);
