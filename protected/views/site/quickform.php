@@ -71,24 +71,8 @@
         <?php echo $form->labelEx($model,'body'); ?>
         <?php echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>80, 'style'=>'max-width: 570px;')); ?>
         <div class = "phone_note">Указать производителя, номера и количество</div>
-    </div>
-    <div class="row">
-        <div class="row delivery_type">
-            <?php echo $form->error($model, "delivery"); ?>
-            <?php echo $form->labelEx($model, "delivery"); ?>
-            <?php echo $form->dropDownList($model, "delivery", QuickForm::getDeliveryTypes(), array_merge(array('empty'=>'Выберите способ доставки'))); ?>
-        </div>
-        <div disabled="disabled" class="row region <?php echo ($model->region) ? '': 'hide'?>">
-            <?php echo $form->error($model, "region"); ?>
-            <?php echo $form->labelEx($model, "region"); ?>
-            <?php echo $form->dropDownList($model,"region", QuickForm::getAllFilials(), array_merge(array('empty'=>'Выберите филиал')), array('class'=>'reg-filial')); ?>
-        </div>             
-        <div disabled="disabled" class="row adress <?php echo ($model->adress) ? '': 'hide'?>">
-            <?php echo $form->error($model, "adress"); ?>
-            <?php echo $form->labelEx($model, "adress"); ?>
-            <?php echo $form->textField($model,"adress"); ?>
-        </div>
     </div> 
+        
 <div id="attachments"></div>
 <div class="row">
 <?php echo $form->labelEx($model,'attachments'); ?>
@@ -129,20 +113,15 @@ array(
 <div class="row quick-form-info">
     <p class="text_quickform_info">
         Для составления заявки заполните следующие поля:
-   <ol>
-<?php
-            if (Yii::app()->user->isGuest) { ?>
-                <li>	Укажите Вашу контактную информацию.</li> 
-                <?php
-            }
-            ?>
-<li>	В примечании укажите производителя, модель техники, каталожные номера запчастей и их количество. Если количество номеров более 5  воспользуйтесь <a href="/images/files/QuickFormsexample.xlsx" target="_blank" download="">ФОРМОЙ ЗАЯВКИ</a>, которую необходимо прикрепить во Вложение.</li> 
-<li>	Если каталожные номера запчастей неизвестны, прикрепите их фотографии во Вложение, а в примечании при этом укажите их количество, место установки, модель и производителя техники.</li>
-<li>	В строке доставка укажите способ доставки:</li> 
-а) самовывоз с филиалом отгрузки;<br /> 
-б) транспортной компанией, выбор и оплату услуг транспортной компании производит клиент;<br /> 
-в) транспортной компанией, оплата услуг по доставке включается в счет-фактуру.<br /> 
-При доставке транспортной компанией необходимо указать адрес.<br /> <br /> </ol>
+    <ol>
+        <?php if (Yii::app()->user->isGuest) { ?>
+            <li>	Укажите Вашу контактную информацию.</li> 
+            <?php
+        }
+        ?>
+        <li>	В примечании укажите производителя, модель техники, каталожные номера запчастей и их количество. Если количество номеров более 5  воспользуйтесь <a href="/images/files/QuickFormsexample.xlsx" target="_blank" download="">ФОРМОЙ ЗАЯВКИ</a>, которую необходимо прикрепить во Вложение.</li> 
+        <li>	Если каталожные номера запчастей неизвестны, прикрепите их фотографии во Вложение, а в примечании при этом укажите их количество, место установки, модель и производителя техники.</li>
+    </ol>
 В течение суток с Вами свяжется персональный менеджер для согласования и оформления заказа.
 
     </p>
@@ -152,28 +131,7 @@ array(
         </center>
     </div>
 <script type="text/javascript">    
-    $(function(){
-         $(".delivery_type select").change(function(){
-             value=$(".delivery_type select").val();
-             if(value==<?= 1?>){            
-             
-                 $(".adress").addClass('hide');
-                 $('.adress *').prop("disabled", true);
-             }
-             else{
-                 $('.adress *').prop("disabled", false);
-                 $(".adress").removeClass('hide');
-             }
-             
-              if(value==<?= 3 ?> || value==<?= 4 ?>){
-                  $('.region *').prop("disabled", true);
-                     $(".region").addClass('hide');
-             }
-             else{
-                 $('.region *').prop("disabled", false);
-                 $(".region").removeClass('hide');
-             }
-         });
+    $(function(){        
          
         <?php if ($err) :?>
             alertify.error('<?php echo $err; ?>');
