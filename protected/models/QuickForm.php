@@ -33,10 +33,10 @@ class QuickForm extends CFormModel
         public function rules()
 {
     return array(            
-            array('name, email, phone, body, delivery', 'required'),
-            array('adress', 'adressValidation'),
-            array('region', 'regionValidation'),
-            array('attachments, name, email, phone, body, organization, delivery, region, adress', 'safe'),
+            array('name, email, phone, body', 'required'),
+            //array('adress', 'adressValidation'),
+            //array('region', 'regionValidation'),
+            array('attachments, name, email, phone, body, organization', 'safe'),
             array('email', 'email', 'message'=>'Неправильно заполнено поле «Email»'),
             array('phone','match','pattern' => '/^\+\d{1,3}\(\d{2,4}\)\d{5,7}$/','message' => 'Некорректный формат телефона'),
             array('attachments', 'file', 
@@ -54,7 +54,7 @@ class QuickForm extends CFormModel
             ),
     );
 }
-public function adressValidation($attribute)
+/* public function adressValidation($attribute)
     {
        if ($this->delivery != 1) {
           if (empty($this->adress))
@@ -68,7 +68,7 @@ public function adressValidation($attribute)
           if (empty($this->region))
              $this->addError("region", 'Необходимо указать филиал отгрузки.');
        }
-    }
+    }*/
 /**
 * Declares customized attribute labels.
 * If not declared here, an attribute would have a label that is

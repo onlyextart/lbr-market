@@ -60,7 +60,8 @@
                     </li>
                     <div class="phone_main">
                         <div class="phone_number">8-800-5553219</div>
-                        <div class="phone_text">Помощь в подборе запчастей</div>                        
+                        <div class="phone_text">Помощь в подборе запчастей</div> 
+                        <div class="phone_text">Звонок бесплатный</div> 
                     </div>
                 </ul>
             </div>
