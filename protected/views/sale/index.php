@@ -15,7 +15,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         'id'=>'sale-product-form',
         'action'=>'',
         'htmlOptions'=>array('enctype'=>'multipart/form-data'),
-        'enableClientValidation' => true,        
+        'enableClientValidation' => true, 
         'clientOptions'=>array(
             'validateOnSubmit'=>true,
             'validateOnChange' => true,
@@ -33,14 +33,17 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
     echo "<div class='block'>";
         echo $form->labelEx($additional_filter, 'category', array('class'=>'label'));
-        echo $form->dropDownList($additional_filter, 'category', $products->filter_category, array('empty'=>'','class'=>'filter-select'));
+        echo $form->dropDownList($additional_filter, 'category', $filter_category, array('empty'=>'вся техника','class'=>'filter-select','id'=>'category_filter'));
     echo "</div>";
     echo "<div class='block'>";
         echo $form->labelEx($additional_filter, 'maker', array('class'=>'label'));
-        echo $form->dropDownList($additional_filter, 'maker', $products->filter_maker, array('empty'=>'','class'=>'filter-select'));
+        echo $form->dropDownList($additional_filter, 'maker', $filter_maker, array('empty'=>'все производители','class'=>'filter-select','id'=>'maker_filter'));
     echo "</div>";
     echo "<div class='button-filter'>";
         echo CHtml::button('Выбрать', array('id' => 'filter', 'class'=>'buttonform'));
+    echo "</div>";
+    echo "<div class='link'>";
+        echo "<a href='".Yii::app()->getBaseUrl(true)."/sale/' class='remove'></a><a href='".Yii::app()->getBaseUrl(true)."/sale/'>Сбросить фильтр</a>";
     echo "</div>";
     echo "<div class='clearfix'></div>";
     
@@ -59,7 +62,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         'loadingCssClass' => '',
         'beforeAjaxUpdate' => 'function(id, data) { '
             . 'var container = $(".spareparts-wrapper");'
-            . 'var height = container.height()+22;'
+            . 'var height = container.height()+34;'
             . 'var width = container.width();'
             . 'var offset = container.offset();'
             . 'var element = $(".grid-overlay");'
@@ -202,7 +205,33 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 ));
 ?>
 <script>
-    $("#filter").click(function() {
-        $('#sale-product-form').submit();
+    $(document).ready ( function(){
+        $('#filter').click(function() {
+            $('#sale-product-form').submit();
+        });
+        $('#category_filter').on('change',function(){
+             var category_id = $(this).val();
+             if (category_id === 0) { return; }
+             var overlay = jQuery('<div class="filter-overlay" style="display: block"><div><span>Отбор производителей...</span><span class="loader"></span></div></div>');
+             $.ajax({
+                beforeSend:function(){
+                    overlay.appendTo('.bestoffer-filters');
+                },
+                type: "GET", 
+	        url:"<?php echo Yii::app()->createUrl('sale/getMakers')?>" ,   
+	        dataType: "json",
+	        data: "category_id=" + category_id, 
+                complete:function(){
+                    $(".filter-overlay").remove();
+                },
+	        success: function (data) { 
+                    $( '#maker_filter' ).find( 'option:not(:first)' ).remove();
+                    for (var i = 0; i < data.length; i++) {
+                        $( '#maker_filter' ).append( '<option value="' + data[i].maker_id + '">' + data[i].maker_name + '</option>' );
+                    }
+	        }
+	      });
+             
+        });
     });
 </script>
