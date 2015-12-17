@@ -3260,29 +3260,89 @@ ul.yiiPager .selected a {
 } 
 .bestoffer-wrapper .bestoffer-filters{
     margin:20px 10px 25px 10px;
+    position:relative;
+}
+.bestoffer-wrapper .bestoffer-filters .filter-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 90px;
+  width: 100%;
+  background-color: #d1d0d0;
+  display: block;
+  opacity: 0.7;
+  z-index: 1100; 
+  font-weight: bold;
+}
+.bestoffer-wrapper .bestoffer-filters .filter-overlay span {
+    display: inline-block;
+}
+.bestoffer-wrapper .bestoffer-filters .filter-overlay > div {
+    background-color: #fff;
+    margin-top: 20px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border: 2px #5f5e5e solid;
+    width: 220px;
+    height: 50px;
+    text-align: center;
+    opacity: 1;
+}
+.bestoffer-wrapper .bestoffer-filters .filter-overlay .loader
+{
+    background: rgba(0, 0, 0, 0) url("/images/loading.gif") no-repeat scroll 0 0;
+    padding-left: 25px;
+    display: inline-block;
+    height: 17px;
+    width: 500px;
 }
 .bestoffer-wrapper .bestoffer-filters .block{
     display:block;
     float: left;
-    margin-right:20px;
-    width:250px;
+    margin-right:15px;
+    width:220px;
 }
 .bestoffer-wrapper .bestoffer-filters .block .filter-select{
-    width:250px;
+    width:220px;
 }
 .bestoffer-wrapper .bestoffer-filters .label{
     font-weight:bold;
     color:#5f5e5e;
 }
 .bestoffer-wrapper .bestoffer-filters .button-filter{
-    margin-left:10px;
-    width: 100px;
+    margin-left:0px;
+  //  width: 100px;
     display:block;
     float: left;
 }
+.bestoffer-wrapper .bestoffer-filters .link{
+    margin-left:7px;
+    margin-top:20px;
+    display:block;
+    float: left;
+}
+.bestoffer-wrapper .bestoffer-filters .link a {
+    color:#5f5e5e;
+    font-weight: bold;
+}
+.bestoffer-wrapper a.remove {
+    background: url("/images/close_sprite.png") no-repeat scroll left top transparent;
+    display: block;
+    float:left;
+    height: 15px;
+    text-decoration: none;
+    width: 14px;
+    margin: 0px 5px 0px 20px;
+}
+.bestoffer-wrapper .bestoffer-filters .button-filter .buttonform#reset{
+    margin-left:0px;
+    width: 130px;
+}
+.bestoffer-wrapper .bestoffer-filters .button-filter .buttonform#filter{
+    margin-left:20px;
+}
 .bestoffer-wrapper .bestoffer-filters .button-filter .buttonform{
     width: 100px;
-/*    background: #F6A334;*/
     box-shadow: 0 0 2px 1px rgba(50, 50, 50, 0.5);
     padding:3px 10px;
     margin-top:13px;

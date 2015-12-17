@@ -44,9 +44,7 @@ class Product extends CActiveRecord {
             $price,
             $filial,
             $modelLineId,
-            $makersID,
-            $filter_maker,
-            $filter_category
+            $makersID
     ;
 
     CONST IN_STOCK = 'есть в наличии';
@@ -158,57 +156,6 @@ class Product extends CActiveRecord {
         );
     }
     
-    public function initForSale(){
-        $this->filter_maker=array();
-        $this->filter_category=array();
-        
-        $sql="SELECT  prod.id AS prod_id, 
-                        model_line.maker_name AS maker_name,
-                        model_line.maker_id AS maker_id,
-                        model_line.cat_name AS cat_name,
-                        model_line.cat_id AS cat_id, 
-                        model_line.ml_id
-        FROM product_in_model_line piml, 
-             product prod,
-            (SELECT ml.id AS ml_id,ml.maker_id AS maker_id,maker.name AS maker_name,ml.category_id AS cat_id,cat.name AS cat_name
-            FROM model_line ml, equipment_maker maker, category cat
-            WHERE ml.maker_id=maker.id and ml.category_id=cat.id
-            ) model_line
-        WHERE prod.liquidity = 'D' and prod.count > 0 and prod.published = 1 and prod.date_sale_off IS NULL and piml.product_id=prod.id 
-            and model_line.ml_id=piml.model_line_id and model_line.ml_id=piml.model_line_id;";
-        $result_query=Yii::app()->db->createCommand($sql)->query();
-        $result_array=$result_query->readAll();
-        $array_category_id=array();
-        foreach ($result_array as $result_row){
-            $this->filter_maker[$result_row["maker_id"]]=$result_row["maker_name"];
-            $array_category_id[]=$result_row["cat_id"];
-        }
-        asort($this->filter_maker);
-        $sql='SELECT * FROM category WHERE external_id IS NOT NULL AND published=1 AND id in(';
-        $string_category_id='';
-        foreach ($array_category_id as $category_id){
-          $string_category_id.=$category_id.',';
-        }
-        $string_category_id=substr($string_category_id, 0, -1); 
-        $sql.=$string_category_id.');';        
-        $categories=Category::model()->findAllBySql($sql);
-        $data=array();
-        foreach($categories as $category){
-            $ancestors = $category->ancestors()->findAll();
-            if(!empty($ancestors)){
-                $categoryParent = $category->parent()->find();
-                if($categoryParent->level == 1){
-                   $data[$category->name][$category->id] = $category->name;
-                }
-                elseif($categoryParent->level == 2) {
-                    $data[$categoryParent->name][$category->id] = $category->name;
-                }   
-            }
-        }
-        $this->filter_category=$data;
-        ksort($this->filter_category);
-    }
-
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
