@@ -66,6 +66,11 @@
         <?php echo $form->labelEx($model,'organization'); ?>
         <?php echo $form->textField($model,'organization'); ?>
     </div> 
+        
+    <div class="row">
+        <?php echo $form->labelEx($model,'region'); ?>
+        <?php echo $form->textField($model,'region'); ?>
+    </div> 
     
     <div class="row">
         <?php echo $form->labelEx($model,'body'); ?>

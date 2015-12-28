@@ -68,6 +68,7 @@
                             Телефон: <b><?php echo $phone ?> </b><br />                                                               
                             
                             Организация: <b><?php echo $organization ?> </b><br />
+                            Регион: <b><?php echo $region ?> </b><br />
                             Примечание: <b><?php echo $body ?> </b><br />                            
                         </p>    
                     </td></tr>

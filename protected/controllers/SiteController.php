@@ -435,12 +435,9 @@ class SiteController extends Controller {
                     'name' => $model->name,
                     'email' => $model->email,
                     'phone' => $model->phone,
-                    'region' => $model->region,
                     'organization' => $model->organization,
                     'body' => $model->body,
-                    'delivery' => $model->delivery,
-                    'region' => $model->region,
-                    'adress' => $model->adress));
+                    'region' => $model->region));
                 //устанавливаем свойства        
                 $mail->setFrom($address, $name);
                 $mail->setSubject("Письмо с сайта " . Yii::app()->params['host'] . ". Создана заявка от " . $model->name);

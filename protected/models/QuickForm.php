@@ -10,8 +10,6 @@ class QuickForm extends CFormModel
     public $body;
     public $attachments;
     public $organization;
-    public $adress;
-    public $delivery;
     public $region;
 
     public function init()
@@ -33,10 +31,10 @@ class QuickForm extends CFormModel
         public function rules()
 {
     return array(            
-            array('name, email, phone, body', 'required'),
+            array('name, email, phone, body, region', 'required'),
             //array('adress', 'adressValidation'),
             //array('region', 'regionValidation'),
-            array('attachments, name, email, phone, body, organization', 'safe'),
+            array('attachments, name, email, phone, body, organization, region', 'safe'),
             array('email', 'email', 'message'=>'Неправильно заполнено поле «Email»'),
             array('phone','match','pattern' => '/^\+\d{1,3}\(\d{2,4}\)\d{5,7}$/','message' => 'Некорректный формат телефона'),
             array('attachments', 'file', 
@@ -81,32 +79,29 @@ public function attributeLabels()
             'name' => 'ФИО',
             'email' => 'Email',
             'phone' => 'Телефон',
-            'adress' => 'Адрес',
-            'organization' => 'Организация',
-            'delivery' => 'Доставка',  
-            'region' => 'Филиал отгрузки',
+            'organization' => 'Организация',            
+            'region' => 'Регион',
             'body' => 'Примечание',
             'attachments'=>'Вложения',
             'verifyCode' => 'Код проверки',
-            'tk' => 'Способ оплаты',
             
               
             );
     }
     
-    static function getDeliveryTypes()
-        {
-        
-            $delivery = Delivery::model()->findAll();
-            $types_d = CHtml::listData($delivery,'id','name');
-//            $types[QuickForm::DEFAULT_DELIVERY_TYPE] = 'Самовывоз';
-//            $types[QuickForm::DISCOUNT_DELIVERY_TYPE] = 'Транспортной компанией';
-            return $types_d;
-        }
-    
-     public function getAllFilials(){
-            $filials= Filial::model()->findAll('level=2');
-            $list = CHtml::listData($filials, 'id', 'name');
-            return $list;
-        } 
+//    static function getDeliveryTypes()
+//        {
+//        
+//            $delivery = Delivery::model()->findAll();
+//            $types_d = CHtml::listData($delivery,'id','name');
+////            $types[QuickForm::DEFAULT_DELIVERY_TYPE] = 'Самовывоз';
+////            $types[QuickForm::DISCOUNT_DELIVERY_TYPE] = 'Транспортной компанией';
+//            return $types_d;
+//        }
+//    
+//     public function getAllFilials(){
+//            $filials= Filial::model()->findAll('level=2');
+//            $list = CHtml::listData($filials, 'id', 'name');
+//            return $list;
+//        } 
 }
