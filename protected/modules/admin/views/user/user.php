@@ -35,6 +35,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
                 'value'=>'CHtml::link(CHtml::encode($data->login), array("edit","id"=>$data->id))',
             ), 
             'email',
+            'name',
             array(
                 'name'=>'status',
                 'filter'=>User::$userStatus,

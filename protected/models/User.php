@@ -146,7 +146,6 @@ class User extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('company',$this->company,true);
-		$criteria->compare('name',$this->name,true);
 		$criteria->compare('login',$this->login,true);
 		$criteria->compare('password',$this->password,true);
 		$criteria->compare('email',$this->email,true);
@@ -164,6 +163,14 @@ class User extends CActiveRecord
 		$criteria->compare('organization_type',$this->organization_type);
 		$criteria->compare('filial',$this->filial);
 		$criteria->compare('country_id',$this->country_id);
+                
+                if(Yii::app()->search->prepareSqlite()){
+                    $condition_name='lower(name) like lower("%'.$this->name.'%")';    
+                    $criteria->addCondition($condition_name);
+                }
+                else{
+                    $criteria->compare('name',$this->name,true);
+                }
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
