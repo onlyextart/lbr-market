@@ -60,7 +60,11 @@
                         </td>
                         <td width="180px">
                             <?php
-                                echo $item->product->name.'<br>';
+                                $productName = $item->product->name;
+                                if(!empty($item->original_product_id)){
+                                    $productName = Product::model()->findByPk($item->original_product_id)->name;
+                                }
+                                echo $productName.'<br>';
 //                                echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
                                 echo CHtml::openTag('span', array('class'=>'price'));
                                 echo (Yii::app()->params['showPrices'])? $price['one']:'';
@@ -68,7 +72,9 @@
                             ?>
                         </td>
                         <td width="80px">
-                            <?php echo $item->product->external_id; ?>
+                            <?php 
+                               if(!empty($item->original_product_id)) echo $item->product->external_id; 
+                            ?>
                         </td>
                         <td width="120px">
                             <div class="minus">&minus;</div>
