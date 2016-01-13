@@ -344,6 +344,7 @@ class CartController extends Controller
         if (Yii::app()->request->isAjaxRequest) {
             $productId = Yii::app()->request->getPost('id');
             $count = Yii::app()->request->getPost('count');
+            $originalProductId = Yii::app()->request->getPost('original'); // for analog products
 
             if (!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
                 $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status' => Order::CART, ':user' => Yii::app()->user->_id));
@@ -371,7 +372,8 @@ class CartController extends Controller
                             $orderProduct->order_id = $order->id;
                             $orderProduct->product_id = $productId;
                             $orderProduct->count = $count;
-
+                            if(!empty($originalProductId)) $orderProduct->original_product_id = $originalProductId;
+                            
                             if ($orderProduct->save()) {
                                 $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status' => Order::CART, ':user' => Yii::app()->user->_id));
 
@@ -403,7 +405,7 @@ class CartController extends Controller
                         }
                     }
                 } else
-                    $array = array('message' => 'В корзине не может быть более ' . $maxCountInCart . ' товаров.');
+                    $array = array('message' => 'В корзине не может быть более ' . $maxCountInCart . ' видов товаров.');
 
                 echo json_encode($array);
             } else { // Guest

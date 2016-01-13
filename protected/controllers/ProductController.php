@@ -206,7 +206,7 @@ class ProductController extends Controller
             $analogProducts .= '<div class="cell width-20">';
              
             if(!Yii::app()->user->isGuest) {
-                $analogProducts .= '<div class="cart-form" elem="'.$analog->id.'">';
+                $analogProducts .= '<div class="cart-form" elem="'.$analog->id.'" original="'.$id.'">';
                 if(empty($analog->date_sale_off)) {
                     $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";                               
                     if(Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop))){

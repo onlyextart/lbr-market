@@ -38,7 +38,7 @@ class OrderProduct extends CActiveRecord
 			array('price', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, order_id, product_id, count, price, total_price, currency, currency_code', 'safe', 'on'=>'search'),
+			array('id, order_id, product_id, count, price, total_price, currency, currency_code, original_product_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +69,7 @@ class OrderProduct extends CActiveRecord
 			'total_price' => 'Общая сумма',
 			'currency' => 'Курс валюты',
 			'currency_code' => 'Код валюты',
+                        'original_product_id' => 'Id оригинальной запчасти (для аналогов)'
 		);
 	}
 

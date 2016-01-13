@@ -265,6 +265,7 @@ $(document).ready(function($){
 });
 
 function addToCart(event){
+    var original = '';
     var parent = $(this).parent();
     var target=event.target||event.srcElement;
     var classname=target.className;
@@ -274,6 +275,7 @@ function addToCart(event){
     else if(classname==="small-cart-button"){
        var cart = parent.find('.cart-quantity');
        var count = parseInt(cart.val()); 
+       original = parent.attr('original');
     }
     if(count > 0) {
         $.ajax({
@@ -282,7 +284,8 @@ function addToCart(event){
             dataType: 'json',
             data: {
                 id: parent.attr('elem'),
-                count: count
+                count: count,
+                original: original
             },
             success: function(response) { 
                 $('.cart-quantity').val('1');
