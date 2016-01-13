@@ -2205,6 +2205,10 @@ hr#hit-line-second{
     padding-top: 25px;
 }
 
+.product-info .spareparts-wrapper {
+    padding-top: 0;
+}
+
 #accordion-sparepart .spareparts-wrapper a{
     padding: 0;
     text-decoration: underline;
