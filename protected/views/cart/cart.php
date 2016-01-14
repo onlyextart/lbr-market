@@ -62,13 +62,20 @@
                             <?php
                                 $productName = $item->product->name;
                                 if(!empty($item->original_product_id)){
-                                    $productName = Product::model()->findByPk($item->original_product_id)->name;
+                                    $productName = 'Аналог товара "'.Product::model()->findByPk($item->original_product_id)->name.'"';
                                 }
-                                echo $productName.'<br>';
+                                echo '<div>'.$productName.'</div>';
 //                                echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
-                                echo CHtml::openTag('span', array('class'=>'price'));
-                                echo (Yii::app()->params['showPrices'])? $price['one']:'';
-                                echo CHtml::closeTag('span');
+                                
+                                if(!empty($item->product->product_maker_id)) {
+                                    echo CHtml::openTag('div', array('class'=>'country'));
+                                    echo ProductMaker::model()->findByPk($item->product->product_maker_id)->country;
+                                    echo CHtml::closeTag('div');
+                                }
+                                
+                                echo CHtml::openTag('div', array('class'=>'price'));
+                                echo (Yii::app()->params['showPrices']) ? $price['one']:'';
+                                echo CHtml::closeTag('div');
                             ?>
                         </td>
                         <td width="80px">

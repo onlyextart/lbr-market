@@ -2699,6 +2699,9 @@ input.small-cart-button,input.small-cart-button-wishlist{
     border-collapse: collapse;
     border-spacing: 0;
 }
+.cart-wrapper .country{
+    margin: 10px 0;
+}
 .cart-wrapper div.order_products table thead tr td, .order-wrapper div.ordered-products table thead tr td {
     padding: 0 20px 5px 10px;
 }
