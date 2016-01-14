@@ -3,16 +3,16 @@
 class TestController extends Controller 
 {    
     public function actionPathcheck() 
-    {        
-        $products = Product::model()->findAll('id = 75959');
+    {     
+        //ini_set('memory_limit', '1024M');
+        set_time_limit(0);
+        $products = Product::model()->findAll();
         foreach($products as $product) {
             if(empty($product->path)) {
-                $newPath = '/sparepart/'.$product->id.'-'.Translite::rusencode($product->name, '-').'/';
-                $product->path = $newPath;
-                echo $newPath.'<br>';
+                $product->path = '/sparepart/'.$product->id.'-'.Translite::rusencode($product->name, '-').'/';
                 $product->save();
-                echo 'done';
-            } else echo 'no';
+            }
         }
+        echo 'work done';
     }
 }
