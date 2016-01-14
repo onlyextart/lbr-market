@@ -14,10 +14,14 @@ class TestController extends Controller
 //                $product->save();
 //            //}
 //        }
+        $sql = 'SELECT * FROM product WHERE path is null';
+        $all = Product::model()->findAllBySql($sql);
+        echo count($all).'<br>';
+        echo '======================<br>';
         
-        $sql = 'SELECT * FROM product WHERE path is null LIMIT 50';
+        $sql = 'SELECT * FROM product WHERE path is null LIMIT 100';
         $products = Product::model()->findAllBySql($sql);
-        //echo count($products).'<br>';
+
         
         foreach($products as $product) {
             echo $product->id.'<br>';
