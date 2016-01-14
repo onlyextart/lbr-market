@@ -4,7 +4,7 @@ class TestController extends Controller
 {    
     public function actionPathcheck() 
     {     
-        ini_set('memory_limit', '16M');
+        //ini_set('memory_limit', '16M');
         set_time_limit(0);
         $products = Product::model()->findAll('path is null');
         echo count($products).'<br>';
