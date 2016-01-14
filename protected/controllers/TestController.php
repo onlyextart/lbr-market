@@ -2,7 +2,7 @@
 
 class TestController extends Controller 
 {    
-    public function actionTest() 
+    public function actionPathcheck() 
     {        
         $products = Product::model()->findAll('id = 75959');
         foreach($products as $product) {
