@@ -19,7 +19,7 @@ class TestController extends Controller
         echo count($all).'<br>';
         echo '======================<br>';
         
-        $sql = 'SELECT * FROM product WHERE path is null LIMIT 100';
+        $sql = 'SELECT * FROM product WHERE path like "/sparepart/-%" LIMIT 100';
         $products = Product::model()->findAllBySql($sql);
 
         
