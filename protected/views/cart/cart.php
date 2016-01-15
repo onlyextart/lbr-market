@@ -96,7 +96,7 @@
                             ?>
                         </td>
                         <td width="20px">
-                            <a class="remove" href="/cart/remove<?php echo $item->product->path ?>"></a>
+                            <a title="Удалить из корзины" class="remove" href="/cart/remove<?php echo $item->product->path ?>"></a>
                         </td>
                     </tr>
                     <?php endforeach ?>
@@ -145,7 +145,7 @@
                             ?>
                         </td>
                         <td width="20px">
-                            <a class="remove" href="/cart/guestremove<?php echo $item['path'] ?>"></a>
+                            <a title="Удалить из корзины" class="remove" href="/cart/guestremove<?php echo $item['path'] ?>"></a>
                         </td>
                     </tr>
                     <?php endforeach ?>
