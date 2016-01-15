@@ -205,7 +205,7 @@ class ProductController extends Controller
              
             $analogProducts .= '<div class="cell width-20">';
              
-            if(!Yii::app()->user->isGuest) {
+            //if(!Yii::app()->user->isGuest) {
                 $analogProducts .= '<div class="cart-form" elem="'.$analog->id.'" original="'.$id.'">';
                 if(empty($analog->date_sale_off)) {
                     $intent = "\"yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;\" ";                               
@@ -219,10 +219,10 @@ class ProductController extends Controller
                     $analogProducts .= '<span>'.Yii::app()->params['textSaleOff'].'</span>'; 
                 }
                 $analogProducts .= '</div>';
-            } else {
-                //$analogProducts .= '<button class="login-button" title="Авторизоваться на сайте">Авторизоваться</button>';
-                $analogProducts .= '<a class="login-button" href="/site/login/">Авторизоваться</a>';
-            }
+//            } else {
+//                //$analogProducts .= '<button class="login-button" title="Авторизоваться на сайте">Авторизоваться</button>';
+//                $analogProducts .= '<a class="login-button" href="/site/login/">Авторизоваться</a>';
+//            }
              
             $analogProducts .=     '</div>'.
                                  '</div>'.

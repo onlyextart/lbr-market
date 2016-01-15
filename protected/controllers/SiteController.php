@@ -2,7 +2,8 @@
 
 class SiteController extends Controller {
 
-    public function actionIndex($s = null) {
+    public function actionIndex($s = null) 
+    {
         $makers = $this->getMakers();
         $bestOffer = $this->getBestOffer();
         $hitProducts = $this->getHitProducts();

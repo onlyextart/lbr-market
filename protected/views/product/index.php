@@ -197,7 +197,7 @@
                         <?php endif; ?>
                     </span>
                 </div>
-                <?php if(empty($data->date_sale_off) && (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)))): ?>
+                <?php if(empty($data->date_sale_off) && Yii::app()->user->isGuest): ?>
                 <div>
                     <span>Корзина</span>
                     <span class="price">
@@ -206,10 +206,6 @@
                              <input type="number" value="1" min="1" pattern="[0-9]*" name="quantity" maxlength="7" size="7" autocomplete="off" product="1" class="cart-quantity">
                              <input onclick="yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;" type="submit" title="Добавить в корзину" value="" class="small-cart-button">
                              <?php //endif; ?>
-                             <button class="wish" title="Добавить в блокнот">
-                                 <span class="wish-icon"></span>
-                                 В блокнот
-                             </button>
                          </div>
                      </span>
                 </div>
