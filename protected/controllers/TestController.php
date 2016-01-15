@@ -14,7 +14,7 @@ class TestController extends Controller
 //                $product->save();
 //            //}
 //        }
-        $sql = 'SELECT * FROM product WHERE path is null';
+        $sql = 'SELECT * FROM product WHERE path like "/sparepart/-%"';
         $all = Product::model()->findAllBySql($sql);
         echo count($all).'<br>';
         echo '======================<br>';
