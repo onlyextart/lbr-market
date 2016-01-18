@@ -8,7 +8,8 @@
        </a>
     </div>
     <div class="width-30">
-        <a href="<?php echo $data->path ?>" target="_blank"><?php echo $data->name ?></a>              
+        <a href="<?php echo $data->path ?>" target="_blank"><?php echo $data->name ?></a>   
+        <div><?php echo ProductMaker::model()->findByPk($data->product_maker_id)->country ?></div>
     </div>
     <div class="width-20">
        <?php echo ($data->count > 0) ? Product::IN_STOCK : Product::NO_IN_STOCK ; ?>             
