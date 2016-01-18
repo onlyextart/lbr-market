@@ -33,6 +33,13 @@ class UserAccount extends CWidget
         {            
             if (!empty(Yii::app()->session['cart'])) {
                 foreach (Yii::app()->session['cart'] as $productId => $count) {
+                    $originalId = ''; // for analog products
+                    if (strpos($productId, '-') !== false) {
+                        $pos = strpos($productId, '-');
+                        $originalId = substr($productId, $pos+1);
+                        $productId = substr($productId, 0, $pos);
+                    }
+                    
                     $order = Yii::app()->db->createCommand()
                         ->select('o.id')
                         ->from('order o')
@@ -42,7 +49,7 @@ class UserAccount extends CWidget
                     ;
 
                     if (!empty($order)) {
-                        $updateOrder = OrderProduct::model()->find('product_id=:product_id and order_id=:order_id', array(':product_id' => $productId, ':order_id' => $order[id]));
+                        $updateOrder = OrderProduct::model()->find('product_id=:product_id and order_id=:order_id', array(':product_id' => $productId, ':order_id' => $order['id']));
                         $updateOrder->count = (int) $updateOrder->count + (int) $count;
                         //$updateOrder->price = '';
                         $updateOrder->save();
@@ -57,6 +64,7 @@ class UserAccount extends CWidget
                             $orderProduct->order_id = $order->id;
                             $orderProduct->product_id = $productId;
                             $orderProduct->count = $count;
+                            if(!empty($originalId)) $orderProduct->original_product_id = $originalId;
                             $orderProduct->save();
                         }
                     }
@@ -65,8 +73,10 @@ class UserAccount extends CWidget
             }
             
             $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status'=>Order::CART, ':user'=>Yii::app()->user->_id));
-            foreach($allOrdersInCart as $orderInCart){
-                $cartCount += OrderProduct::model()->find('order_id=:order', array(':order'=>$orderInCart->id))->count;
+            foreach($allOrdersInCart as $orderInCart) {
+                $orderModel = OrderProduct::model()->find('order_id=:order', array(':order'=>$orderInCart->id));
+                $cartCount += $orderModel->count;
+                //$cartCount = $orderModel->id;
             }
         } else if(Yii::app()->user->isGuest) {
             if(!empty(Yii::app()->session['cart'])) {

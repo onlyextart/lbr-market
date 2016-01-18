@@ -6,6 +6,8 @@ class CartController extends Controller
 
     public function actionIndex() 
     {
+        //Yii::app()->session->destroy();
+
         $items = $temp = array();
         $showLabelForNoPrice = false;
         $this->form = new OrderCreateForm;
@@ -60,7 +62,7 @@ class CartController extends Controller
 
             if (!empty(Yii::app()->session['cart'])) {
                 foreach (Yii::app()->session['cart'] as $productId => $count) {
-                    $original = ''; // for analog products
+                    $original = $originalId = ''; // for analog products
                     if (strpos($productId, '-') !== false) {
                         $pos = strpos($productId, '-');
                         $originalId = substr($productId, $pos+1);
@@ -81,7 +83,8 @@ class CartController extends Controller
                         'img' => $prodImage,
                         'count' => $count,
                         'liquidity' => $product->liquidity,
-                        'original_product_name' => $original
+                        'original_product_name' => $original,
+                        'original_product_id' => $originalId
                     );
                 }
             }
@@ -437,8 +440,10 @@ class CartController extends Controller
 
                 echo json_encode($array);
             } else { // Guest
-                if(!empty($originalProductId)) $productId .= '-'.$originalProductId;
-                $count = Yii::app()->session['cart'][$productId] + $count;
+                if(!empty($originalProductId)) $productId = $productId.'-'.$originalProductId;
+                $countInCart = 0;
+                if(isset(Yii::app()->session['cart'][$productId])) $countInCart = (int)Yii::app()->session['cart'][$productId];
+                $count = $countInCart + $count;
                 $newCartElements = array($productId => $count);
                 if (empty(Yii::app()->session['cart']))
                     Yii::app()->session['cart'] = array();
@@ -489,14 +494,19 @@ class CartController extends Controller
         $this->redirect('/cart/');
     }
 
-    public function actionGuestremove($path) {
+    public function actionGuestremove($path, $originalId = null) {
         $temp = array();
         if (Yii::app()->user->isGuest) {
             $id = Product::model()->find(
-                            'path=:path', array(':path' => '/' . $path . '/')
-                    )->id;
-
-            if (!empty($id)) {
+                'path=:path', array(':path' => '/' . $path . '/')
+            )->id;
+            
+            if (!empty($id) && !empty($originalId)) {
+                $temp = Yii::app()->session['cart'];
+                unset($temp[$id.'-'.$originalId]);
+                unset(Yii::app()->session['cart']);
+                Yii::app()->session['cart'] = $temp;
+            } else if (!empty($id)) {
                 $temp = Yii::app()->session['cart'];
                 unset($temp[$id]);
                 unset(Yii::app()->session['cart']);
@@ -509,7 +519,7 @@ class CartController extends Controller
     public function actionCount() {
         if (Yii::app()->request->isAjaxRequest) {
             $count = 0;
-            if (!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
+            if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) { // logged user
                 /* $order = Yii::app()->db->createCommand()
                   ->select('o.id')
                   ->from('order o')

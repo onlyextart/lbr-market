@@ -138,8 +138,8 @@
                         <td width="120px">
                             <div class="minus">&minus;</div>
                             <?php 
-                                if(!empty($item['original_product_name']))
-                                    echo CHtml::textField("products[".$item[id].'-'.$item['original_product_name']."]", $item['count'], array('class'=>'count', 'maxlength'=>7, 'length'=>7)); 
+                                if(!empty($item['original_product_id']))
+                                    echo CHtml::textField("products[".$item['id'].'-'.$item['original_product_id']."]", $item['count'], array('class'=>'count', 'maxlength'=>7, 'length'=>7)); 
                                 else
                                     echo CHtml::textField("products[$item[id]]", $item['count'], array('class'=>'count', 'maxlength'=>7, 'length'=>7)); 
                             ?>
@@ -159,7 +159,7 @@
                             ?>
                         </td>
                         <td width="20px">
-                            <a title="Удалить из корзины" class="remove" href="/cart/guestremove<?php echo $item['path'] ?>"></a>
+                            <a title="Удалить из корзины" class="remove" href="/cart/guestremove<?php echo $item['path']; echo (!empty($item['original_product_id']))? 'o/'.$item['original_product_id']: ''?>"></a>
                         </td>
                     </tr>
                     <?php endforeach ?>

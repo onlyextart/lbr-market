@@ -110,7 +110,7 @@ class SearchController extends Controller
                 $crit->params = array(':input' => '%' . $input . '%');
                 
                 //$dependecy = new CDbCacheDependency('SELECT MAX(update_time) FROM product');
-                $productProvider = new CActiveDataProvider(Product, array ( 
+                $productProvider = new CActiveDataProvider('Product', array ( 
                 //$productProvider = new CActiveDataProvider(Product::model(), array ( 
                     'criteria'=>$crit,
                     'pagination' => array ( 
