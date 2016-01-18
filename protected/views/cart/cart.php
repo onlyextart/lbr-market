@@ -114,7 +114,11 @@
                         </td>
                         <td width="180px" >
                             <?php
-                            echo $item['name'].'<br>';
+                            $productName = $item['name'];
+                            if(!empty($item['original_product_name'])) {
+                                $productName = 'Аналог товара "'.$item['original_product_name'].'"';
+                            }
+                            echo '<div>'.$productName.'</div>';
                             //echo CHtml::link($item['name'], $item['path'], array('target'=>'_blank'));
                             if($item['liquidity'] == 'D' && $item['count'] > 0) {
                                 echo CHtml::openTag('span', array('class'=>'price'));
@@ -124,7 +128,7 @@
                             ?>
                         </td>
                         <td width="80px">
-                            <?php echo $item['external_id']; ?>
+                            <?php if(!empty($item['original_product_name'])) echo $item['external_id']; ?>
                         </td>
                         <td width="120px">
                             <div class="minus">&minus;</div>

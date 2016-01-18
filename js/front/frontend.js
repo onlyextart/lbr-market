@@ -273,9 +273,13 @@ function addToCart(event){
        var count=1;
     }
     else if(classname==="small-cart-button"){
-       var cart = parent.find('.cart-quantity');
-       var count = parseInt(cart.val()); 
-       original = parent.attr('original');
+        var cart = parent.find('.cart-quantity');
+        var count = parseInt(cart.val()); 
+        //if (typeof attr !== typeof undefined && attr !== false) {
+        var attr = parent.attr('original');
+        if (attr !== undefined && attr !== false) {
+            original = attr;
+        }
     }
     if(count > 0) {
         $.ajax({

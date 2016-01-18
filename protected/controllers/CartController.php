@@ -60,10 +60,19 @@ class CartController extends Controller
 
             if (!empty(Yii::app()->session['cart'])) {
                 foreach (Yii::app()->session['cart'] as $productId => $count) {
+                    $original = ''; // for analog products
+                    if (strpos($productId, '-') !== false) {
+                        $pos = strpos($productId, '-');
+                        $originalId = substr($productId, $pos+1);
+                        $productId = substr($productId, 0, $pos);
+                        $original = Product::model()->findByPk($originalId)->name;
+                    }
+                    
                     $product = Product::model()->findByPk($productId);
                     $prodImage = '/images/no-photo.png';
-                    if (!empty($product->image))
+                    if (!empty($product->image)) {
                         $prodImage = $product->image;
+                    }
                     $items[] = array(
                         'external_id' => $product->external_id,
                         'path' => $product->path,
@@ -72,6 +81,7 @@ class CartController extends Controller
                         'img' => $prodImage,
                         'count' => $count,
                         'liquidity' => $product->liquidity,
+                        'original_product_name' => $original
                     );
                 }
             }
@@ -346,9 +356,10 @@ class CartController extends Controller
             $count = Yii::app()->request->getPost('count');
             $originalProductId = Yii::app()->request->getPost('original'); // for analog products
 
-            if (!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
+            if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) { // logged user
                 $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status' => Order::CART, ':user' => Yii::app()->user->_id));
-                if (count($allOrdersInCart) <= $maxCountInCart) {
+                //echo json_encode(array('message' => count($originalProductId)));
+                if (count($allOrdersInCart) <= (int)$maxCountInCart) {
                     //search if this product already was added to cart
 
                     $temp = array();
@@ -409,6 +420,7 @@ class CartController extends Controller
 
                 echo json_encode($array);
             } else { // Guest
+                if(!empty($originalProductId)) $productId .= '-'.$originalProductId;
                 $count = Yii::app()->session['cart'][$productId] + $count;
                 $newCartElements = array($productId => $count);
                 if (empty(Yii::app()->session['cart']))
