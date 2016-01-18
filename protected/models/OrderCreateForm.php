@@ -43,11 +43,14 @@ class OrderCreateForm extends CFormModel
     
     public function addressValidation($attribute, $params)
     {
-       $delivery = Delivery::model()->findByPk($this->delivery_id)->name;
-       if ($delivery != 'Самовывоз') {
-          if (empty($this->user_address))
-             $this->addError("user_address", 'Необходимо указать адрес доставки.');
-       }
+        $deliveryModel = Delivery::model()->findByPk($this->delivery_id);
+        if(!empty($deliveryModel)) {
+            $delivery = $deliveryModel->name;
+            if ($delivery != 'Самовывоз') {
+               if (empty($this->user_address))
+                  $this->addError("user_address", 'Необходимо указать адрес доставки.');
+            }
+        }
     }
 
     public function attributeLabels()

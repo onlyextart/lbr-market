@@ -389,6 +389,8 @@ class CartController extends Controller
 
                     $criteria = new CDbCriteria();
                     $criteria->compare("product_id", $productId);
+                    if(!empty($originalProductId)) $criteria->addCondition('original_product_id is not null');
+                    else $criteria->addCondition('original_product_id is null');
                     $criteria->addInCondition("order_id", $temp);
                     $orderProduct = OrderProduct::model()->find($criteria);
 
