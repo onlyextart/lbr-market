@@ -108,12 +108,21 @@ class CartController extends Controller
                                 if ($order->save()) {
                                     //$productsWithoutPrice = array();
                                     foreach ($products as $productId => $count) {
+                                        $originalId = ''; // for analog products
+                                        if (strpos($productId, '-') !== false) {
+                                            $pos = strpos($productId, '-');
+                                            $originalId = substr($productId, $pos+1);
+                                            $productId = substr($productId, 0, $pos);
+                                        }
+                                        
                                         $priceInFilial = PriceInFilial::model()->find('product_id=:product_id and filial_id=:filial_id', array(':product_id' => $productId, ':filial_id' => User::model()->findByPk(Yii::app()->user->_id)->filial));
                                         //if(!empty($priceInFilial)) {
                                         $orderProduct = new OrderProduct;
                                         $orderProduct->order_id = $order->id;
                                         $orderProduct->product_id = $productId;
                                         $orderProduct->count = 1;
+                                        if(!empty($originalId)) $orderProduct->original_product_id = $originalId;
+                                        
                                         if ((int) $count > 0)
                                             $orderProduct->count = $count;
                                         if (!empty($priceInFilial)) {
@@ -139,12 +148,12 @@ class CartController extends Controller
                                     $order->save();
 
                                     Order::model()->deleteAll(
-                                            'status_id=:cart_status and user_id=:user', array(':cart_status' => Order::CART, ':user' => Yii::app()->user->_id)
+                                        'status_id=:cart_status and user_id=:user', array(':cart_status' => Order::CART, ':user' => Yii::app()->user->_id)
                                     );
 
                                     //$this->saveProductsWithoutPrice($productsWithoutPrice);
 
-                                    $this->sendMail($order, $model);
+                                    //$this->sendMail($order, $model);
 
                                     $transaction->commit();
                                     Yii::app()->user->setFlash('message', 'Ваш заказ принят.');
@@ -166,15 +175,23 @@ class CartController extends Controller
                     $products = $_POST['products'];
                     if (!empty($products)) {
                         foreach ($products as $productId => $count) {
-                            if ((int) $count < 1)
+                            $originalId = ''; // for analog products
+                            if (strpos($productId, '-') !== false) {
+                                $pos = strpos($productId, '-');
+                                //$originalId = substr($productId, $pos+1);
+                                $productId = substr($productId, 0, $pos);
+                            }
+                            
+                            if ((int) $count < 1) {
                                 $count = 1;
-
+                            }
+                            
                             $order = Yii::app()->db->createCommand()
-                                    ->select('o.id order, p.id productId')
-                                    ->from('order o')
-                                    ->join('order_product p', 'o.id=p.order_id')
-                                    ->where('o.status_id=:cart_status and o.user_id=:user_id and p.product_id=:product_id', array(':cart_status' => Order::CART, ':user_id' => Yii::app()->user->_id, ':product_id' => $productId))
-                                    ->queryRow()
+                                ->select('o.id order, p.id productId')
+                                ->from('order o')
+                                ->join('order_product p', 'o.id=p.order_id')
+                                ->where('o.status_id=:cart_status and o.user_id=:user_id and p.product_id=:product_id', array(':cart_status' => Order::CART, ':user_id' => Yii::app()->user->_id, ':product_id' => $productId))
+                                ->queryRow()
                             ;
 
                             if (!empty($order)) {

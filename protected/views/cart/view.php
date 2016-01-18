@@ -28,7 +28,14 @@
 		<tr>
                     <td>
                         <!--h3><?php //echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));?></h3-->
-                        <h3><?php echo $item->product->name ?></h3>
+                        <h3><?php 
+                            $productName = $item->product->name;
+                            if(!empty($item->original_product_id)) {
+                                $productName = 'Аналог товара "'.Product::model()->findByPk($item->original_product_id)->name.'"';
+                            }
+                           echo $productName;
+                        ?></h3>
+                        <div><?php if(!empty($item->product->product_maker_id)) echo ProductMaker::model()->findByPk($item->product->product_maker_id)->country; ?></div>
                         <?php
                         echo CHtml::openTag('div', array('class'=>'price'));
                         if(Yii::app()->params['showPrices']) {
@@ -38,7 +45,7 @@
                         ?>
                     </td>
                     <td>
-                        <?php echo $item->product->external_id ?>
+                        <?php if(!empty($item->original_product_id)) echo $item->product->external_id ?>
                     </td>
                     <td>
                         <?php echo $item->count ?>

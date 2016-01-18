@@ -85,7 +85,12 @@
                         </td>
                         <td width="120px">
                             <div class="minus">&minus;</div>
-                            <?php echo CHtml::textField('products['.$item->product->id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7)) ?>
+                            <?php 
+                                if(!empty($item->original_product_id))
+                                    echo CHtml::textField('products['.$item->product->id.'-'.$item->original_product_id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7));
+                                else
+                                    echo CHtml::textField('products['.$item->product->id.']', $item->count, array('class'=>'count', 'min'=>1, 'maxlength'=>7, 'length'=>7));
+                            ?>
                             <div class="plus">&plus;</div>
                         </td>
                         <td>
@@ -132,7 +137,12 @@
                         </td>
                         <td width="120px">
                             <div class="minus">&minus;</div>
-                            <?php echo CHtml::textField("products[$item[id]]", $item['count'], array('class'=>'count', 'maxlength'=>7, 'length'=>7)) ?>
+                            <?php 
+                                if(!empty($item['original_product_name']))
+                                    echo CHtml::textField("products[".$item[id].'-'.$item['original_product_name']."]", $item['count'], array('class'=>'count', 'maxlength'=>7, 'length'=>7)); 
+                                else
+                                    echo CHtml::textField("products[$item[id]]", $item['count'], array('class'=>'count', 'maxlength'=>7, 'length'=>7)); 
+                            ?>
                             <div class="plus">&plus;</div>
                         </td>
                         <td>
