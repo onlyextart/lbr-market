@@ -40,13 +40,23 @@ class UserAccount extends CWidget
                         $productId = substr($productId, 0, $pos);
                     }
                     
-                    $order = Yii::app()->db->createCommand()
-                        ->select('o.id')
-                        ->from('order o')
-                        ->join('order_product p', 'o.id=p.order_id')
-                        ->where('o.status_id=:cart_status and o.user_id=:user_id and p.product_id=:product_id', array(':cart_status' => Order::CART, ':user_id' => Yii::app()->user->_id, ':product_id' => $productId))
-                        ->queryRow()
-                    ;
+                    if(!empty($originalId)) {
+                        $order = Yii::app()->db->createCommand()
+                            ->select('o.id')
+                            ->from('order o')
+                            ->join('order_product p', 'o.id=p.order_id')
+                            ->where('o.status_id=:cart_status and o.user_id=:user_id and p.product_id=:product_id and p.original_product_id is not null', array(':cart_status' => Order::CART, ':user_id' => Yii::app()->user->_id, ':product_id' => $productId))
+                            ->queryRow()
+                        ;
+                    } else {
+                        $order = Yii::app()->db->createCommand()
+                            ->select('o.id')
+                            ->from('order o')
+                            ->join('order_product p', 'o.id=p.order_id')
+                            ->where('o.status_id=:cart_status and o.user_id=:user_id and p.product_id=:product_id', array(':cart_status' => Order::CART, ':user_id' => Yii::app()->user->_id, ':product_id' => $productId))
+                            ->queryRow()
+                        ;
+                    }
 
                     if (!empty($order)) {
                         $updateOrder = OrderProduct::model()->find('product_id=:product_id and order_id=:order_id', array(':product_id' => $productId, ':order_id' => $order['id']));

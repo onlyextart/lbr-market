@@ -156,7 +156,7 @@ class CartController extends Controller
 
                                     //$this->saveProductsWithoutPrice($productsWithoutPrice);
 
-                                    //$this->sendMail($order, $model);
+                                    $this->sendMail($order, $model);
 
                                     $transaction->commit();
                                     Yii::app()->user->setFlash('message', 'Ваш заказ принят.');
