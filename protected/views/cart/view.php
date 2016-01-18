@@ -54,7 +54,7 @@
                         <?php
                         echo CHtml::openTag('span', array('class'=>'price'));
                         if(Yii::app()->params['showPrices']) {
-                           echo ($item->price)? Price::model()->setPriceFormat($item->total_price).' руб.':Yii::app()->params['textNoPrice'];
+                            echo ($item->price)? Price::model()->setPriceFormat($item->total_price).' руб.':Yii::app()->params['textNoPrice'];
                         } else echo Yii::app()->params['textHidePrice']; 
                         echo CHtml::closeTag('span');
                         ?>

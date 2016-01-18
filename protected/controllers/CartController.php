@@ -358,7 +358,7 @@ class CartController extends Controller
         }
 
         if (is_numeric($totalPrice))
-            $totalLabel = Price::model()->setPriceFormat($totalPrice) . ' руб.';
+            $totalLabel = Price::model()->setPriceFormat(ceil($totalPrice)) . ' руб.';
 
         ///////////////////
         $this->render('view', array('items' => $items, 'order' => $order, 'showLabelForNoPrice' => $showLabelForNoPrice, 'total' => $totalLabel));
