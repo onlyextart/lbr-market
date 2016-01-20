@@ -124,6 +124,7 @@ class ProductController extends Controller
         
         $criteria = new CDbCriteria;
         $criteria->addCondition('t.published = 1');
+        $criteria->addCondition('t.date_sale_off is null');
         $criteria->addInCondition('t.id', $temp);
         $criteria->order = 't.count desc, t.name';
         //if (!empty($filial)) $criteria->addInCondition('priceInFilial.filial_id', array($filial));
