@@ -56,7 +56,7 @@ class OrderController extends Controller
             foreach ($model_product as $key => $one_product) {
               $form_product[$key]=new OrderProductForm;
               $form_product[$key]->id=$one_product->id;
-              $form_product[$key]->name=$one_product->product->name;
+              $form_product[$key]->name=$one_product->product->name.' (Артикул = '.$one_product->product->external_id.')';
               $form_product[$key]->total_price=$one_product->total_price;
               $form_product[$key]->price=$one_product->price;
               $form_product[$key]->count=$one_product->count;
