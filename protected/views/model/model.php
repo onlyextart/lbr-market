@@ -7,7 +7,7 @@
   )); 
 ?>
 <div class="model-wrapper">
-    <h1><?php echo $title?></h1>
+    <h1><?php echo $titleH1 ?></h1>
     <?php if(!empty($hitProducts)): ?>
     <span class="hit-label-main">Рекомендуем для "<?php echo $title?>"</span>
     <div id="special-offer">

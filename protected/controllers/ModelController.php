@@ -55,6 +55,7 @@ class ModelController extends Controller
             'products' => $products,
             'dataProvider' => $dataProvider,
             'title' => $title,
+            'titleH1' => $brand->name.' '.$title,
             'filter' => $filter,
             'brand' => $brandFilter,
             'hitProducts' => $hitProducts,
