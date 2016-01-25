@@ -98,7 +98,7 @@
                     <li><a href="/"><span>Главная</span></a></li>
                     <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
                     <li><a href="/sale/"><span>Распродажа</span></a></li>
-                    <li><a href="/product-maker/"><span>Наши партнеры</span></a></li>
+                    <li><a href="/partners/"><span>Наши партнеры</span></a></li>
                     <li>
                         <a href="#"><span>Информация</span></a>
                         <ul class="submenu">
