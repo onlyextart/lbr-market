@@ -77,34 +77,6 @@ class GroupfilterController extends Controller
         
     public function actionModellines($categoryId, $filterId)
     {
-        $response = '';
-        
-        $group = ProductGroupFilter::model()->findByPk($filterId);
-        $groups = array($group->group_id);
-        if(!$group->isLeaf()) {
-            $children = $group->children()->findAll();
-            foreach($children as $child) {
-                $groups[] = $child->group_id;
-            }
-        }
-        
-        $modellineIds = Yii::app()->db->createCommand()
-            ->selectDistinct('model_line_id')
-            ->from('product_in_model_line m')
-            ->join('product p', 'p.id = m.product_id')
-            ->where(array('and', 'p.published = 1', array('in', 'p.product_group_id', $groups)))
-            ->queryColumn()
-        ;
-        
-//        echo '<pre>';
-//        var_dump($groups);
-//        exit;
-        
-        $criteria = new CDbCriteria;
-        $criteria->compare('category_id', $categoryId);
-        $criteria->addInCondition('id', $modellineIds);
-        $modellines = ModelLine::model()->findAll($criteria);
-
         // Breadcrumbs
         $filter = ProductGroupFilter::model()->findByPk($filterId);
         $breadcrumbs[$filter->name] = $filter->path.'/';
@@ -119,12 +91,75 @@ class GroupfilterController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end Breadcrubs
         
+        $response = '';
         $temp = array();
-        foreach($modellines as $model) {
-            $parent = $model->parent()->find();
-            $brand = EquipmentMaker::model()->findByPk($model->maker_id);
-            $temp[$brand->name][$parent->name][$model->id]['name'] = $model->name;
-            $temp[$brand->name][$parent->name][$model->id]['path'] = $filter->path.$category->path.$brand->path.$model->path.'/';
+        
+        $group = ProductGroupFilter::model()->findByPk($filterId);
+        $groups = array($group->group_id);
+        if(!$group->isLeaf()) {
+            $children = $group->children()->findAll();
+            foreach($children as $child) {
+                if(!$child->isLeaf()) {
+                    $subChildren = $child->children()->findAll();
+                    foreach($subChildren as $subChild) {
+                        $groups[] = $subChild->group_id;
+                    }
+                } else {
+                    $groups[] = $child->group_id;
+                }
+            }
+        }
+        
+//        $productIds = Yii::app()->db->createCommand()
+//            ->selectDistinct('id')
+//            ->from('product')
+//            ->where(array('and', 'published = 1', array('in', 'product_group_id', $groups)))
+//            ->queryColumn()
+//        ;
+//        
+//        $modellineIds = Yii::app()->db->createCommand()
+//            ->selectDistinct('model_line_id')
+//            ->from('product_in_model_line')
+//            ->where(array('in', 'product_id', $productIds))
+//            //->limit(800)
+//            ->queryColumn()
+//        ;
+        
+        ///////////////////////////////////////////////////
+
+        
+        $modellineIds = Yii::app()->db->createCommand()
+            ->selectDistinct('model_line_id')
+            ->from('product_in_model_line m')
+            ->join('product p', 'p.id = m.product_id')
+            ->where(array('and', 'p.published = 1', array('in', 'p.product_group_id', $groups)))
+            ->queryColumn()
+        ;
+        
+        
+//        
+//        echo '<pre>';
+//        var_dump($groups);
+//        exit;
+        
+        $parts = array_chunk($modellineIds, 900);
+        foreach($parts as $part) {
+//            echo '<pre>';
+//            var_dump($modellineIds); exit;
+
+            $criteria = new CDbCriteria;
+            $criteria->compare('category_id', $categoryId);
+            //$criteria->addInCondition('id', $modellineIds);
+            $criteria->addInCondition('id', $part);
+            $modellines = ModelLine::model()->findAll($criteria);
+
+
+            foreach($modellines as $model) {
+                $parent = $model->parent()->find();
+                $brand = EquipmentMaker::model()->findByPk($model->maker_id);
+                $temp[$brand->name][$parent->name][$model->id]['name'] = $model->name;
+                $temp[$brand->name][$parent->name][$model->id]['path'] = $filter->path.$category->path.$brand->path.$model->path.'/';
+            }
         }
         
         if(!empty($temp)) {
@@ -249,11 +284,102 @@ class GroupfilterController extends Controller
     }
     
     /* Show page with modelline */
-    
+//    public function actionModelline($categoryId, $groupId, $brandId, $modellineId)
+//    {
+//        $response = '';
+//        
+//        // Breadcrumbs
+//        $filter = ProductGroupFilter::model()->findByPk($groupId);
+//        $breadcrumbs[$filter->name] = $filter->path.'/';
+//        
+//        $category = Category::model()->findByPk($categoryId);
+//        $categoryParent = $category->parent()->find();
+//        $breadcrumbs[$categoryParent->name] = $filter->path.$categoryParent->path.'/';
+//        $breadcrumbs[$category->name] = $filter->path.$category->path.'/';
+//        
+//        $brand = EquipmentMaker::model()->findByPk($brandId);
+//        $breadcrumbs[$brand->name] = $filter->path.$category->path.$brand->path.'/';
+//        
+//        $modelline = Modelline::model()->findByPk($modellineId);
+//        $title = $modelline->name;
+//        
+//        $breadcrumbs[] = $title;
+//        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+//        // end Breadcrubs
+//        
+//        $groups = array($filter->group_id);
+//        if(!$filter->isLeaf()) {
+//            $children = $filter->children()->findAll();
+//            foreach($children as $child) {
+//                $groups[] = $child->group_id;
+//            }
+//        }
+//        
+//        $modellineIds = Yii::app()->db->createCommand()
+//            ->selectDistinct('model_line_id')
+//            ->from('product_in_model_line m')
+//            ->join('product p', 'p.id = m.product_id')
+//            ->where(array('and', 'p.published = 1', array('in', 'p.product_group_id', $groups)))
+//            ->queryColumn()
+//        ;
+//        
+//        $currentModellineIds = array();
+//        
+//        $modellines = $modelline->children()->findAll();
+//        foreach($modellines as $modelline) {
+//            if(in_array($modelline->id, $modellineIds)) {
+//                $currentModellineIds[] = $modelline->id;
+//            }
+//        }
+//        
+//        $criteria = new CDbCriteria;
+//        $criteria->compare('category_id', $categoryId);
+//        $criteria->addCondition('maker_id = '.$brandId);
+//        $criteria->addInCondition('id', $currentModellineIds);
+//        $modellines = ModelLine::model()->findAll($criteria);
+//        
+//        $temp = array();
+//        foreach($modellines as $model) {
+//            $temp[$model->id]['name'] = $model->name;
+//            $temp[$model->id]['path'] = $filter->path.$category->path.$brand->path.$model->path.'/';
+//        }
+//        
+//        if(!empty($temp)) {
+//            ksort($temp);
+//            $allKeys = array_keys($temp);
+//            
+//            $count = count($temp);
+//            $half = ceil($count/2);
+//
+//            $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
+//            for($index = 0; $index < $half; $index++) {
+//                $response .= '<tr>';
+//                $response .= '<td width="50%" valign="top">';
+//
+//                $element = $temp[$allKeys[$index]];
+//                $response .= '<a href="'.$element['path'].'" class="sub-child-title">'.$element['name'].'</a>';
+//
+//                $response .= '</td>';
+//                if(($index + $half) < $count) {
+//                    $response .= '<td width="50%" valign="top">';
+//
+//                    $element = $temp[$allKeys[$index + $half]];
+//                    $response .= '<a href="'.$element['path'].'" class="sub-child-title">'.$element['name'].'</a>';
+//
+//                    $response .= '</td>';
+//                }
+//                $response .= '</tr>';
+//            }
+//            $response .= '</tbody></table>';   
+//        }
+//        
+//        $this->render('modelline', array(
+//            'response' => $response,
+//            'title' => $title
+//        ));
+//    }
     public function actionModelline($categoryId, $groupId, $brandId, $modellineId)
     {
-        $response = '';
-        
         // Breadcrumbs
         $filter = ProductGroupFilter::model()->findByPk($groupId);
         $breadcrumbs[$filter->name] = $filter->path.'/';
@@ -273,76 +399,34 @@ class GroupfilterController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end Breadcrubs
         
-        $groups = array($filter->group_id);
-        if(!$filter->isLeaf()) {
-            $children = $filter->children()->findAll();
-            foreach($children as $child) {
-                $groups[] = $child->group_id;
-            }
-        }
+        //-----------------------------------------------------------
         
-        $modellineIds = Yii::app()->db->createCommand()
-            ->selectDistinct('model_line_id')
-            ->from('product_in_model_line m')
-            ->join('product p', 'p.id = m.product_id')
-            ->where(array('and', 'p.published = 1', array('in', 'p.product_group_id', $groups)))
-            ->queryColumn()
-        ;
+        $products = new Product;
+        $products->unsetAttributes();
         
-        $currentModellineIds = array();
+        if (isset($_GET['Product']))
+            $products->attributes = $_GET['Product'];
         
-        $modellines = $modelline->children()->findAll();
-        foreach($modellines as $modelline) {
-            if(in_array($modelline->id, $modellineIds)) {
-                $currentModellineIds[] = $modelline->id;
-            }
-        }
+        //in condition
+        //$products->modelLineId = $modelId;
+        //in condition
+        //$products->product_group_id = $groupId;
         
-        $criteria = new CDbCriteria;
-        $criteria->compare('category_id', $categoryId);
-        $criteria->addCondition('maker_id = '.$brandId);
-        $criteria->addInCondition('id', $currentModellineIds);
-        $modellines = ModelLine::model()->findAll($criteria);
+        $result = $products->searchEvent();
+        $dataProvider = $result['dataProvider'];
+        $dataProvider->sort = array(
+            'defaultOrder' => 'count desc, name'
+        );
+        $dataProvider->pagination = array(
+            'pageVar' => 'page',
+            'pageSize' => 10,
+        );
         
-        $temp = array();
-        foreach($modellines as $model) {
-            $temp[$model->id]['name'] = $model->name;
-            $temp[$model->id]['path'] = $filter->path.$category->path.$brand->path.$model->path.'/';
-        }
-        
-        if(!empty($temp)) {
-            ksort($temp);
-            $allKeys = array_keys($temp);
-            
-            $count = count($temp);
-            $half = ceil($count/2);
-
-            $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
-            for($index = 0; $index < $half; $index++) {
-                $response .= '<tr>';
-                $response .= '<td width="50%" valign="top">';
-
-                $element = $temp[$allKeys[$index]];
-                $response .= '<a href="'.$element['path'].'" class="sub-child-title">'.$element['name'].'</a>';
-
-                $response .= '</td>';
-                if(($index + $half) < $count) {
-                    $response .= '<td width="50%" valign="top">';
-
-                    $element = $temp[$allKeys[$index + $half]];
-                    $response .= '<a href="'.$element['path'].'" class="sub-child-title">'.$element['name'].'</a>';
-
-                    $response .= '</td>';
-                }
-                $response .= '</tr>';
-            }
-            $response .= '</tbody></table>';   
-        }
-        
-        $this->render('modelline', array(
-            'response' => $response,
+        $this->render('model', array(
+            'products' => $products,
+            'dataProvider' => $dataProvider,
             'title' => $title
-        ));
+        ));   
     }
     
     /* Show page with brands and models */
@@ -503,9 +587,9 @@ class GroupfilterController extends Controller
         
         foreach($modellines as $key=>$modelline) {
            $response .= '<li><a href="#" class="sub-child-title">'.$key.'</a><ul>';
-           foreach($modelline as $model) {
-               $response .= '<li><a href="'.$model['path'].'" class="modelline-child">'.$model['name'].'</a></li>';
-           }
+//           foreach($modelline as $model) {
+//               $response .= '<li><a href="'.$model['path'].'" class="modelline-child">'.$model['name'].'</a></li>';
+//           }
            $response .= '</ul></li>';
         }
 

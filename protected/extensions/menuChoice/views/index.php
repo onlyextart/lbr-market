@@ -2,18 +2,24 @@
     <?php if(!empty($groups)): ?>
     <ul class="accordion" id="accordion-group">
         <?php foreach($groups as $group): ?>
-        <li><a href="#"><?php echo $group->name ?></a>
-            <ul>
-                <?php 
-                    $subgroups = $group->children()->findAll(array('order'=>'name'));
-                    foreach($subgroups as $subgroup):
-                ?>
-                <li><a href="<?php echo $subgroup->path ?>/"><?php echo $subgroup->name ?></a></li>
-                <?php endforeach; ?>
-            </ul>
+        <li><a href="<?php echo (!empty($group->path))? $group->path: '#' ?>/"><?php echo $group->name ?></a>
         </li>
         <?php endforeach; ?>
     </ul>
+    <!--ul class="accordion" id="accordion-group">
+        <?php //foreach($groups as $group): ?>
+        <li><a href="#"><?php //echo $group->name ?></a>
+            <ul>
+                <?php 
+                    //$subgroups = $group->children()->findAll(array('order'=>'name'));
+                    //foreach($subgroups as $subgroup):
+                ?>
+                <li><a href="<?php //echo $subgroup->path ?>/"><?php //echo $subgroup->name ?></a></li>
+                <?php //endforeach; ?>
+            </ul>
+        </li>
+        <?php //endforeach; ?>
+    </ul-->
     <?php endif; ?>
     <?php if(!empty($filterCategory) || !empty($filterMaker)): ?>
     <div class="rounded">

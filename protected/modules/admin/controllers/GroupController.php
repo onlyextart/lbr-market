@@ -84,6 +84,7 @@ class GroupController extends Controller
                                 $secondLevel->group_id = $ancestors[1]->id;
                                 $secondLevel->name = $ancestors[1]->name;
                                 if(!empty($ancestors[1]->alias)) $secondLevel->name = $ancestors[1]->alias;
+                                $secondLevel->path = '/products/'.Translite::rusencode($secondLevel->name, '-');
                                 $secondLevel->appendTo($root);
                             }
 
@@ -130,7 +131,7 @@ class GroupController extends Controller
                 } else if(!empty($node)) {
                     $node->name = $model->name;
                     if(!empty($model->alias)) $node->name = $model->alias;
-                    if($model->level == 3) $node->path = '/products/'.Translite::rusencode($node->name, '-');
+                    if($model->level == 3 || $model->level == 2) $node->path = '/products/'.Translite::rusencode($node->name, '-');
                     $node->saveNode();
                 }
                 
