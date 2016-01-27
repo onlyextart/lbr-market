@@ -91,6 +91,11 @@
                         $available = '<div class="stock">' . Product::NO_IN_STOCK . '</div>';
                         if ($data->count > 0) {
                             $available = '<div class="stock in-stock">' . Product::IN_STOCK_SHORT . '</div>';
+                        } else {
+                            $countAnalogs = Analog::model()->count("product_id=:id", array("id" => $data->id));
+                            if ($countAnalogs) {
+                                $available = '';
+                            }
                         }
                         
                         if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {

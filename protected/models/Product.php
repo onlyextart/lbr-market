@@ -328,10 +328,6 @@ class Product extends CActiveRecord {
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
         $criteria->condition = 't.published = 1';
         
-        //$criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
-        //$criteria->params = array(":model_id" => $this->modelLineId);
-        //$criteria->addInCondition('product_group_id', $groups);
-        
         if(!empty($this->modelLineId)) {
             $modelline = Modelline::model()->findByPk($this->modelLineId);
             if(!empty($modelline) && !$modelline->isLeaf()) {
@@ -344,7 +340,6 @@ class Product extends CActiveRecord {
             }
         }
         
-        // !!!
         $criteria->addCondition('original = 1');
         
         if(!empty($this->count)) { // for model-view filter
