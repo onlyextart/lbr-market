@@ -412,18 +412,37 @@ class GroupfilterController extends Controller
         
         //-----------------------------------------------------------
         
+//        echo $groupId.'<br>';
+//        if(!empty($filter) && !$filter->isLeaf()) {
+//            $children = $filter->children()->findAll();
+//            foreach($children as $child) {
+//                $groups[] = $child->group_id;
+//                if(!$child->isLeaf()) {
+//                    $subChildren = $child->children()->findAll();
+//                    foreach($subChildren as $subChild) {
+//                         $groups[] = $subChild->group_id;
+//                    }
+//                }
+//            }
+//        }
+//        
+//        echo '<pre>';
+//        var_dump($groups);
+//        exit;
+
+        ///////////////////
+        
+        
         $products = new Product;
         $products->unsetAttributes();
         
         if (isset($_GET['Product']))
             $products->attributes = $_GET['Product'];
         
-        //in condition
-        //$products->modelLineId = $modelId;
-        //in condition
-        //$products->product_group_id = $groupId;
+        $products->modelLineId = $modellineId;
+        $products->product_group_id = $filter->group_id;
         
-        $result = $products->searchEvent();
+        $result = $products->searchGroupfilter();
         $dataProvider = $result['dataProvider'];
         $dataProvider->sort = array(
             'defaultOrder' => 'count desc, name'

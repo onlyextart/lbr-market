@@ -233,6 +233,9 @@ class ShopUrlRule extends CBaseUrlRule
                 'path=:path',
                 array(':path'=>'/'.$matches[1])
             );
+            
+            //echo '<pre>';
+            //var_dump($group->name); exit;
 
             if(!empty($category) && !empty($group)) {
                 $brand = EquipmentMaker::model()->find(

@@ -77,6 +77,7 @@ class Product extends CActiveRecord {
             // @todo Please remove those attributes that should not be searched.
             array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name, problem, units, multiplicity, material, size, date_sale_off, original', 'safe', 'on' => 'search'),
             array('name, product_group_id, count, model_line_id', 'safe', 'on'=>'searchEvent'),
+            array('name, product_group_id, count, model_line_id', 'safe', 'on'=>'searchGroupfilter'),
             array('name, product_maker_id, count', 'safe', 'on'=>'searchEventMaker'),
             array('name, product_maker_id, product_group_id', 'safe', 'on'=>'searchEventSale'),
             array('image', 'EImageValidator', 'types' => 'gif, jpg, png', 'allowEmpty' => 'true'),
@@ -227,12 +228,8 @@ class Product extends CActiveRecord {
         $groups = array();
         $criteria = new CDbCriteria;
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
-        $criteria->condition = 't.published = 1';
-        
-        //$criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
-        //$criteria->params = array(":model_id" => $this->modelLineId);
-        
-        //$criteria->addInCondition('product_group_id', $groups);
+        $criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
+        $criteria->params = array(":model_id" => $this->modelLineId);
         // !!!
         $criteria->addCondition('original = 1');
         
@@ -272,6 +269,120 @@ class Product extends CActiveRecord {
             }
 
             $criteria->addInCondition('product_group_id', $groups);
+        }
+        
+        $criteria->addCondition('published = 1');
+        
+        // brand filter        
+        $brandCriteria = new CDbCriteria;
+        $brandCriteria->distinct = true;
+        $brandCriteria->select = 'product.product_maker_id as id';
+        $brandCriteria->join ='JOIN product ON product.id = t.product_id';
+        $brandCriteria->condition = 't.model_line_id=:model_line_id';
+        $brandCriteria->params = array(':model_line_id'=>$this->modelLineId);
+        // !!!
+        $brandCriteria->addCondition('original = 1');
+        
+        if(!empty($groups)) {
+            $brandCriteria->addInCondition('product.product_group_id', $groups);
+        }
+        // end brand filter
+        
+        $dataProvider = new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'sort' => array(
+                'defaultOrder' => 'name ASC',
+                'multiSort' => true,
+                'sortVar'  => 'sort',
+                'attributes'=>array(
+                    'count'=>array(
+                        'asc' => 'count ASC',
+                        'desc' => 'count DESC',
+                        'default' => 'desc'
+                    ),
+                    'name'=>array(
+                        'asc' => 'name ASC',
+                        'desc' => 'name DESC',
+                        'default' => 'desc'
+                    ),
+                ),
+            ),
+            'pagination' => array(
+                'pageSize' => 10,
+                'pageVar'  => 'page',
+            ),
+        ));
+        
+        
+        return array(
+            'dataProvider' => $dataProvider,
+            'brandCriteria' => $brandCriteria
+        );
+    }
+    
+    public function searchGroupfilter() 
+    {
+        $groups = $models = array();
+        $criteria = new CDbCriteria;
+        $criteria->distinct = true;
+        $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
+        $criteria->condition = 't.published = 1';
+        
+        //$criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
+        //$criteria->params = array(":model_id" => $this->modelLineId);
+        //$criteria->addInCondition('product_group_id', $groups);
+        
+        if(!empty($this->modelLineId)) {
+            $modelline = Modelline::model()->findByPk($this->modelLineId);
+            if(!empty($modelline) && !$modelline->isLeaf()) {
+                $children = $modelline->children()->findAll();
+                foreach($children as $child) {
+                    $models[] = $child->id;
+                }
+                
+                if(!empty($models)) $criteria->addInCondition('product_in_model_line.model_line_id', $models);
+            }
+        }
+        
+        // !!!
+        $criteria->addCondition('original = 1');
+        
+        if(!empty($this->count)) { // for model-view filter
+            if($this->count == 1) { 
+                $criteria->addCondition('count > 0');
+            } else $criteria->addCondition('count = 0 or count is null');
+        }
+        
+        if(!empty($this->name)) {
+            if(Yii::app()->search->prepareSqlite()){ 
+                $match = addcslashes($this->name, '%_');
+                $criteria->addCondition('lower(name) like lower(:name)');
+                $criteria->params[':name'] = "%$match%";
+            }
+        }
+        
+        if(!empty($this->product_maker_id)) {
+            $criteria->addCondition('product_maker_id = '.$this->product_maker_id);
+        }
+        
+        if(!empty($this->product_group_id)) {
+            $groups[] = $this->product_group_id;
+            $model = ProductGroupFilter::model()->find('group_id = :id', array(':id' => $this->product_group_id));
+
+            if(!empty($model) && !$model->isLeaf()) {
+                $children = $model->children()->findAll();
+                foreach($children as $child) {
+                    $groups[] = $child->group_id;
+                    if(!$child->isLeaf()) {
+                        $subChildren = $child->children()->findAll();
+                        foreach($subChildren as $subChild) {
+                             $groups[] = $subChild->group_id;
+                        }
+                    }
+                }
+            }
+
+            if(!empty($groups)) $criteria->addInCondition('product_group_id', $groups);
         }
         
         $criteria->addCondition('published = 1');
