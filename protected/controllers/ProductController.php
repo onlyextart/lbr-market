@@ -3,6 +3,7 @@ class ProductController extends Controller
 {
     public function actionIndex($id)
     {
+        set_time_limit(0);
         $data = Product::model()->findByPk($id);
         if(!$data || !$data->published)
             throw new CHttpException(404, 'Товар не найден');

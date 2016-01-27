@@ -19,7 +19,7 @@
         'loadingCssClass' => '',
         'beforeAjaxUpdate' => 'function(id, data) { '
             . 'var container = $(".spareparts-wrapper");'
-            . 'var height = container.height()+22;'
+            . 'var height = container.height()+43;'
             . 'var width = container.width();'
             . 'var offset = container.offset();'
             . 'var element = $(".grid-overlay");'
