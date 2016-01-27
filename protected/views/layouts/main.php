@@ -66,8 +66,8 @@
                     </li>
                     <div class="phone_main">
                         <div class="phone_number">8-800-5553219</div>
-                        <div class="phone_text">Помощь в подборе запчастей</div> 
-                        <div class="phone_text">Звонок бесплатный</div> 
+                        <div class="phone_text">ПОМОЩЬ В ПОДБОРЕ ЗАПЧАСТЕЙ</div> 
+                        <div class="phone_text">звонок бесплатный</div> 
                     </div>
                 </ul>
             </div>
@@ -98,7 +98,7 @@
                     <li><a href="/"><span>Главная</span></a></li>
                     <li><a href="/seasonalsale/"><span>Спецпредложения</span></a></li>
                     <li><a href="/sale/"><span>Распродажа</span></a></li>
-                    <li><a href="/product-maker/"><span>Наши партнеры</span></a></li>
+                    <li><a href="/partners/"><span>Наши партнеры</span></a></li>
                     <li>
                         <a href="#"><span>Информация</span></a>
                         <ul class="submenu">

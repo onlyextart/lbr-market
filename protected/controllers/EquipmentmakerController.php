@@ -3,10 +3,13 @@ class EquipmentmakerController extends Controller
 {    
     public function actionIndex($path)
     {
+        $sectionName="Наши партнеры";
+        Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'] = $sectionName;
+        
         if (!empty($path)) {
             $data = EquipmentMaker::model()->find('path=:path and published=1', array('path'=>'/'.$path));
             
-            $breadcrumbs[] = "Производители техники";
+            $breadcrumbs[$sectionName] = '/partners/';
             $breadcrumbs[] = $data->name;
             Yii::app()->params['breadcrumbs'] = $breadcrumbs;
             Yii::app()->params['meta_title'] = $data->name;

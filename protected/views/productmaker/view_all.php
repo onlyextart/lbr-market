@@ -1,4 +1,5 @@
 <?php
+//it has not be used
 $this->widget('zii.widgets.CBreadcrumbs', array(
     'links' => Yii::app()->params['breadcrumbs'],
     'homeLink' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'/" itemprop="url"><span itemprop="title">Главная</span></a></div>',
