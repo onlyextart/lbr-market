@@ -3037,7 +3037,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     width: 16px;
 }
 
-.grey #accordion-maker > li > a, .grey #accordion-type > li > a { 
+.grey #accordion-maker > li > a, .grey #accordion-type > li > a, #accordion-group > li > a { 
     background: url("/images/main_menu_bg.png") repeat-x scroll 0 -1px #d7d4d4;
     color: #5f5e5e;
     font-weight: bold;
@@ -4147,7 +4147,7 @@ div.phone_text{
     padding: 5px 5px;
 }*/
 .grey .accordion a {
-    padding: 10px 10px 10px 15px; 
+    padding: 10px 10px 10px 40px; 
     background: #ececec; 
     text-decoration:none; 
     display: block; 

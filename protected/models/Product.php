@@ -227,8 +227,12 @@ class Product extends CActiveRecord {
         $groups = array();
         $criteria = new CDbCriteria;
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
-        $criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
-        $criteria->params = array(":model_id" => $this->modelLineId);
+        $criteria->condition = 't.published = 1';
+        
+        //$criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
+        //$criteria->params = array(":model_id" => $this->modelLineId);
+        
+        //$criteria->addInCondition('product_group_id', $groups);
         // !!!
         $criteria->addCondition('original = 1');
         
