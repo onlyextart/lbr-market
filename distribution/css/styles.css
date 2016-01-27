@@ -3446,7 +3446,7 @@ ul.yiiPager .selected a {
 /*----- end BestOffer page---------------*/
 
 /*----- start Brand page---------------*/
-.productmakers_wrapper{
+.productmakers_wrapper, .makers_wrapper{
   width:100%;
   padding-top: 10px;
 }

@@ -6,7 +6,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     'inactiveLinkTemplate' => '{label}',
 ));
 ?>
-<div class="productmakers_wrapper">
+<div class="makers_wrapper">
     <?php
         foreach ($data_productmaker as $maker){
             $link='/product-maker'.$maker->path.'/';

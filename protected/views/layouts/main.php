@@ -16,7 +16,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?48');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?49');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?5');
 
@@ -66,8 +66,8 @@
                     </li>
                     <div class="phone_main">
                         <div class="phone_number">8-800-5553219</div>
-                        <div class="phone_text">Помощь в подборе запчастей</div> 
-                        <div class="phone_text">Звонок бесплатный</div> 
+                        <div class="phone_text">ПОМОЩЬ В ПОДБОРЕ ЗАПЧАСТЕЙ</div> 
+                        <div class="phone_text">звонок бесплатный</div> 
                     </div>
                 </ul>
             </div>
