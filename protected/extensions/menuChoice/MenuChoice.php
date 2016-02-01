@@ -94,34 +94,85 @@ class MenuChoice extends CWidget
         //var_dump($types);exit;
         
         // формируем меню "По производителю техники"
-        if(!empty(Yii::app()->params['currentType'])) {
-            $children = Category::model()->cache(1000, $category_dependency)->findByPk(Yii::app()->params['currentType'])->children()->findAll();
-            foreach($children as $child) {
-                $criteria = new CDbCriteria();
-                $criteria->distinct = true;
-                $criteria->condition = 'category_id = '.$child->id;      
-                $criteria->select = 'maker_id';
-                $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
-                
-                foreach($models as $model) {
-                    $t[] = $model['maker_id'];
+        
+        //find all equipment_makers with products count
+        $sql="SELECT maker.id AS id,maker.name AS name,maker.path AS path,ml.category_id AS model_line_id, COUNT(prod.id) AS prod_count
+              FROM equipment_maker maker, model_line ml, product_in_model_line piml, product prod
+              WHERE ml.maker_id=maker.id AND piml.model_line_id=ml.id AND piml.product_id=prod.id
+              GROUP BY maker.id
+              ORDER BY prod_count DESC";
+        $command=Yii::app()->db->createCommand($sql);
+        $makersAll=$command->query()->readAll();
+        if(!empty($makersAll)){
+            // if isset category filter
+            if(!empty(Yii::app()->params['currentType'])) {
+                $category_array=array();
+                $children_categories = Category::model()->cache(1000, $category_dependency)->findByPk(Yii::app()->params['currentType'])->children()->findAll();
+                foreach($children_categories as $children_category){
+                    $category_array[]=$children_category['id'];
                 }
-                
-                $crit = new CDbCriteria();
-                $crit->addInCondition('id', $t);
-                $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($crit);
-            }
-        } else {
-            $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll();
-        }
+                if (!empty($category_array)){
+                    $count=count($makersAll);
+                    for($i=0;$i<$count;$i++){
+                        if(!in_array($makersAll[$i]['model_line_id'],$category_array)){
+                            unset($makersAll[$i]);
+                        }
+                    }
+                }
+                      
+           }
+           
+           //select TOP-20 makers
+           $makers_top=array_slice($makersAll,0,20);
+          
+           
+           //generate the array with makers id from TOP-20
+           foreach($makers_top as $key=>$row){
+               $makers_top_id[$key]=$row['id'];
+           }
+           //sort all makers by name
+           foreach($makersAll as $key=>$row){
+               $name[$key]=$row;
+           }
+           array_multisort($name,SORT_ASC,$makersAll);
 
-        if(count($makersAll)){
             foreach($makersAll as $maker) {
-                $makers[$maker->id]['name'] = $maker->name;
-                $makers[$maker->id]['path'] = $maker->path;
-                $makers[$maker->id]['id'] = $maker->id;
+                $makers[$maker['id']]['name'] = $maker['name'];
+                $makers[$maker['id']]['path'] = $maker['path'];
+                $makers[$maker['id']]['id'] = $maker['id'];
             }
+           
         }
+           
+       
+//        if(!empty(Yii::app()->params['currentType'])) {
+//            $children = Category::model()->cache(1000, $category_dependency)->findByPk(Yii::app()->params['currentType'])->children()->findAll();
+//            foreach($children as $child) {
+//                $criteria = new CDbCriteria();
+//                $criteria->distinct = true;
+//                $criteria->condition = 'category_id = '.$child->id;      
+//                $criteria->select = 'maker_id';
+//                $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
+//                
+//                foreach($models as $model) {
+//                    $t[] = $model['maker_id'];
+//                }
+//                
+//                $crit = new CDbCriteria();
+//                $crit->addInCondition('id', $t);
+//                $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($crit);
+//            }
+//        } else {
+//            $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll();
+//        }
+
+//        if(count($makersAll)){
+//            foreach($makersAll as $maker) {
+//                $makers[$maker->id]['name'] = $maker->name;
+//                $makers[$maker->id]['path'] = $maker->path;
+//                $makers[$maker->id]['id'] = $maker->id;
+//            }
+//        }
         
         // название выбранных фильтров
         if(!empty(Yii::app()->params['currentType'])) {
@@ -154,9 +205,11 @@ class MenuChoice extends CWidget
         $this->render('index',array(
             'groups' => $groups,
             'types'=>$types, 
-            'makers'=>$makers, 
+            'makers'=>$makers,
+            'makers_top_id'=>$makers_top_id,
             'filterMaker' => $filterMaker, 
             'filterCategory' => $filterCategory
         ));
     }
+
 }

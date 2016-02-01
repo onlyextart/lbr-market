@@ -16,7 +16,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?49');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?50');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?6');
 
@@ -34,7 +34,7 @@
     <body>
         <header>
             <div class="logo">
-                <a href="http://www.lbr.ru/">
+                <a href="http://lbr-market.ru/">
                     <img src="/images/logo.png" title="ЛБР-Агромаркет" alt="Логотип ЛБР-Агромаркет"/>
                 </a>
             </div>
