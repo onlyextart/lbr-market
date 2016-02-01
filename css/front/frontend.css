@@ -2123,7 +2123,7 @@ hr#hit-line-second{
     margin-top: 5px;
 }
 
-.model-wrapper h1{
+.model-wrapper h2{
     display: inline-block;
 }
 .prod-wrapper h1:not(:first-of-type){
@@ -2504,7 +2504,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
     margin-left: 10px;
 }
 
-.model-wrapper h2
+.model-wrapper h1
 {
     color: #F39314;
 }
