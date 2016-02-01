@@ -411,8 +411,8 @@ class GroupfilterController extends Controller
         ;
         
         foreach($modellines as $key=>$modelline) {
-           // $response .= '<li><a href="'.$modelline['path'].'" class="sub-child-title">'.$modelline['name'].'</a></li>';
-            $response .= '<li><a href="#" class="sub-child-title">'.$modelline['name'].'</a></li>';
+            $response .= '<li><a href="'.$modelline['path'].'" class="sub-child-title">'.$modelline['name'].'</a></li>';
+            //$response .= '<li><a href="#" class="sub-child-title">'.$modelline['name'].'</a></li>';
         }
 
         $response .= '</ul>'.
