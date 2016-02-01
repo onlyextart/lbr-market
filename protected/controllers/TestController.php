@@ -24,7 +24,7 @@ class TestController extends Controller
 //        echo '======================<br>';
 //        echo 'work done - '.date('H:i:s');
 //    }
-    public function actionFilial() 
+    /*public function actionFilial() 
     {
         set_time_limit(0);
         $filials = Filial::model()->findAll();
@@ -43,5 +43,5 @@ class TestController extends Controller
 
         echo '======================<br>';
         echo 'work done - '.date('H:i:s');
-    }
+    }*/
 }
