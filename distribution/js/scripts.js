@@ -2627,6 +2627,9 @@ $(document).ready(function($){
     $(".l-menu-wrapper").mCustomScrollbar({
         scrollButtons:{
             enable:true
+        },
+        advanced:{ 
+            updateOnContentResize: true 
         }
     });
     

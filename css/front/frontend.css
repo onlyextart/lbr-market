@@ -3010,7 +3010,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     background: url("/images/close_sprite.png") no-repeat scroll left bottom transparent;
 }
 .l-menu-wrapper{
-    height: 300px;
+    max-height: 300px;
     overflow: auto;
     margin-bottom: 10px;
     margin-right: 10px;
@@ -3020,6 +3020,28 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     color: #5f5e5e;
 }
 
+.left-menu-wrapper #switch{
+    float:right;
+    padding: 7px 10px;  
+    box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.5);
+    border-radius: 0px 0px 3px 3px;
+    border: 0;
+    text-align: center;
+    color: #ffffff;    
+    background: #14AAAA;
+    background: -moz-linear-gradient(top,#fbc173,#f39314);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#fbc173),color-stop(100%,#f39314));
+    background: -webkit-linear-gradient(top,#fbc173,#f39314);
+    background: -o-linear-gradient(top,#fbc173,#f39314);
+    background: -ms-linear-gradient(top,#fbc173,#f39314);
+    background: linear-gradient(top,#fbc173,#f39314);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#fbc173', endColorstr='#f39314');/*For IE7-8-9*/
+    cursor: pointer;
+    margin: -10px 31px 0px 0px;
+    width: 50%;
+    font: 13px "Trebuchet MS";
+    font-weight: bold;
+}
 .grey .accordion .icon {
     background: url("/images/accordion_arrows.png") no-repeat scroll -16px 0 transparent;
     height: 21px;
@@ -3029,7 +3051,12 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     top: 50%;
     width: 16px;
 }
-
+.left-menu-wrapper ul#accordion-maker>li.hide{
+    display: none;
+}
+.left-menu-wrapper ul#accordion-maker>li.show{
+    display: block;
+}
 .grey #accordion-maker > li > a, .grey #accordion-type > li > a { 
     background: url("/images/main_menu_bg.png") repeat-x scroll 0 -1px #d7d4d4;
     color: #5f5e5e;

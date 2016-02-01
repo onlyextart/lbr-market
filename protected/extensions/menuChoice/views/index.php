@@ -76,7 +76,7 @@
                     $makerHref = '/catalog'.$types[Yii::app()->params['currentType']]['path'].$maker['path'].'/';
                 }
             ?>
-            <li elemId="<?php echo $maker['id'] ?>">
+            <li elemId="<?php echo $maker['id'] ?>" class="<?php echo in_array($maker['id'], $makers_top_id)?'':'hide';?>">
                 <?php if($maker['id'] == Yii::app()->params['currentMaker']): ?>
                 <a href="<?php echo $makerHref ?>" class="active">
                     <span class="icon"></span>
@@ -91,5 +91,25 @@
             <?php endforeach; ?>
         </ul>
     </div>
+    <?php if(count($makers)>count($makers_top_id)):?>
+        <div id="switch" class="top">Все производители</div>    
+    <?php endif; ?>
     <?php endif; ?>
 </div>
+
+<script>
+    $(document).ready(function(){
+      $("div#switch").on('click',function(){
+          if($(this).hasClass('top')){
+              $(this).removeClass('top').addClass('all');
+              $(this).text('Популярные производители');
+              $("ul#accordion-maker>li.hide").removeClass('hide').addClass('show');
+          }
+          else{
+              $(this).removeClass('all').addClass('top');
+              $(this).text('Все производители');
+              $("ul#accordion-maker>li.show").removeClass('show').addClass('hide');
+          }
+      });
+    });
+</script>

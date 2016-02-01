@@ -96,14 +96,14 @@ class MenuChoice extends CWidget
         // формируем меню "По производителю техники"
         
         //find all equipment_makers with products count
-        $sql="SELECT maker.id,maker.name,maker.path,ml.category_id AS model_line_id, COUNT(prod.id) AS prod_count
+        $sql="SELECT maker.id AS id,maker.name AS name,maker.path AS path,ml.category_id AS model_line_id, COUNT(prod.id) AS prod_count
               FROM equipment_maker maker, model_line ml, product_in_model_line piml, product prod
               WHERE ml.maker_id=maker.id AND piml.model_line_id=ml.id AND piml.product_id=prod.id
               GROUP BY maker.id
               ORDER BY prod_count DESC";
         $command=Yii::app()->db->createCommand($sql);
-        $makers=$command->query()->readAll();
-        if(!empty($makers)){
+        $makersAll=$command->query()->readAll();
+        if(!empty($makersAll)){
             // if isset category filter
             if(!empty(Yii::app()->params['currentType'])) {
                 $category_array=array();
@@ -112,17 +112,36 @@ class MenuChoice extends CWidget
                     $category_array[]=$children_category['id'];
                 }
                 if (!empty($category_array)){
-                    $count=count($makers);
+                    $count=count($makersAll);
                     for($i=0;$i<$count;$i++){
-                        if(!in_array($makers[$i]['model_line_id'],$category_array)){
-                            unset($makers[$i]);
+                        if(!in_array($makersAll[$i]['model_line_id'],$category_array)){
+                            unset($makersAll[$i]);
                         }
                     }
                 }
                       
            }
-           $makers_top=array_slice($makers,0,20);
-           $makers_additional=array_slice($makers,20);
+           
+           //select TOP-20 makers
+           $makers_top=array_slice($makersAll,0,20);
+          
+           
+           //generate the array with makers id from TOP-20
+           foreach($makers_top as $key=>$row){
+               $makers_top_id[$key]=$row['id'];
+           }
+           //sort all makers by name
+           foreach($makersAll as $key=>$row){
+               $name[$key]=$row;
+           }
+           array_multisort($name,SORT_ASC,$makersAll);
+
+            foreach($makersAll as $maker) {
+                $makers[$maker['id']]['name'] = $maker['name'];
+                $makers[$maker['id']]['path'] = $maker['path'];
+                $makers[$maker['id']]['id'] = $maker['id'];
+            }
+           
         }
            
        
@@ -187,8 +206,7 @@ class MenuChoice extends CWidget
             'groups' => $groups,
             'types'=>$types, 
             'makers'=>$makers,
-            'makers_top'=>$makers_top, 
-            'makers_additional'=>$makers_additional,
+            'makers_top_id'=>$makers_top_id,
             'filterMaker' => $filterMaker, 
             'filterCategory' => $filterCategory
         ));
