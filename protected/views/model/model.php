@@ -23,7 +23,7 @@
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
-    <h2>Запасные части для <?php echo $title?></h2>
+    <h2><?php echo $titleH2 ?></h2>
     <div class="grid-overlay" style="display: none"><div><span>Выполняется загрузка...</span><span class="loader"></span></div></div>
     <div class="spareparts-wrapper">
     <?php

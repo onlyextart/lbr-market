@@ -12,6 +12,9 @@ return array(
                     'type'=>'text',
                     'disabled'=>'true',
                 ),
+                'h1'=>array(
+                    'type'=>'text',
+                ),
                 'published'=>array(
                     'type'=>'dropdownlist',
                     'items'=>array(

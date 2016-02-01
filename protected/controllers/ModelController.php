@@ -48,14 +48,18 @@ class ModelController extends Controller
         $breadcrumbs[$brand->name] = '/catalog'.$category->path.$brand->path.'/';
         $breadcrumbs[$parent->name] = '/catalog'.$category->path.$brand->path.$parent->path.'/';
         $breadcrumbs[] = $title;
-        Yii::app()->params['breadcrumbs'] = $breadcrumbs;  
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
+        
+        $titleH1 = 'Запасные части для '.$title;
+        if(!empty($model->h1)) $titleH1 = $model->h1;
         
         $params = array(
             'products' => $products,
             'dataProvider' => $dataProvider,
             'title' => $title,
-            'titleH1' => $brand->name.' '.$title,
+            'titleH1' => $titleH1,
+            'titleH2' => $brand->name.' '.$title,
             'filter' => $filter,
             'brand' => $brandFilter,
             'hitProducts' => $hitProducts,
