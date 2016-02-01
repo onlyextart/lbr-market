@@ -185,7 +185,7 @@ header .center
 header .header-main {
   float: left;
   width: 52%;
-  height: 115px;
+  height: 125px;
 }
 header .header-main .main-top {
   list-style: none !important;
@@ -387,7 +387,7 @@ header .map a{
 header .map {
   float: left;
   position: relative;
-  margin-left: 180px;
+  margin-left: 220px;
 }
 header .map a span {
   position: absolute;
@@ -404,10 +404,11 @@ header .map a span {
 header div.main-menu{
 /*    clear:both;
     margin: 0px 30px 0px 800px;
-    padding:0px 0px 10px 0px;*/
-    position:absolute;
-    left:570px;
-    top:85px;
+    padding:0px 0px 10px 0px;
+*/
+    position: absolute;
+    left: 580px;
+    top: 85px;
 }
 header div.main-menu ul#nav {
     display: table;  
@@ -420,7 +421,7 @@ header div.main-menu ul#nav>li {
     width: auto;
     display:block;
     float: left;
-    margin: 0px 5px;
+    margin: 20px 5px 0;
     border-bottom: solid 2px white;
 }
 header div.main-menu ul#nav>li>a {
