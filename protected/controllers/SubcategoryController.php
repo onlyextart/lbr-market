@@ -78,7 +78,7 @@ class SubcategoryController extends Controller
             
             $title = $categoryRoot->name.$makerName;
             if(!empty($categoryRoot->h1))
-                $title = $categoryRoot->h1;
+                $title = $categoryRoot->h1.$makerName;
             
             Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
             if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;            
