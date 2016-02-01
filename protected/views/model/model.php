@@ -7,7 +7,7 @@
   )); 
 ?>
 <div class="model-wrapper">
-    <h2><?php echo $titleH2 ?></h2>
+    <h1><?php echo $titleH1 ?></h1>
     <?php if(!empty($hitProducts)): ?>
     <span class="hit-label-main">Рекомендуем для "<?php echo $title?>"</span>
     <div id="special-offer">
@@ -23,7 +23,7 @@
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
-    <h1><?php echo $titleH1 ?></h1>
+    <h2><?php echo $titleH2 ?></h2>
     <div class="grid-overlay" style="display: none"><div><span>Выполняется загрузка...</span><span class="loader"></span></div></div>
     <div class="spareparts-wrapper">
     <?php

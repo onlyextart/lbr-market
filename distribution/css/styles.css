@@ -2123,7 +2123,7 @@ hr#hit-line-second{
     margin-top: 5px;
 }
 
-.model-wrapper h2{
+.model-wrapper h1{
     display: inline-block;
 }
 .prod-wrapper h1:not(:first-of-type){
