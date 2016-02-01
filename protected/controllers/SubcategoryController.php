@@ -197,7 +197,7 @@ class SubcategoryController extends Controller
             $name = $equipmentMaker->name;
             $breadcrumbs[] = $name;
             
-            $title = $name;
+            $title = 'Запчасти '.$name;
             if(!empty($equipmentMaker->h1)) 
                 $title = $equipmentMaker->h1;
             
