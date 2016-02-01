@@ -89,7 +89,7 @@
                    <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
                 </a>-->
                 <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
-                    <span>КОНТАКТЫ</span>
+                    <span>Наши филиалы</span>
                     <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
                 </a>
             </div>
@@ -111,6 +111,7 @@
                             </li>
                         </ul>
                     </li>
+                    <li><a href="http://www.lbr.ru/company/contacts/"><span>Контакты</span></a></li>
                 </ul>
             </div>
             <div class="menu-line">
