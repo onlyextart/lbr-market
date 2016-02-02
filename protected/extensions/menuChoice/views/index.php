@@ -1,5 +1,11 @@
 <div class="left-menu-wrapper grey">
-    <?php //if(!empty($groups)): ?>
+    <?php if(!empty($groups)): ?>
+    <ul class="accordion" id="accordion-group">
+        <?php foreach($groups as $group): ?>
+        <li><a href="<?php echo (!empty($group->path))? $group->path: '#' ?>/"><?php echo $group->name ?></a>
+        </li>
+        <?php endforeach; ?>
+    </ul>
     <!--ul class="accordion" id="accordion-group">
         <?php //foreach($groups as $group): ?>
         <li><a href="#"><?php //echo $group->name ?></a>
@@ -14,8 +20,7 @@
         </li>
         <?php //endforeach; ?>
     </ul-->
-    <?php //endif; ?>
-    
+    <?php endif; ?>
     <?php if(!empty($filterCategory) || !empty($filterMaker)): ?>
     <div class="rounded">
         <div class="label">Текущий отбор</div>

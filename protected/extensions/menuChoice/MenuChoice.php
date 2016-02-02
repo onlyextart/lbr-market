@@ -193,14 +193,12 @@ class MenuChoice extends CWidget
         }
         
         // формируем меню "Продукты в группах"
-        //if(!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop)) {
-            $groupsRoot = ProductGroupFilter::model()->findByAttributes(array('level'=>1));
-            if(!empty($groupsRoot)) {
-                $criteria=new CDbCriteria();
-                $criteria->order='name';
-                $groups = $groupsRoot->children()->findAll($criteria);
-            }
-        //}
+        $groupsRoot = ProductGroupFilter::model()->findByAttributes(array('level'=>1));
+        if(!empty($groupsRoot)) {
+            $criteria=new CDbCriteria();
+            $criteria->order='name';
+            $groups = $groupsRoot->children()->findAll($criteria);
+        }
         
         $this->render('index',array(
             'groups' => $groups,

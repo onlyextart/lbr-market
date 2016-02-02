@@ -3065,7 +3065,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
 .left-menu-wrapper ul#accordion-maker>li.show{
     display: block;
 }
-.grey #accordion-maker > li > a, .grey #accordion-type > li > a { 
+.grey #accordion-maker > li > a, .grey #accordion-type > li > a, #accordion-group > li > a { 
     background: url("/images/main_menu_bg.png") repeat-x scroll 0 -1px #d7d4d4;
     color: #5f5e5e;
     font-weight: bold;

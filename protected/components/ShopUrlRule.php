@@ -124,7 +124,7 @@ class ShopUrlRule extends CBaseUrlRule
         /* 
          * search for "/products/amortizatory-kabiny/zagotovka-kormov/kosilki/" -> groupfilter controller
          */
-        else if(preg_match('/^(products\/[\w,-]+)((\/[\w,-]+){2})$/', $pathInfo, $matches)){
+        else if(preg_match('/^(products\/[\w,-]+)((\/[\w,-]+){2})$/', $pathInfo, $matches)) {
             $category = Category::model()->find(
                 'path=:path',
                 array(':path'=>$matches[2])
@@ -233,7 +233,7 @@ class ShopUrlRule extends CBaseUrlRule
                 'path=:path',
                 array(':path'=>'/'.$matches[1])
             );
-
+            
             if(!empty($category) && !empty($group)) {
                 $brand = EquipmentMaker::model()->find(
                     'path=:path',
@@ -276,11 +276,6 @@ class ShopUrlRule extends CBaseUrlRule
                         Yii::app()->params['currentType'] = $type->parent()->find()->id;
                         Yii::app()->params['currentMaker'] = $maker->id;
                         
-                        /*$model = ModelLine::model()->find(
-                            'path=:path',
-                            array(':path'=>$matches[5])
-                        );*/
-                        
                         Yii::app()->params['analiticsMark'] = 'modelline='.$modelLine->external_id;
                         Yii::app()->session['model'] = $modelLine->id;
                         return '/model/show/id/'.$modelLine->id;
@@ -288,38 +283,6 @@ class ShopUrlRule extends CBaseUrlRule
                 }
             }
         }   
-        /* 
-         * search for "/products/amortizatory-kabiny/zagotovka-kormov/kombayny-izmel-chiteli-kormouborochnye/claas-kgaa-mbh/jaguar-695-840/jaguar-840/" -> groupfilter controller
-         */
-        else if(preg_match('/^(products\/[\w,-]+)((\/[\w,-]+){2})(\/[\w,-]+)((\/[\w,-]+){2})$/', $pathInfo, $matches)) {
-            $category = Category::model()->find(
-                'path=:path',
-                array(':path'=>$matches[2])
-            );
-            
-            $group = ProductGroupFilter::model()->find(
-                'path=:path',
-                array(':path'=>'/'.$matches[1])
-            );
-
-            if(!empty($category) && !empty($group)) {
-                $model = ModelLine::model()->find(
-                    'path=:path',
-                    array(':path'=>$matches[5])
-                );
-                
-                $brand = EquipmentMaker::model()->find(
-                    'path=:path',
-                    array(':path'=>$matches[4])
-                );
-                
-                if(!empty($model) && !empty($brand)) {
-                    if($model->maker_id == $brand->id) {
-                        return 'groupfilter/model/categoryId/'.$category->id.'/groupId/'.$group->group_id.'/modelId/'.$model->id.'/brandId/'.$brand->id;
-                    }
-                }
-            }
-        }
         /*
          *  search for "/catalog/traktornaya-tehnika/traktory/case/case-c50-c60-c70-c90/c50/sort/name/order/asc/" -> model controller
          */
@@ -346,26 +309,13 @@ class ShopUrlRule extends CBaseUrlRule
                         Yii::app()->params['currentType'] = $type->parent()->find()->id;
                         Yii::app()->params['currentMaker'] = $maker->id;
                         
-                        /*$model = ModelLine::model()->find(
-                            'path=:path',
-                            array(':path'=>$matches[5])
-                        );*/
-                        
                         Yii::app()->params['analiticsMark'] = 'modelline='.$modelLine->external_id;
                         Yii::app()->session['model'] = $modelLine->id;
-                        //return '/model/show/id/'.$modelLine->id.'/sort/'.$matches[8].'/order/'.$matches[10];
                         return '/model/show/id/'.$modelLine->id;
                     }
                 }
             }
         } 
-//        else {
-//            echo 111; exit;
-//            preg_match('/^products/', $pathInfo, $matches);
-//            echo '<pre>';
-//            var_dump($matches);exit;
-//        }  
-        
         return false;  // this rule does not apply
     }
     
