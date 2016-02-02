@@ -14,6 +14,7 @@
  * @property string $meta_title
  * @property string $meta_description
  * @property timestamp $update_time
+ * @property tinyint $menu_top
  *
  * The followings are the available model relations:
  * @property ModelLine[] $modelLines
@@ -39,7 +40,7 @@ class EquipmentMaker extends CActiveRecord
                         array('name', 'required'),
                         array('logo', 'file', 'types'=>'jpg, jpeg, JPG, JPEG, gif, png', 'allowEmpty'=>true,'maxSize'=>1024*300, 'tooLarge'=>'Файл весит больше 30Кб. Пожалуйста, загрузите файл меньшего размера.','allowEmpty'=>'true'),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('external_id, h1, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time', 'safe'),
+			array('external_id, h1, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time, menu_top', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, external_id, h1, name, description, logo, published, path, meta_title, meta_description, top_text, bottom_text, update_time', 'safe', 'on'=>'search'),
@@ -78,6 +79,7 @@ class EquipmentMaker extends CActiveRecord
                         'bottom_text' => 'Нижний блок',
                         'update_time' => 'Время обновления',
                         'h1' => 'Заголовок h1',
+                        'menu_top'=>'Топ-20'
 		);
 	}
 
