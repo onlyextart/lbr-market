@@ -537,7 +537,7 @@ header div.menu-line ul.menu-line-items>li#menu-item-region{
 header div.menu-line ul.menu-line-items>li#menu-item-search-input{
   width:790px;
   text-align:center;
-  //padding-left:130px;
+  /*padding-left:130px;*/
 }
 header div.menu-line ul.menu-line-items>li.login-elem{
    width:250px;
@@ -1198,7 +1198,7 @@ input#full-search
     border: 0px none;
     color: #FFF;
     font-weight: bold;
-    //background: -moz-linear-gradient(center top , #FBC173, #F39314) repeat scroll 0% 0% transparent;
+    /*background: -moz-linear-gradient(center top , #FBC173, #F39314) repeat scroll 0% 0% transparent;*/
     background: #14AAAA;
     background: -moz-linear-gradient(top,#fbc173,#f39314);
     background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#fbc173),color-stop(100%,#f39314));
@@ -1210,7 +1210,7 @@ input#full-search
 }
 
 .cabinet-wrapper div.cabinet-data .cabinet-data-pass{
-   // padding: 10px;
+   /* padding: 10px;*/
     width:510px;
     float:left;
 }
@@ -1511,8 +1511,8 @@ input#full-search
    /*width: 770px;*/
 /*   overflow: hidden;*/
    margin-left: 45px;
-//    Originally
-/*    width: 735px;*/
+/*    Originally
+    width: 735px;*/
 }
 
 /*Size for wrap*/
@@ -1930,7 +1930,6 @@ hr#hit-line-second{
     margin:0px auto;
 }
 .search-input input {
-   // width: 66%;
     width:435px;
     height:23px;
     padding:2px 5px;
@@ -3360,7 +3359,6 @@ ul.yiiPager .selected a {
 }
 .bestoffer-wrapper .bestoffer-filters .button-filter{
     margin-left:0px;
-  //  width: 100px;
     display:block;
     float: left;
 }
