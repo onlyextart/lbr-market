@@ -7,6 +7,14 @@
 
 <div class="row">      
     <?php  
+        echo $form_view->error($model, 'menu_top'); 
+        echo $form_view->labelEx($model, 'menu_top');
+        echo $form_view->dropDownList($model, 'menu_top',array('0'=>'Нет','1'=>'Да'));
+    ?>
+</div>
+
+<div class="row">      
+    <?php  
         echo $form_view->error($model, 'published'); 
         echo $form_view->labelEx($model, 'published');
         echo $form_view->dropDownList($model, 'published',array('0'=>'Нет','1'=>'Да'));
