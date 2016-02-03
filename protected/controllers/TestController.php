@@ -6,7 +6,7 @@ class TestController extends Controller
     {
         set_time_limit(0);
 
-        $sql = 'SELECT * FROM  WHERE level=2 and path is null';
+        $sql = 'SELECT * FROM product_group_filter WHERE level=2 and path is null';
         $all = ProductGroupFilter::model()->findAllBySql($sql);
         echo count($all).'<br>';
         echo '======================<br>';
