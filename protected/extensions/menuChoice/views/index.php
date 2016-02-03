@@ -1,5 +1,5 @@
 <div class="left-menu-wrapper grey">
-    <?php if(!empty($groups)): ?>
+    <?php if(!empty($groups) && !Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)): ?>
     <ul class="accordion" id="accordion-group">
         <?php foreach($groups as $group): ?>
         <li><a href="<?php echo (!empty($group->path))? $group->path: '#' ?>/"><?php echo $group->name ?></a>
