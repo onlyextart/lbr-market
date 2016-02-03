@@ -230,8 +230,7 @@ class Product extends CActiveRecord {
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
         $criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
         $criteria->params = array(":model_id" => $this->modelLineId);
-        // !!!
-        $criteria->addCondition('original = 1');
+        $criteria->addCondition('original = 1 and date_sale_off is null');
         
         if(!empty($this->count)) { // for model-view filter
             if($this->count == 1) { 
