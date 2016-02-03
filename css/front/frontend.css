@@ -265,7 +265,7 @@ header #region-label{
   color: #727272;
   font-weight: bold;
   font-size: 13px;
-  width:356px; 
+  width:240px; 
 /*    position: absolute;
     top: 80px;
     right: 20%;*/
@@ -531,6 +531,14 @@ header div.menu-line ul.menu-line-items:after {
     position: absolute;
     width: 100%;
     z-index: 100;
+}
+header div.menu-line ul.menu-line-items>li#menu-item-region{
+  width:250px;  
+}
+header div.menu-line ul.menu-line-items>li#menu-item-search-input{
+  width:790px;
+  text-align:center;
+  //padding-left:130px;
 }
 header div.menu-line ul.menu-line-items>li.login-elem{
    width:250px;
@@ -1916,10 +1924,15 @@ hr#hit-line-second{
 /*----- end Static pages --------------*/
 /*----- start search---------------*/
 .search-input{
-    width:644px;
+    width:790px;
+}
+.search-input .form-search-wrapper{
+    width:540px;
+    margin:0px auto;
 }
 .search-input input {
-    width: 66%;
+   // width: 66%;
+    width:435px;
     height:23px;
     padding:2px 5px;
 }

@@ -16,7 +16,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?58');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?59');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?6');
 
@@ -116,7 +116,7 @@
             </div>
             <div class="menu-line">
                 <ul class="menu-line-items">
-                   <li>
+                   <li id="menu-item-region">
                        <?php if (Yii::app()->user->isGuest || (!Yii::app()->user->isGuest && empty(Yii::app()->user->isShop))): ?>
                            <?php
                            if (!empty($filial)):
@@ -141,14 +141,16 @@
                        <?php  endif; ?>  
                     </li>
                     
-                    <li>
+                    <li id="menu-item-search-input">
                         <div class="search-input elem">
+                            <div class="form-search-wrapper">
                             <form id="form_search" method="post">
                                 <span>ПОИСК</span>
                                 <input id="search" type="text" name="q" autocomplete="off"/>
                                 <ul class="quick-result"></ul> 
                                 <input class="search-button" type="button" value=""/>
                             </form>
+                            </div>
                         </div>
                     </li>
                      <?php  
