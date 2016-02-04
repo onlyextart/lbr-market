@@ -361,9 +361,11 @@ class GroupfilterController extends Controller
     private function getAllGroups($allGroups)
     {
         $data = $temp = array();
-        echo 'where groups in $allGroups';
-        exit;
-        $groups = ProductGroup::model()->findAll($crit);
+        //echo 'where groups in $allGroups';
+        //exit;
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('id', $allGroups);
+        $groups = ProductGroup::model()->findAll($criteria);
 
         foreach($groups as $group) {
             $ancestors = $group->ancestors()->findAll();
