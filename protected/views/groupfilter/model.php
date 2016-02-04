@@ -98,13 +98,13 @@
                             }
                         }
                         
+                        $result = '<div class="cell">' .
+                                    '<a href="/site/login/" class="price_link">' . Yii::app()->params['textNoPrice'] . '</a>'.$available.
+                                    '</div>'
+                        ;
                         if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {
                             $result = '<div class="cell">' .
                                     '<span>' . $price . '</span>'.$available.
-                                    '</div>';
-                        } else {
-                            $result = '<div class="cell">' .
-                                    '<a href="/site/login/" class="price_link">' . Yii::app()->params['textNoPrice'] . '</a>'.$available.
                                     '</div>';
                         }
                     } else {
