@@ -308,11 +308,25 @@ class GroupfilterController extends Controller
         
         Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
         
-        $this->render('model', array(
-            'products' => $products,
-            'dataProvider' => $dataProvider,
-            'title' => $title
-        ));   
+//        $this->render('model', array(
+//            'products' => $products,
+//            'dataProvider' => $dataProvider,
+//            'title' => $title
+//        ));   
+        
+        if (!isset($_GET['ajax'])) {
+            $this->render('model', array(
+                'products' => $products,
+                'dataProvider' => $dataProvider,
+                'title' => $title
+            )); 
+        } else {
+            $this->renderPartial('model', array(
+                'products' => $products,
+                'dataProvider' => $dataProvider,
+                'title' => $title
+            )); 
+        }
     }
     
     public function getCategories($filter)
