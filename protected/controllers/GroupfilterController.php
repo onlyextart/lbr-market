@@ -306,25 +306,22 @@ class GroupfilterController extends Controller
             'pageSize' => 10,
         );
         
-        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
-        
-//        $this->render('model', array(
-//            'products' => $products,
-//            'dataProvider' => $dataProvider,
-//            'title' => $title
-//        ));   
+        $titleH1 = 'Запасные части для '.$title;
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $titleH1;
         
         if (!isset($_GET['ajax'])) {
             $this->render('model', array(
                 'products' => $products,
                 'dataProvider' => $dataProvider,
-                'title' => $title
+                'titleH1' => $titleH1,
+                'titleH2' => $title
             )); 
         } else {
             $this->renderPartial('model', array(
                 'products' => $products,
                 'dataProvider' => $dataProvider,
-                'title' => $title
+                'titleH1' => $titleH1,
+                'titleH2' => $title
             )); 
         }
     }
