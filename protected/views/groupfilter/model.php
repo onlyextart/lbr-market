@@ -51,9 +51,9 @@
                 'htmlOptions' => array('width' => '130px')
             ),
             array(
-                'header' => '',
+                'header' => 'Подгруппа',
                 'name' => 'product_group_id',
-                'filter' => false,
+                'filter' => $groups,
                 'type' => 'raw',
                 'value' =>
                 'CHtml::link('

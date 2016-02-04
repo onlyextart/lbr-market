@@ -422,7 +422,8 @@ class Product extends CActiveRecord {
         
         return array(
             'dataProvider' => $dataProvider,
-            'brandCriteria' => $brandCriteria
+            'brandCriteria' => $brandCriteria,
+            'groups' => $groups
         );
     }
     

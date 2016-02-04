@@ -297,7 +297,10 @@ class GroupfilterController extends Controller
         $products->product_group_id = $filter->group_id;
         
         $result = $products->searchGroupfilter();
+        
         $brandFilter = $this->getAllBrands($result['brandCriteria']);
+        $groupsFilter = $this->getAllGroups($result['groups']);
+        
         $dataProvider = $result['dataProvider'];
         $dataProvider->sort = array(
             'defaultOrder' => 'count desc, name'
@@ -314,6 +317,7 @@ class GroupfilterController extends Controller
             $this->render('model', array(
                 'products' => $products,
                 'brand' => $brandFilter,
+                'groups' => $groupsFilter,
                 'dataProvider' => $dataProvider,
                 'titleH1' => $titleH1,
                 'titleH2' => $title
@@ -322,6 +326,7 @@ class GroupfilterController extends Controller
             $this->renderPartial('model', array(
                 'products' => $products,
                 'brand' => $brandFilter,
+                'groups' => $groupsFilter,
                 'dataProvider' => $dataProvider,
                 'titleH1' => $titleH1,
                 'titleH2' => $title
@@ -348,6 +353,44 @@ class GroupfilterController extends Controller
 
         foreach($makers as $maker) {
             $data[$maker->id] = $maker->name;
+        }
+
+        return $data;
+    }
+    
+    private function getAllGroups($allGroups)
+    {
+        $data = $temp = array();
+        echo 'where groups in $allGroups';
+        exit;
+        $groups = ProductGroup::model()->findAll($crit);
+
+        foreach($groups as $group) {
+            $ancestors = $group->ancestors()->findAll();
+            if(!empty($ancestors)) {
+                $count = 1;
+                $groupParent = $group->parent()->find();
+                if($groupParent->level == 1){
+                    $data[$group->name][$group->id] = $group->name;
+                } else {
+                    foreach($ancestors as $ancestor) {
+                        $parent = $ancestor->parent()->find();
+                        if(!empty($parent)) {
+                            if(count($ancestors) == 2) {
+                                $data[$ancestor->name][$group->id] = $group->name;
+                            } else if(count($ancestors) == 3 && $parent->level > 1) {
+                                $data[$parent->name][$ancestor->id] = $ancestor->name;
+                            } else if(count($ancestors) == 4 && $parent->level > 2) {
+                                $parent2 = $parent->parent()->find();
+                                if($parent2->level > 1){
+                                    $data[$parent2->name][$parent->id] = $parent->name;
+                                }
+                            }
+                        }
+                        $count++;
+                    }
+                }
+            }
         }
 
         return $data;
