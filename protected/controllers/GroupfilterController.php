@@ -280,7 +280,7 @@ class GroupfilterController extends Controller
         $brand = EquipmentMaker::model()->findByPk($brandId);
         $breadcrumbs[$brand->name] = $filter->path.$category->path.$brand->path.'/';
         
-        $modelline = Modelline::model()->findByPk($modellineId);
+        $modelline = ModelLine::model()->findByPk($modellineId);
         $title = $modelline->name;
         
         $breadcrumbs[] = $title;
