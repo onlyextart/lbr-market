@@ -280,8 +280,7 @@ class Product extends CActiveRecord {
         $brandCriteria->join ='JOIN product ON product.id = t.product_id';
         $brandCriteria->condition = 't.model_line_id=:model_line_id';
         $brandCriteria->params = array(':model_line_id'=>$this->modelLineId);
-        // !!!
-        $brandCriteria->addCondition('original = 1');
+        $brandCriteria->addCondition('original = 1 and date_sale_off is null');
         
         if(!empty($groups)) {
             $brandCriteria->addInCondition('product.product_group_id', $groups);
@@ -326,7 +325,7 @@ class Product extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->distinct = true;
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
-        $criteria->condition = 't.published = 1';
+        $criteria->condition = 't.published = 1 and date_sale_off is null';
         
         if(!empty($this->modelLineId)) {
             $modelline = Modelline::model()->findByPk($this->modelLineId);
