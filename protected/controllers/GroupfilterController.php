@@ -15,6 +15,8 @@ class GroupfilterController extends Controller
         $breadcrumbs[] = $title;
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
+        
         $this->render('index', array(
             'response' => $response,
             'title' => $title
@@ -66,6 +68,8 @@ class GroupfilterController extends Controller
             $response .= '</tr>';
         }
         $response .= '</tbody></table>';
+        
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
         
         $this->render('category', array(
             'response' => $response,
@@ -163,6 +167,8 @@ class GroupfilterController extends Controller
             $response .= '</tbody></table>';   
         }
         
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
+        
         $this->render('modelline', array(
             'response' => $response,
             'title' => $title
@@ -252,6 +258,8 @@ class GroupfilterController extends Controller
             $response .= '</tbody></table>';   
         }
         
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
+        
         $this->render('brand', array(
             'response' => $response,
             'title' => $title
@@ -297,6 +305,8 @@ class GroupfilterController extends Controller
             'pageVar' => 'page',
             'pageSize' => 10,
         );
+        
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
         
         $this->render('model', array(
             'products' => $products,
