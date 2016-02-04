@@ -12,7 +12,6 @@
     <div class="grid-overlay" style="display: none"><div><span>Выполняется загрузка...</span><span class="loader"></span></div></div>
     <div class="spareparts-wrapper">
     <?php
-    $result = '';
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'model-grid-products',
         'filter' => $products,
@@ -79,6 +78,7 @@
                 'htmlOptions' => array('width' => '150px', 'align' => 'center'),
                 'type' => 'raw',
                 'value' => function($data) {
+                    $result = '';
                     if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {
                         if (Yii::app()->params['showPrices'] || (empty(Yii::app()->user->isShop) && Yii::app()->params['showPricesForAdmin'])) {
                             $price = Price::model()->getPrice($data->id);
