@@ -324,7 +324,14 @@ class Product extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->distinct = true;
         $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
-        $criteria->condition = 't.published = 1 and date_sale_off is null';
+        //$criteria->condition = 't.published = 1 and date_sale_off is null';
+        $criteria->condition = 't.published = 1';
+        
+        $brandCriteria = new CDbCriteria;
+        $brandCriteria->distinct = true;
+        $brandCriteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
+        //$criteria->condition = 't.published = 1 and date_sale_off is null';
+        $brandCriteria->condition = 't.published = 1';
         
         if(!empty($this->modelLineId)) {
             $modelline = Modelline::model()->findByPk($this->modelLineId);
@@ -334,29 +341,17 @@ class Product extends CActiveRecord {
                     $models[] = $child->id;
                 }
                 
-                if(!empty($models)) $criteria->addInCondition('product_in_model_line.model_line_id', $models);
+                if(!empty($models)) {
+                    $criteria->addInCondition('product_in_model_line.model_line_id', $models);
+                    $brandCriteria->addInCondition('product_in_model_line.model_line_id', $models);
+                }
             }
         }
         
         $criteria->addCondition('original = 1');
-        
-        if(!empty($this->count)) { // for model-view filter
-            if($this->count == 1) { 
-                $criteria->addCondition('count > 0');
-            } else $criteria->addCondition('count = 0 or count is null');
-        }
-        
-        if(!empty($this->name)) {
-            if(Yii::app()->search->prepareSqlite()){ 
-                $match = addcslashes($this->name, '%_');
-                $criteria->addCondition('lower(name) like lower(:name)');
-                $criteria->params[':name'] = "%$match%";
-            }
-        }
-        
-        if(!empty($this->product_maker_id)) {
-            $criteria->addCondition('product_maker_id = '.$this->product_maker_id);
-        }
+        $criteria->addCondition('published = 1');
+        $brandCriteria->addCondition('original = 1');
+        $brandCriteria->addCondition('published = 1');
         
         if(!empty($this->product_group_id)) {
             $groups[] = $this->product_group_id;
@@ -375,31 +370,29 @@ class Product extends CActiveRecord {
                 }
             }
 
-            if(!empty($groups)) $criteria->addInCondition('product_group_id', $groups);
+            if(!empty($groups)) {
+                $criteria->addInCondition('product_group_id', $groups);
+                $brandCriteria->addInCondition('product_group_id', $groups);
+            }
         }
         
-        $criteria->addCondition('published = 1');
-        
-        // brand filter        
-        $brandCriteria = new CDbCriteria;
-        $brandCriteria->distinct = true;
-        $brandCriteria->select = 'product.product_maker_id as id';
-        $brandCriteria->join ='JOIN product ON product.id = t.product_id';
-        $brandCriteria->condition = 't.model_line_id=:model_line_id';
-        $brandCriteria->params = array(':model_line_id'=>$this->modelLineId);
-        $brandCriteria->addCondition('original = 1 and date_sale_off is null');
-        
-        //////////////////////////////////////
-//        $criteria = new CDbCriteria;
-//        $criteria->join ='JOIN product_in_model_line ON product_in_model_line.product_id = t.id';
-//        $criteria->condition = 'product_in_model_line.model_line_id=:model_id and t.published = 1';
-//        $criteria->params = array(":model_id" => $this->modelLineId);
-        //////////////////////////////////////
-        
-        if(!empty($groups)) {
-            $brandCriteria->addInCondition('product.product_group_id', $groups);
+        if(!empty($this->count)) { // for model-view filter
+            if($this->count == 1) { 
+                $criteria->addCondition('count > 0');
+            } else $criteria->addCondition('count = 0 or count is null');
         }
-        // end brand filter
+        
+        if(!empty($this->name)) {
+            if(Yii::app()->search->prepareSqlite()){ 
+                $match = addcslashes($this->name, '%_');
+                $criteria->addCondition('lower(name) like lower(:name)');
+                $criteria->params[':name'] = "%$match%";
+            }
+        }
+        
+        if(!empty($this->product_maker_id)) {
+            $criteria->addCondition('product_maker_id = '.$this->product_maker_id);
+        }
         
         $dataProvider = new CActiveDataProvider($this, array(
             'criteria' => $criteria,

@@ -297,6 +297,7 @@ class GroupfilterController extends Controller
         $products->product_group_id = $filter->group_id;
         
         $result = $products->searchGroupfilter();
+        $brandFilter = $this->getAllBrands($result['brandCriteria']);
         $dataProvider = $result['dataProvider'];
         $dataProvider->sort = array(
             'defaultOrder' => 'count desc, name'
@@ -312,6 +313,7 @@ class GroupfilterController extends Controller
         if (!isset($_GET['ajax'])) {
             $this->render('model', array(
                 'products' => $products,
+                'brand' => $brandFilter,
                 'dataProvider' => $dataProvider,
                 'titleH1' => $titleH1,
                 'titleH2' => $title
@@ -319,11 +321,36 @@ class GroupfilterController extends Controller
         } else {
             $this->renderPartial('model', array(
                 'products' => $products,
+                'brand' => $brandFilter,
                 'dataProvider' => $dataProvider,
                 'titleH1' => $titleH1,
                 'titleH2' => $title
             )); 
         }
+    }
+    
+    private function getAllBrands($criteria)
+    {
+        $data = $temp = array();
+        
+        $products = Product::model()->findAll($criteria);
+        foreach($products as $product){
+            $temp[] = $product->product_maker_id;
+        }
+        
+        $crit = new CDbCriteria();
+        $crit->distinct = true;
+        $crit->select = '*';
+        $crit->condition = 'external_id IS NOT NULL';
+        $crit->order = 'name';
+        $crit->addInCondition('id', $temp);
+        $makers = ProductMaker::model()->findAll($crit);
+
+        foreach($makers as $maker) {
+            $data[$maker->id] = $maker->name;
+        }
+
+        return $data;
     }
     
     public function getCategories($filter)

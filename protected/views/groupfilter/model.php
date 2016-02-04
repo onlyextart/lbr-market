@@ -64,9 +64,9 @@
                 'htmlOptions' => array('width' => '100px')
             ),
             array(
-                'header' => '',
+                'header' => 'Производитель',
                 'name' => 'product_maker_id',
-                'filter' => false,
+                'filter' => $brand,
                 'type' => 'raw',
                 'value' => '(!empty($data->product_maker_id)) ? ProductMaker::model()->findByPk($data->product_maker_id)->name : ""',
                 //'htmlOptions' => array('width'=>'15%', 'padding-right'=>'5px'),
