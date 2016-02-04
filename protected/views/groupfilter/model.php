@@ -12,6 +12,7 @@
     <div class="grid-overlay" style="display: none"><div><span>Выполняется загрузка...</span><span class="loader"></span></div></div>
     <div class="spareparts-wrapper">
     <?php
+    $result = '';
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'model-grid-products',
         'filter' => $products,
@@ -98,13 +99,13 @@
                             }
                         }
                         
-                        $result = '<div class="cell">' .
-                                    '<a href="/site/login/" class="price_link">' . Yii::app()->params['textNoPrice'] . '</a>'.$available.
-                                    '</div>'
-                        ;
                         if (!Yii::app()->user->isGuest || ($data->liquidity == 'D' && $data->count > 0)) {
                             $result = '<div class="cell">' .
                                     '<span>' . $price . '</span>'.$available.
+                                    '</div>';
+                        } else {
+                            $result = '<div class="cell">' .
+                                    '<a href="/site/login/" class="price_link">' . Yii::app()->params['textNoPrice'] . '</a>'.$available.
                                     '</div>';
                         }
                     } else {
