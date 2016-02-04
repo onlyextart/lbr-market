@@ -92,7 +92,7 @@ return array(
                 'search/show/input/<input:[\w_\/-\d\s]+>'=>'search/show',
                 'seasonalsale/index/id/<id:\d+>' => 'seasonalsale/index',
                 
-                'groupfilter/modelline/categoryId/<categoryId:\d+>/groupId/<groupId:\d+>/brandId/<brandId:\d+>/modellineId/<modellineId:\d+>' => 'groupfilter/modelline',
+                //'groupfilter/modelline/categoryId/<categoryId:\d+>/groupId/<groupId:\d+>/brandId/<brandId:\d+>/modellineId/<modellineId:\d+>' => 'groupfilter/modelline',
                 
                 //'equipmentmaker/index/id/<id:\d+>' => 'equipmentmaker/index',
                 //'productmaker/index/id/<id:\d+>' => 'productmaker/index',
