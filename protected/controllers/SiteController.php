@@ -299,17 +299,17 @@ class SiteController extends Controller {
                 $model_user[0]->status = User::USER_NOT_CONFIRMED;
                 if ($model_user[0]->save()) {
                     //отправка письма
-                    $address = 'webmaster@lbr.ru';
-                    $name = 'Интернет-магазин ЛБР АгроМаркет';
-
-                    $mail = new YiiMailer('reg_admin', array(
-                        'login' => $model_user[0]->login,
-                        'email' => $model_user[0]->email));
-
-                    $mail->setFrom($address, $name);
-                    $mail->setSubject('Регистрация нового пользователя');
-                    $mail->setTo(Yii::app()->params['admin_email']);
-                    $mail->send();
+//                    $address = 'webmaster@lbr.ru';
+//                    $name = 'Интернет-магазин ЛБР АгроМаркет';
+//
+//                    $mail = new YiiMailer('reg_admin', array(
+//                        'login' => $model_user[0]->login,
+//                        'email' => $model_user[0]->email));
+//
+//                    $mail->setFrom($address, $name);
+//                    $mail->setSubject('Регистрация нового пользователя');
+//                    $mail->setTo(Yii::app()->params['admin_email']);
+//                    $mail->send();
                     Yii::app()->user->setFlash('message', 'Спасибо за регистрацию! Ваша учетная запись будет доступна после ее подтверждения модератором');
                 } else {
                     Yii::app()->user->setFlash('error', 'Ошибка активации! <br>Обратитесь к администратору.');
