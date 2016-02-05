@@ -268,6 +268,7 @@ class GroupfilterController extends Controller
     // show all products in modelline (in all models together)
     public function actionModelline($categoryId, $groupId, $brandId, $modellineId)
     {
+        set_time_limit(0);
         // Breadcrumbs
         $filter = ProductGroupFilter::model()->findByPk($groupId);
         $breadcrumbs[$filter->name] = $filter->path.'/';
@@ -297,9 +298,10 @@ class GroupfilterController extends Controller
         $products->product_group_id = $filter->group_id;
         
         $result = $products->searchGroupfilter();
-        
-        $brandFilter = $this->getAllBrands($result['brandCriteria']);
-        $groupsFilter = $this->getAllGroups($result['groups']);
+        $result2 = $this->getAllBrands($result['brandCriteria']);
+        $brandFilter = $result2['makers'];
+        $groupsFilter = $result2['groups'];
+        //$groupsFilter = $this->getAllGroups($result['groups']);
         
         $dataProvider = $result['dataProvider'];
         $dataProvider->sort = array(
@@ -336,11 +338,12 @@ class GroupfilterController extends Controller
     
     private function getAllBrands($criteria)
     {
-        $data = $temp = array();
+        $data = $dataGroups = $temp = $tempGroups = array();
         
         $products = Product::model()->findAll($criteria);
         foreach($products as $product){
             $temp[] = $product->product_maker_id;
+            $tempGroups[] = $product->product_group_id;
         }
         
         $crit = new CDbCriteria();
@@ -354,8 +357,23 @@ class GroupfilterController extends Controller
         foreach($makers as $maker) {
             $data[$maker->id] = $maker->name;
         }
+        
+        $criteria = new CDbCriteria();
+        $criteria->distinct = true;
+        $criteria->select = '*';
+        $criteria->condition = 'external_id IS NOT NULL';
+        $criteria->order = 'name';
+        $criteria->addInCondition('id', $tempGroups);
+        $groups = ProductGroup::model()->findAll($criteria);
 
-        return $data;
+        foreach($groups as $group) {
+            $dataGroups[$group->id] = $group->name;
+        }
+
+        return array(
+            'makers' => $data,
+            'groups' => $dataGroups
+        );
     }
     
     private function getAllGroups($allGroups)
@@ -365,35 +383,45 @@ class GroupfilterController extends Controller
         //exit;
         $criteria = new CDbCriteria();
         $criteria->addInCondition('id', $allGroups);
+        $criteria->order = 'name';
         $groups = ProductGroup::model()->findAll($criteria);
-
+        
         foreach($groups as $group) {
-            $ancestors = $group->ancestors()->findAll();
-            if(!empty($ancestors)) {
-                $count = 1;
-                $groupParent = $group->parent()->find();
-                if($groupParent->level == 1){
-                    $data[$group->name][$group->id] = $group->name;
-                } else {
-                    foreach($ancestors as $ancestor) {
-                        $parent = $ancestor->parent()->find();
-                        if(!empty($parent)) {
-                            if(count($ancestors) == 2) {
-                                $data[$ancestor->name][$group->id] = $group->name;
-                            } else if(count($ancestors) == 3 && $parent->level > 1) {
-                                $data[$parent->name][$ancestor->id] = $ancestor->name;
-                            } else if(count($ancestors) == 4 && $parent->level > 2) {
-                                $parent2 = $parent->parent()->find();
-                                if($parent2->level > 1){
-                                    $data[$parent2->name][$parent->id] = $parent->name;
-                                }
-                            }
-                        }
-                        $count++;
-                    }
-                }
+            if($group->isLeaf()){
+                $data[$group->id] = $group->name;
             }
+            //echo $group->id.'; '.$group->name.'; '.$group->level.'<br>';
         }
+        
+        //exit;
+        
+//        foreach($groups as $group) {
+//            $ancestors = $group->ancestors()->findAll();
+//            if(!empty($ancestors)) {
+//                $count = 1;
+//                $groupParent = $group->parent()->find();
+//                if($groupParent->level == 1) {
+//                    $data[$group->name][$group->id] = $group->name.' - '.$group->id;
+//                } else {
+//                    foreach($ancestors as $ancestor) {
+//                        $parent = $ancestor->parent()->find();
+//                        if(!empty($parent)) {
+//                            if(count($ancestors) == 2) {
+//                                $data[$ancestor->name][$group->id] = $group->name.' - '.$group->id;
+//                            } else if(count($ancestors) == 3 && $parent->level > 1) {
+//                                $data[$parent->name][$ancestor->id] = $ancestor->name.' - '.$ancestor->id;
+//                            } else if(count($ancestors) == 4 && $parent->level > 2) {
+//                                $parent2 = $parent->parent()->find();
+//                                if($parent2->level > 1){
+//                                    $data[$parent2->name][$parent->id] = $parent->name.' - '.$parent->id;
+//                                }
+//                            }
+//                        }
+//                        $count++;
+//                    }
+//                }
+//            }
+//        }
 
         return $data;
     }

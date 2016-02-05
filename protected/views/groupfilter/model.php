@@ -47,12 +47,13 @@
             array(
                 'name' => 'name',
                 'type' => 'raw',
-                'value' => 'CHtml::link($data->name, array("$data->path"))',
+                //'value' => 'CHtml::link($data->name, array("$data->path"))',
+                'value' => 'CHtml::link(ProductGroup::model()->findByPk($data->product_group_id)->name, array("$data->path"))',
                 'htmlOptions' => array('width' => '130px')
             ),
             array(
                 'header' => 'Подгруппа',
-                'name' => 'product_group_id',
+                'name' => 'selected_product_group_id_in_group_filter',
                 'filter' => $groups,
                 'type' => 'raw',
                 'value' =>

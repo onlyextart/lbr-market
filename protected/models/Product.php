@@ -44,7 +44,8 @@ class Product extends CActiveRecord {
             $price,
             $filial,
             $modelLineId,
-            $makersID
+            $makersID,
+            $selected_product_group_id_in_group_filter
     ;
 
     CONST IN_STOCK = 'есть в наличии';
@@ -72,12 +73,12 @@ class Product extends CActiveRecord {
             array('name', 'required'),
             array('min_quantity', 'numerical', 'integerOnly' => true, 'message' => 'Поле должно содержать целое число'),
             array('liquidity', 'match', 'pattern' => '/^[ABCD ]$/', 'message' => 'Значением поля "Ликвидность" может быть только латинская буква A, B, C или D'),
-            array('external_id, count, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published, problem, units, multiplicity, material, size, date_sale_off, modelLineId, original', 'safe'),
+            array('external_id, count, name, weight, update_time, product_group_id, catalog_number, product_maker_id, liquidity, image, additional_info, published, problem, units, multiplicity, material, size, date_sale_off, modelLineId, original, selected_product_group_id_in_group_filter', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, update_time, external_id, name, product_group_id, catalog_number, product_maker_id, count, liquidity, image, min_quantity, additional_info, published, productGroup_name, productMaker_name, problem, units, multiplicity, material, size, date_sale_off, original', 'safe', 'on' => 'search'),
             array('name, product_group_id, count, model_line_id', 'safe', 'on'=>'searchEvent'),
-            array('name, product_group_id, count, model_line_id', 'safe', 'on'=>'searchGroupfilter'),
+            array('name, product_group_id, count, model_line_id, selected_product_group_id_in_group_filter', 'safe', 'on'=>'searchGroupfilter'),
             array('name, product_maker_id, count', 'safe', 'on'=>'searchEventMaker'),
             array('name, product_maker_id, product_group_id', 'safe', 'on'=>'searchEventSale'),
             array('image', 'EImageValidator', 'types' => 'gif, jpg, png', 'allowEmpty' => 'true'),
@@ -353,6 +354,11 @@ class Product extends CActiveRecord {
         $brandCriteria->addCondition('original = 1');
         $brandCriteria->addCondition('published = 1');
         
+        if(!empty($this->selected_product_group_id_in_group_filter)) {
+            $criteria->addCondition('product_group_id = '.$this->selected_product_group_id_in_group_filter);
+            //$brandCriteria->addCondition('product_group_id = '.$this->selected_product_group_id_in_group_filter);
+        }
+        
         if(!empty($this->product_group_id)) {
             $groups[] = $this->product_group_id;
             $model = ProductGroupFilter::model()->find('group_id = :id', array(':id' => $this->product_group_id));
@@ -422,8 +428,7 @@ class Product extends CActiveRecord {
         
         return array(
             'dataProvider' => $dataProvider,
-            'brandCriteria' => $brandCriteria,
-            'groups' => $groups
+            'brandCriteria' => $brandCriteria
         );
     }
     
