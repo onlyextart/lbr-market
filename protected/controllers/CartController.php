@@ -481,7 +481,7 @@ class CartController extends Controller
             ;
 
             if (!empty($order)) {
-                $curOrder = Order::model()->findByPk($order[order]);
+                $curOrder = Order::model()->findByPk($order['order']);
                 if (!empty($curOrder)) {
                     $countProducts = OrderProduct::model()->count('order_id=:order_id', array(':order_id' => $curOrder->id));
                     if ($countProducts == 1) {
