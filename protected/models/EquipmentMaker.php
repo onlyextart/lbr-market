@@ -170,4 +170,13 @@ class EquipmentMaker extends CActiveRecord
             }
             return $makers;
         }
+        
+         public static function getMakerName($id)
+        {
+            $sql="SELECT name FROM equipment_maker WHERE id=".$id.";";
+            $connection=Yii::app()->db;
+            $command=$connection->createCommand($sql);
+            $name=$command->queryScalar();
+            return $name;
+        }
 }

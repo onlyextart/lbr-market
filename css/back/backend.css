@@ -867,42 +867,77 @@ body .alertify-log-error{
     min-height: 250px;
 }
 /*----- end Changes ----------------------------*/
-/*----- start Bestoffer --------------------------*/
-.grid-wrapper #bestofferMakerListGrid input[type="text"]{
+/*----- start Bestoffer,Category --------------------------*/
+.grid-wrapper #bestofferMakerListGrid input[type="text"],.grid-wrapper #categoryMakerListGrid input[type="text"]{
     padding: 0px 4px;
 }
-.grid-wrapper #bestofferMakerListGrid table td:nth-last-child(1){
+.grid-wrapper #bestofferMakerListGrid table td:nth-last-child(1),.grid-wrapper #categoryMakerListGrid table td:nth-last-child(1){
     text-align: right;
     padding-right: 30px;
 }
-#bestoffer-makers-table{
+#bestoffer-makers-table, #category-makers-table{
     margin-bottom: 30px;
     border: 1px solid silver;
     border-radius: 5px;
     padding:10px 10px 10px 3px;
     min-width: 550px;
 }
-#bestoffer-makers-table .maker{
+#bestoffer-makers-table .maker, #category-makers-table .maker{
     border-bottom: 1px dashed #cc790c;
     width:95%;
     font-family: "Lucida Grande",​verdana,​arial,​helvetica,​sans-serif;
     font-size: 14px;
 }
-#bestoffer-makers-table .no_maker{
+#bestoffer-makers-table .no_maker, #category-makers-table .no_maker{
     font-size: 11px;
     padding-left: 10px;
 }
-.bestoffer_maker_header{
+.bestoffer_maker_header, .category-maker-header{
     margin:10px 0px;
    /* color:#cc790c;*/
     font-family: "Lucida Grande",​verdana,​arial,​helvetica,​sans-serif;
     font-size: 16px;
     font-weight:bold;
 }
-#bestoffer-makers-table .button_del{
+#bestoffer-makers-table .button_del, #category-makers-table .button_del{
     padding: 0px 0px 0px 10px;
     vertical-align: baseline;
     cursor: pointer;
 }
-/*----- end Bestoffer ----------------------------*/
-
+/*----- end Bestoffer,Category ----------------------------*/
+/*----- start Category----------------------------*/
+#category-makers-table .button_edit{
+   padding: 0px 0px 0px 0px;
+   vertical-align: baseline;
+   cursor: pointer; 
+   
+}
+ #category-makers-table .maker{
+    border-bottom: 1px dashed #cc790c;
+    width:auto;
+    font-family: "Lucida Grande",​verdana,​arial,​helvetica,​sans-serif;
+    font-size: 14px;
+}
+.category-maker-header{
+    clear:both;
+}
+.category-maker-top{
+    width: 550px;
+    float:left;
+}
+#category-makers-table{
+    width: 550px;
+}
+.category-maker-modellines{
+    margin-left: 570px;
+    padding:5px;
+    width:410px;
+    background-color:#FAE9D2;
+    border-radius:2px;
+    border-color:#F8F8F8;
+}
+.category-maker-modellines #maker_name span{
+    font-weight:bold;
+    font-size: 12px;
+}
+/*----- end Category----------------------------*/
