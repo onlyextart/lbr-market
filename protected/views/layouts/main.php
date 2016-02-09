@@ -12,6 +12,7 @@
         <meta name=viewport content="width=device-width, initial-scale=1">
         <title><?php echo Yii::app()->params['meta_title']; ?></title>
         <link rel="shortcut icon" type="image/jpg" href="<?php echo Yii::app()->request->baseUrl.'/images/favicon.jpg';?>"/>
+        <link rel="stylesheet" href="https://www.sipnet.ru/bundles/artsoftemain/css/webrtc_client.css" />
         <script>
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
@@ -33,6 +34,13 @@
     </head>
     <body>
         <header>
+            <div class="fw-container__step__form__design-btn__body" style="position:absolute; left:590px; top:-15px;">
+                <label for="design-btn-2" class="fw-container__step__form__design-btn__label js-start_call fw-container__step__form__design-btn__label--2" style="background-color: rgb(237, 140, 14);" data-token="D6VZ5VF7SJ9VGG292UZFGR7887FS9ZG4" data-dtmf="on" data-lang="RU">
+                    <span class="fw-container__step__form__design-btn__label__icon"></span>
+                    <span class="js-text_call">Заказать звонок</span>
+                    <span class="fw-container__step__form__design-btn__label__icon2"></span></label>
+                <div class="fw-container__step__form__design-btn__button js-dtmf_button" style="background-color: #ED8CE "></div>
+            </div>
             <div class="logo">
                 <a href="http://lbr-market.ru/">
                     <img src="/images/logo.png" title="ЛБР-Агромаркет" alt="Логотип ЛБР-Агромаркет"/>
@@ -296,3 +304,15 @@
 })(document, window, "yandex_metrika_callbacks");
 </script>
 <!-- /Yandex.Metrika counter -->
+<!-- BEGIN SIPNET CODE {literal} -->
+<script type="text/javascript">
+    (function(){
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://www.sipnet.ru/bundles/artsoftemain/js/frontend/modules/webrtc_client.min.js";
+        var ss = document.getElementsByTagName("script")[0]; ss.parentNode.insertBefore(s, ss);
+    })();
+</script>
+
+<!-- {/literal} END SIPNET CODE -->
