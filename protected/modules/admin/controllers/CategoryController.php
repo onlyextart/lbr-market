@@ -269,16 +269,27 @@ class CategoryController extends Controller
         $makerId=$_GET['makerId'];
         $categoryId=$_GET['categoryId'];
         if (!empty($categoryId)&&!empty($makerId)){
-            $sql="SELECT id, name FROM model_line WHERE level=2 and maker_id=".$makerId." and category_id=".$categoryId;
+            $sql="SELECT id, name, catalog_top FROM model_line WHERE level=2 and maker_id=".$makerId." and category_id=".$categoryId;
             $command=Yii::app()->db->createCommand($sql);
             $dataReader=$command->query();
             $rows=$dataReader->readAll();
-            $result_array=array();
-            foreach ($rows as $row) {
-                $result_array[$row['id']]=$row['name'];
-            }
-            return json_encode($result_array);
+            echo json_encode($rows);
         }
+    }
+    
+     public function actionSaveModelLines(){
+          if(isset($_POST['modelLinesId_show'])){
+            $criteria=new CDbCriteria();
+            $criteria->addInCondition('id',$_POST['modelLinesId_show']);
+            ModelLine::model()->updateAll(array('catalog_top'=>1),$criteria);
+          }
+          if(isset($_POST['modelLinesId_hide'])){
+             $criteria=new CDbCriteria();
+             $criteria->addInCondition('id',$_POST['modelLinesId_hide']);
+             ModelLine::model()->updateAll(array('catalog_top'=>0),$criteria);
+          }
+         
+
     }
 }
 

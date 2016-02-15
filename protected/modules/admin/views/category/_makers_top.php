@@ -17,12 +17,18 @@
     </table>
 </div>
 <div class="category-maker-modellines">
-    <div id="maker_name"><span>Модельные ряды</span></div>
-    <div class="form">
-        <?php echo CHtml::beginForm(); ?>
-        
-        <?php echo CHtml::endForm(); ?>
-    </div>
+    <div id="maker_name"><span> </span></div>
+    <div id="message">Изменения сохранены</div>
+    <?php echo CHtml::beginForm(); ?>
+        <div class="form">
+            
+        </div>   
+        <div class="buttons">
+            <input type="button" id="save" value="Сохранить">
+            <input type="button" id="close" value="Закрыть">
+        </div>
+    <?php echo CHtml::endForm(); ?>
+    
 </div>
 <div class="category-maker-header">Все производители запчастей</div>
 <div class="grid-wrapper">
@@ -67,14 +73,16 @@
                 }
                 return (!maker_repeat);
             });
-            if (!maker_repeat){
+            if (maker_repeat===false){
                 var table_row_html='<tr><td class=\"maker\">'+$(this).attr('name')+'</td>'
-                +'<td class="button_del"><img src="/images/delete.png" title="Удалить из выбранных" alt="Удалить"></td>'
+                +'<td width="16" class="button_del"><img src="/images/delete.png" title="Удалить из выбранных" alt="Удалить"></td>'
+                +'<td width="16" class="button_edit"><img src="/images/update.png" title="Редактировать модельные ряды" alt="Редактировать"></td>'
                 +'<td><input type="hidden" name="makers[]" value="'+$(this).attr('id')+'"></td></tr>';
                 $("#category-makers-table>tbody:last").append(table_row_html);
             }
         });
         $(document).on('click','.button_edit img',function(){
+            $("#maker_name>span").html("Модельные ряды производителя "+$(this).parent().parent().find("td.maker").text());
             $.ajax({
                 type:'GET',
                 url:'/admin/category/getModelLines',
@@ -83,8 +91,51 @@
                     categoryId:<?php echo $model->id;?>
                 },
                 success:function(result){
-                    $(".category-maker-modellines").css('display','block');
-                    console.log(result);
+                        $(".category-maker-modellines .form").empty();
+                        result_array = JSON.parse(result);
+                        $(".category-maker-modellines").css('display','block');
+                        if (result_array.length==0){
+                             $(".category-maker-modellines .form").append("<span>Нет результатов</span>");
+                        }
+                        else{
+                            var catalog_top;
+                            $.each(result_array,function(index, value){
+                                catalog_top='';
+                                if(value['catalog_top']==='1'){
+                                    catalog_top='checked';
+                                }
+                                $(".category-maker-modellines .form").append("<div class='row'><input type='checkbox' name='modellines[]' "+catalog_top+" id='i"+index+"' value='"+value['id']+"'>"+value['name']+"</div>");
+                            
+                            });
+                       }
+                        
+                }
+            });
+        });
+        $(document).on('click','.category-maker-modellines #close',function(){
+            $(".category-maker-modellines").hide();
+        });
+        $(document).on('click','.category-maker-modellines #save',function(){
+            var modelLines_check=new Array();
+            var modelLines_uncheck=new Array();
+            $(this).parent().parent().find("input[type='checkbox']").each(function(index,element){
+                if ($(element).attr('checked')==='checked'){
+                    modelLines_check.push($(element).val());
+                }
+                else{
+                    modelLines_uncheck.push($(element).val());
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url:'/admin/category/saveModelLines',
+                async: false,
+                data : {
+                    modelLinesId_show: modelLines_check,
+                    modelLinesId_hide: modelLines_uncheck,
+                },
+                success:function(result){
+                    $('#message').fadeIn(1000).delay(500).fadeOut(1000);
                 }
             });
         });

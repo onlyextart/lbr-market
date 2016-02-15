@@ -929,15 +929,58 @@ body .alertify-log-error{
     width: 550px;
 }
 .category-maker-modellines{
+    position:relative;
     margin-left: 570px;
     padding:5px;
-    width:410px;
+    max-width:410px;
     background-color:#FAE9D2;
-    border-radius:2px;
-    border-color:#F8F8F8;
+    border-radius:4px;
+    border: 1px solid #C0C0C0;
+}
+.category-maker-modellines #maker_name{
+    margin-bottom: 10px;
 }
 .category-maker-modellines #maker_name span{
     font-weight:bold;
     font-size: 12px;
+}
+.category-maker-modellines .buttons{
+    text-align: right;
+    margin-top: 10px;
+    height:30px;
+}
+.category-maker-modellines .buttons div{
+    margin-top: 5px;
+}
+.category-maker-modellines .buttons input[type="button"]{
+    border: 1px solid #FDD095;
+    color:black;
+    padding:2px 3px;
+    font-weight:600;
+    font-size:11px;
+    border-radius: 4px;
+    background:#FDD095;
+    cursor: pointer;
+    width:100px;
+    
+}
+.category-maker-modellines .buttons input[type="button"]:hover{
+    border: 1px solid #C0C0C0;
+}
+.category-maker-modellines .form input[type='checkbox']{
+    background-color:#FAE9D2;
+    margin-right: 7px;
+}
+.category-maker-modellines #message{
+    position:absolute; 
+    bottom:0px;
+    left:0px;
+    padding:5px;
+    border-radius: 4px;
+    background: #B3F3B3;
+    z-index: 4;
+    font-weight: bold;
+    font-size: 11px;
+    display:none;
 }
 /*----- end Category----------------------------*/
