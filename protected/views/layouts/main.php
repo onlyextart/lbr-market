@@ -17,7 +17,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?59');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?60');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?6');
 
@@ -34,13 +34,6 @@
     </head>
     <body>
         <header>
-            <div class="fw-container__step__form__design-btn__body" style="position:absolute; left: 590px; top:-15px;">
-                <label for="design-btn-2" data-token="YY5JRWW8Z6Q13JR6J16DYRVYR1WDVG8V" data-dtmf="off" data-lang="ru" data-defautlText="null" data-endText="Завершить" class="fw-container__step__form__design-btn__label js-start_call fw-container__step__form__design-btn__label--2" style='background-color: #0060C4; color: #FFFFFF'>
-                    <span class="fw-container__step__form__design-btn__label__icon"></span>
-                    <span class="js-text_call">Заказать звонок</span>
-                    <span class="fw-container__step__form__design-btn__label__icon2"></span>
-                </label>
-            </div>
             <div class="logo">
                 <a href="http://lbr-market.ru/">
                     <img src="/images/logo.png" title="ЛБР-Агромаркет" alt="Логотип ЛБР-Агромаркет"/>
@@ -73,9 +66,17 @@
                         </a>
                     </li>
                     <div class="phone_main">
-                        <div class="phone_number">8-800-5553219</div>
-                        <div class="phone_text">ПОМОЩЬ В ПОДБОРЕ ЗАПЧАСТЕЙ</div> 
-                        <div class="phone_text">звонок бесплатный</div> 
+                        <div class="phone_text_help">ПОМОЩЬ В ПОДБОРЕ ЗАПЧАСТЕЙ</div>
+                            <div class="phone_number">8-800-5553219</div>
+                            <div class="phone_text">звонок бесплатный</div>
+                        <div class="clearfix"><div>
+                        <div class="fw-container__step__form__design-btn__body call">
+                            <label for="design-btn-2" data-token="YY5JRWW8Z6Q13JR6J16DYRVYR1WDVG8V" data-dtmf="off" data-lang="ru" data-defautlText="null" data-endText="Завершить" class="fw-container__step__form__design-btn__label js-start_call fw-container__step__form__design-btn__label--2" style='background-color: #FFFFFF; color: #F39314'>
+                                <!--<span class="fw-container__step__form__design-btn__label__icon"></span>-->
+                                <span class="js-text_call">ЗАКАЗАТЬ ОБРАТНЫЙ ЗВОНОК</span>
+                                <!--<span class="fw-container__step__form__design-btn__label__icon2"></span>-->
+                            </label>
+                        </div>
                     </div>
                 </ul>
             </div>

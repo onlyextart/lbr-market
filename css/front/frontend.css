@@ -4125,18 +4125,49 @@ div.ui-widget-header{
 /*----- end QuickForm ---------------*/
 .phone_main{
     position:absolute;
-    left:725px;
-    top:20px;
-    text-align: center; 
+    left:700px;
+    top:10px;
+    text-align: left; 
     font: 'Trebuchet MS'; 
     font-size: 25px;
     font-weight: bolder; 
     color: #F39314;
     /*padding: 20px 0 0 0px;*/
 }
-div.phone_text{
-    font-size: 13px;
+.phone_main .call{
+    height:auto;
+    font-size: 10px;
+    display:block;
+    text-align: left;
+    float:left;
+}
+.phone_main .call label{
+    padding-left: 1px;
+    font-size: 11px !important;
     font-weight: normal;
+    letter-spacing: 0.7px;
+    line-height: normal;
+        
+}
+.phone_main .call label>span{
+    width:auto;
+    vertical-align: baseline;
+    border-bottom: solid 1px;
+    border-bottom-style:dashed;
+}
+div.phone_text_help{
+    font-size: 18px;
+    font-weight: normal;
+}
+div.phone_text{
+    font-size: 10px;
+    font-weight: normal;
+    white-space: nowrap;
+    padding-top:14px;
+}
+div.phone_number{
+    float:left;
+    margin-right: 5px;
 }
 
 #myCalculator{
