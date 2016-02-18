@@ -14,7 +14,9 @@
     <h1><?php echo $title ?></h1>
     <?php endif; ?>
     <div class="elements">
-        <?php if(!empty($response)): ?>
+        <?php if(!empty($response_top)): ?>
+        <?php echo $response_top; ?>
+        <?php elseif(!empty($response)): ?>
         <?php echo $response; ?>
         <?php else: ?>
         <span class="empty">Нет товаров.</span>

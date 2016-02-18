@@ -2159,6 +2159,12 @@ hr#hit-line-second{
 .modellines-wrapper .elements table{
     border-spacing: 0;
 }
+.modellines-wrapper .link-all-brands{
+    text-align:left;
+    color:#F39314;
+    text-decoration: underline;
+    cursor: pointer;
+}
 .elements table{
     width: 100%;
     border-collapse: separate;

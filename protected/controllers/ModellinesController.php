@@ -67,7 +67,9 @@ class ModellinesController extends Controller
             }
         }
 
-        $result = $this->setMakerFilter($id, $categoryRoot->name);
+        $result_array = $this->setMakerFilter($id, $categoryRoot->name,true);
+        $result=$result_array['result'];
+        $result_top=$result_array['result_top'];
         $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         //echo '<pre>';
         //var_dump($result); exit;
@@ -93,7 +95,24 @@ class ModellinesController extends Controller
             $response .= '</tbody></table>';
         }
         
-        $this->render('modellines', array('response' => $response, 'title' => $h1Title, 'topText'=>$topText, 'bottomText'=>$bottomText));
+        // table for view only top makers
+        $response_top='';
+        if(!empty($result_top)) {
+            $count = count($result_top);
+        
+            $response_top .= '<table cellspacing="0" cellpadding="4" border="0"><tbody>';
+            for($index = 0; $index < $count; $index++) {
+                $response_top .= '<tr>';
+                $response_top .= '<td valign="top">';
+                $response_top .= $this->setModelline($result_top[$index], $dependency, $categoryRoot);
+                $response_top .= '</td>';
+                $response_top .= '</tr>';
+            }
+            $response_top .= '<tr><td class="link-all-brands">Показать все</td></tr>';
+            $response_top .= '</tbody></table>';
+        }
+        
+        $this->render('modellines', array('response' => $response, 'response_top' => $response_top, 'title' => $h1Title, 'topText'=>$topText, 'bottomText'=>$bottomText));
     }
     
     private function setModelline($modelline, $dependency, $categoryRoot)
@@ -207,7 +226,7 @@ class ModellinesController extends Controller
         return $response;
     }
     
-    private function setMakerFilter($categoryId, $title = null)
+    private function setMakerFilter($categoryId, $title = null, $top=null)
     {
         $maker = Yii::app()->params['currentMaker'];
         $models = $temp = $result = array();
@@ -225,8 +244,16 @@ class ModellinesController extends Controller
                 $criteria->params = array(':maker_id' => $maker, ':category_id' => $categoryId);
             } else if(!empty($maker)) 
                 $criteria->params = array(':maker_id' => $maker);
-            else if(!empty($categoryId))
+            else if(!empty($categoryId)){
                 $criteria->params = array(':category_id' => $categoryId);
+                if(isset($top)){
+                    $top_makers = Yii::app()->db->createCommand()
+                            ->selectDistinct('maker_id')
+                            ->from('category_makers_top')
+                            ->where('category_id = :category_id', array(':category_id' => $categoryId))
+                            ->queryColumn();
+                }
+            }
             
             if(empty($maker)) {
                 $criteriaForBrand = $criteria;
@@ -236,12 +263,18 @@ class ModellinesController extends Controller
                 $allBrands = ModelLine::model()->findAll($criteriaForBrand);
                 foreach($allBrands as $brand) {
                    $name = EquipmentMaker::model()->findByPk($brand->maker_id)->name;
-                   $result[][$name] = Yii::app()->db->createCommand()
+                   $modellines_of_brand= Yii::app()->db->createCommand()
                         ->selectDistinct('id')
                         ->from('model_line')
                         ->where('maker_id = :maker_id and category_id = :category_id and level = 2', array(':maker_id' => $brand->maker_id, ':category_id' => $categoryId))
                         ->queryColumn()
                    ;
+                   $result[][$name] =$modellines_of_brand;
+                   if(isset($top_makers)&&!empty($top_makers)){
+                       if(in_array($brand->maker_id, $top_makers)){
+                            $result_top[][$name]=$modellines_of_brand;
+                       }
+                  }   
                 }
             } else {
                 $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
@@ -256,7 +289,8 @@ class ModellinesController extends Controller
             }
         }
         
-        return $result;
+        return array('result'=>$result,
+                     'result_top'=>$result_top);
     }
     
     /*private function setHitProducts($id)
