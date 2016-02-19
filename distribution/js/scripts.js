@@ -2803,6 +2803,17 @@ $(document).ready(function($){
     
     $("#select_region").chosen({disable_search:true});
     // end seo-text in bottom
+    // call-window
+    $('.call #call_button').click( function(){ 
+            var params="height=250, width=350, toolbar=0, menubar=0, location=0, status=0, resizable=0, scrollbar=0";
+            w = window.open('', '',params);
+            w.document.write('<head><title>Заказать обратный звонок</title><link rel="stylesheet" type="text/css" href="/css/front/call_window.css"></head><body>');
+            content = document.getElementById('window_call');
+            w.document.write(content.innerHTML);  
+            w.document.write('</body></html>');
+	});
+   // end call-window
+    
 });
 
 function addToCart(event){
