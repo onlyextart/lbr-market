@@ -29,6 +29,9 @@ body {overflow: hidden}
     color:#727272;
     font-size: 14px;
 }
+#modal_form_call label .example{
+    font-size: 12px;
+}
 #modal_form_call input[type='text']{
     width:100%;
     height:30px;
