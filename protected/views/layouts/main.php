@@ -12,14 +12,14 @@
         <meta name=viewport content="width=device-width, initial-scale=1">
         <title><?php echo Yii::app()->params['meta_title']; ?></title>
         <link rel="shortcut icon" type="image/jpg" href="<?php echo Yii::app()->request->baseUrl.'/images/favicon.jpg';?>"/>
-         <link rel="stylesheet" href="https://www.sipnet.ru/bundles/artsoftemain/css/webrtc_client.css" />
+         <!--<link rel="stylesheet" href="https://www.sipnet.ru/bundles/artsoftemain/css/webrtc_client.css" />-->
         <script>
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?60');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?61');
             Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?6');
+            Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?7');
 
             if(empty(Yii::app()->request->cookies['lbrfilial'])) {
                 $id = Filial::model()->find('lower(name) like lower("%Москва%")')->id;
@@ -70,11 +70,16 @@
                             <div class="phone_number">8-800-5553219</div>
                             <div class="phone_text">звонок бесплатный</div>
                         <div class="clearfix"><div>
-                        <div class="fw-container__step__form__design-btn__body call">
+<!--                        <div class="fw-container__step__form__design-btn__body call">
                             <label for="design-btn-2" data-token="YY5JRWW8Z6Q13JR6J16DYRVYR1WDVG8V" data-dtmf="off" data-lang="ru" data-defautlText="null" data-endText="Завершить" class="fw-container__step__form__design-btn__label js-start_call fw-container__step__form__design-btn__label--2" style='background-color: #FFFFFF; color: #F39314'>
-                                <!--<span class="fw-container__step__form__design-btn__label__icon"></span>-->
-                                <span class="js-text_call">ЗАКАЗАТЬ ОБРАТНЫЙ ЗВОНОК</span>
-                                <!--<span class="fw-container__step__form__design-btn__label__icon2"></span>-->
+                                <span class="fw-container__step__form__design-btn__label__icon"></span>
+                                <span class="js-text_call" id='call_button'>ЗАКАЗАТЬ ОБРАТНЫЙ ЗВОНОК</span>
+                                <span class="fw-container__step__form__design-btn__label__icon2"></span>
+                            </label>
+                        </div>-->
+                        <div class="call">
+                            <label>
+                                <span id='call_button'>ЗАКАЗАТЬ ОБРАТНЫЙ ЗВОНОК</span>
                             </label>
                         </div>
                     </div>
@@ -220,6 +225,7 @@
             <div><?php echo Yii::app()->params['footerLabel']; ?></div>
         </footer>
         
+        <?php echo $this->renderPartial('/layouts/_dialog_call', array());?>
         
         <!-- OnlineSeller.ru {literal} -->
              <script type="text/javascript">var _oaq = _oaq || [];_oaq.push(['_OPAccount', '716']);(function() {var oa = document.createElement('script'); oa.type = 'text/javascript';oa.charset='UTF-8'; oa.async = true; oa.src = 'http://onlinesaler.ru/assets/templates/os2013/common/js.php?akkid=716'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(oa, s);  })();</script>
@@ -305,12 +311,14 @@
 })(document, window, "yandex_metrika_callbacks");
 </script>
 <!-- /Yandex.Metrika counter -->
-<script type="text/javascript">
-                (function(){
-                    var s = document.createElement("script");
-                    s.type = "text/javascript";
-                    s.async = true;
-                    s.src = "https://www.sipnet.ru/bundles/artsoftemain/js/frontend/modules/webrtc_client.js";
-                    var ss = document.getElementsByTagName("script")[0]; ss.parentNode.insertBefore(s, ss);
-                })();
-</script>
+<!-- Обратный звонок-->
+<!--<script type="text/javascript">-->
+<!--//                (function(){
+//                    var s = document.createElement("script");
+//                    s.type = "text/javascript";
+//                    s.async = true;
+//                    s.src = "https://www.sipnet.ru/bundles/artsoftemain/js/frontend/modules/webrtc_client.js";
+//                    var ss = document.getElementsByTagName("script")[0]; ss.parentNode.insertBefore(s, ss);
+//                })();-->
+
+<!--</script>-->

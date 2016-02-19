@@ -4140,14 +4140,26 @@ div.ui-widget-header{
     display:block;
     text-align: left;
     float:left;
+    cursor:pointer;
 }
 .phone_main .call label{
-    padding-left: 1px;
+    color: #F39314;
+    padding-left: 0px;
     font-size: 11px !important;
     font-weight: normal;
     letter-spacing: 0.7px;
     line-height: normal;
-        
+    cursor: pointer;
+    display: inline-block !important;
+    box-sizing: border-box;
+    transition: color 0.3s;
+    transition: opacity 0.3s;
+    transition: box-shadow 0.3s;
+    transition: top 0.3s;
+}
+.phone_main .call label:hover {
+  height: 80%;
+  opacity: 0.8;
 }
 .phone_main .call label>span{
     width:auto;
@@ -4183,3 +4195,8 @@ div.phone_number{
     padding: 10px;
     padding-top: 0;
 }
+/*----Back call-------*/
+#window_call{
+    display:none;
+}
+/*----end Back call-------*/
