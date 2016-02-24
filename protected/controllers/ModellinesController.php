@@ -108,7 +108,7 @@ class ModellinesController extends Controller
                 $response_top .= '</td>';
                 $response_top .= '</tr>';
             }
-            $response_top .= '<tr><td class="link-all-brands">Показать все</td></tr>';
+            $response_top .= '<tr><td class="link-all-brands">Показать все...</td></tr>';
             $response_top .= '</tbody></table>';
         }
         
