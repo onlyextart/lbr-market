@@ -1,4 +1,5 @@
 <?php
+$selected_makers=(isset($model->id))?$this->getIdMakers($model->id):array();
 $name = 'Существующие категории';
 $submit_text = 'Создать';
 if (!empty($model->id)) {
@@ -47,7 +48,7 @@ $errorMsg = Yii::app()->user->getFlash('error');
             
             $form = $this->beginWidget('CActiveForm', array(
                 'id'=>'product-form',
-                'action'=>$action,
+                //'action'=>$action,
                 'htmlOptions'=>array('enctype'=>'multipart/form-data'),
                 'enableClientValidation' => true,        
                 'clientOptions'=>array(
@@ -64,10 +65,11 @@ $errorMsg = Yii::app()->user->getFlash('error');
                     }'
                 ),
             ));
-
+            
             $tabs=array(
                 'Общая информация о категории'=>$this->renderPartial('form', array('model'=>$model, 'form'=>$form), true),
                 'Производители в категории' => $this->renderPartial('_seo', array('model'=>$model, 'form'=>$form, 'data'=>$equipmentMaker), true),
+                'Топ-производители в категории' => $this->renderPartial('_makers_top', array('model'=>$model, 'form'=>$form, 'data'=>$equipmentMakerTop,'selected_makers'=>$selected_makers), true),
             );
 
             $this->beginWidget('ext.yiiext.sidebartabs.CJuiTabs', array('tabs'=>$tabs));

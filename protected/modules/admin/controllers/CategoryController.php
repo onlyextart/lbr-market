@@ -40,8 +40,10 @@ class CategoryController extends Controller
         $this->sidebarContent = $this->renderPartial('_sidebar', array(
                 'model'=>$model, 'groups'=>$groups, 'rootId'=>$rootId
         ), true);
-        
-        $this->render('edit', array('model'=>$model, 'form' => $form), false, true);
+        $this->render('edit', array('model'=>$model, 
+                                    'form' => $form,
+                                    'equipmentMaker'=>'',
+                                    'equipmentMakerTop'=>''), false, true);
     }
     
     public function actionEdit($id)
@@ -51,6 +53,9 @@ class CategoryController extends Controller
         $model = Category::model()->findByPk($id);
         if (!$model)
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
+        //selected makers for view in top
+        $selected_makers=$this->getIdMakers($id);
+        
         if(!empty($_POST['Category'])) {
             $editFieldsMessage=Changes::getEditMessage($model,$_POST['Category'],$fieldsShortInfo);
             if (!empty($editFieldsMessage)){
@@ -59,7 +64,37 @@ class CategoryController extends Controller
             }
             $model->attributes = $_POST['Category'];
             if($model->validate()) {
-                $model->saveNode();
+                
+                $success=true;
+                $connection=Yii::app()->db; 
+                $transaction=$connection->beginTransaction();
+                if($_POST['makers']!=$selected_makers){
+                    if(!empty($selected_makers)){
+                            $sql_delete="DELETE FROM category_makers_top WHERE category_id=".$id.";";
+                            $rowCount=$connection->createCommand($sql_delete)->execute();
+                            if ($rowCount==0){
+                                $success=false;
+                            }
+                    }
+                    if(!empty($_POST['makers'])){
+                            foreach($_POST['makers'] as $maker_id){
+                                $sql_insert="INSERT INTO category_makers_top(category_id,maker_id) VALUES('".$id."','".$maker_id."')";
+                                $rowCount=$connection->createCommand($sql_insert)->execute();
+                                if ($rowCount==0){
+                                    $success=false;
+                                }
+                           }
+                    }
+                    if(empty($message)){
+                        $message.= 'Редактирование спецпредложения "'.$model->name.'", ';
+                    }
+                    else{
+                         $message.="; ";
+                    }
+                    $message.="изменен список топ-производителей";
+                }
+                
+                if(!$model->saveNode()) $success=false;
                 if($model->level != 1) {
                     $path = '';
                     $ancestors = $model->ancestors()->findAll(); //предки
@@ -67,11 +102,14 @@ class CategoryController extends Controller
                         if($ancestor->level != 1) $path .= '/'.trim(Translite::rusencode($ancestor->name, '-'));
                     }
                     $model->path = $path.'/'.trim(Translite::rusencode($model->name, '-'));
-                    $model->saveNode();
+                    if(!$model->saveNode()) $success=false;
                     $this->updateChildPath($model);
                 }
-                if(!empty($message)) Changes::saveChange($message);
-                Yii::app()->user->setFlash('message', 'Категория сохранена.');
+                if ($success){
+                    $transaction->commit();
+                    if(!empty($message)) Changes::saveChange($message);
+                    Yii::app()->user->setFlash('message', 'Категория сохранена.');
+                }
             }
         }
         
@@ -119,7 +157,27 @@ class CategoryController extends Controller
             )
         );
         
-        $this->render('edit', array('model'=>$model, 'equipmentMaker'=>$equipmentMaker), false, true);
+        $criteriaTop = new CDbCriteria();
+        $criteriaTop->with = array('maker');
+        $criteriaTop->select='maker.name';
+        $criteriaTop->distinct ='true';
+        $criteriaTop->condition = 'category_id=:id';
+        $criteriaTop->params = array(':id'=>$id);
+        $criteriaTop->group='maker.name';
+        $criteriaTop->order='maker.name';
+
+        $equipmentMakerTop = new CActiveDataProvider('ModelLine', 
+            array(
+                'criteria'=>$criteriaTop,
+                'pagination'=>array(
+                    'pageSize'=>'15'
+                ),
+            )
+        );
+        
+        $this->render('edit', array('model'=>$model, 
+                    'equipmentMaker'=>$equipmentMaker, 
+                    'equipmentMakerTop'=>$equipmentMakerTop), false, true);
     }
     
     public function updateChildPath($model)
@@ -197,6 +255,41 @@ class CategoryController extends Controller
         Changes::saveChange($message);
         Yii::app()->user->setFlash('message', 'Категория удалена.');
         $this->redirect(array('index'));        
+    }
+    
+    public function getIdMakers($category_id){
+        $sql="SELECT maker_id FROM category_makers_top WHERE category_id=".$category_id.";";
+        $connection=Yii::app()->db;
+        $command=$connection->createCommand($sql);
+        $makers=$command->queryColumn();
+        return $makers;
+    }
+    
+    public function actionGetModelLines(){
+        $makerId=$_GET['makerId'];
+        $categoryId=$_GET['categoryId'];
+        if (!empty($categoryId)&&!empty($makerId)){
+            $sql="SELECT id, name, catalog_top FROM model_line WHERE level=2 and maker_id=".$makerId." and category_id=".$categoryId;
+            $command=Yii::app()->db->createCommand($sql);
+            $dataReader=$command->query();
+            $rows=$dataReader->readAll();
+            echo json_encode($rows);
+        }
+    }
+    
+     public function actionSaveModelLines(){
+          if(isset($_POST['modelLinesId_show'])){
+            $criteria=new CDbCriteria();
+            $criteria->addInCondition('id',$_POST['modelLinesId_show']);
+            ModelLine::model()->updateAll(array('catalog_top'=>1),$criteria);
+          }
+          if(isset($_POST['modelLinesId_hide'])){
+             $criteria=new CDbCriteria();
+             $criteria->addInCondition('id',$_POST['modelLinesId_hide']);
+             ModelLine::model()->updateAll(array('catalog_top'=>0),$criteria);
+          }
+         
+
     }
 }
 
