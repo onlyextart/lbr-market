@@ -201,7 +201,7 @@ class SubcategoryController extends Controller
             if(!empty($equipmentMaker->h1)) 
                 $title = $equipmentMaker->h1;
             
-            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $name;
+            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
             if(!empty($equipmentMaker->meta_title)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_title;
             if(!empty($equipmentMaker->meta_description)) Yii::app()->params['meta_description'] = $equipmentMaker->meta_description;
             if(Yii::app()->params['showSeoTexts']) {
@@ -212,7 +212,12 @@ class SubcategoryController extends Controller
         
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         
-        $this->render('subcategory', array('response' => $response, 'title'=>$title, 'topText'=>$topText, 'bottomText'=>$bottomText));
+        $this->render('subcategory', array(
+            'response' => $response, 
+            'title'=>$title, 
+            'topText'=>$topText, 
+            'bottomText'=>$bottomText
+        ));
     }
     
     /*
