@@ -1841,7 +1841,7 @@ input#full-search
     margin-left: 5px;
     margin-top: 8px;
     margin-bottom: 13px;
-    text-align: center;
+    font-size: 16px !important;
 }
 hr#hit-line-first{
     margin:5px auto;

@@ -12,7 +12,7 @@ class ModelController extends Controller
             throw new CHttpException(404, 'Модель не найдена');
         
         $title = $model->name;
-        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
+        
         //$url = ModelLine::model()->getUrl($model->id);
 
         // random products for hit products            
@@ -51,15 +51,15 @@ class ModelController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end breadcrumbs
         
-        $titleH1 = 'Запасные части для '.$title;
+        $titleH1 = 'Запасные части для '.$brand->name.' '.$title;
         if(!empty($model->h1)) $titleH1 = $model->h1;
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $titleH1;
         
         $params = array(
             'products' => $products,
             'dataProvider' => $dataProvider,
             'title' => $title,
             'titleH1' => $titleH1,
-            'titleH2' => $brand->name.' '.$title,
             'filter' => $filter,
             'brand' => $brandFilter,
             'hitProducts' => $hitProducts,
