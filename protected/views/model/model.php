@@ -7,6 +7,7 @@
   )); 
 ?>
 <div class="model-wrapper">
+    <?php if(!empty($logo)):?><a href="<?php echo $brandPath ?>"><img alt="Логотип производителя" class="model-logo" src="<?php echo $logo ?>" /></a><?php endif; ?>
     <h1><?php echo $titleH1 ?></h1>
     <?php if(!empty($hitProducts)): ?>
     <span class="hit-label-main">Рекомендуем:</span>

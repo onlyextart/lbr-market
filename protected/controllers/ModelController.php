@@ -6,6 +6,7 @@ class ModelController extends Controller
     {
         //set_time_limit(0);
         $hitProducts = array();
+        $logoSrc = $brandPath = '';
         
         $model = ModelLine::model()->findByPk($id);
         if(!$model)
@@ -41,7 +42,12 @@ class ModelController extends Controller
         $category = Category::model()->cache(1000, $categoryDependency)->findByPk($model->category_id);
         $categoryParent = $category->parent()->find();
         $parent = $model->parent()->find();
+        
         $brand = EquipmentMaker::model()->findByPk($model->maker_id);
+        if(!empty($brand->logo)) {
+            $logoSrc = $brand->logo;
+            $brandPath = '/equipment-maker'.$brand->path.'/';
+        }
         
         $breadcrumbs[$categoryParent->name] = '/catalog'.$categoryParent->path.'/';
         $breadcrumbs[$category->name] = '/catalog'.$category->path.'/';
@@ -62,6 +68,8 @@ class ModelController extends Controller
             'titleH1' => $titleH1,
             'filter' => $filter,
             'brand' => $brandFilter,
+            'logo' => $logoSrc,
+            'brandPath' => $brandPath,
             'hitProducts' => $hitProducts,
             'breadcrumbs' => $breadcrumbs
         );
