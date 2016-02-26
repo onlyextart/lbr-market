@@ -109,7 +109,19 @@
                                     '</div>';
                         }
                     } else {
-                        $countAnalogs = Analog::model()->count("product_id=:id", array("id" => $data->id));
+                        $temp = Yii::app()->db->createCommand()
+                            ->selectDistinct('analog_product_id')
+                            ->from('analog')
+                            ->where('product_id=:id', array(':id'=>$data->id))
+                            ->queryColumn()
+                        ;
+                        
+                        $criteria = new CDbCriteria;
+                        $criteria->addCondition('t.published = 1');
+                        $criteria->addCondition('t.date_sale_off is null');
+                        $criteria->addInCondition('t.id', $temp);
+                        $countAnalogs = Product::model()->count($criteria);
+                        
                         if ($countAnalogs) {
                             $result = '<div class="cell">' .
                                     '<a class="prodInfo" target="_blank" href="' . $data->path . '">аналоги</a>' .
