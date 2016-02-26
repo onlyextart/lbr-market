@@ -202,6 +202,10 @@ class GroupfilterController extends Controller
             $children = $filter->children()->findAll();
             foreach($children as $child) {
                 $groups[] = $child->group_id;
+                $subchildren = $child->children()->findAll();
+                foreach($subchildren as $subchild){
+                    $groups[] = $subchild->group_id;
+                }
             }
         }
         
@@ -215,13 +219,13 @@ class GroupfilterController extends Controller
         
         $parts = array_chunk($modellineIds, 900);
         $temp = array();
+        
         foreach($parts as $part) {
             $criteria = new CDbCriteria;
             $criteria->compare('category_id', $categoryId);
             $criteria->addCondition('maker_id = '.$brandId);
             $criteria->addInCondition('id', $part);
             $modellines = ModelLine::model()->findAll($criteria);
-
 
             foreach($modellines as $model) {
                 $parent = $model->parent()->find();
