@@ -74,7 +74,7 @@ class SubcategoryController extends Controller
             }
 
             // bradcrumbs
-            $breadcrumbs[] = $categoryRoot->name;
+            $breadcrumbs[] = $categoryRoot->name.' '.$makerName;
             
             $title = $categoryRoot->name.$makerName;
             if(!empty($categoryRoot->h1))
