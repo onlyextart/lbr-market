@@ -21,10 +21,10 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.php
 
 RewriteRule ^(.*)(catalog/pochvoobrabotka-i-posev/kul-tivatory-predposevnye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-predposevnye/ [R=301,L]
-RewriteRule ^(.*)(catalog/pochvoobrabotka-i-posev/kul-tivatory-sternevye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-sternevye/ [R=301,L]
-RewriteRule ^(.*)(catalog/pochvoobrabotka-i-posev/mezhduryadnye-kul-tivatory)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mezhduryadnye-kultivatory/ [R=301,L]
-RewriteRule ^(.*)(catalog/pochvoobrabotka-i-posev/mul-chirovateli)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mulchirovateli/ [R=301,L]
-RewriteRule ^(.*)(catalog/pochvoobrabotka-i-posev/seyalki-dlya-propashnyh-kul-tur)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/seyalki-dlya-propashnyh-kultur/ [R=301,L]
+RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/kul-tivatory-sternevye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-sternevye/ [R=301,L]
+RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/mezhduryadnye-kul-tivatory)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mezhduryadnye-kultivatory/ [R=301,L]
+RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/mul-chirovateli)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mulchirovateli/ [R=301,L]
+RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/seyalki-dlya-propashnyh-kul-tur)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/seyalki-dlya-propashnyh-kultur/ [R=301,L]
 RewriteRule ^(.*)(/catalog/zagotovka-kormov/kombayny-izmel-chiteli-kormouborochnye)(.*) http://www.lbr-market.ru/catalog/zagotovka-kormov/kombayny-izmelchiteli-kormouborochnye/ [R=301,L]
 RewriteRule ^(.*)(/catalog/perevozka-gruzov/pricepy-samosval-nye)(.*) http://www.lbr-market.ru/catalog/perevozka-gruzov/pricepy-samosvalnye/ [R=301,L]
 RewriteRule ^(.*)(/catalog/perevozka-gruzov/pricepy-universal-nye)(.*) http://www.lbr-market.ru/catalog/perevozka-gruzov/pricepy-universalnye/ [R=301,L]
