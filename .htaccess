@@ -2,16 +2,10 @@ Order deny,allow
 #Deny from all
 #����������� IP �������
 #Allow from 217.23.125.83 217.23.126.10 217.23.117.46 
-AddType text/x-component .htc
-php_value magic_quotes_gpc off
-AddCharset utf-8 *
-AddDefaultCharset UTF-8
-<IfModule mod_charset.c>
-CharsetSourceEnc utf-8
-CharsetDefault utf-8
-</IfModule>
 
 RewriteEngine on
+Options +FollowSymLinks
+
 #RewriteCond %{HTTP_HOST} !^lbr-market\.ru$ [NC]
 #RewriteRule ^(.*)$ http://lbr-market.ru/$1 [L,R=301]
 
@@ -23,7 +17,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # otherwise forward it to index.php
 RewriteRule . index.php
 
-#RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/kul-tivatory-predposevnye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-predposevnye/ [R=301,L]
+
+RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/kul-tivatory-predposevnye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-predposevnye/ [R=301,L]
 #RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/kul-tivatory-sternevye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-sternevye/ [R=301,L]
 #RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/mezhduryadnye-kul-tivatory)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mezhduryadnye-kultivatory/ [R=301,L]
 #RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/mul-chirovateli)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mulchirovateli/ [R=301,L]
@@ -78,5 +73,15 @@ ExpiresByType text/javascript           "access plus 1 month"
     BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
  </IfModule>
 
+</IfModule>
+
+
+AddType text/x-component .htc
+php_value magic_quotes_gpc off
+AddCharset utf-8 *
+AddDefaultCharset UTF-8
+<IfModule mod_charset.c>
+CharsetSourceEnc utf-8
+CharsetDefault utf-8
 </IfModule>
 
