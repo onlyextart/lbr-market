@@ -71,11 +71,13 @@ class TestController extends Controller
     
     public function actionZ()
     {
-        if(in_array('mod_rewrite', apache_get_modules())) 
-                echo 'on';
-        else 
-            echo 'off';
-        
-        exit;
+//        if(in_array('mod_rewrite', apache_get_modules())) 
+//                echo 'on';
+//        else 
+//            echo 'off';
+//        
+//        exit;
+        echo '<pre>';
+        print_r(apache_get_modules());
     }
 }
