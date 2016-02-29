@@ -45,4 +45,27 @@ class TestController extends Controller
         echo '======================<br>';
         echo 'work done - '.date('H:i:s');
     }*/
+    
+    public function actionPath() 
+    {
+        $categories = Category::model()->findAll('level != 1');
+        foreach($categories as $category) {
+            $parentName = $parentOldName = '';
+            $path = '/'.Translite::rusencode($category->name, '-');
+            $pathOld = '/'.Translite::oldrusencode($category->name, '-');
+            
+            if($category->level == 3) {
+                $parentName = '/'.Translite::rusencode($category->parent()->find()->name, '-');
+                $parentOldName = '/'.Translite::oldrusencode($category->parent()->find()->name, '-');
+            }
+            
+            $path = $parentName.$path;
+            $pathOld = $parentOldName.$pathOld;
+            
+            if($path != $pathOld) {
+                echo 'RewriteRule ^(.*)(/catalog'.$pathOld.')(.*) http://www.lbr-market.ru/catalog'.$path.'/ [R=301,L]';
+                echo '<br>';
+            }
+        }
+    }
 }

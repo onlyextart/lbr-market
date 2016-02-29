@@ -88,5 +88,18 @@ class Translite
     		return;
     	}
     }
+    
+    public static function oldrusencode($str = null, $spacechar = '_')
+    {
+    	if ($str)
+    	{
+            $str = strtolower(strtr($str, self::$oldrustable));
+            $str = preg_replace('~[^-a-z0-9_]+~u', $spacechar, $str);
+            $str = trim($str, $spacechar);
+            return $str;
+    	} else {
+    		return;
+    	}
+    }
 }	 
 ?>
