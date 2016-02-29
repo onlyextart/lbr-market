@@ -69,7 +69,7 @@ class TestController extends Controller
 //        }
 //    }
     
-    public function actionTest()
+    public function actionZ()
     {
         if(in_array('mod_rewrite', apache_get_modules())) 
                 echo 'on';
