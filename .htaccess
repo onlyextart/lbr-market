@@ -12,13 +12,13 @@ CharsetDefault utf-8
 </IfModule>
 
 RewriteEngine on
+RewriteCond %{HTTP_HOST} !^lbr-market\.ru$ [NC]
+RewriteRule ^(.*)$ http://lbr-market.ru/$1 [L,R=301]
 
 # if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-RewriteCond %{REQUEST_URI} ^/home
-RewriteRule (.*) http://www.lbr-market.ru [R=301,L]
 
 # otherwise forward it to index.php
 RewriteRule . index.php
