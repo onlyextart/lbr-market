@@ -2,7 +2,7 @@ RewriteEngine on
 Options +FollowSymLinks
 
 Order deny,allow
-AllowOverride All
+#AllowOverride All
 #Deny from all
 #����������� IP �������
 #Allow from 217.23.125.83 217.23.126.10 217.23.117.46 
