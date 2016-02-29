@@ -108,7 +108,7 @@ class ModellinesController extends Controller
                 $response_top .= '</td>';
                 $response_top .= '</tr>';
             }
-            $response_top .= '<tr><td class="link-all-brands">Показать все...</td></tr>';
+            $response_top .= '<tr><td><span class="link-brands">Показать всех производителей...</span></td></tr>';
             $response_top .= '</tbody></table>';
         }
         
@@ -130,20 +130,27 @@ class ModellinesController extends Controller
                 $criteria->order = 'name';
                 
                 $models = ModelLine::model()->findAll($criteria);
+                $criteria->addCondition('catalog_top=0');
+                $models_non_top=ModelLine::model()->findAll($criteria);
                 
                 foreach($models as $model) {
                     $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
                     $children = $category->children()->findAll();
-                    $response .= '<li><a href="#" class="sub-child-title">'.$model['name'].'</a><ul>';                    
+                    $sign_top=($category->catalog_top==1)?"top":"non_top";
+                    $response .= '<li class="'.$sign_top.'"><a href="#" class="sub-child-title">'.$model['name'].'</a><ul>';                    
 
                     foreach($children as $child) {
                        $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
                        $response .= '<li><a class="modelline-child" href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
                     }
-                    
+                   
                     $response .= '</ul></li>';
+                    
                 }
-                
+                 //link View all
+                    if (!empty($models_non_top)) {
+                        $response .= '<li><span class="link-modellines">Показать все модельные ряды...</span></li>';
+                    }
                 $response .=     '</ul>'.
                               '</li>'.
                              '</ul>'
