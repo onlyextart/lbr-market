@@ -71,9 +71,10 @@ class TestController extends Controller
     
     public function actionTest()
     {
-        //phpinfo(); 
-        if(in_array('mod_rewrite', apache_get_modules())) echo 'on';
-        else echo 'off';
+        if(in_array('mod_rewrite', apache_get_modules())) 
+                echo 'on';
+        else 
+            echo 'off';
         
         exit;
     }

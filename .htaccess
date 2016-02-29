@@ -12,8 +12,8 @@ CharsetDefault utf-8
 </IfModule>
 
 RewriteEngine on
-RewriteCond %{HTTP_HOST} !^lbr-market\.ru$ [NC]
-RewriteRule ^(.*)$ http://lbr-market.ru/$1 [L,R=301]
+#RewriteCond %{HTTP_HOST} !^lbr-market\.ru$ [NC]
+#RewriteRule ^(.*)$ http://lbr-market.ru/$1 [L,R=301]
 
 # if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
