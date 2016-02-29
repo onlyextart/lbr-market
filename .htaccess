@@ -17,10 +17,13 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
+RewriteCond %{REQUEST_URI} ^/home
+RewriteRule (.*) http://www.lbr-market.ru [R=301,L]
+
 # otherwise forward it to index.php
 RewriteRule . index.php
 
-RewriteRule ^(.*)(catalog/pochvoobrabotka-i-posev/kul-tivatory-predposevnye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-predposevnye/ [R=301,L]
+RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/kul-tivatory-predposevnye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-predposevnye/ [R=301,L]
 RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/kul-tivatory-sternevye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-sternevye/ [R=301,L]
 RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/mezhduryadnye-kul-tivatory)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mezhduryadnye-kultivatory/ [R=301,L]
 RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/mul-chirovateli)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mulchirovateli/ [R=301,L]
