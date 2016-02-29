@@ -69,7 +69,7 @@ class TestController extends Controller
 //        }
 //    }
     
-    public function actionZ()
+    public function actionR()
     {
 //        if(in_array('mod_rewrite', apache_get_modules())) 
 //                echo 'on';
@@ -78,6 +78,6 @@ class TestController extends Controller
 //        
 //        exit;
         echo '<pre>';
-        print_r(apache_get_modules());
+        print_r(apache_get_modules());exit;
     }
 }
