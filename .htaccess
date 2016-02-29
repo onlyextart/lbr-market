@@ -1,10 +1,10 @@
+RewriteEngine on
+Options +FollowSymLinks
+
 Order deny,allow
 #Deny from all
 #����������� IP �������
 #Allow from 217.23.125.83 217.23.126.10 217.23.117.46 
-
-RewriteEngine on
-Options +FollowSymLinks
 
 #RewriteCond %{HTTP_HOST} !^lbr-market\.ru$ [NC]
 #RewriteRule ^(.*)$ http://lbr-market.ru/$1 [L,R=301]
