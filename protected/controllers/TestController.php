@@ -77,7 +77,9 @@ class TestController extends Controller
 //            echo 'off';
 //        
 //        exit;
-        echo '<pre>';
-        print_r(apache_get_modules());exit;
+        //echo '<pre>';
+        //print_r(apache_get_modules());exit;
+        
+        phpinfo();
     }
 }
