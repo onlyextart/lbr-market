@@ -1,39 +1,24 @@
-RewriteEngine on
-Options +FollowSymLinks
-
 Order deny,allow
-#AllowOverride All
 #Deny from all
 #����������� IP �������
 #Allow from 217.23.125.83 217.23.126.10 217.23.117.46 
+AddType text/x-component .htc
+php_value magic_quotes_gpc off
+AddCharset utf-8 *
+AddDefaultCharset UTF-8
+<IfModule mod_charset.c>
+CharsetSourceEnc utf-8
+CharsetDefault utf-8
+</IfModule>
 
-#RewriteCond %{HTTP_HOST} !^lbr-market\.ru$ [NC]
-#RewriteRule ^(.*)$ http://lbr-market.ru/$1 [L,R=301]
+RewriteEngine on
 
 # if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-
 # otherwise forward it to index.php
 RewriteRule . index.php
-
-
-RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/kul-tivatory-predposevnye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-predposevnye/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/kul-tivatory-sternevye)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/kultivatory-sternevye/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/mezhduryadnye-kul-tivatory)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mezhduryadnye-kultivatory/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/mul-chirovateli)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/mulchirovateli/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/pochvoobrabotka-i-posev/seyalki-dlya-propashnyh-kul-tur)(.*) http://www.lbr-market.ru/catalog/pochvoobrabotka-i-posev/seyalki-dlya-propashnyh-kultur/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/zagotovka-kormov/kombayny-izmel-chiteli-kormouborochnye)(.*) http://www.lbr-market.ru/catalog/zagotovka-kormov/kombayny-izmelchiteli-kormouborochnye/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/perevozka-gruzov/pricepy-samosval-nye)(.*) http://www.lbr-market.ru/catalog/perevozka-gruzov/pricepy-samosvalnye/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/perevozka-gruzov/pricepy-universal-nye)(.*) http://www.lbr-market.ru/catalog/perevozka-gruzov/pricepy-universalnye/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/pogruzchiki/pogruzchiki-frontal-nye-na-baze-traktorov)(.*) http://www.lbr-market.ru/catalog/pogruzchiki/pogruzchiki-frontalnye-na-baze-traktorov/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/vnesenie-udobreniy/kul-tivatory-rasteniepitateli)(.*) http://www.lbr-market.ru/catalog/vnesenie-udobreniy/kultivatory-rasteniepitateli/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/vnesenie-udobreniy/navesnye-razbrasyvateli-mineral-nyh-udobreniy)(.*) http://www.lbr-market.ru/catalog/vnesenie-udobreniy/navesnye-razbrasyvateli-mineralnyh-udobreniy/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/vnesenie-udobreniy/pricepnye-razbrasyvateli-mineral-nyh-udobreniy)(.*) http://www.lbr-market.ru/catalog/vnesenie-udobreniy/pricepnye-razbrasyvateli-mineralnyh-udobreniy/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/prigotovlenie-i-razdacha-kormov/izmel-chiteli-rulonov-i-vyduvateli-solomy)(.*) http://www.lbr-market.ru/catalog/prigotovlenie-i-razdacha-kormov/izmelchiteli-rulonov-i-vyduvateli-solomy/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/prigotovlenie-i-razdacha-kormov/smesiteli-razdatchiki-kormov-vertikal-nye)(.*) http://www.lbr-market.ru/catalog/prigotovlenie-i-razdacha-kormov/smesiteli-razdatchiki-kormov-vertikalnye/ [R=301,L]
-#RewriteRule ^(.*)(/catalog/prigotovlenie-i-razdacha-kormov/smesiteli-razdatchiki-kormov-gorizontal-nye)(.*) http://www.lbr-market.ru/catalog/prigotovlenie-i-razdacha-kormov/smesiteli-razdatchiki-kormov-gorizontalnye/ [R=301,L]
 
 # cache
 <IfModule mod_expires.c>
@@ -75,14 +60,3 @@ ExpiresByType text/javascript           "access plus 1 month"
  </IfModule>
 
 </IfModule>
-
-
-AddType text/x-component .htc
-php_value magic_quotes_gpc off
-AddCharset utf-8 *
-AddDefaultCharset UTF-8
-<IfModule mod_charset.c>
-CharsetSourceEnc utf-8
-CharsetDefault utf-8
-</IfModule>
-
