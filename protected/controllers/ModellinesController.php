@@ -66,36 +66,53 @@ class ModellinesController extends Controller
                 if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
             }
         }
-
-        $result = $this->setMakerFilter($id, $categoryRoot->name);
-        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
-        //echo '<pre>';
-        //var_dump($result); exit;
-        // show in two columns
         
+        $result_array = $this->setMakerFilter($id, $categoryRoot->name,true);
+        $result=$result_array['result'];
+        $response_all=$this->printHierarchy($categoryRoot, $result, false);
+        //screening single quotes in modelline name
+        $response_all=str_replace("'", "&prime;", $response_all);
+        if (isset($result_array['result_top'])){
+            $result_top=$result_array['result_top'];
+            $response_top=$this->printHierarchy($categoryRoot, $result_top, true);
+           // $response_top=str_replace("'", "&prime;", $response_top);
+            $this->render('modellines', array('response_all' => $response_all, 'response_top'=>$response_top, 'title' => $h1Title, 'topText'=>$topText, 'bottomText'=>$bottomText));
+        }
+        else{
+            $this->render('modellines', array('response_all' => $response_all, 'title' => $h1Title, 'topText'=>$topText, 'bottomText'=>$bottomText)); 
+        }
+        
+    }
+    
+    private function printHierarchy($category, $result, $makers_top){
+        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         if(!empty($result)) {
             $count = count($result);
             $half = ceil($count/2);
-        
-            $response .= '<table cellspacing="0" cellpadding="4" border="0"><tbody>';
+            
+            $response = '<table cellspacing="0" cellpadding="4" border="0"><tbody>';
             for($index = 0; $index < $half; $index++) {
                 $response .= '<tr>';
                 $response .= '<td width="50%" valign="top">';
-                $response .= $this->setModelline($result[$index], $dependency, $categoryRoot);
+                $response .= $this->setModelline($result[$index], $dependency, $category);
                 $response .= '</td>';
                 if(($index + $half) < $count){
                     $response .= '<td width="50%" valign="top">';
-                    $response .= $this->setModelline($result[$index + $half], $dependency, $categoryRoot);
+                    $response .= $this->setModelline($result[$index + $half], $dependency, $category);
                     $response .= '</td>';
+                }
+                else{
+                    $response .= '<td width="50%" valign="top">&nbsp;</td>';
                 }
                 $response .= '</tr>';
             }
+            if($makers_top==true){$response .= '<tr><td colspan="2"><span class="link-brands">Показать всех производителей...</span></td></tr>';}
             $response .= '</tbody></table>';
-        }
-        
-        $this->render('modellines', array('response' => $response, 'title' => $h1Title, 'topText'=>$topText, 'bottomText'=>$bottomText));
+            return $response;
+       }
     }
-    
+
+            
     private function setModelline($modelline, $dependency, $categoryRoot)
     {
         $response = '';
@@ -111,20 +128,27 @@ class ModellinesController extends Controller
                 $criteria->order = 'name';
                 
                 $models = ModelLine::model()->findAll($criteria);
+                $criteria->addCondition('catalog_top=0');
+                $models_non_top=ModelLine::model()->findAll($criteria);
                 
                 foreach($models as $model) {
                     $category = ModelLine::model()->cache(1000, $dependency)->findByPk($model['id']);
                     $children = $category->children()->findAll();
-                    $response .= '<li><a href="#" class="sub-child-title">'.$model['name'].'</a><ul>';                    
+                    $sign_top=($category->catalog_top==1)?"top":"non_top";
+                    $response .= '<li class="'.$sign_top.'"><a href="#" class="sub-child-title">'.$model['name'].'</a><ul>';                    
 
                     foreach($children as $child) {
                        $brand = EquipmentMaker::model()->findByPk($child->maker_id)->path;
                        $response .= '<li><a class="modelline-child" href="/catalog'.$categoryRoot->path.$brand.$child->path.'/">'.$child->name.'</a></li>';
                     }
-                    
+                   
                     $response .= '</ul></li>';
+                    
                 }
-                
+                 //link View all
+                    if (!empty($models_non_top)) {
+                        $response .= '<li><span class="link-modellines">Показать все модельные ряды...</span></li>';
+                    }
                 $response .=     '</ul>'.
                               '</li>'.
                              '</ul>'
@@ -207,7 +231,7 @@ class ModellinesController extends Controller
         return $response;
     }
     
-    private function setMakerFilter($categoryId, $title = null)
+    private function setMakerFilter($categoryId, $title = null, $top=null)
     {
         $maker = Yii::app()->params['currentMaker'];
         $models = $temp = $result = array();
@@ -225,8 +249,16 @@ class ModellinesController extends Controller
                 $criteria->params = array(':maker_id' => $maker, ':category_id' => $categoryId);
             } else if(!empty($maker)) 
                 $criteria->params = array(':maker_id' => $maker);
-            else if(!empty($categoryId))
+            else if(!empty($categoryId)){
                 $criteria->params = array(':category_id' => $categoryId);
+                if(isset($top)){
+                    $top_makers = Yii::app()->db->createCommand()
+                            ->selectDistinct('maker_id')
+                            ->from('category_makers_top')
+                            ->where('category_id = :category_id', array(':category_id' => $categoryId))
+                            ->queryColumn();
+                }
+            }
             
             if(empty($maker)) {
                 $criteriaForBrand = $criteria;
@@ -236,12 +268,18 @@ class ModellinesController extends Controller
                 $allBrands = ModelLine::model()->findAll($criteriaForBrand);
                 foreach($allBrands as $brand) {
                    $name = EquipmentMaker::model()->findByPk($brand->maker_id)->name;
-                   $result[][$name] = Yii::app()->db->createCommand()
+                   $modellines_of_brand= Yii::app()->db->createCommand()
                         ->selectDistinct('id')
                         ->from('model_line')
                         ->where('maker_id = :maker_id and category_id = :category_id and level = 2', array(':maker_id' => $brand->maker_id, ':category_id' => $categoryId))
                         ->queryColumn()
                    ;
+                   $result[][$name] =$modellines_of_brand;
+                   if(isset($top_makers)&&!empty($top_makers)){
+                       if(in_array($brand->maker_id, $top_makers)){
+                            $result_top[][$name]=$modellines_of_brand;
+                       }
+                  }   
                 }
             } else {
                 $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
@@ -255,8 +293,14 @@ class ModellinesController extends Controller
                 }
             }
         }
+        if (isset($result_top)){
+            return array('result' => $result,
+                     'result_top' => $result_top);
+        }
+        else{
+            return array('result' => $result);
+        }
         
-        return $result;
     }
     
     /*private function setHitProducts($id)
