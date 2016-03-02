@@ -224,15 +224,17 @@
     
     <div class="product-info">
         <?php if(!empty($analogProducts)): ?>
+        <h2>Аналоги</h2>
         <div class="left-menu-wrapper grey" style="display: none">
             <ul class="accordion" id="accordion-sparepart">
                 <li>
-                    <a href="#">Аналоги</a>
+                    <!--a href="#">Аналоги</a-->
                     <ul>
                     <?php echo $analogProducts; ?>
                     </ul>
                 </li>
              </ul>
+             <?php if($analogCount > 2): ?><span class="more-analogs">Показать все ...</span><?php endif; ?>
         </div>
         <?php endif; ?>
         

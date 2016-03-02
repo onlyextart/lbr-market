@@ -52,7 +52,7 @@ class ProductController extends Controller
         
         $relatedProducts = $this->showRelatedProducts($id);
         $mainProduct = $this->getMainProductInfo($id);
-        $analogProducts = $this->getAnalogProducts($id);
+        $analogInfo = $this->getAnalogProducts($id);
         $drafts = $this->getDrafts($id);
 
         $this->render('index', array(
@@ -63,7 +63,8 @@ class ProductController extends Controller
             'filial' => $mainProduct[2], 
             'maker' => $maker, 
             'relatedProducts' => $relatedProducts, 
-            'analogProducts' => $analogProducts, 
+            'analogProducts' => $analogInfo['analogProducts'], 
+            'analogCount' => $analogInfo['analogCount'], 
             'drafts' => $drafts
         ));
     }
@@ -137,7 +138,7 @@ class ProductController extends Controller
                 $countLabel = '<div class="stock in-stock">'.Product::IN_STOCK_SHORT.'</div>';
             }
             
-            $analogProducts .= '<li>'.
+            $analogProducts .= '<li class="analog-item">'.
                                     '<div class="spareparts-wrapper">'.
                                         '<div class="row">'
             ;
@@ -231,7 +232,11 @@ class ProductController extends Controller
                              '</div>'.
                         '</li>';
         }
-        return $analogProducts;
+        
+        return array(
+            'analogProducts' => $analogProducts,
+            'analogCount' => count($products)
+        );
     }
     
     public function getDraftsLabel($id)

@@ -2653,14 +2653,35 @@ $(document).ready(function($){
     });
     
     // product page
-    $('#accordion-sparepart').dcAccordion({
+    /*$('#accordion-sparepart').dcAccordion({
         eventType: 'click',
         saveState: true,
         disableLink: true,
         speed: 'fast',
         classActive: 'test',
         showCount: false
+    });*/
+    
+    var analogs = $('#accordion-sparepart ul');
+    
+    analogs.find('li.analog-item').hide();
+    analogs.find('li.analog-item:first-child').show();
+    analogs.find('li.analog-item:nth-child(2)').show();
+    
+    $('.more-analogs').click(function(){
+        if ($(this).hasClass('show-text')) {
+            analogs.find('li.analog-item').hide();
+            analogs.find('li.analog-item:first-child').show();
+            analogs.find('li.analog-item:nth-child(2)').show();
+            
+            $(this).removeClass('show-text').text('Показать все ...');
+        } else {
+            analogs.find('li.analog-item').show();
+            $(this).addClass('show-text').text('Скрыть'); 
+        }
     });
+    
+    /*=========================================*/
     
     $('.modelline').dcAccordion({
         eventType: 'click',

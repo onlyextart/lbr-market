@@ -2088,12 +2088,17 @@ hr#hit-line-second{
 .subcategory-wrapper .text p, .modellines-wrapper .text p, .modelline-wrapper .text p {
     margin: 13px 0;
 }
-.subcategory-wrapper .text .bottom-more, .modellines-wrapper .text .bottom-more, .modelline-wrapper .text .bottom-more {
+.subcategory-wrapper .text .bottom-more, .modellines-wrapper .text .bottom-more, .modelline-wrapper .text .bottom-more, .product-info .more-analogs 
+{
     color: #ef801b;
     cursor: pointer;
     display: block;
     text-align: right;
     text-decoration: underline;
+}
+
+.product-info .more-analogs{
+    text-align: left;
 }
 .spec-offer{
     margin: 10px 10px 10px 0;
