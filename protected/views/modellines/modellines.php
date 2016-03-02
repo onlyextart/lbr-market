@@ -16,8 +16,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <div class="elements">
         <?php if (!empty($response_top)): ?>
             <?php echo $response_top; ?>
-        <?php elseif (!empty($response)): ?>
-            <?php echo $response; ?>
+        <?php elseif (!empty($response_all)): ?>
+            <?php echo $response_all; ?>
         <?php else: ?>
             <span class="empty">Нет товаров.</span>
         <?php endif; ?>
@@ -32,13 +32,9 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 <script>
     $(document).ready(function() {
-//        $(".modellines-wrapper .modelline").each(function(index){
-//            if ($(this).children(".dcjq-parent-li").find("ul>li").is(".non_top")){
-//                alert('true');                   
-//            }
-//        });             
-        $(".link-brands").on('click', function() {
-            $(".modellines-wrapper .elements").empty().append('<?php echo (!empty($response))? $response:"Нет товаров." ?>');
+     $(document).on('click','.link-brands', function() {
+            $(".modellines-wrapper .elements").empty();
+            $(".modellines-wrapper .elements").html('<?php echo (!empty($response_all))? $response_all:"<span class=\"empty\">Нет товаров.</span>"?>');
             $('.modelline').dcAccordion({
                 eventType: 'click',
                 autoClose: true,
@@ -52,7 +48,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                 $( this ).find('ul').hide();
             });
         });
-        $(".link-modellines").live('click', function() {
+        $(document).on('click','.link-modellines', function() {
            $('.modelline li.non_top').css('display','block');
            $(this).css('display','none');
         });

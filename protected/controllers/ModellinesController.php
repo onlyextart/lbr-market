@@ -66,55 +66,53 @@ class ModellinesController extends Controller
                 if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
             }
         }
-
+        
         $result_array = $this->setMakerFilter($id, $categoryRoot->name,true);
         $result=$result_array['result'];
-        $result_top=$result_array['result_top'];
-        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
-        //echo '<pre>';
-        //var_dump($result); exit;
-        // show in two columns
+        $response_all=$this->printHierarchy($categoryRoot, $result, false);
+        //screening single quotes in modelline name
+        $response_all=str_replace("'", "&prime;", $response_all);
+        if (isset($result_array['result_top'])){
+            $result_top=$result_array['result_top'];
+            $response_top=$this->printHierarchy($categoryRoot, $result_top, true);
+           // $response_top=str_replace("'", "&prime;", $response_top);
+            $this->render('modellines', array('response_all' => $response_all, 'response_top'=>$response_top, 'title' => $h1Title, 'topText'=>$topText, 'bottomText'=>$bottomText));
+        }
+        else{
+            $this->render('modellines', array('response_all' => $response_all, 'title' => $h1Title, 'topText'=>$topText, 'bottomText'=>$bottomText)); 
+        }
         
+    }
+    
+    private function printHierarchy($category, $result, $makers_top){
+        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
         if(!empty($result)) {
             $count = count($result);
             $half = ceil($count/2);
-        
-            $response .= '<table cellspacing="0" cellpadding="4" border="0"><tbody>';
+            
+            $response = '<table cellspacing="0" cellpadding="4" border="0"><tbody>';
             for($index = 0; $index < $half; $index++) {
                 $response .= '<tr>';
                 $response .= '<td width="50%" valign="top">';
-                $response .= $this->setModelline($result[$index], $dependency, $categoryRoot);
+                $response .= $this->setModelline($result[$index], $dependency, $category);
                 $response .= '</td>';
                 if(($index + $half) < $count){
                     $response .= '<td width="50%" valign="top">';
-                    $response .= $this->setModelline($result[$index + $half], $dependency, $categoryRoot);
+                    $response .= $this->setModelline($result[$index + $half], $dependency, $category);
                     $response .= '</td>';
+                }
+                else{
+                    $response .= '<td width="50%" valign="top">&nbsp;</td>';
                 }
                 $response .= '</tr>';
             }
+            if($makers_top==true){$response .= '<tr><td colspan="2"><span class="link-brands">Показать всех производителей...</span></td></tr>';}
             $response .= '</tbody></table>';
-        }
-        
-        // table for view only top makers
-        $response_top='';
-        if(!empty($result_top)) {
-            $count = count($result_top);
-        
-            $response_top .= '<table cellspacing="0" cellpadding="4" border="0"><tbody>';
-            for($index = 0; $index < $count; $index++) {
-                $response_top .= '<tr>';
-                $response_top .= '<td valign="top">';
-                $response_top .= $this->setModelline($result_top[$index], $dependency, $categoryRoot);
-                $response_top .= '</td>';
-                $response_top .= '</tr>';
-            }
-            $response_top .= '<tr><td><span class="link-brands">Показать всех производителей...</span></td></tr>';
-            $response_top .= '</tbody></table>';
-        }
-        
-        $this->render('modellines', array('response' => $response, 'response_top' => $response_top, 'title' => $h1Title, 'topText'=>$topText, 'bottomText'=>$bottomText));
+            return $response;
+       }
     }
-    
+
+            
     private function setModelline($modelline, $dependency, $categoryRoot)
     {
         $response = '';
@@ -295,9 +293,14 @@ class ModellinesController extends Controller
                 }
             }
         }
+        if (isset($result_top)){
+            return array('result' => $result,
+                     'result_top' => $result_top);
+        }
+        else{
+            return array('result' => $result);
+        }
         
-        return array('result'=>$result,
-                     'result_top'=>$result_top);
     }
     
     /*private function setHitProducts($id)

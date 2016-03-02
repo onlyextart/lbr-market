@@ -2172,7 +2172,7 @@ hr#hit-line-second{
     text-decoration: underline;
     cursor: pointer;
 }
-.modellines-wrapper li.non_top{
+.modellines-wrapper .modelline li.non_top{
     display:none;
 }
 .elements table{
