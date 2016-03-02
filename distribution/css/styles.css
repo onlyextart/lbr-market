@@ -2173,6 +2173,22 @@ hr#hit-line-second{
 .modellines-wrapper .elements table{
     border-spacing: 0;
 }
+.modellines-wrapper .link-brands{
+    text-align:left;
+    color:#F39314;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.modellines-wrapper .link-modellines{
+    color:#F39314;
+    margin-left: 15px;
+    display: inline-block;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.modellines-wrapper .modelline li.non_top{
+    display:none;
+}
 .elements table{
     width: 100%;
     border-collapse: separate;
@@ -4214,6 +4230,7 @@ div.phone_number{
     display:none;
 }
 /*----end Back call-------*/
+
 /*.grey .accordion > li{
     width: 98%;
 }*/
