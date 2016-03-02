@@ -225,8 +225,24 @@
             <div><?php echo Yii::app()->params['footerLabel']; ?></div>
         </footer>
         
-        <?php //echo $this->renderPartial('/layouts/_dialog_call', array());?>
-        
+        <div id="window_call">
+            <div id="modal_form_call">
+                <div id="modal_title" style="margin:20px 0px 20px 0px;">
+                    <span style="font-family: 'Trebuchet MS';font-size:20px;font-weight:bold; color:#F39314;text-transform: uppercase;">
+                        Бесплатный Web-звонок
+                    </span>
+                </div>
+                <div id='form_call'>
+                    <form method="POST" action="http://customer.voipexchange.ru/cgi-bin/Exchange.dll/FreeWebCall">
+                        <input type=hidden name="ID" value="92465201823405422891005848819646">
+                        <input type=hidden name="Delay" value="0">
+                        <div class="row"><label for="phone">Ваш телефон, включая код страны и города<br> <span class='example'>например, 79102345678</span></label></div>
+                        <div class="row"><input type="text" name="phone" maxlength="32" size="16"></div>
+                        <div class="row button"><input class="buttonform" type="submit" value="ПОЗВОНИТЬ"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- OnlineSeller.ru {literal} -->
              <script type="text/javascript">var _oaq = _oaq || [];_oaq.push(['_OPAccount', '716']);(function() {var oa = document.createElement('script'); oa.type = 'text/javascript';oa.charset='UTF-8'; oa.async = true; oa.src = 'http://onlinesaler.ru/assets/templates/os2013/common/js.php?akkid=716'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(oa, s);  })();</script>
         <!--OnlineSeller.ru {/literal} -->
