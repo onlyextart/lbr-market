@@ -3065,6 +3065,9 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     margin-bottom: 10px;
     margin-right: 10px;
 }
+.l-menu-wrapper .mCSB_container{
+    width:225px;
+}
 
 .left-menu-wrapper .rounded ul.filter-links a {
     color: #5f5e5e;
@@ -3074,7 +3077,7 @@ div.form div.error input, div.form div.error textarea, div.form div.error select
     float:right;
     padding: 7px 10px;  
     box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.5);
-    border-radius: 0px 0px 3px 3px;
+    border-radius: 3px;
     border: 0;
     text-align: center;
     color: #ffffff;    
