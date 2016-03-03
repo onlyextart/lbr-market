@@ -275,7 +275,20 @@ $(document).ready(function($){
             w.document.write('</body></html>');
 	});
    // end call-window
-    
+   // button view for makers 
+   $(".left-menu-wrapper div#switch").on('click',function(){
+          if($(this).hasClass('top')){
+              $(this).removeClass('top').addClass('all');
+              $(this).text('Популярные производители');
+              $("ul#accordion-maker>li.hide").removeClass('hide').addClass('show');
+          }
+          else{
+              $(this).removeClass('all').addClass('top');
+              $(this).text('Все производители');
+              $("ul#accordion-maker>li.show").removeClass('show').addClass('hide');
+          }
+      });
+    // end button view for makers
 });
 
 function addToCart(event){
