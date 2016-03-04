@@ -218,6 +218,7 @@ class ProductController extends Controller
                            //'<button class="wish-small" title="Добавить в блокнот"><span class="wish-icon"></span></button>'
                        ;
                     }
+                    if(!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) $analogProducts .= '<button class="wish-small" title="Добавить в блокнот"><span class="wish-icon"></span></button>';
                 } else {
                     $analogProducts .= '<span>'.Yii::app()->params['textSaleOff'].'</span>'; 
                 }
