@@ -18,6 +18,7 @@
         </a>
     </div>
     <div class="width-30">
+        <a href="<?php echo $data->path ?>" target="_blank"><?php echo $data->name ?></a>
         <div><?php echo $productName ?></div>
         <div><?php echo ProductMaker::model()->findByPk($data->product_maker_id)->country ?></div>
     </div>
