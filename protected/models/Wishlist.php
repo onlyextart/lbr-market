@@ -32,10 +32,11 @@ class Wishlist extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id, product_id', 'numerical', 'integerOnly'=>true),
-			array('date_created', 'safe'),
+			//array('date_created', 'safe'),
+			array('id, user_id, product_id, date_created, count, original_product_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, product_id, date_created', 'safe', 'on'=>'search'),
+			array('id, user_id, product_id, date_created, count, original_product_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,12 +58,14 @@ class Wishlist extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-			'id' => 'ID',
-			'user_id' => 'User',
-			'product_id' => 'Product',
-			'date_created' => 'Date Created',
-		);
+            return array(
+                'id' => 'ID',
+                'user_id' => 'ID пользователя',
+                'product_id' => 'ID запчасти',
+                'count' => 'Количество',
+                'original_product_id' => 'ID оригинальньной запчасти',
+                'date_created' => 'Date Created',
+            );
 	}
 
 	/**
@@ -86,6 +89,8 @@ class Wishlist extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('product_id',$this->product_id);
+		$criteria->compare('count',$this->product_id);
+		$criteria->compare('original_product_id',$this->product_id);
 		$criteria->compare('date_created',$this->date_created,true);
 
 		return new CActiveDataProvider($this, array(

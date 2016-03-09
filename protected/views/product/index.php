@@ -280,7 +280,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 ?>
 
 <script>
-(function($){
+(function($) {
     $(".left-menu-wrapper").css('display','block');
     
     //Add product to wish list

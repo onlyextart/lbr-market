@@ -4,14 +4,17 @@ class WishlistController extends Controller
     public function actionShow()
     {
         Yii::app()->params['meta_title'] = 'Блокнот';
-        $items = $temp = array();
+        $items = $temp = $info = array();
         
         $wishlist = Wishlist::model()->findAll('user_id=:user', array(':user'=>Yii::app()->user->_id));
         foreach($wishlist as $wish) {
             $temp[] = $wish->product_id;
+            $info[$wish->product_id]['original'] = $wish->original_product_id;
+            $info[$wish->product_id]['count'] = $wish->count;
         }
+        
         $criteria = new CDbCriteria();
-        $criteria->addInCondition("id", $temp);
+        $criteria->addInCondition("t.id", $temp);
         $criteria->order = 'name';
         
         $dataProvider = new CActiveDataProvider('Product',
@@ -25,7 +28,7 @@ class WishlistController extends Controller
         );
         
         $count = Product::model()->count($criteria);
-        $this->render('index', array('data'=>$dataProvider, 'count'=>$count));
+        $this->render('index', array('data'=>$dataProvider, 'count' => $count, 'info' => $info));
     }
 }
 

@@ -6,18 +6,23 @@ class WishlistController extends Controller
         if(Yii::app()->user->isGuest || empty(Yii::app()->user->isShop)) {
             echo json_encode(array('redirect'=>$this->createUrl('/site/login')));
         } else {
-            if(Yii::app()->request->isAjaxRequest) { 
+            if(Yii::app()->request->isAjaxRequest) {
                $userId = Yii::app()->user->_id;
                $productId = Yii::app()->request->getPost('id');
+               $count = Yii::app()->request->getPost('count');
+               $originalProductId = Yii::app()->request->getPost('original');
+               
                $exists = Wishlist::model()->find('product_id = :id and user_id = :user', array(':id'=>$productId, ':user'=>$userId));
                if(empty($exists)){
                     $model = new Wishlist;
                     $model->product_id = $productId;
                     $model->user_id = $userId;
+                    $model->count = $count;
+                    if(!empty($originalProductId)) $model->original_product_id = $originalProductId;
                     $model->date_created = date("Y-m-d H:i:s");
 
                     if($model->save()) 
-                        $array = array('message'=>'Товар добавлен в "Блокнот"');
+                        $array = array('message' => 'Товар добавлен в "Блокнот"');
                     else 
                         $array = array('message' => '<div class="mes-notify"><span></span><div>Произошла ошибка при добавлении товара в "Блокнот"</div></div>');	
                } else {

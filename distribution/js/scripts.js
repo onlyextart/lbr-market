@@ -2711,21 +2711,37 @@ $(document).ready(function($){
         });
     });*/
     $(document).on('click', '.wish-small', function() {
-        $.ajax({
-            type: 'POST',
-            url: '/wishlist/add/',
-            dataType: 'json',
-            data: {
-                id: $(this).parent().attr('elem'),
-            },
-            success: function(response) {
-                if(response.redirect) 
-                    window.location = response.redirect;
-                else {
-                    alertify.success(response.message);
+        var original = '';
+        var parent = $(this).parent();
+        var cart = parent.find('.cart-quantity');
+        var count = parseInt(cart.val());
+        
+        var attr = parent.attr('original');
+        if (attr !== undefined && attr !== false) {
+            original = attr;
+        }
+        
+        if(count > 0) {
+            $.ajax({
+                type: 'POST',
+                url: '/wishlist/add/',
+                dataType: 'json',
+                data: {
+                    id: $(this).parent().attr('elem'),
+                    count: count,
+                    original: original
+                },
+                success: function(response) {
+                    if(response.redirect) 
+                        window.location = response.redirect;
+                    else {
+                        alertify.success(response.message);
+                    }
                 }
-            },
-        });
+            });
+        } else {
+            alertify.success('<div class="mes-notify"><span></span><div>Введено неправильное количество</div></div>');
+        }
     });
     
 //    $(document).on('click', '.login-button', function() {

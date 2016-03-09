@@ -1,14 +1,24 @@
 <?php
-     $image = Product::model()->getImage($data->image);
+    //echo '<pre>';
+    //echo $data->id.'<br>';
+    //var_dump($info[$data->id]); exit;
+    //var_dump($info); exit;
+
+    $image = Product::model()->getImage($data->image);
+    $productName = $data->name;
+    $productInfo = $info[$data->id];
+    if(!empty($productInfo['original'])) {
+        $productName = 'Аналог товара "'.Product::model()->findByPk($productInfo['original'])->name.'"';
+    }
 ?>
 <div class="wish-item">
     <div style="width: 115px; float: left;">
         <a class="thumbnail" href="<?php echo $image ?>">
           <img class="thumbnail" alt="" src="<?php echo $image ?>">
-       </a>
+        </a>
     </div>
     <div class="width-30">
-        <a href="<?php echo $data->path ?>" target="_blank"><?php echo $data->name ?></a>   
+        <div><?php echo $productName ?></div>
         <div><?php echo ProductMaker::model()->findByPk($data->product_maker_id)->country ?></div>
     </div>
     <div class="width-20">
