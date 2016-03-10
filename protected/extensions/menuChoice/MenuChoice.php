@@ -145,18 +145,7 @@ class MenuChoice extends CWidget
 //        }
            
         // формируем меню "По производителю техники"
-        //criteriaTop for select makers top
         $makers_top_id=array();
-        $criteriaTop=new CDbCriteria();
-        $criteriaTop->condition = 'menu_top=1';
-        $criteriaTop->select = 'id';
-        $criteriaTop->order = 'name';
-        $makersTop = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($criteriaTop);
-        
-        //generate the array with makers id from TOP makers
-        foreach ($makersTop as $key => $row) {
-            $makers_top_id[$key] = $row['id'];
-        }
         if(!empty(Yii::app()->params['currentType'])) {
             $children = Category::model()->cache(1000, $category_dependency)->findByPk(Yii::app()->params['currentType'])->children()->findAll();
             foreach($children as $child) {
@@ -165,24 +154,38 @@ class MenuChoice extends CWidget
                 $criteria->condition = 'category_id = '.$child->id;      
                 $criteria->select = 'maker_id';
                 $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
-                
                 foreach($models as $model) {
                     $t[] = $model['maker_id'];
                 }
-                
-                $crit = new CDbCriteria();
-                $crit->addInCondition('id', $t);
-                $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($crit);
-                //makersTopInType
-                $crit->addInCondition('id', $makers_top_id);
-                $makersTopInType = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($crit);
-                if (empty($makersTopInType)){
-                    $makers_top_id=array();
+                //select id top makers 
+                $top_makers_category = Yii::app()->db->createCommand()
+                            ->selectDistinct('maker_id')
+                            ->from('category_makers_top')
+                            ->where('category_id = :category_id', array(':category_id' => $child->id))
+                            ->queryColumn();
+                foreach($top_makers_category as $top_maker) {
+                    $makers_top_id[] = $top_maker;
                 }
+                
             }
+            
+            $crit = new CDbCriteria();
+            $crit->addInCondition('id', $t);
+            $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($crit);
+            
         } else {
             $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll();
-            
+            //criteriaTop for select makers top
+            $criteriaTop = new CDbCriteria();
+            $criteriaTop->condition = 'menu_top=1';
+            $criteriaTop->select = 'id';
+            $criteriaTop->order = 'name';
+            $makersTop = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($criteriaTop);
+
+            //generate the array with makers id from TOP makers
+            foreach ($makersTop as $key => $row) {
+                $makers_top_id[$key] = $row['id'];
+            }
         }
 
         if(count($makersAll)){
