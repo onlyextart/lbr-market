@@ -155,11 +155,13 @@
                                                 <input onclick=' . $intent . ' type="submit"  title="Добавить в корзину" value="" class="small-cart-button">'
                             ;
                             //}
-
-                            $result .= '<button class="wish-small" title="Добавить в блокнот">
-                                                       <span class="wish-icon"></span>
-                                                    </button>'
-                            ;
+                            
+                            if(!Yii::app()->user->isGuest) {
+                                $result .= '<button class="wish-small" title="Добавить в блокнот">
+                                        <span class="wish-icon"></span>
+                                     </button>'
+                                ;
+                            }
                         }
                     } else {
                         $result .= '<span>' . Yii::app()->params['textSaleOff'] . '</span>';
