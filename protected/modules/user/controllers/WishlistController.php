@@ -15,7 +15,7 @@ class WishlistController extends Controller
         
         $criteria = new CDbCriteria();
         $criteria->addInCondition("t.id", $temp);
-        $criteria->order = 'name';
+        $criteria->order = '(count > 0) desc, name';
         
         $dataProvider = new CActiveDataProvider('Product',
             array(

@@ -8,7 +8,7 @@
         if($count) {
             $this->widget('zii.widgets.CListView', array(
                 'dataProvider' => $data,
-                'viewData' => array('info' => $info), 
+                'viewData' => array('info' => $info),
                 'cssFile'      => false,
                 'itemView'     => '_item',
                 'ajaxUpdate'   => false,

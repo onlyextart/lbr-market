@@ -67,9 +67,9 @@
             <div>
                 <h2>Данные получателя</h2>
                 <div class="form wide">
-                    <div class="row"> Доставка: <?php echo ($order->delivery->name)? $order->delivery->name : ''; ?> </div>
-                    <div class="row"> <?php echo (!empty($order->user_name)) ? $order->user_name : $order->user->name; ?> </div>
-                    <div class="row"> <?php echo (!empty($order->user_email)) ? $order->user_email : $order->user->email; ?> </div>
+                    <div class="row">Доставка: <?php echo ($order->delivery->name)? $order->delivery->name : ''; ?></div>
+                    <div class="row"><?php echo (!empty($order->user_name)) ? $order->user_name : $order->user->name; ?></div>
+                    <div class="row"><?php echo (!empty($order->user_email)) ? $order->user_email : $order->user->email; ?></div>
                 </div>
             </div>
         </div>

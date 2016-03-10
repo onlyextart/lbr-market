@@ -61,10 +61,12 @@
                         <td width="180px">
                             <?php
                                 $productName = $item->product->name;
-                                if(!empty($item->original_product_id)){
+                                if(!empty($item->original_product_id)) {
                                     $productName = 'Аналог товара "'.Product::model()->findByPk($item->original_product_id)->name.'"';
                                 }
+                                
                                 echo '<div>'.$productName.'</div>';
+                                
 //                                echo CHtml::link($item->product->name, $item->product->path, array('target'=>'_blank'));
                                 
                                 if(!empty($item->product->product_maker_id)) {

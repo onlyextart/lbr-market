@@ -2567,7 +2567,7 @@ input.small-cart-button,input.small-cart-button-wishlist{
 #prod-info .product-params .date-label{
     text-align: right;
 }
-#prod-info .in-stock{
+#prod-info .in-stock, .wish-item .in-stock{
     color: #f39314;
 }
 #prod-info{

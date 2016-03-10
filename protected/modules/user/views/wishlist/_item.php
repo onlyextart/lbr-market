@@ -10,6 +10,12 @@
     if(!empty($productInfo['original'])) {
         $productName = 'Аналог товара "'.Product::model()->findByPk($productInfo['original'])->name.'"';
     }
+    
+    $price = Yii::app()->params['textHidePrice'];
+    if(Yii::app()->params['showPrices']) {
+       $price = Price::model()->getPrice($data->id);
+       if(empty($price)) $price = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
+    }
 ?>
 <div class="wish-item">
     <div style="width: 115px; float: left;">
@@ -18,21 +24,18 @@
         </a>
     </div>
     <div class="width-30">
-        <a href="<?php echo $data->path ?>" target="_blank"><?php echo $data->name ?></a>
         <div><?php echo $productName ?></div>
         <div><?php echo ProductMaker::model()->findByPk($data->product_maker_id)->country ?></div>
+        <div><?php echo $price ?></div>
     </div>
     <div class="width-20">
-       <?php echo ($data->count > 0) ? Product::IN_STOCK : Product::NO_IN_STOCK ; ?>             
+       <?php echo ($data->count > 0) ? '<span class="in-stock">'.Product::IN_STOCK.'</span>' : Product::NO_IN_STOCK ; ?>             
     </div>
     <div class="width-20">      
        <?php
-          $price = Yii::app()->params['textHidePrice'];
-          if(Yii::app()->params['showPrices']) {
-             $price = Price::model()->getPrice($data->id);
-             if(empty($price)) $price = '<span class="no-price-label">'.Yii::app()->params['textNoPrice'].'</span>';
-          }
-          echo $price;
+          $count = 1;
+          if(!empty($productInfo['count'])) $count = $productInfo['count'];
+          echo $count.' шт. * '.$price;
        ?>                
     </div>
     <div class="width-5" elem="<?php echo $data->id ?>">
