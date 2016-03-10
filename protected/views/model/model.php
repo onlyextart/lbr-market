@@ -176,10 +176,10 @@
                             ;
                             //}
 
-                            $result .= '<button class="wish-small" title="Добавить в блокнот">
-                                                       <span class="wish-icon"></span>
-                                                    </button>'
-                            ;
+//                            $result .= '<button class="wish-small" title="Добавить в блокнот">
+//                                            <span class="wish-icon"></span>
+//                                        </button>'
+//                            ;
                         }
                     } else {
                         $result .= '<span>' . Yii::app()->params['textSaleOff'] . '</span>';
