@@ -1,9 +1,4 @@
 <?php
-    //echo '<pre>';
-    //echo $data->id.'<br>';
-    //var_dump($info[$data->id]); exit;
-    //var_dump($info); exit;
-
     $image = Product::model()->getImage($data->image);
     $productName = $data->name;
     $productInfo = $info[$data->id];
@@ -38,7 +33,7 @@
           echo $count.' шт. * '.$price;
        ?>                
     </div>
-    <div class="width-5" elem="<?php echo $data->id ?>">
+    <div class="width-5" elem="<?php echo $data->id ?>" count="<?php echo $count ?>" original="<?php echo (!empty($productInfo['original'])) ? $productInfo['original'] : '' ?>">
         <input onclick="yaCounter30254519.reachGoal('addtocard'); ga('send','event','action','addtocard'); return true;" type="submit" title="Добавить в корзину" value="" class="small-cart-button-wishlist">
     </div>
     <div class="width-5 remove-wrap">

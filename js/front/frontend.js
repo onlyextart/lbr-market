@@ -316,22 +316,30 @@ $(document).ready(function($){
 });
 
 function addToCart(event){
-    var original = '';
+    var original = wishlistFlag = '';
+    var count = 1;
     var parent = $(this).parent();
-    var target=event.target||event.srcElement;
-    var classname=target.className;
-    if (classname==="small-cart-button-wishlist"){
-       var count=1;
-    }
-    else if(classname==="small-cart-button"){
+    var target = event.target||event.srcElement;
+    var classname = target.className;
+    
+    // add to cart from wishlist
+    if (classname === "small-cart-button-wishlist") {
+        wishlistFlag = 1;
+        count = parent.attr('count');
+        var attr = parent.attr('original');
+        if (attr !== undefined && attr !== false) {
+            original = attr;
+        }
+        parent.parent().hide();
+    } else if(classname==="small-cart-button") {
         var cart = parent.find('.cart-quantity');
-        var count = parseInt(cart.val()); 
-        //if (typeof attr !== typeof undefined && attr !== false) {
+        count = parseInt(cart.val());
         var attr = parent.attr('original');
         if (attr !== undefined && attr !== false) {
             original = attr;
         }
     }
+    
     if(count > 0) {
         $.ajax({
             type: 'POST',
@@ -340,7 +348,8 @@ function addToCart(event){
             data: {
                 id: parent.attr('elem'),
                 count: count,
-                original: original
+                original: original,
+                wishlistFlag: wishlistFlag
             },
             success: function(response) { 
                 $('.cart-quantity').val('1');
