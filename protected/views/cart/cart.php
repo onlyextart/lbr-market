@@ -103,7 +103,7 @@
                             ?>
                         </td>
                         <td width="20px">
-                            <a title="Удалить из корзины" class="remove" href="/cart/remove<?php echo $item->product->path ?>"></a>
+                            <!--a title="Удалить из корзины" class="remove" href="/cart/remove<?php //echo $item->product->path ?>"></a-->
                         </td>
                     </tr>
                     <?php endforeach ?>
@@ -161,7 +161,7 @@
                             ?>
                         </td>
                         <td width="20px">
-                            <a title="Удалить из корзины" class="remove" href="/cart/guestremove<?php echo $item['path']; echo (!empty($item['original_product_id']))? 'o/'.$item['original_product_id']: ''?>"></a>
+                            <!--a title="Удалить из корзины" class="remove" href="/cart/guestremove<?php //echo $item['path']; echo (!empty($item['original_product_id']))? 'o/'.$item['original_product_id']: ''?>"></a-->
                         </td>
                     </tr>
                     <?php endforeach ?>
