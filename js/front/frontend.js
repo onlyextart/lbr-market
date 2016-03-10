@@ -370,7 +370,7 @@ function addToCart(event){
             },
         });
     } else {
-        alertify.success('<div class="mes-notify"><span></span><div>Введено неправильное количество</div></div>');
+        alertify.success('<div class="mes-notify"><span></span><div>Введено неверно количество</div></div>');
     }
 }
     

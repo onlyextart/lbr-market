@@ -285,21 +285,32 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
     
     //Add product to wish list
     $( ".wish" ).on('click', function() {
-        $.ajax({
-            type: 'POST',
-            url: '/wishlist/add/',
-            dataType: 'json',
-            data: {
-                id: <?php echo $data->id; ?>,
-            },
-            success: function(response) {
-                if(response.redirect) 
-                    window.location = response.redirect;
-                else {
-                    alertify.success(response.message);
-                }
-            },
-        });
+        var parent = $(this).parent();
+        var cart = parent.find('.cart-quantity');
+        count = parseInt(cart.val());
+        //console.log(count);
+        if(count > 0) {
+            $.ajax({
+                type: 'POST',
+                url: '/wishlist/add/',
+                dataType: 'json',
+                data: {
+                    id: <?php echo $data->id; ?>,
+                    count: count,
+                    original: '',
+                    flag: 0
+                },
+                success: function(response) {
+                    if(response.redirect) 
+                        window.location = response.redirect;
+                    else {
+                        alertify.success(response.message);
+                    }
+                },
+            });
+        } else {
+            alertify.success('<div class="mes-notify"><span></span><div>Введено неверно количество</div></div>');
+        }
     });
 })(jQuery);
 </script>
