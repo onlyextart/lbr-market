@@ -419,11 +419,11 @@ class CartController extends Controller
                                 $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
                             } else {
                                 Order::model()->deleteAll('id = :id', array(':id' => $order->id));
-                                $array = array('worning'=>true, 'message' => 'Произошла ошибка');
+                                $array = array('worning'=>true, 'message' => '<div class="mes-notify"><span></span><div>Произошла ошибка</div></div>');
                                 //print_r($orderProduct->getErrors());
                             }
                         } else {
-                            $array = array('worning'=>true, 'message' => 'Произошла ошибка');
+                            $array = array('worning'=>true, 'message' => '<div class="mes-notify"><span></span><div>Произошла ошибка</div></div>');
                         }
                     } else {
                         $orderProduct->count += $count;
@@ -440,11 +440,11 @@ class CartController extends Controller
                             $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
                         } else {
                             Order::model()->deleteAll('id = :id', array(':id' => $order->id));
-                            $array = array('worning'=>true, 'message' => 'Произошла ошибка');
+                            $array = array('worning'=>true, 'message' => '<div class="mes-notify"><span></span><div>Произошла ошибка</div></div>');
                         }
                     }
                 } else {
-                    $array = array('worning'=>true, 'message' => 'В корзине не может быть более ' . $maxCountInCart . ' видов товаров.');
+                    $array = array('worning'=>true, 'message' => '<div class="mes-notify"><span></span><div>В корзине не может быть более ' . $maxCountInCart . ' видов товаров.</div></div>');
                 }
                 
                 echo json_encode($array);
