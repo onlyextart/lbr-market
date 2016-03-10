@@ -12,7 +12,9 @@ class WishlistController extends Controller
                $count = Yii::app()->request->getPost('count');
                $originalProductId = Yii::app()->request->getPost('original');
                
-               $exists = Wishlist::model()->find('product_id = :id and user_id = :user', array(':id'=>$productId, ':user'=>$userId));
+               if(empty($originalProductId)) $exists = Wishlist::model()->find('product_id = :id and user_id = :user and original_product_id is null', array(':id'=>$productId, ':user'=>$userId));
+               else $exists = Wishlist::model()->find('product_id = :id and user_id = :user and original_product_id = :original', array(':id'=>$productId, ':user'=>$userId, ':original'=>$originalProductId));
+               
                if(empty($exists)){
                     $model = new Wishlist;
                     $model->product_id = $productId;
