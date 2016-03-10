@@ -372,10 +372,10 @@ class CartController extends Controller
         $maxCountInCart = Yii::app()->params['maxInCart'];
 
         if (Yii::app()->request->isAjaxRequest) {
-            $productId = Yii::app()->request->getPost('id');
-            $count = Yii::app()->request->getPost('count');
-            $originalProductId = Yii::app()->request->getPost('original'); // for analog products
-            $wishlistFlag = Yii::app()->request->getPost('wishlistFlag'); // if product was added to cart from wishlist
+            $productId = (int)Yii::app()->request->getPost('id');
+            $count = (int)Yii::app()->request->getPost('count');
+            $originalProductId = (int)Yii::app()->request->getPost('original'); // for analog products
+            $wishlistFlag = (int)Yii::app()->request->getPost('flag'); // if product was added to cart from wishlist
 
             if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) { // logged user
                 $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status' => Order::CART, ':user' => Yii::app()->user->_id));
@@ -415,38 +415,38 @@ class CartController extends Controller
                                     $cartCount += OrderProduct::model()->find('order_id=:order', array(':order' => $orderInCart->id))->count;
                                 }
                                 
+                                if($wishlistFlag)$this->deleteFromWishlist($productId, $originalProductId);
                                 $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
-                                if(!empty($wishlistFlag)) {
-                                    if(!empty($originalProductId)) $productInWishlist = Wishlist::model()->find('user_id=:user and product_id=:id and original_product_id=:original', array(':user'=>Yii::app()->user->_id, ':id'=>$productId, ':original'=>$originalProductId));
-                                    else $productInWishlist = Wishlist::model()->find('user_id=:user and product_id=:id', array(':user'=>Yii::app()->user->_id, ':id'=>$productId));
-                                    $productInWishlist->delete();
-                                }
                             } else {
                                 Order::model()->deleteAll('id = :id', array(':id' => $order->id));
                                 $array = array('message' => 'Произошла ошибка');
                                 //print_r($orderProduct->getErrors());
                             }
-                        } else
+                        } else {
                             $array = array('message' => 'Произошла ошибка');
+                        }
                     } else {
                         $orderProduct->count += $count;
 
                         if ($orderProduct->save()) {
                             $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status' => Order::CART, ':user' => Yii::app()->user->_id));
                             $cartCount = 0;
+                            
                             foreach ($allOrdersInCart as $orderInCart) {
                                 $cartCount += OrderProduct::model()->find('order_id=:order', array(':order' => $orderInCart->id))->count;
                             }
+                            
+                            if($wishlistFlag) $this->deleteFromWishlist($productId, $originalProductId);
                             $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
                         } else {
                             Order::model()->deleteAll('id = :id', array(':id' => $order->id));
                             $array = array('message' => 'Произошла ошибка');
-                            //print_r($orderProduct->getErrors());
                         }
                     }
-                } else
+                } else {
                     $array = array('message' => 'В корзине не может быть более ' . $maxCountInCart . ' видов товаров.');
-
+                }
+                
                 echo json_encode($array);
             } else { // Guest
                 if(!empty($originalProductId)) $productId = $productId.'-'.$originalProductId;
@@ -454,16 +454,38 @@ class CartController extends Controller
                 if(isset(Yii::app()->session['cart'][$productId])) $countInCart = (int)Yii::app()->session['cart'][$productId];
                 $count = $countInCart + $count;
                 $newCartElements = array($productId => $count);
-                if (empty(Yii::app()->session['cart']))
+                if (empty(Yii::app()->session['cart'])) {
                     Yii::app()->session['cart'] = array();
+                }
                 Yii::app()->session['cart'] = $newCartElements + Yii::app()->session['cart'];
                 foreach (Yii::app()->session['cart'] as $item) {
                     $cartCount += $item;
                 }
+                
                 $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
                 echo json_encode($array);
             }
         }
+    }
+    
+    public function deleteFromWishlist($productId, $originalProductId)
+    {
+        //if($wishlistFlag) {
+            //$productInWishlist = 'rrrr';
+            $productInWishlist = Wishlist::model()->find(
+                'user_id=:user and product_id=:id and original_product_id is null', 
+                array(':user'=>Yii::app()->user->_id, ':id'=>$productId)
+            );
+
+            if(!empty($originalProductId)) {
+                $productInWishlist = Wishlist::model()->find(
+                    'user_id=:user and product_id=:id and original_product_id=:original', 
+                    array(':user'=>Yii::app()->user->_id, ':id'=>$productId, ':original'=>$originalProductId)
+                );
+            }
+            
+            $productInWishlist->delete();
+        //}
     }
 
     /* public function actionRemove($id)

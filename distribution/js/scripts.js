@@ -2854,7 +2854,8 @@ $(document).ready(function($){
 });
 
 function addToCart(event){
-    var original = wishlistFlag = '';
+    var original = '';
+    var wishlistFlag = 0;
     var count = 1;
     var parent = $(this).parent();
     var target = event.target||event.srcElement;
@@ -2868,6 +2869,7 @@ function addToCart(event){
         if (attr !== undefined && attr !== false) {
             original = attr;
         }
+        
         parent.parent().hide();
     } else if(classname==="small-cart-button") {
         var cart = parent.find('.cart-quantity');
@@ -2878,6 +2880,10 @@ function addToCart(event){
         }
     }
     
+    console.log('id = '+parent.attr('elem'));
+    console.log('original = '+original);
+    console.log('wishlistFlag = '+wishlistFlag);
+    
     if(count > 0) {
         $.ajax({
             type: 'POST',
@@ -2887,7 +2893,7 @@ function addToCart(event){
                 id: parent.attr('elem'),
                 count: count,
                 original: original,
-                wishlistFlag: wishlistFlag
+                flag: wishlistFlag
             },
             success: function(response) { 
                 $('.cart-quantity').val('1');
@@ -2901,6 +2907,8 @@ function addToCart(event){
                     $('#cart-count').text(response.count+label);
                 }
                 alertify.success(response.message);
+                //alertify.success(response.info);
+                console.log(response);
             },
         });
     } else {
