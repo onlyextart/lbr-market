@@ -73,7 +73,7 @@
     <?php endif; ?>
     <?php if(!empty($makers)): ?>
     <div class="label">Выбор по производителю техники:</div>
-    <div class="l-menu-wrapper">
+    <div class="l-menu-wrapper" id="maker-wrapper">
         <ul class="accordion" id="accordion-maker">
             <?php foreach($makers as $maker): ?>
             <?php
@@ -97,25 +97,9 @@
             <?php endforeach; ?>
         </ul>
     </div>
-    <?php if(empty($filterCategory)&&!empty($makers_top_id)):?>
+    <?php //if(empty($filterCategory)&&!empty($makers_top_id)):?>
         <div id="switch" class="top">Все производители</div>    
-    <?php endif; ?>
+    <?php //endif; ?>
     <?php endif; ?>
 </div>
 
-<script>
-    $(document).ready(function(){
-      $("div#switch").on('click',function(){
-          if($(this).hasClass('top')){
-              $(this).removeClass('top').addClass('all');
-              $(this).text('Популярные производители');
-              $("ul#accordion-maker>li.hide").removeClass('hide').addClass('show');
-          }
-          else{
-              $(this).removeClass('all').addClass('top');
-              $(this).text('Все производители');
-              $("ul#accordion-maker>li.show").removeClass('show').addClass('hide');
-          }
-      });
-    });
-</script>

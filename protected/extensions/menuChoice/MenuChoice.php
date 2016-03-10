@@ -154,26 +154,37 @@ class MenuChoice extends CWidget
                 $criteria->condition = 'category_id = '.$child->id;      
                 $criteria->select = 'maker_id';
                 $models = ModelLine::model()->cache(1000, $dependency)->findAll($criteria);
-                
                 foreach($models as $model) {
                     $t[] = $model['maker_id'];
                 }
+                //select id top makers 
+                $top_makers_category = Yii::app()->db->createCommand()
+                            ->selectDistinct('maker_id')
+                            ->from('category_makers_top')
+                            ->where('category_id = :category_id', array(':category_id' => $child->id))
+                            ->queryColumn();
+                foreach($top_makers_category as $top_maker) {
+                    $makers_top_id[] = $top_maker;
+                }
                 
-                $crit = new CDbCriteria();
-                $crit->addInCondition('id', $t);
-                $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($crit);
             }
+            
+            $crit = new CDbCriteria();
+            $crit->addInCondition('id', $t);
+            $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($crit);
+            
         } else {
             $makersAll = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll();
-            $criteriaTop=new CDbCriteria();
-            $criteriaTop->condition='menu_top=1';
+            //criteriaTop for select makers top
+            $criteriaTop = new CDbCriteria();
+            $criteriaTop->condition = 'menu_top=1';
             $criteriaTop->select = 'id';
             $criteriaTop->order = 'name';
             $makersTop = EquipmentMaker::model()->cache(1000, $equipmentMakerDependency)->findAll($criteriaTop);
-            
+
             //generate the array with makers id from TOP makers
-            foreach($makersTop as $key=>$row){
-               $makers_top_id[$key]=$row['id'];
+            foreach ($makersTop as $key => $row) {
+                $makers_top_id[$key] = $row['id'];
             }
         }
 
