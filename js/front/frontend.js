@@ -342,10 +342,6 @@ function addToCart(event){
         }
     }
     
-    console.log('id = '+parent.attr('elem'));
-    console.log('original = '+original);
-    console.log('wishlistFlag = '+wishlistFlag);
-    
     if(count > 0) {
         $.ajax({
             type: 'POST',
@@ -359,18 +355,18 @@ function addToCart(event){
             },
             success: function(response) { 
                 $('.cart-quantity').val('1');
-                if(response.count){
+                if(response.count) {
                     var label = ' товаров';
                     if(response.count == 1) {
                         label = ' товар';
                     } else if(response.count == 2 || response.count == 3 || response.count == 4){
                         label = ' товарa';
                     }
+                    
                     $('#cart-count').text(response.count+label);
                 }
+                
                 alertify.success(response.message);
-                //alertify.success(response.info);
-                console.log(response);
             },
         });
     } else {
