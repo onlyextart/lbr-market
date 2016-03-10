@@ -331,8 +331,6 @@ function addToCart(event){
         if (attr !== undefined && attr !== false) {
             original = attr;
         }
-        
-        parent.parent().hide();
     } else if(classname==="small-cart-button") {
         var cart = parent.find('.cart-quantity');
         count = parseInt(cart.val());
@@ -365,6 +363,8 @@ function addToCart(event){
                     
                     $('#cart-count').text(response.count+label);
                 }
+                
+                if(response.worning === undefined) parent.parent().remove();
                 
                 alertify.success(response.message);
             },

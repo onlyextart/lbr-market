@@ -380,7 +380,7 @@ class CartController extends Controller
             if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) { // logged user
                 $allOrdersInCart = Order::model()->findAll('status_id=:cart_status and user_id=:user', array(':cart_status' => Order::CART, ':user' => Yii::app()->user->_id));
                 //echo json_encode(array('message' => count($originalProductId)));
-                if (count($allOrdersInCart) <= (int)$maxCountInCart) {
+                if (count($allOrdersInCart) < (int)$maxCountInCart) {
                     //search if this product already was added to cart
 
                     $temp = array();
@@ -419,11 +419,11 @@ class CartController extends Controller
                                 $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
                             } else {
                                 Order::model()->deleteAll('id = :id', array(':id' => $order->id));
-                                $array = array('message' => 'Произошла ошибка');
+                                $array = array('worning'=>true, 'message' => 'Произошла ошибка');
                                 //print_r($orderProduct->getErrors());
                             }
                         } else {
-                            $array = array('message' => 'Произошла ошибка');
+                            $array = array('worning'=>true, 'message' => 'Произошла ошибка');
                         }
                     } else {
                         $orderProduct->count += $count;
@@ -440,11 +440,11 @@ class CartController extends Controller
                             $array = array('message' => "Товар добавлен в корзину. <br><a href='/cart/' style='color: #ffffff'>Перейти к оформлению товара</a>", 'count' => $cartCount);
                         } else {
                             Order::model()->deleteAll('id = :id', array(':id' => $order->id));
-                            $array = array('message' => 'Произошла ошибка');
+                            $array = array('worning'=>true, 'message' => 'Произошла ошибка');
                         }
                     }
                 } else {
-                    $array = array('message' => 'В корзине не может быть более ' . $maxCountInCart . ' видов товаров.');
+                    $array = array('worning'=>true, 'message' => 'В корзине не может быть более ' . $maxCountInCart . ' видов товаров.');
                 }
                 
                 echo json_encode($array);
