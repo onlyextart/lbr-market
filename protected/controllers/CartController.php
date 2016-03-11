@@ -502,6 +502,7 @@ class CartController extends Controller
         
         error_reporting(E_ALL);
         ini_set('display_errors', true);
+        echo 111; exit;
         
         if (!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
             $order = Yii::app()->db->createCommand()
