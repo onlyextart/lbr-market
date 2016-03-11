@@ -2915,6 +2915,7 @@ function addToCart(event){
                     $('#cart-count').text(response.count+label);
                 }
                 
+                // add to cart from wishlist and delete from it's list
                 if(wishlistFlag && response.worning === undefined) parent.parent().remove();
                 
                 alertify.success(response.message);
