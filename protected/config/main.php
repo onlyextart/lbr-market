@@ -104,6 +104,7 @@ return array(
                 'cart/guestremove/<path:[\w_\/-\d]+>' => 'cart/guestremove',
                 'cart/remove/<path:[\w_\/-\d]+>' => 'cart/remove',
                 'wishlist/remove/<path:[\w_\/-\d]+>' => 'wishlist/remove',
+                
                 //'<controller:\w+>/<action:\w+>/page/<page:[\w_\/-]+>/*' => '<controller>/<action>',
                 //'<_a:(feedback|help)>'=>'site/<_a>',
                 /*'<controller:\w+>/<id:\d+>' => '<controller>/view',
