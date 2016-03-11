@@ -498,12 +498,7 @@ class CartController extends Controller
       $this->redirect('/cart/');
       } */
 
-    public function actionRemove($path) {
-        
-        error_reporting(E_ALL);
-        ini_set('display_errors', true);
-        echo 111; exit;
-        
+    public function actionRemove($path) {        
         if (!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
             $order = Yii::app()->db->createCommand()
                     ->select('o.id order, p.id id')
