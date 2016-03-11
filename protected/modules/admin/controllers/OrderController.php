@@ -145,7 +145,13 @@ class OrderController extends Controller
     {
         if(!empty($id)){
             $order = Order::model()->findByPk($id);
-            $message = 'Удален заказ с id "'.$order->id.'"';
+            $additionalInfo = '';
+            
+            if(!empty($order->user_name)) $additionalInfo .= 'пользователя '.$order->user_name.' ';
+            if(!empty($order->user_email)) $additionalInfo .= '('.$order->user_email.')';
+            
+            $message = 'Удален заказ с id "'.$order->id.'" '.$additionalInfo;
+            
             if(!empty($order)) {
                 $order->delete();
                 Changes::saveChange($message);
