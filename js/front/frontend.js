@@ -377,7 +377,7 @@ function addToCart(event){
                     $('#cart-count').text(response.count+label);
                 }
                 
-                if(response.worning === undefined) parent.parent().remove();
+                if(wishlistFlag && response.worning === undefined) parent.parent().remove();
                 
                 alertify.success(response.message);
             },
