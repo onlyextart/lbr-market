@@ -89,7 +89,7 @@ return array(
                 'modelline/index/id/<id:\d+>' => 'modelline/index',
                 'modellines/index/id/<id:\d+>' => 'modellines/index',
                 'model/show/id/<id:\d+>' => 'model/show',
-                'search/show/input/<input:[\w_\/-\d\s]+>'=>'search/show',
+                'search/show/input/<input:[\/\w-\d\s]+>'=>'search/show',
                 'seasonalsale/index/id/<id:\d+>' => 'seasonalsale/index',
                 
                 //'equipmentmaker/index/id/<id:\d+>' => 'equipmentmaker/index',
