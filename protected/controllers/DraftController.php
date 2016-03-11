@@ -16,7 +16,12 @@ class DraftController extends Controller
             $products[$product->id]['count'] = $product->count;
             $products[$product->id]['note']  = $product->note;
         }
+        
         Yii::app()->params['meta_title'] = 'Сборочный чертеж';
+        
+        $breadcrumbs[] = 'Сборочный чертеж "'.$model->name.'"';
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+        
         $this->render('index', array('model'=>$model, 'products'=>$products));
     }
 }
