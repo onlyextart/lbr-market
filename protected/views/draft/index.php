@@ -42,7 +42,7 @@
                  <tr> 						
                      <td></td>
                      <td><?php echo $product['level']; ?></td>
-                     <td><a href="/product/index/id/<?php echo $product['id']; ?>"><?php echo $product['name']; ?></a></td>
+                     <td><a href="<?php echo $product['path']; ?>"><?php echo $product['name']; ?></a></td>
                      <td><?php echo ($product['count'] > 0) ? $product['count']: '' ?></td>
                      <td><?php echo $product['note']; ?></td>
                  </tr>

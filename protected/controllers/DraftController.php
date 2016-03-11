@@ -11,6 +11,7 @@ class DraftController extends Controller
             $prod = Product::model()->findByPk($product->product_id);
             $products[$product->id]['id']    = $prod->id;
             $products[$product->id]['name']  = $prod->name;
+            $products[$product->id]['path']  = $prod->path;
             $products[$product->id]['level'] = $product->level;
             $products[$product->id]['count'] = $product->count;
             $products[$product->id]['note']  = $product->note;
