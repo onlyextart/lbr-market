@@ -37,19 +37,18 @@ class WishlistController extends Controller
     
     public function actionRemove($path)
     {
-        echo 1; exit;
-//        if(!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
-//           //$product = Wishlist::model()->find('product_id=:product_id and user_id=:user', array(':product_id'=>$id, ':user'=>Yii::app()->user->_id)); 
-//           //if(!empty($product)) $product->delete();
-//           $productId = Product::model()->find(
-//                'path=:path',
-//                array(':path'=>'/'.$path.'/')
-//           )->id;
-//           
-//           $product = Wishlist::model()->find('product_id=:product_id and user_id=:user', array(':product_id'=>$productId, ':user'=>Yii::app()->user->_id));
-//           if(!empty($product)) $product->delete();
-//        }
-//        
-//        $this->redirect('/user/wishlist/show/');
+        if(!Yii::app()->user->isGuest && Yii::app()->user->isShop) { // logged user
+           //$product = Wishlist::model()->find('product_id=:product_id and user_id=:user', array(':product_id'=>$id, ':user'=>Yii::app()->user->_id)); 
+           //if(!empty($product)) $product->delete();
+           $productId = Product::model()->find(
+                'path=:path',
+                array(':path'=>'/'.$path.'/')
+           )->id;
+           
+           $product = Wishlist::model()->find('product_id=:product_id and user_id=:user', array(':product_id'=>$productId, ':user'=>Yii::app()->user->_id));
+           if(!empty($product)) $product->delete();
+        }
+        
+        $this->redirect('/user/wishlist/show/');
     }
 }

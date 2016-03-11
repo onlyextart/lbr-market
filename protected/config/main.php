@@ -89,7 +89,6 @@ return array(
                 'modelline/index/id/<id:\d+>' => 'modelline/index',
                 'modellines/index/id/<id:\d+>' => 'modellines/index',
                 'model/show/id/<id:\d+>' => 'model/show',
-                //'search/show/input/<input:[\w_\/-\d\s]+>'=>'search/show',
                 'search/show/input/<input:[-\w\/_\d\s]+>'=>'search/show',
                 'seasonalsale/index/id/<id:\d+>' => 'seasonalsale/index',
                 
@@ -104,7 +103,6 @@ return array(
                 'cart/guestremove/<path:[-\w_\/\d]+>/o/<originalId:[\d]+>' => 'cart/guestremove',
                 'cart/guestremove/<path:[-\w_\/\d]+>' => 'cart/guestremove',
                 'cart/remove/<path:[-\w_\/\d]+>' => 'cart/remove',
-                //'cart/remove/<[-\w_\/\d]+>' => 'cart/remove',
                 'wishlist/remove/<path:[-\w_\/\d]+>' => 'wishlist/remove',
                 
                 //'<controller:\w+>/<action:\w+>/page/<page:[\w_\/-]+>/*' => '<controller>/<action>',
