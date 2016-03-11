@@ -3,9 +3,13 @@ class DraftController extends Controller
 {
     public function actionIndex($id)
     {
-        //$id = 1;
         $products = array();
         $model = Draft::model()->findByPk($id);
+        if(!$model)
+            throw new CHttpException(404, 'Сборочный чертеж не найден');
+        
+        $title = 'Сборочный чертеж "'.$model->name.'"';
+                
         $productsInDraft = ProductInDraft::model()->with('product')->findAllByAttributes(array('draft_id'=>$id), array('order'=>'CAST(level AS UNSIGNED), product.name'));
         foreach($productsInDraft as $product) {
             $prod = Product::model()->findByPk($product->product_id);
@@ -17,9 +21,9 @@ class DraftController extends Controller
             $products[$product->id]['note']  = $product->note;
         }
         
-        Yii::app()->params['meta_title'] = 'Сборочный чертеж';
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title; 
+        $breadcrumbs[] = $title;
         
-        $breadcrumbs[] = 'Сборочный чертеж "'.$model->name.'"';
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         
         $this->render('index', array('model'=>$model, 'products'=>$products));

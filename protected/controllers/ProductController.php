@@ -11,7 +11,7 @@ class ProductController extends Controller
         $image = Product::model()->getImage($data->image);
         $maker = ProductMaker::model()->findByPk($data->product_maker_id);
               
-        Yii::app()->params['meta_title'] = $data->name;
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] =$data->name;
         
         // bradcrumbs
         if(!empty(Yii::app()->request->urlReferrer) && !empty(Yii::app()->session['model']) && $data->liquidity != 'D') {
