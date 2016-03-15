@@ -81,7 +81,7 @@
                 <tr><td style="padding: 50px 50px 30px 50px;">
                         <p style="margin: 0; padding: 0; font-family: 'Trebuchet MS', sans-serif; font-size: 14px; font-weight: normal; text-align: justify; color: grey; ">
                             С уважением,<br />
-                            Интернет-магазин «ЛБР-Агромаркет»
+                            «ЛБР-Агромаркет»
                         </p>    
                     </td></tr>
                 
@@ -100,7 +100,7 @@
                         <td style="float:right">&nbsp;<img src="http://lbr-market.ru/images/mail/tractor.png" /></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="text-align:right">&nbsp;2015 © ООО "ЛБР-АгроMаркет"  <span style="text-align:right"></span></td>
+                        <td colspan="2" style="text-align:right">ООО "ЛБР-АгроMаркет"<span style="text-align:right"></span></td>
                     </tr>
                 </tbody>
             </table>  
