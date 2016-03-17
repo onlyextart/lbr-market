@@ -187,7 +187,7 @@ return array(
         'imageNoPhoto' => '/images/no-photo.png',
         'maxInCart'    => 5, // count of product types in cart
         'showSeoTexts' => 1,
-        'showDrafts'   => 0,
+        'showDrafts'   => 1,
         /**
          * Prices
          */
