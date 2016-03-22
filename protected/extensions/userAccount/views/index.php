@@ -53,9 +53,9 @@ if(!Yii::app()->user->isGuest) {
     
     <div class="text_quickform">
         <p>ЭКСПРЕСС-ЗАЯВКА</p>
-        <center>
+        <div>
             <?php echo CHtml::button('ОТПРАВИТЬ', array('submit' =>array('/site/quickform/'), 'class'=>'buttonform')); ?>    
-        </center>
+        </div>
     </div>
     
     <div class="clearfix"></div>

@@ -4131,7 +4131,7 @@ div.ui-widget-header{
     font-weight: bold;
     line-height: 1.5;
 }
-.text_quickform, .cart-label-no-price{
+.text_quickform, .cart-label-no-price {
     color: #5f5e5e;
     border-radius: 5px;
     box-shadow: 2px 2px 2px #d1d0d0;
@@ -4143,10 +4143,21 @@ div.ui-widget-header{
     font-weight: bold;
     text-indent: 15px;
 }
-.text_quickform{
+
+.text_quickform {
    text-indent: 0px;
    text-align: center;
    margin-bottom: 15px;
+}
+
+.text_quickform input {
+    background: url(/images/envelope.png) no-repeat #f39314 95px 4px;
+    text-align: left;
+}
+
+.text_quickform .buttonform {
+    width: 60%;
+     padding: 5px 8px;
 }
 .phone_note
 {
