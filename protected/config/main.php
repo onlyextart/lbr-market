@@ -181,7 +181,7 @@ return array(
     'params' => array(
         'host' => 'lbr-market.ru',
         'admin_email' =>'shop@lbr.ru',
-        'meta_title'  => 'Запчасти ЛБР-Агромаркет',
+        'meta_title'  => 'Запчасти ЛБР-АгроМаркет',
         'meta_description' => '',
         'footerLabel'  => date("Y").' &copy; ООО "ЛБР-АгроMаркет"',
         'imageNoPhoto' => '/images/no-photo.png',

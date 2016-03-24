@@ -17,7 +17,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?69');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?70');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?12');
 
@@ -36,7 +36,7 @@
         <header>
             <div class="logo">
                 <a href="http://lbr-market.ru/">
-                    <img src="/images/logo.png" title="ЛБР-Агромаркет" alt="Логотип ЛБР-Агромаркет"/>
+                    <img src="/images/logo.png" title="ЛБР-Агромаркет" alt="Логотип ЛБР-АгроМаркет"/>
                 </a>
             </div>
             <div class="header-main">
@@ -70,18 +70,18 @@
                             <div class="phone_number">8-800-5553219</div>
                             <div class="phone_text">звонок бесплатный</div>
                         <div class="clearfix"><div>
-<!--                        <div class="fw-container__step__form__design-btn__body call">
+                        <!--div class="fw-container__step__form__design-btn__body call">
                             <label for="design-btn-2" data-token="YY5JRWW8Z6Q13JR6J16DYRVYR1WDVG8V" data-dtmf="off" data-lang="ru" data-defautlText="null" data-endText="Завершить" class="fw-container__step__form__design-btn__label js-start_call fw-container__step__form__design-btn__label--2" style='background-color: #FFFFFF; color: #F39314'>
                                 <span class="fw-container__step__form__design-btn__label__icon"></span>
                                 <span class="js-text_call" id='call_button'>ЗАКАЗАТЬ ОБРАТНЫЙ ЗВОНОК</span>
                                 <span class="fw-container__step__form__design-btn__label__icon2"></span>
                             </label>
-                        </div>-->
-                        <div class="call">
+                        </div-->
+                        <!--div class="call">
                             <label>
                                 <span id='call_button'>ЗАКАЗАТЬ ОБРАТНЫЙ ЗВОНОК</span>
                             </label>
-                        </div>
+                        </div-->
                     </div>
                 </ul>
             </div>
@@ -225,7 +225,7 @@
             <div><?php echo Yii::app()->params['footerLabel']; ?></div>
         </footer>
         
-        <div id="window_call">
+        <!--div id="window_call">
             <div id="modal_form_call">
                 <div id="modal_title" style="margin:20px 0px 20px 0px;">
                     <span style="font-family: 'Trebuchet MS';font-size:20px;font-weight:bold; color:#F39314;text-transform: uppercase;">
@@ -242,7 +242,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div-->
         <!-- OnlineSeller.ru {literal} -->
              <script type="text/javascript">var _oaq = _oaq || [];_oaq.push(['_OPAccount', '716']);(function() {var oa = document.createElement('script'); oa.type = 'text/javascript';oa.charset='UTF-8'; oa.async = true; oa.src = 'http://onlinesaler.ru/assets/templates/os2013/common/js.php?akkid=716'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(oa, s);  })();</script>
         <!--OnlineSeller.ru {/literal} -->
