@@ -21,8 +21,8 @@ if(!empty($model->logo)) {
                 'value'=>CHtml::link(
                     CHtml::image(
                         $model->logo,
-                        CHtml::encode('test'),
-                        array('max-height'=>'150px',)
+                        CHtml::encode('Изображение не найдено'),
+                        array('max-height'=>'150px')
                     ),
                     $model->logo,
                     array('target'=>'_blank', 'class'=>'pretty')
