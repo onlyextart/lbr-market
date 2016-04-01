@@ -4233,7 +4233,218 @@ div.phone_number{
     display:none;
 }
 /*----end Back call-------*/
+/*---- Contacts -------*/
+#contactsCommon-wrapper{
+    width:780px;
+    margin-top: 20px;
+/*    margin-left: 10px;
+    margin-right: 10px;*/
+    font-size: 14px;
+}
+#contactsCommon-wrapper h1.contacts-header{
+    text-align: center;
+    color: #5f5e5e;
+    margin-left: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+#contactsCommon-wrapper .contacts_list{
+    list-style: none;
+    margin-left: 31px;
+    margin-right: 17px;
+}
+#contactsCommon-wrapper .region-group{
+    display: block;
+    clear: both;
+    /*overflow: hidden;*/
+} 
+#contactsCommon-wrapper .region-one{
+    display: inline-block;
+    /*float:left;*/
+    /*margin-right: 7px;*/
+} 
+/*#contactsCommon-wrapper .region-one.region-group{
+    overflow:visible;
+} */
+#contactsCommon-wrapper .contacts_list .region-group:not(.region-one) + .region-group.region-one{
+    /*margin-left: 10px;*/
+}
+#contactsCommon-wrapper .contacts_list .region-group:not(.region-one):after{
+    float:none;
+    clear:both;
+    display:block;
+}
+#contactsCommon-wrapper .contacts_list .region-group .region-group-name {
+    margin-bottom: 15px;
+/*    margin-left: 13px;*/
+    margin-top: 15px;
+    font-size: 17px;
+    font-weight: bold;
+}
+#contactsCommon-wrapper .region-one .region-group-name {
+    width:230px;
+}
+#contactsCommon-wrapper .contacts_list .region-group .contact-item {
+    cursor: default;
+    /*margin-left: 1.5%;*/
+    margin-right:14px;
+    margin-bottom: 1.6%;
+    float: left;
+    height: 340px;
+    width: 230px;
+    background-color: #f1f0f0;
+    border-radius: 4px;
+    box-shadow: 0 0 4px 1px rgba(50, 50, 50, 0.5);
+}
+#contactsCommon-wrapper .contacts_list .region-one .contact-item {
+    margin-left:0;
+}
+#contactsCommon-wrapper .contacts_list .city-name {
+    margin: 5px 10px 5px 10px;
+}
+#contactsCommon-wrapper .contacts_list .city-name a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #F39314;
+    font-weight: bold;
+}
+#contactsCommon-wrapper .contacts_list .city-name a:hover {
+    text-decoration: underline;
+}
+#contactsCommon-wrapper .contacts_list .region-group .contact-item .contact-image img {
+    display: block;
+    width: 230px;
+    margin-bottom: 20px;
+}
+#contactsCommon-wrapper .contact-item .contact-info {
+    margin: 10px;
+    font-size:13px;
+}
+#contactsCommon-wrapper .contact-item .contact-info > div {
+    margin-bottom: 6px;
+}
+#contactsCommon-wrapper .contact-additional-info{
+    padding-top: 20px;
+}
+#contactsCommon-wrapper .contact-additional-info .view_all_contacts{
+    display:block;
+    padding-left:31px;
+    color: #5f5e5e;
+    font-weight: bold;
+    /*position: absolute;*/
+}
+#contact-wrapper{
+    width:760px;
+    margin: 20px 65px 0px 65px;
+}
+#contact-wrapper .contact-header{
+    font-size: 26px;
+    color: #F39314;
+    margin-left: 0px;
+}
+#contact-wrapper .contact_info{
+    width:630px;
+}
+#contact-wrapper .contact_info img.contact_icon {
+    width: 25px;
+    margin-right: 15px;
+}
+#contact-wrapper .contact_info img.pict {
+    /*margin-left: 65px;*/
+}
+#contact-wrapper .contact_map {
+    width: 630px;
+    /*margin-left: 65px;*/
+}
+#contact-wrapper .contact_form, #contactsCommon-wrapper .contact_form{
+  width: 530px;
+  margin:30px 0px 0px 50px;
+}
+#contactsCommon-wrapper .contact_form{
+  margin:30px 135px 0px 135px;  
+}
+#contact-wrapper .contact_form form, #contactsCommon-wrapper .contact_form form{
+   /*width: 320px;*/
+  padding: 5px 35px;
+  -moz-box-shadow: 0px 0px 5px #c0c0c0;
+  -webkit-box-shadow: 0px 0px 5px #c0c0c0;
+  -o-box-shadow: 0px 0px 5px #c0c0c0;
+  box-shadow: 0px 0px 5px #c0c0c0;
+  border-radius: 2px;
+  min-height: 380px;
+}
+#contact-wrapper .contact_form form h2, #contactsCommon-wrapper .contact_form form h2{
+  font-size: 22px;
+  font-weight:bold;
+  color: #F39314;
+  text-align: center;
+  padding:10px 0px 15px 0px;
+}
+#contact-wrapper .contact_form form p, #contactsCommon-wrapper .contact_form form p{
+  line-height: 14px;
+}
+#contact-wrapper .contact_form form textarea, #contactsCommon-wrapper .contact_form form textarea{
+  width: 450px;
+}
+#contact-wrapper .contact_form form label, #contactsCommon-wrapper .contact_form form label{
+  width: 100%;
+  display: block;
+}
+#contact-wrapper .contact_form form input.contact_form_field, #contactsCommon-wrapper .contact_form form input.contact_form_field{
+  width: 450px;
+  display: block;
+}
+#contact-wrapper .contact_form form input.verifyCode_form_field, #contactsCommon-wrapper .contact_form form input.verifyCode_form_field{
+    width:175px;
+}
+#contact-wrapper .contact_form form .btn, #contactsCommon-wrapper .contact_form form .btn{
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 0;
+    color: #fff;
+    background: #14AAAA;
+    background: -moz-linear-gradient(top,#fbc173,#f39314);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0,#fbc173),color-stop(100%,#f39314));
+    background: -webkit-linear-gradient(top,#fbc173,#f39314);
+    background: -o-linear-gradient(top,#fbc173,#f39314);
+    background: -ms-linear-gradient(top,#fbc173,#f39314);
+    background: linear-gradient(top,#fbc173,#f39314);
+    width: 40%;
+    font-weight: 700;
+    margin-top: 10px;
+    box-shadow: 0 0 4px 1px rgba(50,50,50,.5);
+    font-size: 14px;
+}
+#contactsCommon-wrapper .contact_form form select.contact_form_field {
+    display: block;
+    width: 100%;
+}
+.info {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    border-radius: 4px;
+    color: #468847;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
 
+.info.error {
+    background-color: #fee;
+    color: black;
+    border-color: #c00;
+}
+
+.info.error a {
+    color: black;
+    display: block;
+}
+
+.info.error a:hover {
+    text-decoration: none;
+}
+/*----end Contacts-------*/
 /*.grey .accordion > li{
     width: 98%;
 }*/
@@ -5621,3 +5832,75 @@ div.phone_number{
   }
 }
 /* @end */
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 19.02.2016, 12:22:28
+    Author     : teterukova
+*/
+/*body {overflow: hidden}*/
+#modal_form_call{
+    width:340px;
+    height:220px;
+    padding: 0px 20px;
+    margin:0 auto;
+}
+#form_call{
+    width:300px;
+    height:220px;
+    
+}
+#modal_form_call .row{
+    margin-top: 10px;
+}
+#modal_form_call .button{
+    margin-top: 30px;
+}
+#modal_form_call label{
+    color:#727272;
+    font-size: 14px;
+}
+#modal_form_call label .example{
+    font-size: 12px;
+}
+#modal_form_call input[type='text']{
+    width:100%;
+    height:30px;
+    font-size:25px;
+    color:#727272;
+}
+#modal_form_call input[type='submit']{
+    width:100%;
+    height:40px;
+    font-size:18px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 0;
+    color: #fff;
+    background: #14AAAA;
+    background: -moz-linear-gradient(top,#fbc173,#f39314);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0,#fbc173),color-stop(100%,#f39314));
+    background: -webkit-linear-gradient(top,#fbc173,#f39314);
+    background: -o-linear-gradient(top,#fbc173,#f39314);
+    background: -ms-linear-gradient(top,#fbc173,#f39314);
+    background: linear-gradient(top,#fbc173,#f39314);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#fbc173', endColorstr='#f39314');
+    font-weight: normal;
+    margin-top: 0px;
+    box-shadow: 0 0 4px 1px rgba(50,50,50,.5);
+    cursor: pointer;
+}
+#modal_title{
+    margin:20px 0px 20px 0px;
+}
+#modal_title span{
+    font-family: "Trebuchet MS";
+    font-size:20px;
+    font-weight:bold;
+    color:#F39314;
+    text-transform: uppercase;
+}

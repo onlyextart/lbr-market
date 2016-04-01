@@ -18,6 +18,7 @@ class ShopUrlRule extends CBaseUrlRule
          * or "/manufacturer/case/"           -> subcategory controller
          * or "/sparepart/15-bolt/"           -> product controller
          * or "/products/amortizatory-kabiny/" -> groupfilter controller
+         * or "/contacts/belgorod/"            -> contacts controller
          */        
         if(preg_match('/^[\w,-]+(\/[\w,-]+)$/', $pathInfo, $matches)) {
             $page = $matches[1];
@@ -61,6 +62,16 @@ class ShopUrlRule extends CBaseUrlRule
                 );
                 if(!empty($group)) {
                    return 'groupfilter/index/id/'.$group->id;
+                }
+            } else if(strpos($matches[0], 'contacts/') !== false) {
+                $alias=str_replace('/','',$matches[1]); //dev symbol "/"
+                $contact= Yii::app()->db_lbr->createCommand()
+                    ->select('id')
+                    ->from('contacts')
+                    ->where('alias=:alias', array(':alias'=>$alias))
+                    ->queryScalar();
+                if(!empty($contact)) {
+                   return 'contacts/index/id/'.$contact;
                 }
             }
         } 
