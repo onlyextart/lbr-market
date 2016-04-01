@@ -49,8 +49,8 @@ class ContactsController extends Controller
             $formModel->flagCommonContacts = false;
             if(isset($_POST['ContactForm'])) {
                 $subject = 'from LBR.RU';
-                //$this->sendMail($_POST['ContactForm'], $formModel, $subject, $contactModel["email"]);
-                $this->sendMail($_POST['ContactForm'], $formModel, $subject, 'teterukova@lbr.ru');
+                $this->sendMail($_POST['ContactForm'], $formModel, $subject, $contactModel["email"]);
+                //$this->sendMail($_POST['ContactForm'], $formModel, $subject, 'teterukova@lbr.ru');
             }
             $this->render('index', array('contactModel'=>$contactModel,'formModel'=>$formModel));
         }

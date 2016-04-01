@@ -18,7 +18,7 @@ class ContactForm extends CFormModel
         public $region;
         public $flagCommonContacts = false;
         public static $mailToArray = array(
-            'mail1@lbr.ru' => 'Тестирование',
+            //'mail1@lbr.ru' => 'Тестирование',
             'mail2@lbr.ru' => 'Техника',
             'mail3@lbr.ru' => 'Запчасти',
             'mail4@lbr.ru' => 'Логистика, таможня, сертификация',
@@ -27,7 +27,7 @@ class ContactForm extends CFormModel
         );
         
         public static $realMails = array(
-            'mail1@lbr.ru' => 'teterukova@lbr.ru', // test mail
+            //'mail1@lbr.ru' => 'teterukova@lbr.ru', // test mail
             'mail2@lbr.ru' => 'pl@lbr.ru',
             'mail3@lbr.ru' => 'parts@lbr.ru',
             'mail4@lbr.ru' => 'log@lbr.ru',
