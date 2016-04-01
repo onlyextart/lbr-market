@@ -137,7 +137,7 @@ return array(
         ),
         'db_lbr' => array(
             'class' => 'CDbConnection',
-            'connectionString' => 'sqlite:' . dirname(__FILE__) . '/../../../data/lbr.db',
+            'connectionString' => 'sqlite:' . dirname(__FILE__) . '/../../../lbr/protected/data/lbr.db',
             'initSQLs' => array(
                 'PRAGMA foreign_keys = ON',
             ),
