@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : 19.02.2016, 12:22:28
     Author     : teterukova
 */
-body {overflow: hidden}
+/*body {overflow: hidden}*/
 #modal_form_call{
     width:340px;
     height:220px;

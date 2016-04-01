@@ -29,7 +29,8 @@ module.exports = function (grunt) {
                     'css/ui/jquery-ui-1.10.3-min.css',
                     'css/alertify/core.css',
                     'css/alertify/default.css',
-                    'css/front/chosen/chosen.css'
+                    'css/front/chosen/chosen.css',
+                    'css/front/call_window.css'
                 ],
                 dest: 'distribution/css/styles.css',
             },

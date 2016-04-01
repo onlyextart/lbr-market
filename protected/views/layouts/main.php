@@ -17,7 +17,7 @@
             var lbrAnaliticsMark = "<?php echo Yii::app()->params['analiticsMark']; ?>";
         </script>
         <?php
-            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?70');
+            Yii::app()->clientScript->registerCssFile('/distribution/css/styles.min.css?71');
             Yii::app()->clientScript->registerCoreScript('jquery');
             Yii::app()->clientScript->registerScriptFile('/distribution/js/scripts.min.js?12');
 
@@ -102,7 +102,7 @@
                  <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
                    <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
                 </a>-->
-                <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="http://www.lbr.ru/company/contacts/">
+                <a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="/contacts/">
                     <span>Наши филиалы</span>
                     <img src="/images/map.jpg" title="Контакты ЛБР-Агромаркет" alt="ЛБР-Агромаркет контакты"/>
                 </a>
@@ -125,7 +125,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="http://www.lbr.ru/company/contacts/"><span>Контакты</span></a></li>
+                    <li><a onclick="ga('send', 'event', 'action','contacts'); yaCounter30254519.reachGoal('contacts'); return true;" href="/contacts/"><span>Контакты</span></a></li>
                 </ul>
             </div>
             <div class="menu-line">
