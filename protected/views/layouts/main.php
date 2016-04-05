@@ -83,11 +83,11 @@
                             </label>
                         </div-->
                         
-                        <div class="call">
+                        <!--div class="call">
                             <label>
                                 <span onclick="jivo_api.open({start : 'call'});">ЗАКАЗАТЬ ОБРАТНЫЙ ЗВОНОК</span>
                             </label>
-                        </div>
+                        </div-->
                     </div>
                 </ul>
             </div>
