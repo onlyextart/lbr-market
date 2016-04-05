@@ -82,6 +82,12 @@
                                 <span id='call_button'>ЗАКАЗАТЬ ОБРАТНЫЙ ЗВОНОК</span>
                             </label>
                         </div-->
+                        
+                        <div class="call">
+                            <label>
+                                <span onclick="jivo_api.open({start : 'call'});">ЗАКАЗАТЬ ОБРАТНЫЙ ЗВОНОК</span>
+                            </label>
+                        </div>
                     </div>
                 </ul>
             </div>

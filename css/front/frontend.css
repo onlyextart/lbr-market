@@ -4204,11 +4204,11 @@ div.ui-widget-header{
   height: 80%;
   opacity: 0.8;
 }
-.phone_main .call label>span{
-    width:auto;
+.phone_main .call label > span {
+    width: auto;
     vertical-align: baseline;
     border-bottom: solid 1px;
-    border-bottom-style:dashed;
+    border-bottom-style: dashed;
 }
 div.phone_text_help{
     font-size: 18px;
