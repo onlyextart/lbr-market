@@ -133,7 +133,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
                                     'captchaAction' => 'site/captcha',
                                     'clickableImage' => true, 
                                     'showRefreshButton' => false,
-                                    'imageOptions'=>array('style'=>'border:none;',
+                                    'imageOptions'=>array('style'=>'border:none;cursor:pointer;',
                                         'alt'=>'Изображение с кодом валидации',
                                         'title'=>'Обновить код'
                                     )

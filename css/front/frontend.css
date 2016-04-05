@@ -4424,6 +4424,7 @@ div.phone_number{
     margin-top: 10px;
     box-shadow: 0 0 4px 1px rgba(50,50,50,.5);
     font-size: 14px;
+    cursor:pointer;
 }
 #contactsCommon-wrapper .contact_form form select.contact_form_field {
     display: block;
