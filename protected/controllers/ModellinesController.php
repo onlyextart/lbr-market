@@ -29,43 +29,40 @@ class ModellinesController extends Controller
         $currentBrand = '';
         $breadcrumbs[$title] = '/catalog'.$categoryParent->path.$currentBrand.'/';
         if(!empty($maker)) {
-           $breadcrumbs[$categoryRoot->name] = '/catalog'.$categoryRoot->path.'/';
-           $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
-           $response .= '<h1>'.$equipmentMaker->name.'</h1>';
-           $equipmentMakerName = $equipmentMaker->name;
-           $breadcrumbs[] = $equipmentMakerName;
-           Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name.' '.$equipmentMakerName;
-           if(!empty($equipmentMaker->meta_title)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_title;
-           if(!empty($equipmentMaker->meta_description)) Yii::app()->params['meta_title'] = $equipmentMaker->meta_description;
-        } else {
-           $breadcrumbs[] = $categoryRoot->name;
-           $h1Title = $categoryRoot->name;
-           if(!empty($categoryRoot->h1)) $h1Title = $categoryRoot->h1;
-           Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $categoryRoot->name;
-           if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
-           if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_title'] = $categoryRoot->meta_description;
-        }
-        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
-        // end breadcrumbs
-        
-        if(!empty($maker)) {
-            $seoText = CategorySeo::model()->find('category_id=:category and equipment_id=:maker', array('category'=>$categoryRoot->id, 'maker'=>$maker));
+            $breadcrumbs[$categoryRoot->name] = '/catalog'.$categoryRoot->path.'/';
+            $equipmentMaker = EquipmentMaker::model()->findByPk($maker);
+            $response .= '<h1>'.$equipmentMaker->name.'</h1>';
+            $equipmentMakerName = $equipmentMaker->name;
+            $breadcrumbs[] = $equipmentMakerName;
+           
+            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $h1Title = $categoryRoot->name.' '.$equipmentMakerName;
+            // set Seo texts
+            $seoText = CategorySeo::model()->find('category_id=:category and equipment_id=:maker', array('category'=>$categoryRoot->id, 'maker'=>$equipmentMaker->id));
             if(!empty($seoText)) {
                 if(!empty($seoText->meta_title)) Yii::app()->params['meta_title'] = $seoText->meta_title;
                 if(!empty($seoText->meta_description)) Yii::app()->params['meta_description'] = $seoText->meta_description;
+                if(!empty($seoText->h1)) $h1Title = $seoText->h1;
+           
                 if(Yii::app()->params['showSeoTexts']) {
                     if(!empty($seoText->top_text)) $topText = $seoText->top_text;
                     if(!empty($seoText->bottom_text)) $bottomText = $seoText->bottom_text;
                 }
             }
         } else {
+            $breadcrumbs[] = $categoryRoot->name;
+           
+            Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $h1Title = $categoryRoot->name;
+            // set Seo texts
             if(!empty($categoryRoot->meta_title)) Yii::app()->params['meta_title'] = $categoryRoot->meta_title;
             if(!empty($categoryRoot->meta_description)) Yii::app()->params['meta_description'] = $categoryRoot->meta_description;
+            if(!empty($categoryRoot->h1)) $h1Title = $categoryRoot->h1;
             if(Yii::app()->params['showSeoTexts']) {
                 if(!empty($categoryRoot->top_text)) $topText = $categoryRoot->top_text;
                 if(!empty($categoryRoot->bottom_text)) $bottomText = $categoryRoot->bottom_text;
             }
         }
+        Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+        // end breadcrumbs
         
         $result_array = $this->setMakerFilter($id, $categoryRoot->name,true);
         $result=$result_array['result'];
