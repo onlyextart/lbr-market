@@ -17,7 +17,10 @@
                 <li>
                     <a href="/admin/category/" target="_blank">Категории</a>
                     <div>
-                        Пример: <a href="/catalog/traktornaya-tehnika/buhler-versatile-inc/" target="_blank">Тракторная техника</a>, <a href="/catalog/traktornaya-tehnika/traktory/" target="_blank">Тракторы</a>
+                        Пример: <a href="/catalog/traktornaya-tehnika/traktory/" target="_blank">Тракторная техника - Тракторы</a>
+                    </div>
+                    <div>
+                        <?php echo Yii::app()->getBaseUrl(true).'/catalog/traktornaya-tehnika/traktory/' ?>
                     </div>
                 </li>
                 <li>
@@ -25,17 +28,26 @@
                     <div>
                         Пример: <a href="/manufacturer/buhler-versatile-inc/" target="_blank">Buhler Versalite Inc.</a>
                     </div>
+                    <div>
+                        <?php echo Yii::app()->getBaseUrl(true).'/manufacturer/buhler-versatile-inc/' ?>
+                    </div>
                 </li>
                 <li>
                     <a href="/admin/categoryseo/" target="_blank">Производители техники в категории</a>
                     <div>
-                        Пример: <a href="http://lbr-market.test/catalog/traktornaya-tehnika/traktory/buhler-versatile-inc/" target="_blank">Тракторы - Buhler Versalite Inc.</a>
+                        Пример: <a href="/catalog/traktornaya-tehnika/traktory/buhler-versatile-inc/" target="_blank">Тракторы - Buhler Versalite Inc.</a>
+                    </div>
+                    <div>
+                        <?php echo Yii::app()->getBaseUrl(true).'/catalog/traktornaya-tehnika/traktory/buhler-versatile-inc/' ?>
                     </div>
                 </li>
                 <li>
                     <a href="/admin/modelline/" target="_blank">Модельные ряды</a>
                     <div>
                         Пример: <a href="/catalog/traktornaya-tehnika/traktory/buhler-versatile-inc/buhler-versatile-2240-2270-2290/" target="_blank">Модельный ряд "BUHLER VERSATILE 2240,2270,2290"</a>
+                    </div>
+                    <div>
+                        <?php echo Yii::app()->getBaseUrl(true).'/catalog/traktornaya-tehnika/traktory/buhler-versatile-inc/buhler-versatile-2240-2270-2290/' ?>
                     </div>
                 </li>
             </ul>
