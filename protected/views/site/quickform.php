@@ -1,5 +1,6 @@
 <?php
     $err = Yii::app()->user->getFlash('error');
+    Yii::app()->controller->createAction('captcha')->getVerifyCode(true);
 ?>
 <style> 
     .disabled{
@@ -100,7 +101,20 @@ array(
         if(CCaptcha::checkRequirements() && Yii::app()->user->isGuest){
               echo $form->labelEx($model,'verifyCode');
               echo $form->textField($model,'verifyCode',array('value'=>''));?>
-              <div id='pict_captcha'><?php $this->widget('CCaptcha');?></div>
+              <div id='pict_captcha'>
+                  <?php $this->widget('CCaptcha', 
+                            array(
+                                'captchaAction' => 'site/captcha',
+                                'clickableImage' => true, 
+                                'showRefreshButton' => false,
+                                'imageOptions'=>array('style'=>'border:none;cursor:pointer',
+                                    'alt'=>'Изображение с кодом валидации',
+                                    'title'=>'Обновить код'
+                                )
+                            )
+                        );
+                  ?>
+              </div>
               <?php 
             
         }
