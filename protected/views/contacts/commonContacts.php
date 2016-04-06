@@ -182,6 +182,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
     <?php $this->endWidget(); ?>
     </div>
-</div>
+</div> 
 
 

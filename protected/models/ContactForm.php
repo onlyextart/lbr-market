@@ -49,6 +49,7 @@ class ContactForm extends CFormModel
                 array('verifyCode', 'required', 'on'=>'insert'),
                 array('verifyCode',  // must be after required rule
                     'captcha',
+                    'captchaAction'=>'contacts/captcha',
                     'on'=>'insert',
                     'skipOnError'=>true, // Important: Only validate captcha if 'required' had no error (a.k.a. "if not empty")
                     //'allowEmpty'=>!CCaptcha::checkRequirements(),
