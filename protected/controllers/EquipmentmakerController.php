@@ -8,17 +8,22 @@ class EquipmentmakerController extends Controller
         
         if (!empty($path)) {
             $data = EquipmentMaker::model()->find('path=:path and published=1', array('path'=>'/'.$path));
-            
-            $breadcrumbs[$sectionName] = '/partners/';
-            $breadcrumbs[] = $data->name;
-            Yii::app()->params['breadcrumbs'] = $breadcrumbs;
-            Yii::app()->params['meta_title'] = $data->name;
-            
             if(!empty($data)) {
-                Yii::app()->params['analiticsMark'] = 'maker='.$data->external_id;
-                $this->render('index', array('data'=>$data));
+                Yii::app()->getController()->redirect(array('manufacturer/'.$path.'/'));
+            } else {
+                throw new CHttpException(404, 'Страница не найдена');
             }
-            else $this->redirect('/');
+            
+//            $breadcrumbs[$sectionName] = '/partners/';
+//            $breadcrumbs[] = $data->name;
+//            Yii::app()->params['breadcrumbs'] = $breadcrumbs;
+//            Yii::app()->params['meta_title'] = $data->name;
+//            
+//            if(!empty($data)) {
+//                Yii::app()->params['analiticsMark'] = 'maker='.$data->external_id;
+//                $this->render('index', array('data'=>$data));
+//            }
+//            else $this->redirect('/');
         }
     }
     
