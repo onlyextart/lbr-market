@@ -49,8 +49,8 @@ class RegFormInd extends CFormModel
            $this->addError($this->login, 'Такой логин уже существует');
        }
    }
-   
-   public function checkUniqueEmail()
+
+    public function checkUniqueEmail()
    {
        $model_user= User::model()->findByAttributes(array('email'=>$this->email));
        $model_user_auth = AuthUser::model()->findByAttributes(array('email'=>$this->email));

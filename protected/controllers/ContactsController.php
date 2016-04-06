@@ -7,7 +7,7 @@ class ContactsController extends Controller
         return array(
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha'=>array(
-                'class'=>'CCaptchaAction',
+                'class'=>'MyCCaptchaAction',
                 'backColor'=>0xFFFFFF,
                 'testLimit'=>1,
             ),
