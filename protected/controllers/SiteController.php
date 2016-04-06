@@ -137,6 +137,7 @@ class SiteController extends Controller {
             'captcha' => array(
                 'class' => 'MyCCaptchaAction',
                 'testLimit' => 1,
+                'backColor'=>0xF1F1F1,
             ),
         );
     }
@@ -203,7 +204,6 @@ class SiteController extends Controller {
         } elseif (isset($_POST['RegFormInd']) || isset($_POST['RegFormLegalPerson'])) {
             if (isset($_POST['RegFormInd'])) {
                 $model_form['IND']->attributes = $_POST['RegFormInd'];
-
                 $login = $_POST['RegFormInd']['login'];
                 $view = 'registration_ind';
                 $key = 'IND';

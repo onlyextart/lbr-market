@@ -1,5 +1,6 @@
 <?php
     $err = Yii::app()->user->getFlash('error');
+    Yii::app()->controller->createAction('captcha')->getVerifyCode(true);
 ?>
 <script>
 $(function(){ 
@@ -97,7 +98,20 @@ $form=$this->beginWidget('CActiveForm', array(
         if(CCaptcha::checkRequirements() && Yii::app()->user->isGuest){
               echo $form->labelEx($model_form,'verifyCode');
               echo $form->textField($model_form,'verifyCode',array('value'=>''));?>
-              <div id='pict_captcha'><?php $this->widget('CCaptcha');?></div>
+                <div id='pict_captcha'>
+                    <?php $this->widget('CCaptcha', 
+                            array(
+                                'captchaAction' => 'site/captcha',
+                                'clickableImage' => true, 
+                                'showRefreshButton' => false,
+                                'imageOptions'=>array('style'=>'border:none;cursor:pointer',
+                                    'alt'=>'Изображение с кодом валидации',
+                                    'title'=>'Обновить код'
+                                )
+                            )
+                        );
+                  ?>
+                </div>
               <?php 
             
         }
@@ -119,9 +133,3 @@ $form=$this->beginWidget('CActiveForm', array(
   
     </div>
 </div>
-<!--<script>
-$(document).ready(function(){
-   //dynamic mask for phone 
-   $('.phone').inputmask({"mask":"+9{1,3}(9{2,4})9{5,7}"}); 
-});
-</script>-->
