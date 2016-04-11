@@ -39,7 +39,7 @@ class CategoryseoController extends Controller
         if(!empty($_POST['CategorySeo'])) {
             $editFieldsMessage=Changes::getEditMessage($model,$_POST['CategorySeo'],$fieldsShortInfo);
             if (!empty($editFieldsMessage)){
-                $message.= 'Редактирование производителя техники "'.$model->equipmentMaker->name.'" в катогории "'.$model->category->name.'", ';
+                $message.= 'Редактирование производителя техники "'.$model->equipmentMaker->name.'" в категории "'.$model->category->name.'", ';
                 $message.= $editFieldsMessage;
             }
             $model->attributes = $_POST['CategorySeo'];
