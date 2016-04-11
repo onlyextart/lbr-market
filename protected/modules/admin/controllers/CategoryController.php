@@ -86,7 +86,7 @@ class CategoryController extends Controller
                            }
                     }
                     if(empty($message)){
-                        $message.= 'Редактирование спецпредложения "'.$model->name.'", ';
+                        $message.= 'Редактирование категории "'.$model->name.'", ';
                     }
                     else{
                          $message.="; ";
