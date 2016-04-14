@@ -72,7 +72,7 @@ class BestofferController extends Controller {
                 if ($success) {
                     $transaction->commit();
                     $message = 'Создано спецпредложение "' . $model->name . '"';
-                    Changes::saveChange($message);
+                    Changes::saveChange($message,Changes::ITEM_BESTOFFER);
                     Yii::app()->user->setFlash('message', $message);
                     $this->redirect(array('edit', 'id' => $model->id));
                 } else {
@@ -131,7 +131,7 @@ class BestofferController extends Controller {
                 $connection=Yii::app()->db; 
                 $transaction=$connection->beginTransaction();
                 
-                if($_POST['makers']!=$selected_makers){
+                if((isset($_POST['makers']))&&($_POST['makers']!=$selected_makers)){
                     if(!empty($selected_makers)){
                             $sql_delete="DELETE FROM bestoffer_makers WHERE bestoffer_id=".$id.";";
                             $rowCount=$connection->createCommand($sql_delete)->execute();
@@ -163,7 +163,7 @@ class BestofferController extends Controller {
                 }
                 if ($success){
                     $transaction->commit();
-                    if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message, Changes::ITEM_BESTOFFER);
                     Yii::app()->user->setFlash('message', 'Спецпредложение сохранено успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 }
@@ -189,7 +189,7 @@ class BestofferController extends Controller {
             $message = 'Удалено спецпредложение "'.$page->name.'"';
             if(!empty($page)) {
                 $page->delete();
-                Changes::saveChange($message);
+                Changes::saveChange($message,  Changes::ITEM_BESTOFFER);
                 Yii::app()->user->setFlash('message', $message);
                 $this->redirect(array('index'));
             }

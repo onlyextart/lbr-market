@@ -48,7 +48,7 @@ class EquipmentmakerController extends Controller {
                 }
                 if ($model->save()) {
                     $message = 'Создан производитель запчастей "'.$model->name.'"';
-                    Changes::saveChange($message);
+                    Changes::saveChange($message, Changes::ITEM_EQUIPMENT_MAKER);
                     Yii::app()->user->setFlash('message', 'Производитель создан успешно.');
                     $this->redirect(array('edit', 'id' => $model->id));
                 } else {
@@ -99,7 +99,7 @@ class EquipmentmakerController extends Controller {
                         $model->logo = $uploadedImage;
                 }
                 if ($model->save()) {
-                    if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message, Changes::ITEM_EQUIPMENT_MAKER);
                     Yii::app()->user->setFlash('message', 'Производитель сохранен успешно.');
                     $this->redirect(array('edit', 'id' => $model->id));
                 } else {
@@ -123,7 +123,7 @@ class EquipmentmakerController extends Controller {
             $message = 'Удален производитель техники "'.$page->name.'" (external_id = "'.$page->external_id.'")';
             if (!empty($page)) {
                 $page->delete();
-                Changes::saveChange($message);
+                Changes::saveChange($message, Changes::ITEM_EQUIPMENT_MAKER);
                 Yii::app()->user->setFlash('message', 'Производитель удален.');
                 $this->redirect(array('index'));
             }
