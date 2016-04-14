@@ -9,13 +9,27 @@
  * @property string $description
  * @property integer $user_id
  * @property string $user
+ * @property integer $item_id
  */
 class Changes extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
-    
+        
+        const ITEM_BESTOFFER=1;
+        const ITEM_CATEGORY=2;
+        const ITEM_CATEGORY_SEO=3;
+        const ITEM_CURRENCY=4;
+        const ITEM_EQUIPMENT_MAKER=5;
+        const ITEM_GROUP=6;
+        const ITEM_MODELLINE=7;
+        const ITEM_ORDER=8;
+        const ITEM_PAGE=9;
+        const ITEM_PRODUCT=10;
+        const ITEM_PRODUCT_MAKER=11;
+        const ITEM_USER=12;
+        
         public $user_name;
         
         public function tableName()
@@ -35,7 +49,7 @@ class Changes extends CActiveRecord
 			array('date, description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, date, description, user_id, user, user_name', 'safe', 'on'=>'search'),
+			array('id, date, description, user_id, user, user_name, item_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,6 +61,7 @@ class Changes extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'changes_item'=>array(self::BELONGS_TO, 'ChangesItem', 'item_id'),
 		);
 	}
 
@@ -62,6 +77,7 @@ class Changes extends CActiveRecord
 			'user_id' => 'ID пользователя',
                         'user_name'=>'Логин пользователя',
                         'user' => 'ID пользователя',
+                        'item_id'=>'Раздел'
 		);
 	}
 
@@ -82,7 +98,7 @@ class Changes extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria = new CDbCriteria;
-		
+                
                 if(!empty($this->user)) {
                     if(is_numeric($this->user)) {
                         $user = Yii::app()->db_auth->createCommand()
@@ -108,13 +124,14 @@ class Changes extends CActiveRecord
                 $criteria->compare('id',$this->id);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('description',$this->description,true);
+                $criteria->compare('item_id',$this->item_id,false);
 
 		return new CActiveDataProvider($this, array(
                     'criteria'=>$criteria,
                     'sort' => array(
                         'defaultOrder' => 'date DESC',
                     ),
-		));
+                ));
 	}
 
 	/**
@@ -148,14 +165,15 @@ class Changes extends CActiveRecord
         }
 
 
-        public static function saveChange($message)
-        {//Changes::saveChange($message);
+        public static function saveChange($message,$item=null)
+        {//Changes::saveChange($message,$item);
             $change = new Changes();
             //AuthUser
             $change['user_id'] = Yii::app()->user->_id;
             $change['user'] = Yii::app()->user->_id;
             $change['date'] = date('Y-m-d H:i:s');
             $change['description'] = $message;
+            $change['item_id']=$item;
             $change->save();
             return;
         }

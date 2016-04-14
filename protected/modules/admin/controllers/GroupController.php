@@ -19,7 +19,7 @@ class GroupController extends Controller
                 }
                 $model->appendTo($root);
                 $message = 'Создана группа товаров "'.$model->name.'"';
-                Changes::saveChange($message);
+                Changes::saveChange($message, Changes::ITEM_GROUP);
                 Yii::app()->user->setFlash('message', $message);
                 $this->redirect(array('edit', 'id'=>$model->id));
             }
@@ -135,7 +135,7 @@ class GroupController extends Controller
                     $node->saveNode();
                 }
                 
-                if(!empty($message)) Changes::saveChange($message);
+                if(!empty($message)) Changes::saveChange($message, Changes::ITEM_GROUP);
                 Yii::app()->user->setFlash('message', 'Группа сохранена.');
             }
         }
@@ -197,7 +197,7 @@ class GroupController extends Controller
         
         set_time_limit(1200);
         $model->deleteNode();
-        Changes::saveChange($message);
+        Changes::saveChange($message, Changes::ITEM_GROUP);
         Yii::app()->user->setFlash('message', 'Группа удалена.');
         $this->redirect(array('index'));        
     }

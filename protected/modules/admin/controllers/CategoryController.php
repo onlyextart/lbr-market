@@ -107,7 +107,7 @@ class CategoryController extends Controller
                 }
                 if ($success){
                     $transaction->commit();
-                    if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message, Changes::ITEM_CATEGORY);
                     Yii::app()->user->setFlash('message', 'Категория сохранена.');
                 }
             }
@@ -252,7 +252,7 @@ class CategoryController extends Controller
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
         
         $model->deleteNode();
-        Changes::saveChange($message);
+        Changes::saveChange($message, Changes::ITEM_CATEGORY);
         Yii::app()->user->setFlash('message', 'Категория удалена.');
         $this->redirect(array('index'));        
     }

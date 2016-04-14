@@ -49,7 +49,7 @@ class ProductmakerController extends Controller
                     
                     if($model->save()) {
                         $message = 'Создан производитель запчастей "'.$model->name.'"';
-                        Changes::saveChange($message);
+                        Changes::saveChange($message,  Changes::ITEM_PRODUCT_MAKER);
                         Yii::app()->user->setFlash('message', $message);
                         $this->redirect(array('edit', 'id'=>$model->id));
                     } else {
@@ -102,7 +102,7 @@ class ProductmakerController extends Controller
                         $model->logo = $uploadedImage;
                 }
                 if($model->save()) {
-                    if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message, Changes::ITEM_PRODUCT_MAKER);
                     Yii::app()->user->setFlash('message', 'Производитель сохранен успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {
@@ -126,7 +126,7 @@ class ProductmakerController extends Controller
             $message = 'Удален производитель запчасти "'.$page->name.'" (external_id = "'.$page->external_id.'")';
             if(!empty($page)) {
                 $page->delete();
-                Changes::saveChange($message);
+                Changes::saveChange($message, Changes::ITEM_PRODUCT_MAKER);
                 Yii::app()->user->setFlash('message', 'Производитель удален.');
                 $this->redirect(array('index'));
             }

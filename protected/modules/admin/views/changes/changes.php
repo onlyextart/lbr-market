@@ -46,6 +46,11 @@ $errorMsg = Yii::app()->user->getFlash('error');
                 'value'=>'date("Y-m-d H:i", strtotime($data->date))',
             ),
             array(
+                'name'=>'item_id',
+                'filter'=> ChangesItem::getAllItems(),
+                'value'=>'(empty($data->item_id)) ? "" : $data->changes_item->item_name',
+            ),
+            array(
                 'name'=>'description',
                 'type'=>'raw',
                 'filter'=>false,

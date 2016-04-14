@@ -46,7 +46,7 @@ class CategoryseoController extends Controller
             
             if($model->validate()) {
                 if($model->save()) {
-                    if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message,  Changes::ITEM_CATEGORY_SEO);
                     Yii::app()->user->setFlash('message', 'Сохранение прошло успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {

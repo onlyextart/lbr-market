@@ -38,7 +38,7 @@ class PageController extends Controller
                 $model->date_edit = date('Y-m-d H:i:s');
                 //$model->url = trim($model->url);
                 if($model->save()) {
-                    if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message, Changes::ITEM_PAGE);
                     Yii::app()->user->setFlash('message', 'Страница сохранена успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {
@@ -72,7 +72,7 @@ class PageController extends Controller
                 if($form->validate()) {
                     if($model->save()) {
                         $message = 'Создана страница "' . $model->title . '"';
-                        Changes::saveChange($message);
+                        Changes::saveChange($message, Changes::ITEM_PAGE);
                         Yii::app()->user->setFlash('message', 'Страница создана успешно.');
                         $this->redirect(array('edit', 'id'=>$model->id));
                     } else {
@@ -95,7 +95,7 @@ class PageController extends Controller
             $message = 'Удалена страница "' . $page->title . '"';
             if(!empty($page)) {
                 $page->delete();
-                Changes::saveChange($message);
+                Changes::saveChange($message, Changes::ITEM_PAGE);
                 Yii::app()->user->setFlash('message', 'Страница удалена.');
                 $this->redirect(array('index'));
             }
