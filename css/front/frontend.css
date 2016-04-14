@@ -2630,7 +2630,12 @@ input.small-cart-button,input.small-cart-button-wishlist{
 }
 .draft-table tr.selected:not(.header)
 {
-    background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , #fbc173, #f39314) repeat scroll 0 0;
+    background: -moz-linear-gradient(top,#fbc173,#f39314);
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#fbc173),color-stop(100%,#f39314));
+    background: -webkit-linear-gradient(top,#fbc173,#f39314);
+    background: -o-linear-gradient(top,#fbc173,#f39314);
+    background: -ms-linear-gradient(top,#fbc173,#f39314);
+    background: linear-gradient(top,#fbc173,#f39314);
 }
 .draft-table a{
     color: #5f5e5e;
