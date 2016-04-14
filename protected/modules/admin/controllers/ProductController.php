@@ -80,7 +80,7 @@ class ProductController extends Controller
                 }
                 
                 if($model->save()) {
-                    if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message, Changes::ITEM_PRODUCT);
                     Yii::app()->user->setFlash('message', 'Запчасть сохранена успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {
@@ -106,7 +106,7 @@ class ProductController extends Controller
             $message = 'Удалена запчасть "'.$product->name.'" (external_id = "'.$product->external_id.'")';
             if(!empty($product)) {
                 $product->delete();
-                Changes::saveChange($message);
+                Changes::saveChange($message, Changes::ITEM_PRODUCT);
                 Yii::app()->user->setFlash('message', 'Продукт удален.');
                 $this->redirect(array('/admin/product/'));
             }

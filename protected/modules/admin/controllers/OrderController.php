@@ -114,7 +114,7 @@ class OrderController extends Controller
                  
                  if($save){
                     $transaction->commit();
-                    if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message, Changes::ITEM_ORDER);
                     Yii::app()->user->setFlash('message', 'Заказ сохранен успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id)); 
                  }
@@ -154,7 +154,7 @@ class OrderController extends Controller
             
             if(!empty($order)) {
                 $order->delete();
-                Changes::saveChange($message);
+                Changes::saveChange($message, Changes::ITEM_ORDER);
                 Yii::app()->user->setFlash('message', 'Заказ удален.');
                 $this->redirect(array('/admin/order/'));
             }

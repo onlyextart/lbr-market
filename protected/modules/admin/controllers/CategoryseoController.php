@@ -39,14 +39,14 @@ class CategoryseoController extends Controller
         if(!empty($_POST['CategorySeo'])) {
             $editFieldsMessage=Changes::getEditMessage($model,$_POST['CategorySeo'],$fieldsShortInfo);
             if (!empty($editFieldsMessage)){
-                $message.= 'Редактирование производителя техники "'.$model->equipmentMaker->name.'" в катогории "'.$model->category->name.'", ';
+                $message.= 'Редактирование производителя техники "'.$model->equipmentMaker->name.'" в категории "'.$model->category->name.'", ';
                 $message.= $editFieldsMessage;
             }
             $model->attributes = $_POST['CategorySeo'];
             
             if($model->validate()) {
                 if($model->save()) {
-                    if(!empty($message)) Changes::saveChange($message);
+                    if(!empty($message)) Changes::saveChange($message,  Changes::ITEM_CATEGORY_SEO);
                     Yii::app()->user->setFlash('message', 'Сохранение прошло успешно.');
                     $this->redirect(array('edit', 'id'=>$model->id));
                 } else {

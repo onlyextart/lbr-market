@@ -123,7 +123,7 @@ class ModellineController extends Controller
             $model->attributes = $_POST['ModelLine'];
             if($model->validate()) {
                 $model->saveNode();
-                if(!empty($message)) Changes::saveChange($message);
+                if(!empty($message)) Changes::saveChange($message, Changes::ITEM_MODELLINE);
                 Yii::app()->user->setFlash('message', 'Модельный ряд сохранен.');
             }
         }
@@ -168,7 +168,7 @@ class ModellineController extends Controller
 	    $this->render('application.modules.admin.views.default.error', array('error' => 'Модельный ряд не найден.'));
         
         $model->deleteNode();
-        Changes::saveChange($message);
+        Changes::saveChange($message, Changes::ITEM_MODELLINE);
         Yii::app()->user->setFlash('message', 'Модельный ряд удален.');
         $this->redirect(array('index'));        
     }

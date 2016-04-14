@@ -61,7 +61,7 @@ class UserController extends Controller
                     if($form->validate()) {
                         if($model->save()) {
                             $message = 'Создан пользователь "' . $model->name . '"';
-                            Changes::saveChange($message);
+                            Changes::saveChange($message, Changes::ITEM_USER);
                             Yii::app()->user->setFlash('message', 'Пользователь создан успешно.');
                             $this->redirect(array('edit', 'id'=>$model->id));
                         } else {
@@ -139,7 +139,7 @@ class UserController extends Controller
                 
                 if($form->validate()) {
                     if($model->save()) {
-                        if(!empty($message)) Changes::saveChange($message);
+                        if(!empty($message)) Changes::saveChange($message, Changes::ITEM_USER);
                         Yii::app()->user->setFlash('message', 'Пользователь сохранен успешно.');
                         if(!empty($text_email)) {
                             //отправка письма
@@ -198,7 +198,7 @@ class UserController extends Controller
             $this->render('application.modules.admin.views.default.error', array('error' => 'Пользователь не найден.'));
 
         $user->delete();
-        Changes::saveChange($message);
+        Changes::saveChange($message, Changes::ITEM_USER);
         Yii::app()->user->setFlash('message', 'Пользователь удален.');
         $this->redirect(array('index'));
     }
