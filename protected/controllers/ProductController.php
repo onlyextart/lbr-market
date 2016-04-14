@@ -249,7 +249,7 @@ class ProductController extends Controller
             if(!empty($allDrafts)) {
                 foreach($allDrafts as $one) {
                     $draft = Draft::model()->findByPk($one['draft_id']);
-                    $draftLabel .= '<a target="_blank" href="/draft/index/id/'.$draft->id.'/">Чертеж "'.$draft->name.'"</a>';
+                    $draftLabel .= '<a target="_blank" href="/draft/'.$draft->id.'/product/'.$id.'/">Чертеж "'.$draft->name.'"</a>';
                 }
             }
         }

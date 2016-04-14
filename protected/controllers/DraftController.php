@@ -1,12 +1,20 @@
 <?php
 class DraftController extends Controller
 {
-    public function actionIndex($id)
+    public function actionIndex($id, $product = null)
     {
         $products = array();
         $model = Draft::model()->findByPk($id);
-        if(!$model)
+        if(!$model) {
             throw new CHttpException(404, 'Сборочный чертеж не найден');
+        }
+        
+        $checkedProductExists = ProductInDraft::model()->exists('draft_id = :id and product_id = :product', array(':id'=>$id, ':product'=>$product));
+        if($checkedProductExists) {
+            
+        } else {
+            
+        }
         
         $title = 'Сборочный чертеж "'.$model->name.'"';
                 
