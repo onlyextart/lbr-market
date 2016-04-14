@@ -1,5 +1,6 @@
 <?php
 Yii::app()->clientScript->registerCssFile('/css/front/form.css');
+Yii::app()->controller->createAction('captcha')->getVerifyCode(true);
 ?>
 
 <?php 
@@ -154,13 +155,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
         <?php if(CCaptcha::checkRequirements()): ?>
             <div class="row">
                 <?php echo $form->labelEx($formModel, 'verifyCode'); ?>
-                <?php echo $form->textField($formModel, 'verifyCode', array('class'=>'verifyCode_form_field')); ?>
+                <?php echo $form->textField($formModel, 'verifyCode', array('class'=>'verifyCode_form_field', 'value'=>'')); ?>
                 <?php echo $form->error($formModel, 'verifyCode'); ?>
                 <div id='pict_captcha'>
                     <?php 
                         $this->widget('CCaptcha', 
                             array(
-                                'captchaAction' => 'site/captcha',
+                                'captchaAction' => 'contacts/captcha',
                                 'clickableImage' => true, 
                                 'showRefreshButton' => false,
                                 'imageOptions'=>array('style'=>'border:none;cursor:pointer;',
@@ -181,7 +182,6 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
     <?php $this->endWidget(); ?>
     </div>
-</div>
-<?php 
-    Yii::app()->clientScript->registerScript('refresh-captcha', '$(document).ready(function(){$("#yw0").click();});');
+</div> 
+
 

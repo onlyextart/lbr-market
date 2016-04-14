@@ -1,6 +1,7 @@
 <?php
 /* @var $this ContactsController */
 Yii::app()->clientScript->registerCssFile('/css/front/form.css');
+Yii::app()->controller->createAction('captcha')->getVerifyCode(true);
 $this->widget('zii.widgets.CBreadcrumbs', array(
         'links' => Yii::app()->params['breadcrumbs'],
         'homeLink' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'/" itemprop="url"><span itemprop="title">Главная</span></a></div>',
@@ -124,13 +125,13 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
             <?php if(CCaptcha::checkRequirements()): ?>
                 <div class="row">
                     <?php echo $form->labelEx($formModel,'verifyCode'); ?>
-                    <?php echo $form->textField($formModel,'verifyCode', array('class'=>'verifyCode_form_field')); ?>
+                    <?php echo $form->textField($formModel,'verifyCode', array('class'=>'verifyCode_form_field','value'=>'')); ?>
                     <?php echo $form->error($formModel,'verifyCode'); ?>
                     <div id='pict_captcha'>
                         <?php 
                             $this->widget('CCaptcha', 
                                 array(
-                                    'captchaAction' => 'site/captcha',
+                                    'captchaAction' => 'contacts/captcha',
                                     'clickableImage' => true, 
                                     'showRefreshButton' => false,
                                     'imageOptions'=>array('style'=>'border:none;cursor:pointer;',
@@ -153,5 +154,3 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 
 </div>
 </div>
-<?php 
-    Yii::app()->clientScript->registerScript('refresh-captcha', '$(document).ready(function(){$("#yw0").click();});');

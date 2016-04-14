@@ -1,6 +1,6 @@
 <?php
 class MyCCaptchaAction extends CCaptchaAction {
-    public $backColor = 0xFFFFFF;
+//    public $backColor = 0xFFFFFF;
     public $height = 40;
     protected function generateVerifyCode()
     {
