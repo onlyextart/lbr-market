@@ -32,7 +32,7 @@ class RegFormLegalPerson extends CFormModel
             array('password_confirm','compare','compareAttribute'=>'password', 'message'=>'Пароли должны совпадать'),
             array('email','checkUniqueEmail'),
             //array('phone','match','pattern' => '/^[\+\(]?[\d]{1,}[\s]?[\(]?[\d]*[\)]?[\d\s\-]{1,}$/','message' => 'Некорректный формат телефона'),
-            array('phone','match','pattern' => '/^\+\d{1,3}\(\d{2,4}\)\d{5,7}$/','message' => 'Некорректный формат телефона'),
+            array('phone','match','pattern' => '/^\+\d{1,3}\(\d{2,5}\)\d{5,7}$/','message' => 'Некорректный формат телефона'),
             array('email', 'email', 'message'=>'Неправильно заполнено поле «Email»'),
             array('inn','CheckINN'),
             array('verifyCode','captcha','allowEmpty'=>!Yii::app()->user->isGuest || !CCaptcha::checkRequirements()),
