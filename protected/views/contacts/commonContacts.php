@@ -74,10 +74,10 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     <div class="contact-additional-info">
         <a class="view_all_contacts" href="<?php echo Yii::app()->getBaseUrl(true).'/contacts/#list_filials'?>">Посмотреть все контакты</a>
         <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="800" height="400">
-            <param name="movie" value="/images/map1000px.swf">
+            <param name="movie" value="http://www.lbr.ru/images/newMap1000px.swf">
             <param name="bgcolor" value="#ffffff">
             <!--[if !IE]>-->
-            <object type="application/x-shockwave-flash" data="/images/map1000px.swf" width="800" height="400">
+            <object type="application/x-shockwave-flash" data="http://www.lbr.ru/images/newMap1000px.swf" width="800" height="400">
                     <!--<![endif]-->
                     <!--[if !IE]>-->
                     <param name="wmode" value="opaque">
