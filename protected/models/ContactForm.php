@@ -55,7 +55,7 @@ class ContactForm extends CFormModel
                     //'allowEmpty'=>!CCaptcha::checkRequirements(),
                 ),
                 array('mailTo', 'mailValidation'),
-                array('phone','match','pattern' => '/^\+\d{1,3}\(\d{2,4}\)\d{5,7}$/','message' => 'Некорректный формат телефона'),
+                array('phone','match','pattern' => '/^\+\d{1,3}\(\d{2,5}\)\d{5,7}$/','message' => 'Некорректный формат телефона'),
             );
 	}
         
