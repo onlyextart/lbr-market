@@ -259,9 +259,9 @@
         <div class="best-sales">
             <?php foreach($drafts as $draft): ?>
             <div class="one_banner">
-               <h3><a target="_blank" href="/draft/index/id/<?php echo $draft[id]; ?>/"><?php echo $draft[name]; ?></a></h3>
+               <h3><a target="_blank" href="/draft/<?php echo $draft[id] ?>/product/<?php echo $data->id ?>/"><?php echo $draft[name]; ?></a></h3>
                <div class="img-wrapper">
-                   <a target="_blank" href="/draft/index/id/<?php echo $draft[id]; ?>/">
+                   <a target="_blank" href="/draft/<?php echo $draft[id] ?>/product/<?php echo $data->id ?>/">
                       <img src="<?php echo Product::model()->getDraftImage($draft[image], 'm'); ?>" alt="Сборочный чертеж">
                    </a>
                </div>

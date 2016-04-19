@@ -1,4 +1,5 @@
 <?php
+    //echo '<pre>';var_dump($productId); exit;
     $this->widget('zii.widgets.CBreadcrumbs', array(
         'links' => Yii::app()->params['breadcrumbs'],
         'homeLink' => '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.Yii::app()->getBaseUrl(true).'/" itemprop="url"><span itemprop="title">Главная</span></a></div>',
@@ -39,7 +40,7 @@
                      </th>
                  </tr>
                  <?php foreach($products as $product): ?>
-                 <tr> 						
+                 <tr class="<?php echo (!empty($productId) && ($product['id'] == $productId)) ? 'selected' : '' ?>">             
                      <td></td>
                      <td><?php echo $product['level']; ?></td>
                      <td><a href="<?php echo $product['path']; ?>"><?php echo $product['name']; ?></a></td>

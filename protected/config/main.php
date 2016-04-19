@@ -76,7 +76,9 @@ return array(
             'rules' => array(
                 '<url:(garantiya|delivery|payment)>' => 'site/description',
                 'product-maker/<id:\d+>' => '/description/maker',
-
+                'draft/<id:\d+>' => 'draft/index',
+                'draft/<id:\d+>/product/<product:\d+>' => 'draft/index',
+                
                 '<controller:(user)>/<_a:\w+>' => 'user/default/<_a>',
                 '<controller:(site)>/<action:\w+>' => '<controller>/<action>',
                 '<module:(admin)>' => '<module>',
