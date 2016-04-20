@@ -123,7 +123,13 @@ class Changes extends CActiveRecord
                 
                 $criteria->compare('id',$this->id);
 		$criteria->compare('date',$this->date,true);
-		$criteria->compare('description',$this->description,true);
+		//$criteria->compare('description',$this->description,true);
+                if (Yii::app()->search->prepareSqlite()) {
+                    $condition_description = 'lower(t.description) like lower("%' . $this->description . '%")';
+                    $criteria->addCondition($condition_description);
+                } else {
+                    $criteria->compare('description',$this->description,true);
+                }
                 $criteria->compare('item_id',$this->item_id,false);
 
 		return new CActiveDataProvider($this, array(

@@ -53,7 +53,6 @@ $errorMsg = Yii::app()->user->getFlash('error');
             array(
                 'name'=>'description',
                 'type'=>'raw',
-                'filter'=>false,
                 'value'=>function($data){
                     return '<div class="description">'.htmlspecialchars($data->description).'</div>';
                 },
