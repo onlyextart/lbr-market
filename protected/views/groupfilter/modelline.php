@@ -39,9 +39,9 @@
                 $( this ).find('ul').hide();
             });
         });
-//        $(document).on('click','.link-modellines', function() {
-//           $('.modelline li.non_top').css('display','block');
-//           $(this).css('display','none');
-//        });
+        $(document).on('click','.link-modellines', function() {
+           $('.modelline li.non_top').css('display','block');
+           $(this).css('display','none');
+        });
     });
 </script>

@@ -142,9 +142,11 @@ class GroupfilterController extends Controller
                 $brand = EquipmentMaker::model()->findByPk($model->maker_id);
                 $temp[$brand->name][$parent->name]['name'] = $parent->name;
                 $temp[$brand->name][$parent->name]['path'] = $filter->path.$category->path.$brand->path.$parent->path.'/';
+                $temp[$brand->name][$parent->name]['catalog_top']=$parent->catalog_top;
                 if(isset($top_makers)&&!empty($top_makers)&&in_array($brand->id, $top_makers)){
                             $temp_top[$brand->name][$parent->name]['name'] = $parent->name;
                             $temp_top[$brand->name][$parent->name]['path'] = $filter->path.$category->path.$brand->path.$parent->path.'/';
+                            $temp_top[$brand->name][$parent->name]['catalog_top']=$parent->catalog_top;
                   }   
             }
         }
@@ -564,10 +566,18 @@ class GroupfilterController extends Controller
                        '<a href="#" class="sub-title">'.$categoryName.'</a>'.
                        '<ul>'
         ;
-        
+        $models_non_top=false;
         foreach($modellines as $key=>$modelline) {
-            $response .= '<li><a href="'.$modelline['path'].'" class="sub-child-title">'.$modelline['name'].'</a></li>';
+            $sign_top=($modelline['catalog_top']==1)?"top":"non_top";
+            if ($sign_top=="non_top"){
+               $models_non_top=true; 
+            }
+            $response .= '<li class="'.$sign_top.'"><a href="'.$modelline['path'].'" class="sub-child-title">'.$modelline['name'].'</a></li>';
             //$response .= '<li><a href="#" class="sub-child-title">'.$modelline['name'].'</a></li>';
+        }
+        //link View all
+        if ($models_non_top) {
+            $response .= '<li><span class="link-modellines">Показать все модельные ряды...</span></li>';
         }
 
         $response .= '</ul>'.
