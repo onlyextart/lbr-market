@@ -11,7 +11,8 @@ class TestController extends Controller
 //        echo count($all).'<br>';
 //        echo '======================<br>';
         
-        $sql = 'SELECT * FROM product_in_model_line LIMIT 50';
+        //$sql = 'SELECT * FROM product_in_model_line order by product_id LIMIT 100';
+        $sql = 'SELECT DISTINCT product_id FROM product_in_model_line order by product_id LIMIT 100';
         $products = ProductInModelLine::model()->findAllBySql($sql);
 
         foreach($products as $product) {
