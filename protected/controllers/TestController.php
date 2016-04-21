@@ -2,28 +2,30 @@
 
 class TestController extends Controller 
 {    
-//    public function actionPathcheck() 
-//    {
-//        set_time_limit(0);
-//
-//        $sql = 'SELECT * FROM product_group_filter WHERE level=2 and path is null';
-//        $all = ProductGroupFilter::model()->findAllBySql($sql);
+    public function actionCheck() 
+    {
+        set_time_limit(0);
+
+//        $sql = 'SELECT * FROM product_in_model_line';
+//        $all = ProductInModelLine::model()->findAllBySql($sql);
 //        echo count($all).'<br>';
 //        echo '======================<br>';
-//        
-//        $sql = 'SELECT * FROM product_group_filter WHERE level=2 and path is null LIMIT 50';
-//        $products = ProductGroupFilter::model()->findAllBySql($sql);
-//
-//        
-//        foreach($products as $product) {
-//            echo $product->id.'<br>';
-//            $product->path = '/products/'.Translite::rusencode($product->name, '-');
-//            $product->saveNode();
-//        }
-//
-//        echo '======================<br>';
-//        echo 'work done - '.date('H:i:s');
-//    }
+        
+        $sql = 'SELECT * FROM product_in_model_line LIMIT 50';
+        $products = ProductInModelLine::model()->findAllBySql($sql);
+
+        foreach($products as $product) {
+            $id = $product->product_id;
+            $exists = Product::model()->exists('id = '.$id);
+            if(!$exists) {
+                echo 'del = '.$id.'<br>';
+                ProductInModelLine::model()->deleteAll('product_id = :id', array(':id'=>$id));
+            }
+        }
+
+        echo '======================<br>';
+        echo 'work done - '.date('H:i:s');
+    }
     
     /*public function actionFilial() 
     {
