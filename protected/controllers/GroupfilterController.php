@@ -95,6 +95,8 @@ class GroupfilterController extends Controller
         Yii::app()->params['breadcrumbs'] = $breadcrumbs;
         // end Breadcrubs
         
+        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
+        
         $response = '';
         $temp = array();
         
@@ -129,20 +131,55 @@ class GroupfilterController extends Controller
             $criteria->addInCondition('id', $part);
             $modellines = ModelLine::model()->findAll($criteria);
 
+            $top_makers = Yii::app()->db->createCommand()
+                            ->selectDistinct('maker_id')
+                            ->from('category_makers_top')
+                            ->where('category_id = :category_id', array(':category_id' => $categoryId))
+                            ->queryColumn();
 
             foreach($modellines as $model) {
                 $parent = $model->parent()->find();
                 $brand = EquipmentMaker::model()->findByPk($model->maker_id);
                 $temp[$brand->name][$parent->name]['name'] = $parent->name;
                 $temp[$brand->name][$parent->name]['path'] = $filter->path.$category->path.$brand->path.$parent->path.'/';
+                $temp[$brand->name][$parent->name]['catalog_top']=$parent->catalog_top;
+                if(isset($top_makers)&&!empty($top_makers)&&in_array($brand->id, $top_makers)){
+                            $temp_top[$brand->name][$parent->name]['name'] = $parent->name;
+                            $temp_top[$brand->name][$parent->name]['path'] = $filter->path.$category->path.$brand->path.$parent->path.'/';
+                            $temp_top[$brand->name][$parent->name]['catalog_top']=$parent->catalog_top;
+                  }   
             }
         }
+        $response_all=$this->printHierarchy($temp, false);
+        //screening single quotes in modelline name
+        $response_all=str_replace("'", "&prime;", $response_all);
+        if(isset($temp_top)){
+            $response_top=$this->printHierarchy($temp_top, true);
+            $response_top=str_replace("'", "&prime;", $response_top);
+            $this->render('modelline', array(
+                'response_all' => $response_all,
+                'response_top'=>$response_top,
+                'title' => $title
+            ));
+        }
+        else{
+            $this->render('modelline', array(
+            'response_all' => $response_all,
+            'title' => $title
+            ));
+        }
         
-        if(!empty($temp)) {
-            ksort($temp);
-            $allKeys = array_keys($temp);
+        
+    }
+    
+    /*Print tree for modellines*/
+    private function printHierarchy($result_array, $makers_top){
+        $dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM model_line');
+        if(!empty($result_array)) {
+            ksort($result_array);
+            $allKeys = array_keys($result_array);
             
-            $count = count($temp);
+            $count = count($result_array);
             $half = ceil($count/2);
 
             $response = '<table cellspacing="0" cellpadding="0" border="0"><tbody>';
@@ -151,28 +188,23 @@ class GroupfilterController extends Controller
                 $response .= '<td width="50%" valign="top">';
 
                 $elementName = $allKeys[$index];
-                $response .= $this->setModelline($elementName, $temp[$elementName]);
+                $response .= $this->setModelline($elementName, $result_array[$elementName]);
 
                 $response .= '</td>';
                 if(($index + $half) < $count) {
                     $response .= '<td width="50%" valign="top">';
 
                     $elementName = $allKeys[$index + $half];
-                    $response .= $this->setModelline($elementName, $temp[$elementName]);
+                    $response .= $this->setModelline($elementName, $result_array[$elementName]);
 
                     $response .= '</td>';
                 }
                 $response .= '</tr>';
             }
-            $response .= '</tbody></table>';   
-        }
-        
-        Yii::app()->params['meta_title'] = Yii::app()->params['meta_description'] = $title;
-        
-        $this->render('modelline', array(
-            'response' => $response,
-            'title' => $title
-        ));
+            if($makers_top==true){$response .= '<tr><td colspan="2"><span class="link-brands">Показать всех производителей...</span></td></tr>';}
+            $response .= '</tbody></table>';
+            return $response;
+       }
     }
     
     /* Show page with brands and models */
@@ -534,10 +566,18 @@ class GroupfilterController extends Controller
                        '<a href="#" class="sub-title">'.$categoryName.'</a>'.
                        '<ul>'
         ;
-        
+        $models_non_top=false;
         foreach($modellines as $key=>$modelline) {
-            $response .= '<li><a href="'.$modelline['path'].'" class="sub-child-title">'.$modelline['name'].'</a></li>';
+            $sign_top=($modelline['catalog_top']==1)?"top":"non_top";
+            if ($sign_top=="non_top"){
+               $models_non_top=true; 
+            }
+            $response .= '<li class="'.$sign_top.'"><a href="'.$modelline['path'].'" class="sub-child-title">'.$modelline['name'].'</a></li>';
             //$response .= '<li><a href="#" class="sub-child-title">'.$modelline['name'].'</a></li>';
+        }
+        //link View all
+        if ($models_non_top) {
+            $response .= '<li><span class="link-modellines">Показать все модельные ряды...</span></li>';
         }
 
         $response .= '</ul>'.
