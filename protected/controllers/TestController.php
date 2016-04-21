@@ -12,7 +12,7 @@ class TestController extends Controller
 //        echo '======================<br>';
         
         //$sql = 'SELECT * FROM product_in_model_line order by product_id LIMIT 100';
-        $sql = 'SELECT DISTINCT product_id FROM product_in_model_line order by product_id LIMIT 500';
+        $sql = 'SELECT DISTINCT product_id FROM product_in_model_line order by product_id LIMIT 300';
         $products = ProductInModelLine::model()->findAllBySql($sql);
 
         foreach($products as $product) {
