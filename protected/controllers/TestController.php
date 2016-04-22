@@ -2,13 +2,6 @@
 
 class TestController extends Controller 
 {
-    public function actionDel() 
-    {
-        Order::model()->deleteAll();
-        Wishlist::model()->deleteAll();
-    }
-    
-    
 //    public function actionCheck() 
 //    {
 //        set_time_limit(0);
