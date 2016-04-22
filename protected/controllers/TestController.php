@@ -1,32 +1,39 @@
 <?php
 
 class TestController extends Controller 
-{    
-    public function actionCheck() 
+{
+    public function actionDel() 
     {
-        set_time_limit(0);
-
-//        $sql = 'SELECT * FROM product_in_model_line';
-//        $all = ProductInModelLine::model()->findAllBySql($sql);
-//        echo count($all).'<br>';
-//        echo '======================<br>';
-        
-        //$sql = 'SELECT * FROM product_in_model_line order by product_id LIMIT 100';
-        $sql = 'SELECT DISTINCT product_id FROM product_in_model_line order by product_id LIMIT 300';
-        $products = ProductInModelLine::model()->findAllBySql($sql);
-
-        foreach($products as $product) {
-            $id = $product->product_id;
-            $exists = Product::model()->exists('id = '.$id);
-            if(!$exists) {
-                echo 'del = '.$id.'<br>';
-                ProductInModelLine::model()->deleteAll('product_id = :id', array(':id'=>$id));
-            }
-        }
-
-        echo '======================<br>';
-        echo 'work done - '.date('H:i:s');
+        Order::model()->deleteAll();
+        Wishlist::model()->deleteAll();
     }
+    
+    
+//    public function actionCheck() 
+//    {
+//        set_time_limit(0);
+//
+////        $sql = 'SELECT * FROM product_in_model_line';
+////        $all = ProductInModelLine::model()->findAllBySql($sql);
+////        echo count($all).'<br>';
+////        echo '======================<br>';
+//        
+//        //$sql = 'SELECT * FROM product_in_model_line order by product_id LIMIT 100';
+//        $sql = 'SELECT DISTINCT product_id FROM product_in_model_line order by product_id LIMIT 300';
+//        $products = ProductInModelLine::model()->findAllBySql($sql);
+//
+//        foreach($products as $product) {
+//            $id = $product->product_id;
+//            $exists = Product::model()->exists('id = '.$id);
+//            if(!$exists) {
+//                echo 'del = '.$id.'<br>';
+//                ProductInModelLine::model()->deleteAll('product_id = :id', array(':id'=>$id));
+//            }
+//        }
+//
+//        echo '======================<br>';
+//        echo 'work done - '.date('H:i:s');
+//    }
     
     /*public function actionFilial() 
     {
