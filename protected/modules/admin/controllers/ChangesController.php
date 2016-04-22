@@ -27,7 +27,7 @@ class ChangesController extends Controller
                 if(is_numeric($id)) {
                     $idNumeric[] = $id;
                 } else {
-                    $idString[] = $id;
+                    $idString[] = trim($id);
                 }
             }
             
@@ -59,7 +59,7 @@ class ChangesController extends Controller
                 }
             }            
 
-            asort($filter);
+            asort($idString);
             
             $this->render('changes', array(
                     'model'=>$model,
