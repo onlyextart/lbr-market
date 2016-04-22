@@ -59,7 +59,7 @@ class ChangesController extends Controller
                 }
             }            
 
-            asort($idString);
+            asort($filter);
             
             $this->render('changes', array(
                     'model'=>$model,
