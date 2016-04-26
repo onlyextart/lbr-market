@@ -39,7 +39,7 @@ class ContactsController extends Controller
             $contactModel = Yii::app()->db_lbr->createCommand()
                 ->select('*')
                 ->from('contacts')
-                ->where('id= '.$id)
+                ->where('id= '.(int)$id)
                 ->queryRow();
             $breadcrumbs[$sectionName] = '/contacts/';
             $breadcrumbs[] = $contactModel["name"];
