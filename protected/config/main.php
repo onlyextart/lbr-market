@@ -66,7 +66,10 @@ return array(
             'connectionID'=>'db',  // идентификатор соединения с базой
             'sessionTableName' => 'guest_cart', // название таблицы
             'timeout'=>'10800', // 4 часа - время хранения данных в базе в секундах
-
+            'cookieParams' => array(
+                'httpOnly'=>true,
+                'secure' => true,
+            ),
         ),
         // uncomment the following to enable URLs in path-format
         'urlManager' => array(

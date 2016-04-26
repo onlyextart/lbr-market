@@ -14,7 +14,7 @@ class ContactsController extends Controller
         );
     }
     
-    public function actionIndex($id=null) 
+    public function actionIndex($id = null) 
     {
         $formModel = new ContactForm('insert');
         $sectionName = 'Контакты';
@@ -39,8 +39,9 @@ class ContactsController extends Controller
             $contactModel = Yii::app()->db_lbr->createCommand()
                 ->select('*')
                 ->from('contacts')
-                ->where('id= '.$id)
-                ->queryRow();
+                ->where('id = '.(int)$id)
+                ->queryRow()
+            ;
             $breadcrumbs[$sectionName] = '/contacts/';
             $breadcrumbs[] = $contactModel["name"];
             Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'] .= ' '.$contactModel["name"];

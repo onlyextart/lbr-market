@@ -548,8 +548,8 @@ class CartController extends Controller
     }
 
     public function actionCount() {
+        $count = 0;
         if (Yii::app()->request->isAjaxRequest) {
-            $count = 0;
             if (!Yii::app()->user->isGuest && !empty(Yii::app()->user->isShop)) { // logged user
                 /* $order = Yii::app()->db->createCommand()
                   ->select('o.id')
@@ -581,8 +581,8 @@ class CartController extends Controller
                     }
                 }
             }
-
-            echo $count;
         }
+        
+        echo $count;
     }
 }

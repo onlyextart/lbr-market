@@ -125,7 +125,7 @@ class SiteController extends Controller {
     }
 
     public function actionDescription($url) {
-        $model = Page::model()->findByAttributes(array('url' => $url));
+        $model = Page::model()->find('url = :url', array(':url' => $url));
         Yii::app()->params['meta_description'] = Yii::app()->params['meta_title'] = $breadcrumbs[] = $model->title;
         //Yii::app()->params['breadcrumbs'] = $breadcrumbs;
 
@@ -156,7 +156,7 @@ class SiteController extends Controller {
 
     public function actionLogin() {
         $model = new LoginForm;
-
+        
         // if it is ajax validation request
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
             echo CActiveForm::validate($model);
@@ -167,9 +167,11 @@ class SiteController extends Controller {
         if (isset($_POST['LoginForm'])) {
             $model->attributes = $_POST['LoginForm'];
             // validate user input and redirect to the previous page if valid
-            if ($model->validate() && $model->login())
+            if ($model->validate() && $model->login()) {
                 $this->redirect(Yii::app()->user->returnUrl);
+            }
         }
+
         // display the login form
         $this->render('login', array('model' => $model));
     }
