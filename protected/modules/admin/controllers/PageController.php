@@ -88,18 +88,18 @@ class PageController extends Controller
             //throw new CHttpException(403,Yii::t('yii','У Вас недостаточно прав доступа.'));
     }
     
-    public function actionDelete($id)
-    {
-        if(!empty($id)){
-            $page = Page::model()->findByPk($id);
-            $message = 'Удалена страница "' . $page->title . '"';
-            if(!empty($page)) {
-                $page->delete();
-                Changes::saveChange($message, Changes::ITEM_PAGE);
-                Yii::app()->user->setFlash('message', 'Страница удалена.');
-                $this->redirect(array('index'));
-            }
-        }
-    }
+//    public function actionDelete($id)
+//    {
+//        if(!empty($id)){
+//            $page = Page::model()->findByPk($id);
+//            $message = 'Удалена страница "' . $page->title . '"';
+//            if(!empty($page)) {
+//                $page->delete();
+//                Changes::saveChange($message, Changes::ITEM_PAGE);
+//                Yii::app()->user->setFlash('message', 'Страница удалена.');
+//                $this->redirect(array('index'));
+//            }
+//        }
+//    }
 }
 

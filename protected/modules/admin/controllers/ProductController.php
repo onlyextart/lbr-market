@@ -99,19 +99,19 @@ class ProductController extends Controller
     }
     
     
-    public function actionDelete($id)
-    {
-        if(!empty($id)){
-            $product = Product::model()->findByPk($id);
-            $message = 'Удалена запчасть "'.$product->name.'" (external_id = "'.$product->external_id.'")';
-            if(!empty($product)) {
-                $product->delete();
-                Changes::saveChange($message, Changes::ITEM_PRODUCT);
-                Yii::app()->user->setFlash('message', 'Продукт удален.');
-                $this->redirect(array('/admin/product/'));
-            }
-        }
-    }
+//    public function actionDelete($id)
+//    {
+//        if(!empty($id)){
+//            $product = Product::model()->findByPk($id);
+//            $message = 'Удалена запчасть "'.$product->name.'" (external_id = "'.$product->external_id.'")';
+//            if(!empty($product)) {
+//                $product->delete();
+//                Changes::saveChange($message, Changes::ITEM_PRODUCT);
+//                Yii::app()->user->setFlash('message', 'Продукт удален.');
+//                $this->redirect(array('/admin/product/'));
+//            }
+//        }
+//    }
     
     public function actionFindGroup()
     {

@@ -160,17 +160,17 @@ class ModellineController extends Controller
             $node->moveAsFirst($target);
     }
     
-    public function actionDelete($id)
-    {
-        $model = ModelLine::model()->findByPk($id);
-        $message = 'Удален модельный ряд "'.$model->name;
-        if (!$model)
-	    $this->render('application.modules.admin.views.default.error', array('error' => 'Модельный ряд не найден.'));
-        
-        $model->deleteNode();
-        Changes::saveChange($message, Changes::ITEM_MODELLINE);
-        Yii::app()->user->setFlash('message', 'Модельный ряд удален.');
-        $this->redirect(array('index'));        
-    }
+//    public function actionDelete($id)
+//    {
+//        $model = ModelLine::model()->findByPk($id);
+//        $message = 'Удален модельный ряд "'.$model->name;
+//        if (!$model)
+//	    $this->render('application.modules.admin.views.default.error', array('error' => 'Модельный ряд не найден.'));
+//        
+//        $model->deleteNode();
+//        Changes::saveChange($message, Changes::ITEM_MODELLINE);
+//        Yii::app()->user->setFlash('message', 'Модельный ряд удален.');
+//        $this->redirect(array('index'));        
+//    }
 }
 

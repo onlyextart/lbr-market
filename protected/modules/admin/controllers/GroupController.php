@@ -174,32 +174,32 @@ class GroupController extends Controller
             $node->moveAsFirst($target);
     }
     
-    public function actionDelete($id)
-    {
-        $model = ProductGroup::model()->findByPk($id);
-        if (!$model)
-	    $this->render('application.modules.admin.views.default.error', array('error' => 'Группа не найдена.'));
-        
-        
-        $message = 'Удалена группа товаров "'.$model->name.'"';
-        if(!empty($model->external_id)) $message .= ' (external_id = "'.$model->external_id.'")';
-        
-        $children = $model->children()->findAll();
-        if(!empty($children)){
-            $i = 1;
-            $message .= ', также удалены подгруппы: ';
-            foreach($children as $child) {
-                $message .= $i.') '.$child->name;
-                if(!empty($child->external_id)) $message .= ' (external_id = "'.$child->external_id.'"); ';
-                $i++;
-            }
-        }
-        
-        set_time_limit(1200);
-        $model->deleteNode();
-        Changes::saveChange($message, Changes::ITEM_GROUP);
-        Yii::app()->user->setFlash('message', 'Группа удалена.');
-        $this->redirect(array('index'));        
-    }
+//    public function actionDelete($id)
+//    {
+//        $model = ProductGroup::model()->findByPk($id);
+//        if (!$model)
+//	    $this->render('application.modules.admin.views.default.error', array('error' => 'Группа не найдена.'));
+//        
+//        
+//        $message = 'Удалена группа товаров "'.$model->name.'"';
+//        if(!empty($model->external_id)) $message .= ' (external_id = "'.$model->external_id.'")';
+//        
+//        $children = $model->children()->findAll();
+//        if(!empty($children)){
+//            $i = 1;
+//            $message .= ', также удалены подгруппы: ';
+//            foreach($children as $child) {
+//                $message .= $i.') '.$child->name;
+//                if(!empty($child->external_id)) $message .= ' (external_id = "'.$child->external_id.'"); ';
+//                $i++;
+//            }
+//        }
+//        
+//        set_time_limit(1200);
+//        $model->deleteNode();
+//        Changes::saveChange($message, Changes::ITEM_GROUP);
+//        Yii::app()->user->setFlash('message', 'Группа удалена.');
+//        $this->redirect(array('index'));        
+//    }
 }
 
