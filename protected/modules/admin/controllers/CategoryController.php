@@ -244,18 +244,18 @@ class CategoryController extends Controller
         echo 'Узел успешно перемещен';
     }
     
-    public function actionDelete($id)
-    {
-        $model = Category::model()->findByPk($id);
-        $message = 'Удалена категория "'.$model->name;
-        if (!$model)
-	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
-        
-        $model->deleteNode();
-        Changes::saveChange($message, Changes::ITEM_CATEGORY);
-        Yii::app()->user->setFlash('message', 'Категория удалена.');
-        $this->redirect(array('index'));        
-    }
+//    public function actionDelete($id)
+//    {
+//        $model = Category::model()->findByPk($id);
+//        $message = 'Удалена категория "'.$model->name;
+//        if (!$model)
+//	    $this->render('application.modules.admin.views.default.error', array('error' => 'Категория не найдена.'));
+//        
+//        $model->deleteNode();
+//        Changes::saveChange($message, Changes::ITEM_CATEGORY);
+//        Yii::app()->user->setFlash('message', 'Категория удалена.');
+//        $this->redirect(array('index'));        
+//    }
     
     public function getIdMakers($category_id){
         $sql="SELECT maker_id FROM category_makers_top WHERE category_id=".$category_id.";";

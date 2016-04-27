@@ -117,17 +117,17 @@ class EquipmentmakerController extends Controller {
             $this->render('edit', array('model' => $model), false, true);
     }
 
-    public function actionDelete($id) {
-        if (!empty($id)) {
-            $page = EquipmentMaker::model()->findByPk($id);
-            $message = 'Удален производитель техники "'.$page->name.'" (external_id = "'.$page->external_id.'")';
-            if (!empty($page)) {
-                $page->delete();
-                Changes::saveChange($message, Changes::ITEM_EQUIPMENT_MAKER);
-                Yii::app()->user->setFlash('message', 'Производитель удален.');
-                $this->redirect(array('index'));
-            }
-        }
-    }
+//    public function actionDelete($id) {
+//        if (!empty($id)) {
+//            $page = EquipmentMaker::model()->findByPk($id);
+//            $message = 'Удален производитель техники "'.$page->name.'" (external_id = "'.$page->external_id.'")';
+//            if (!empty($page)) {
+//                $page->delete();
+//                Changes::saveChange($message, Changes::ITEM_EQUIPMENT_MAKER);
+//                Yii::app()->user->setFlash('message', 'Производитель удален.');
+//                $this->redirect(array('index'));
+//            }
+//        }
+//    }
 
 }

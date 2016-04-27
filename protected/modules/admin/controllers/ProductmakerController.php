@@ -119,17 +119,17 @@ class ProductmakerController extends Controller
     }
     
         
-    public function actionDelete($id)
-    {
-        if(!empty($id)){
-            $page = ProductMaker::model()->findByPk($id);
-            $message = 'Удален производитель запчасти "'.$page->name.'" (external_id = "'.$page->external_id.'")';
-            if(!empty($page)) {
-                $page->delete();
-                Changes::saveChange($message, Changes::ITEM_PRODUCT_MAKER);
-                Yii::app()->user->setFlash('message', 'Производитель удален.');
-                $this->redirect(array('index'));
-            }
-        }
-    }
+//    public function actionDelete($id)
+//    {
+//        if(!empty($id)){
+//            $page = ProductMaker::model()->findByPk($id);
+//            $message = 'Удален производитель запчасти "'.$page->name.'" (external_id = "'.$page->external_id.'")';
+//            if(!empty($page)) {
+//                $page->delete();
+//                Changes::saveChange($message, Changes::ITEM_PRODUCT_MAKER);
+//                Yii::app()->user->setFlash('message', 'Производитель удален.');
+//                $this->redirect(array('index'));
+//            }
+//        }
+//    }
 }
