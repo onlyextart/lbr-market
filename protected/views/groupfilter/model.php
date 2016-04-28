@@ -27,7 +27,7 @@
             . ' var gridOverlayMargin = height/2 - 50; if(gridOverlayMargin < 20) gridOverlayMargin = 20;'
             . '$(".grid-overlay > div").css({margin: gridOverlayMargin});'
             . 'element.width(width);'
-            . 'element.css({top: (offset.top - 10), left: offset.left});'
+            //. 'element.css({top: (offset.top - 10), left: offset.left});'
             . 'element.show();'
         . '}',
         'afterAjaxUpdate'=>'function(id, data){ '
