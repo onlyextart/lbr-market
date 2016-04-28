@@ -263,38 +263,21 @@ class ModellinesController extends Controller
                 $criteriaForBrand->select = 'maker_id';
                 
                 $allBrands = ModelLine::model()->findAll($criteriaForBrand);
-                foreach($allBrands as $brand) {
-//                    $name = EquipmentMaker::model()->findByPk($brand->maker_id)->name;
-//                    $modellines_of_brand= Yii::app()->db->createCommand()
-//                        ->selectDistinct('m.id')
-//                        ->from('model_line m')
-//                        //->join('product_in_model_line p', 'p.model_line_id = m.id')
-//                        ->where('m.maker_id = :maker_id and m.category_id = :category_id and m.level = 2', array(':maker_id' => $brand->maker_id, ':category_id' => $categoryId))
-//                        ->queryColumn()
-//                    ;
-                    
+                foreach($allBrands as $brand) {                    
                     $name = EquipmentMaker::model()->findByPk($brand->maker_id)->name;
-                   $modellines_of_brand= Yii::app()->db->createCommand()
+                    $modellines_of_brand= Yii::app()->db->createCommand()
                         ->selectDistinct('id')
                         ->from('model_line')
                         ->where('maker_id = :maker_id and category_id = :category_id and level = 2', array(':maker_id' => $brand->maker_id, ':category_id' => $categoryId))
-                    ->queryColumn();
+                        ->queryColumn()
+                    ;
 
-                   $result[][$name] =$modellines_of_brand;
-                   if(isset($top_makers)&&!empty($top_makers)){
-                       if(in_array($brand->maker_id, $top_makers)){
+                    $result[][$name] =$modellines_of_brand;
+                    if(isset($top_makers)&&!empty($top_makers)){
+                        if(in_array($brand->maker_id, $top_makers)){
                             $result_top[][$name]=$modellines_of_brand;
-                       }
-                  }  
-
-//                    if(!empty($modellines_of_brand)) {
-//                        $result[][$name] = $modellines_of_brand;
-//                        if(isset($top_makers)&&!empty($top_makers)){
-//                           if(in_array($brand->maker_id, $top_makers)){
-//                                $result_top[][$name]=$modellines_of_brand;
-//                           }
-//                        }   
-//                    }
+                        }
+                    }
                 }
             } else {
                 $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
