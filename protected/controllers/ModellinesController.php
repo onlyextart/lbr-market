@@ -287,14 +287,14 @@ class ModellinesController extends Controller
                        }
                   }  
 
-                    if(!empty($modellines_of_brand)) {
-                        $result[][$name] = $modellines_of_brand;
-                        if(isset($top_makers)&&!empty($top_makers)){
-                           if(in_array($brand->maker_id, $top_makers)){
-                                $result_top[][$name]=$modellines_of_brand;
-                           }
-                        }   
-                    }
+//                    if(!empty($modellines_of_brand)) {
+//                        $result[][$name] = $modellines_of_brand;
+//                        if(isset($top_makers)&&!empty($top_makers)){
+//                           if(in_array($brand->maker_id, $top_makers)){
+//                                $result_top[][$name]=$modellines_of_brand;
+//                           }
+//                        }   
+//                    }
                 }
             } else {
                 $name = EquipmentMaker::model()->findByPk(Yii::app()->params['currentMaker'])->name;
